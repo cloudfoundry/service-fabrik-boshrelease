@@ -1,0 +1,19 @@
+#!/bin/bash
+
+set -e
+set -u
+
+# We grab the latest versions that are in the directory
+NODE_VERSION=`ls -r node/node-*.tar.xz | sed 's/node\/node-\(.*\)-linux-x64\.tar\.xz/\1/' | head -1`
+
+# Extract Node.js package
+echo "Extracting Node.js ${NODE_VERSION}..."
+tar xpvf ${BOSH_COMPILE_TARGET}/node/node-${NODE_VERSION}-linux-x64.tar.xz
+if [[ $? != 0 ]] ; then
+  echo "Failed extracting Node.js ${NODE_VERSION}"
+  exit 1
+fi
+
+# Copy Node.js package
+echo "Copying Node.js ${NODE_VERSION}..."
+cp -a ${BOSH_COMPILE_TARGET}/node-${NODE_VERSION}-linux-x64/* ${BOSH_INSTALL_TARGET}/

@@ -1,0 +1,73 @@
+---
+name: service-fabrik-broker
+
+packages:
+  - bosh-helpers
+  - node
+  - service-fabrik-broker
+
+templates:
+  bin/service-fabrik-broker_ctl.erb: bin/service-fabrik-broker_ctl
+  bin/job_properties.sh.erb: bin/job_properties.sh
+  bin/health_check.erb: bin/health_check
+  config/settings.yml.erb: config/settings.yml
+
+properties:
+  broker.host:
+    description: "Host used to register the broker"
+  broker.port:
+    description: "Broker listen port"
+    default: "9292"
+  broker.username:
+    description: "Broker's basic auth username"
+  broker.password:
+    description: "Broker's basic auth password"
+  broker.external_ip:
+    description: "External IP address used to register the broker"
+  broker.ssl_enabled:
+    description: "Determines use of https in dashboard url and in callback url for calls to UAA"
+    default: false
+  broker.cookie_secret:
+    description: "A unique secret key, used to sign sessions"
+  broker.trust_proxy:
+    description: "This is required when running an Express app behind a proxy. See http://expressjs.com/en/guide/behind-proxies.html"
+    default: true
+  broker.session_expiry:
+    description: "Session expiry time of the session"
+    default: "86400"
+  broker.skip_ssl_validation:
+    description: "Determines whether dashboard verifies SSL certificates when communicating with Cloud Controller and UAA"
+    default: true
+  broker.log_level:
+    description: "Log level of the broker"
+    default: 'info'
+  broker.docker.job:
+    description: "Name of the swarm/docker job"
+    default: "swarm_manager"
+  broker.docker.url:
+    description: "Docker URL (IP/Socket)"
+    default: "unix:///var/vcap/sys/run/docker/docker.sock"
+  broker.docker.allocate_docker_host_ports:
+    description: "Allocate Docker host ports when creating a container"
+    default: true
+  broker.director.infrastructure:
+    description: "Infrastructure type for which the service manifests should be generated for"
+  broker.director.url:
+    description: "Bosh director target url"
+  broker.director.username:
+    description: "Bosh director username"
+  broker.director.password:
+    description: "Bosh director password"
+  broker.director.skip_ssl_validation:
+    description: "Determines whether broker should verify SSL certificates when communicating with Bosh director"
+    default: true
+  broker.services:
+    description: "Services and plans offered by the broker"
+
+  broker.cf.url:
+    description: "URL of the CloudFoundry Cloud Controller"
+  broker.cf.username:
+    description: "Admin username for the CloudFoundry Cloud Controller"
+  broker.cf.password:
+    description: "Admin password for the CloudFoundry Cloud Controller"
+

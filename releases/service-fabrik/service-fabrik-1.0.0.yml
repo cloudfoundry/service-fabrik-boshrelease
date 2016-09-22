@@ -1,0 +1,55 @@
+---
+packages:
+- name: golang
+  version: 95c358c1eeabe9495e089de333e0c91eee2fef0c
+  fingerprint: 95c358c1eeabe9495e089de333e0c91eee2fef0c
+  sha1: 0d976a3ed32ac5a7fe81110d06b88846849434c5
+  dependencies: []
+- name: docker
+  version: ecd5b1793ed906fe8b8711edafead29ae65aeed4
+  fingerprint: ecd5b1793ed906fe8b8711edafead29ae65aeed4
+  sha1: 4f16260f50f1df0457d1932863f02589ff011fd3
+  dependencies: []
+- name: bosh-helpers
+  version: e1bbff85fa1e4b1d51887ba6ecff6949ca92e8f6
+  fingerprint: e1bbff85fa1e4b1d51887ba6ecff6949ca92e8f6
+  sha1: 86f18fe3a769829efc95e9d9c7dec4617352a416
+  dependencies: []
+- name: service-fabrik-broker
+  version: 3aa8699f20da0e7015abc2fff64256a2d364960e
+  fingerprint: 3aa8699f20da0e7015abc2fff64256a2d364960e
+  sha1: 9eef61c67eb25ab49e0bd257610341688051191f
+  dependencies:
+  - node
+- name: swarm
+  version: 8a7d0dc135fa39374dcefb834a5b3f9dce67c07c
+  fingerprint: 8a7d0dc135fa39374dcefb834a5b3f9dce67c07c
+  sha1: faa84339ea39ed879659b0af625bd4d1d6db3a8f
+  dependencies:
+  - golang
+- name: node
+  version: ddc53b67bcaebc0bba3cb3bc11be377b34c5e90a
+  fingerprint: ddc53b67bcaebc0bba3cb3bc11be377b34c5e90a
+  sha1: 4a13c0ca31c139f896543ba0c4761ff1d37130a2
+  dependencies: []
+jobs:
+- name: swarm_manager
+  version: a744d6bc2113770d42553a1159152666b2ee0252
+  fingerprint: a744d6bc2113770d42553a1159152666b2ee0252
+  sha1: edcbf3a9a68254467628beac682e5cb97f6f566a
+- name: docker
+  version: 53e0f04da544c1dfc9ddf85032ec6465eb1ce097
+  fingerprint: 53e0f04da544c1dfc9ddf85032ec6465eb1ce097
+  sha1: 998e537462f3517488be09d8c78dfbc34487c8d8
+- name: service-fabrik-broker
+  version: 9549b0c0774cbef7ed6eb1ea121df6455203898a
+  fingerprint: 9549b0c0774cbef7ed6eb1ea121df6455203898a
+  sha1: 917a3a5679706c9ca616a3e793a3f3d99b8a9fc4
+license:
+  version: fe3f181be807945657470c6326bf36e67ef5263e
+  fingerprint: fe3f181be807945657470c6326bf36e67ef5263e
+  sha1: bd27e07825ab3865fd0b0495c5d2bafceede8189
+commit_hash: 0566cbc6
+uncommitted_changes: true
+name: service-fabrik
+version: 1.0.0

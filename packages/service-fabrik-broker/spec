@@ -1,0 +1,6 @@
+---
+name: service-fabrik-broker
+dependencies:
+  - node
+files:
+  - service-fabrik-broker/**/*

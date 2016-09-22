@@ -1,0 +1,7 @@
+
+check process service-fabrik-broker with pidfile /var/vcap/sys/run/service-fabrik-broker/service-fabrik-broker.pid
+  group vcap<% job_name = p('broker.docker.job', nil); if !job_name.to_s.empty? then %>
+  depends on <%= job_name %><% end %>
+  start program "/var/vcap/packages/bosh-helpers/monit_debugger service-fabrik-broker_ctl '/var/vcap/jobs/service-fabrik-broker/bin/service-fabrik-broker_ctl start'"
+  stop program "/var/vcap/packages/bosh-helpers/monit_debugger service-fabrik-broker_ctl '/var/vcap/jobs/service-fabrik-broker/bin/service-fabrik-broker_ctl stop'"
+

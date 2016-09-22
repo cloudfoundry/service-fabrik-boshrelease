@@ -1,0 +1,14 @@
+#!/bin/bash
+set -e
+set -u
+
+PATH=/var/vcap/packages/node/bin:$PATH
+
+# Copy package
+echo "Copying service fabrik broker files..."
+cp -a ${BOSH_COMPILE_TARGET}/service-fabrik-broker/* ${BOSH_INSTALL_TARGET}/
+
+# Rebuild
+echo "Rebuild depend packages..."
+cd ${BOSH_INSTALL_TARGET}
+npm rebuild

@@ -1,0 +1,61 @@
+<%
+  def ostruct_to_hash(os)
+    os.marshal_dump.map do |key, value|
+      { key => value.is_a?(OpenStruct) ? ostruct_to_hash(value) : value }
+    end.reduce(&:merge)
+  end
+
+  name = 'service-fabrik-broker'
+  log_path = "/var/vcap/sys/log/#{name}/#{name}.log"
+  networks = ostruct_to_hash(spec.networks)
+  default_ip = networks.values.find { |net| net.has_key?(:default) }[:ip]
+%>---
+production:
+  ####################
+  # GENERAL SETTINGS #
+  ####################
+  log_path: <%= log_path %>
+  log_level: <%= p('broker.log_level') %>
+  username: '<%= p('broker.username') %>'
+  password: '<%= p('broker.password') %>'
+  trust_proxy: <%= JSON.dump(p('broker.trust_proxy')) %>
+  cookie_secret: <%= p('broker.cookie_secret') %>
+  session_expiry: <%= p('broker.session_expiry') %>
+  session_store:
+    path: <%= "/var/vcap/store/#{name}/session" %>
+
+  external_ip: <%= p('broker.external_ip', default_ip) %>
+  external_host: <%= p('broker.host') %>
+
+  ssl_enabled: <%= p('broker.ssl_enabled') %>
+  skip_ssl_validation: <%= p('broker.skip_ssl_validation') %>
+
+  #########################
+  # CLOUDFOUNDRY SETTINGS #
+  #########################
+  cf:
+    url: <%= p('broker.cf.url') %>
+    username: <%= p('broker.cf.username') %>
+    password: <%= p('broker.cf.password') %>
+
+  ###################
+  # DOCKER SETTINGS #
+  ###################
+  docker:
+    url: <%= p('broker.docker.url') %>
+    allocate_docker_host_ports: <%= p('broker.docker.allocate_docker_host_ports') %>
+
+  #####################
+  # DIRECTOR SETTINGS #
+  #####################
+  director:
+    url: <%= p('broker.director.url') %>
+    username: <%= p('broker.director.username') %>
+    password: <%= p('broker.director.password') %>
+    skip_ssl_validation: <%= p('broker.director.skip_ssl_validation') %>
+    infrastructure: <%= JSON.pretty_generate(p('broker.director.infrastructure')) %>
+
+  ####################
+  # SERVICES CATALOG #
+  ####################
+  services: <%= JSON.pretty_generate(p('broker.services')) %>

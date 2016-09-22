@@ -1,0 +1,25 @@
+---
+golang/go1.6.2.linux-amd64.tar.gz:
+  object_id: 542af429-9196-42e9-a38f-de5c47bdb0fb
+  sha: b8318b09de06076d5397e6ec18ebef3b45cd315d
+  size: 84840658
+docker/autoconf-2.69.tar.gz:
+  object_id: 9d4869ab-1fc3-4ff8-b62f-2e400186199e
+  sha: 562471cbcb0dd0fa42a76665acf0dbb68479b78a
+  size: 1927468
+docker/bridge-utils-1.5.tar.gz:
+  object_id: d9df8f5d-c148-4de1-8b47-10a4991ccf15
+  sha: 1f71b6f22f5d2b6d21e146f4ac20820ad42e58ee
+  size: 33472
+docker/docker-1.11.2.tgz:
+  object_id: c69222a8-4ed8-4640-be27-47f65861df29
+  sha: 1bfd065784e0f422c000d86da4feda87cd63ced8
+  size: 20537862
+docker/aufs-tools_20120411-3_amd64.deb:
+  object_id: d875e1ec-6c28-4d13-9a19-d5d25129330e
+  sha: 2dfc1fe386cd3f05ac7e0b4ebcf3ebc8a7f3b04d
+  size: 91762
+node/node-v6.2.1-linux-x64.tar.xz:
+  object_id: 360580e6-0aa2-4915-9349-4e9e6060b0c4
+  sha: 37856cf5667ca4b97d1af921308ff5208e26419d
+  size: 8831200
