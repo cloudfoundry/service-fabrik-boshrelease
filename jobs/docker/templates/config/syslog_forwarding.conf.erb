@@ -1,0 +1,37 @@
+<%
+network = spec.networks.methods(false).first
+ip = spec.networks.send(network).ip
+docker_name = p('docker.name')
+%>
+
+$ModLoad imfile
+
+#variables required for non-syslog log file forwarding – SystemErr
+$InputFileName /var/vcap/sys/log/docker/docker.stderr.log
+$InputFileTag <%= docker_name %>
+$InputFileStateFile <%= docker_name %>
+$InputFileSeverity error
+$InputFileFacility local7
+$InputRunFileMonitor
+
+
+
+$ModLoad imtcp
+$InputTCPServerRun 514
+
+template(
+    name="logstash-template-docker"
+    type="string"
+    string="<%%PRI%>%TIMESTAMP:::date-rfc3339% <%= ip %> <%= docker_name %> [job=<%= name %> index=<%= index %>] %msg:::sp-if-no-1st-sp%%msg%"
+)
+
+if $programname contains '<%= docker_name %>' then {
+    action(
+        type="omfwd"
+        target="<%= p('broker.syslog.host')%>"
+        port="<%= p('broker.syslog.port')%>"
+        protocol="tcp"
+        template="logstash-template-docker"
+    )
+    stop
+}

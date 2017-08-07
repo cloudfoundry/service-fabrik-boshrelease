@@ -11,8 +11,12 @@ templates:
   config/docker.cacert.erb: config/docker.cacert
   config/docker.cert.erb: config/docker.cert
   config/docker.key.erb: config/docker.key
+  config/syslog_forwarding.conf.erb: config/syslog_forwarding.conf
 
 properties:
+  swarm.name:
+    description: "Name for swarm manager, used syslog shipper name"
+    default: "service_fabrik_swarm_manager"
   swarm_manager.debug:
     description: "Enable debug mode"
     default: false
@@ -24,7 +28,7 @@ properties:
     default: "0.0.0.0"
   swarm_manager.port:
     description: "Listen port"
-    default: "2375"
+    default: "2376"
   swarm_manager.strategy:
     description: "Placement strategy to use [spread, binpack, random]"
     default: "spread"
@@ -55,18 +59,18 @@ properties:
   swarm.discovery:
     description: "Swarm discovery string (ie: consul://<ip>/<path>, etcd://<ip1>,<ip2>/<path>, zk://<ip1>,<ip2>/<path>, [nodes://]<ip1>,<ip2>"
 
-  docker.tls:
+  swarm.tls:
     description: "Use TLS"
-    default: false
-  docker.tls_cacert:
+    default: true
+  common.tls_cacert:
     description: "Trust only remotes providing a certificate signed by the CA given here"
-  docker.tls_cert:
+  swarm.tls_cert:
     description: "TLS certificate file"
-  docker.tls_key:
+  swarm.tls_key:
     description: "TLS key file"
-  docker.tls_verify:
+  swarm.tls_verify:
     description: "Use TLS and verify the remote"
-    default: false
+    default: true
 
   env.http_proxy:
     description: "HTTP proxy that Docker should use"
@@ -74,3 +78,10 @@ properties:
     description: "HTTPS proxy that Docker should use"
   env.no_proxy:
     description: "List of comma-separated hosts that Docker should skip connecting to the proxy"
+
+  broker.syslog.host:
+    description: "Syslog ingestor host IP of ELK stack"
+    default: "10.1.4.3"
+  broker.syslog.port:
+    description: "Syslog ingestor Port"
+    default: 5514

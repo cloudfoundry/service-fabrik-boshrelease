@@ -1,0 +1,20 @@
+set -e # exit immediately if a simple command exits with a non-zero status
+set -u # report the usage of uninitialized variables
+
+# Set Golang dependency
+export GOROOT=$(readlink -nf /var/vcap/packages/golang)
+export PATH=${GOROOT}/bin:${PATH}
+
+# Build lvm volume driver
+echo "Building lvmvd..."
+
+ls -alR
+cd lvm-volume-driver
+export GOPATH=`pwd`
+cd src
+go build lvmvd.go
+mkdir ${BOSH_INSTALL_TARGET}/bin
+cp lvmvd ${BOSH_INSTALL_TARGET}/bin
+
+# Clean up src & pkg artifacts
+rm -rf ${BOSH_INSTALL_TARGET}/pkg ${BOSH_INSTALL_TARGET}/src

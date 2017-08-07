@@ -1,6 +1,13 @@
+<% if !p('lvmvd.disabled') then %>check process lvmvd
+  with pidfile /var/vcap/sys/run/docker/lvmvd.pid
+  group vcap
+  start program "/var/vcap/packages/bosh-helpers/monit_debugger lvmvd_ctl '/var/vcap/jobs/docker/bin/lvmvd_ctl start'" with timeout 900 seconds # time required to install packages
+  stop program "/var/vcap/packages/bosh-helpers/monit_debugger lvmvd_ctl '/var/vcap/jobs/docker/bin/lvmvd_ctl stop'" with timeout 600 seconds # time required to stop all containers
+<% end %>
 check process docker
   with pidfile /var/vcap/sys/run/docker/docker.pid
-  group vcap
+  group vcap<% if !p('lvmvd.disabled') then %>
+  depends on lvmvd<% end %>
   start program "/var/vcap/packages/bosh-helpers/monit_debugger docker_ctl '/var/vcap/jobs/docker/bin/docker_ctl start'" with timeout 300 seconds # time required to start all containers
   stop program "/var/vcap/packages/bosh-helpers/monit_debugger docker_ctl '/var/vcap/jobs/docker/bin/docker_ctl stop'" with timeout 600 seconds # time required to stop all containers
   if failed unixsocket /var/vcap/sys/run/docker/docker.sock with timeout 5 seconds for 5 cycles then restart

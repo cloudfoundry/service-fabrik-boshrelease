@@ -6,7 +6,8 @@
   end
 
   broker_name = p('broker.name')
-  log_path = "/var/vcap/sys/log/#{broker_name}/#{broker_name}.log"
+  scheduler_name = p('scheduler.name')
+  log_path = "/var/vcap/sys/log/#{scheduler_name}/#{scheduler_name}.log"
   networks = ostruct_to_hash(spec.networks)
   default_ip = networks.values.find { |net| net.has_key?(:default) }[:ip]
   external = p('broker.external')
@@ -16,6 +17,7 @@ production:
   ####################
   # GENERAL SETTINGS #
   ####################
+  scheduler_name: '<%= scheduler_name %>'
   broker_name: '<%= broker_name %>'
   deployment_name: '<%= spec.deployment %>'
   username: '<%= p('broker.username') %>'
@@ -105,6 +107,7 @@ production:
     <% if_p('broker.scheduler.job_types') do |job_types| %>
     job_types: <%= job_types %> # Comma seperated list of batch job types that are enabled in service fabrik
     <% end %>
+    max_workers: <%= p('broker.scheduler.max_workers') %> # Max number of Job process workers
     process_every: <%= p('broker.scheduler.process_every') %> # Interval at which scheduler will query the database looking for jobs that need to be processed
     run_with_web_process: <%= p('broker.scheduler.run_with_web_process') %> # Flag which indicates if scheduler can run in the same process as that of service fabrik broker web process
     max_concurrency: <%= p('broker.scheduler.max_concurrency') %> # A number which specifies the max number of batch jobs that can be running at any given moment

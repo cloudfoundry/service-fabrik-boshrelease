@@ -1,0 +1,4 @@
+check process service-fabrik-scheduler with pidfile /var/vcap/sys/run/service-fabrik-scheduler/service-fabrik-scheduler.pid
+  group vcap
+  start program "/var/vcap/packages/bosh-helpers/monit_debugger service-fabrik-scheduler_ctl '/var/vcap/jobs/service-fabrik-scheduler/bin/service-fabrik-scheduler_ctl start'"
+  stop program "/var/vcap/packages/bosh-helpers/monit_debugger service-fabrik-scheduler_ctl '/var/vcap/jobs/service-fabrik-scheduler/bin/service-fabrik-scheduler_ctl stop'"

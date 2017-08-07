@@ -12,6 +12,12 @@ case $1 in
     pid_guard ${SWARM_MANAGER_PID_FILE} ${JOB_NAME}
     echo $$ > ${SWARM_MANAGER_PID_FILE}
 
+    # Enable syslog forwarding to logstash
+    if [ ! -L /etc/rsyslog.d/45-swarm_manager_forwarding.conf ]; then
+        ln -s /var/vcap/jobs/swarm_manager/config/syslog_forwarding.conf /etc/rsyslog.d/45-swarm_manager_forwarding.conf
+    fi
+    /usr/sbin/service rsyslog restart
+
     # Start Swarm Manager daemon
     exec chpst -u vcap:vcap /var/vcap/packages/swarm/bin/swarm \
         ${SWARM_MANAGER_DEBUG} \
@@ -19,6 +25,7 @@ case $1 in
         manage \
         --cluster-driver="swarm" \
         --host unix://${SWARM_MANAGER_PID_DIR}/swarm_manager.sock \
+        --engine-failure-retry 10 \
         ${SWARM_MANAGER_HOST} \
         ${SWARM_MANAGER_STRATEGY} \
         ${SWARM_MANAGER_FILTERS} \

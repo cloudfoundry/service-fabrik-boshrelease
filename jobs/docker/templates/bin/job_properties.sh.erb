@@ -92,6 +92,11 @@ export DOCKER_INSECURE_REGISTRIES="<%= insecure_registries.map { |insecure_regis
 export DOCKER_IP="--ip=<%= ip %>"
 <% end %>
 
+<% if p('docker.enable_userns', false) then %>
+# Enable user namespace
+export DOCKER_ENABLE_USERNS="--userns-remap=default"
+<% end %>
+
 # Enable net.ipv4.ip_forward and IPv6 forwarding
 export DOCKER_IPFORWARD="--ip-forward=<%= p('docker.ip_forward') %>"
 
@@ -148,7 +153,7 @@ export DOCKER_STORAGE_OPTIONS="<%= storage_options.map { |storage_option| "--sto
 # Use TLS
 export DOCKER_TLS="--tls=<%= p('docker.tls') %>"
 
-<% if_p('docker.tls_cacert') do |tls_cacert| %>
+<% if_p('common.tls_cacert') do |tls_cacert| %>
 # Trust only remotes providing a certificate signed by the CA given here
 export DOCKER_TLS_CACERT="--tlscacert=${DOCKER_CONF_DIR}/docker.cacert"
 <% end %>
@@ -163,7 +168,7 @@ export DOCKER_TLS_CERT="--tlscert=${DOCKER_CONF_DIR}/docker.cert"
 export DOCKER_TLS_KEY="--tlskey=${DOCKER_CONF_DIR}/docker.key"
 <% end %>
 
-<% if p('docker.tls_verify', false) %>
+<% if p('docker.tls_verify', true) %>
 # Use TLS and verify the remote
 export DOCKER_TLS_VERIFY_OPTION="--tlsverify=true"
 <% end %>
@@ -173,6 +178,9 @@ export DOCKER_USERLAND_PROXY="--userland-proxy=<%= p('docker.userland_proxy') %>
 
 # Maximum number of open files
 export DOCKER_ULIMIT_NOFILE=<%= p('docker.ulimit.nofile') %>
+
+# NFS Mount path on docker node
+export DOCKER_VOLUME_MOUNTDIR=<%= p('docker.volume.mount_dir') %>
 
 # Proxy configuration
 <% if_p('env.http_proxy') do |http_proxy| %>
@@ -187,3 +195,37 @@ export https_proxy="<%= https_proxy %>"
 export NO_PROXY="<%= no_proxy %>"
 export no_proxy="<%= no_proxy %>"
 <% end %>
+
+
+# Directory to store the LVM Volume Driver process IDs
+export LVMVD_PID_DIR=${RUN_DIR}
+
+# The location of the LVM Volume Driver pid file
+export LVMVD_PID_FILE=${LVMVD_PID_DIR}/lvmvd.pid
+
+# Directory to store the Volume Driver logs
+export LVMVD_LOG_DIR=${LOG_DIR}
+
+# Directory to store the Volume Driver data files
+export LVMVD_STORE_DIR=${STORE_DIR}
+
+# The default Volumne size
+export LVMVD_DEFAULT_SIZE=<%= p('lvmvd.default_size') %>
+
+# Directory of the Volume Driver mountpoints
+export LVMVD_MOUNT_DIR=<%= p('lvmvd.mount_dir') %>
+
+# The name of the Volume Group
+export LVMVD_VOLUME_GROUP_NAME=<%= p('lvmvd.volume_group_name') %>
+
+# The location of the sparse file
+export LVMVD_PV_SPARSE_FILE=${LVMVD_STORE_DIR}/${LVMVD_VOLUME_GROUP_NAME}.img
+
+# The location of the LVM Volume Driver socket file
+export LVMVD_SOCKET_FILE=<%= p('lvmvd.socket_file') %>
+
+# The size of the physical volume
+export LVMVD_PV_SIZE=<%= p('lvmvd.pv_size') %>
+
+# The Loopback device to be use with the Volume Driver
+export LVMVD_LOOP_DEVICE=<%= p('lvmvd.loop_device') %>

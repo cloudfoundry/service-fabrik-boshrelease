@@ -1,5 +1,5 @@
 ---
-name: service-fabrik-broker
+name: service-fabrik-scheduler
 
 packages:
   - bosh-helpers
@@ -7,15 +7,15 @@ packages:
   - service-fabrik-broker
 
 templates:
-  bin/service-fabrik-broker_ctl.erb: bin/service-fabrik-broker_ctl
+  bin/service-fabrik-scheduler_ctl.erb: bin/service-fabrik-scheduler_ctl
   bin/job_properties.sh.erb: bin/job_properties.sh
-  bin/health_check.erb: bin/health_check
   config/settings.yml.erb: config/settings.yml
-  config/eventlog-config-external.yml.erb: config/eventlog-config-external.yml
-  config/eventlog-config-internal.yml.erb: config/eventlog-config-internal.yml
   config/syslog_forwarding.conf.erb: config/syslog_forwarding.conf
 
 properties:
+  scheduler.name:
+    description: "Name of the service fabrik job scheduler"
+    default: "service-fabrik-scheduler"
   broker.name:
     description: "Name of the service broker as it will be registered at the Cloud Foundry cloud controller"
     default: "service-fabrik-broker"
@@ -115,7 +115,7 @@ properties:
     default: false
   broker.scheduler.max_workers:
     description: "Max number of Job process workers"
-    default: 2 
+    default: 2
   broker.scheduler.max_concurrency:
     description: "A number which specifies the max number of batch jobs that can be running at any given moment"
     default: 30

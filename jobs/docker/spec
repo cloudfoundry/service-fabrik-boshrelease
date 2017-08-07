@@ -4,16 +4,24 @@ name: docker
 packages:
   - bosh-helpers
   - docker
+  - lvm2
+  - lvmvd
 
 templates:
   bin/cgroupfs-mount: bin/cgroupfs-mount
   bin/docker_ctl.erb: bin/docker_ctl
   bin/job_properties.sh.erb: bin/job_properties.sh
+  bin/lvmvd_ctl.erb: bin/lvmvd_ctl
   config/docker.cacert.erb: config/docker.cacert
   config/docker.cert.erb: config/docker.cert
   config/docker.key.erb: config/docker.key
+  config/docker-logrotate.erb: config/docker-logrotate
+  config/syslog_forwarding.conf.erb: config/syslog_forwarding.conf
 
 properties:
+  docker.name:
+    description: "Name of service fabrik docker, used for syslog shipper"
+    default: "service_fabrik_docker"
   docker.tcp_address:
     description: "TCP address where Docker daemon will listen to (if not set, TCP will not be available)"
     default: "127.0.0.1"
@@ -48,8 +56,8 @@ properties:
   docker.exec_options:
     description: "Array of exec driver options"
   docker.icc:
-    description: "Allow unrestricted inter-container and Docker daemon host communication"
-    default: true
+    description: "true: Allow unrestricted inter-container and Docker daemon host communication"
+    default: false
   docker.insecure_registries:
     description: "Array of insecure registries (no certificate verification for HTTPS and enable HTTP fallback)"
   docker.ip:
@@ -89,7 +97,7 @@ properties:
   docker.tls:
     description: "Use TLS"
     default: false
-  docker.tls_cacert:
+  common.tls_cacert:
     description: "Trust only remotes providing a certificate signed by the CA given here"
   docker.tls_cert:
     description: "TLS certificate file"
@@ -104,6 +112,21 @@ properties:
   docker.ulimit.nofile:
     description: "Maximum number of open files"
     default: 8192
+  docker.enable_userns:
+    description: "Enable usernamespace"
+    default: false
+  docker.logrotate.count:
+    description: "Max number of log files per container"
+    default: 5
+  docker.logrotate.size:
+    description: "Log file size threshold per container"
+    default: 2M
+  docker.logrotate.interval:
+    description: "Specify the interval of daily, weekly,  monthly or yearly"
+    
+  docker.volume.mount_dir:
+    description: "directory on which NFS volume is mounted on docker node"
+    default: "/var/vcap/store"  
 
   env.http_proxy:
     description: "HTTP proxy that Docker should use"
@@ -111,3 +134,35 @@ properties:
     description: "HTTPS proxy that Docker should use"
   env.no_proxy:
     description: "List of comma-separated hosts that Docker should skip connecting to the proxy"
+
+  lvmvd.disabled:
+    description: "Disable use of the Docker volume driver (e.g. bosh-lite)."
+    default: false
+  lvmvd.default_size:
+    description: "Default size for a Docker volume (in megabytes) if no size can be deduced from volume name"
+    default: 768
+  lvmvd.mount_dir:
+    description: "Directory where mount points will be created"
+    default: "/var/vcap/store/lvmvd/mountpoints"
+  lvmvd.volume_file_location:
+    description: "Location of the volume group file (the name will be derived from the volume group name)"
+    default: "/var/vcap/store/lvmvd/"
+  lvmvd.volume_group_name:
+    description: "Name of volume group which will be used for creating the logical volumes"
+    default: "service-vg"
+  lvmvd.socket_file:
+    description: "Socket file where the lvmvd daemon will be listening on (note: docker currently does not look into the /var/vcap/run/docker/plugins directory for plugin socket files)"
+    default: "/run/docker/plugins/lvm-volume-driver.sock"
+  lvmvd.pv_size:
+    description: "Size of physical volume (sparse file in gigabytes; must match desired <max_containers_per_node> x <default_volume_size> + some extra bytes)"
+    default: "61"
+  lvmvd.loop_device:
+    description: "The Loopback device to be use with the Volume Driver"
+    default: "/dev/loop1"
+
+  broker.syslog.host:
+    description: "Syslog ingestor host IP of ELK stack"
+    default: "10.1.4.3"
+  broker.syslog.port:
+    description: "Syslog ingestor Port"
+    default: 5514

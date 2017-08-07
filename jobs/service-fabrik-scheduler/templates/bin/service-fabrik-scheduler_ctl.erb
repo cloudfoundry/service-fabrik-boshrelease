@@ -1,28 +1,28 @@
 #!/bin/bash
 
-set -e
+set -e # exit immediately if a simple command exits with a non-zero status
 
-# Setup common env vars and folders
-source /var/vcap/packages/bosh-helpers/ctl_setup.sh 'service-fabrik-broker'
+source /var/vcap/packages/bosh-helpers/ctl_setup.sh 'service-fabrik-scheduler'
+
+export PID_FILE=${RUN_DIR}/service-fabrik-scheduler.pid
 export PACKAGE_DIR=${HOME}/packages/service-fabrik-broker
-export PID_FILE=${RUN_DIR}/service-fabrik-broker.pid
 
 case $1 in
 
   start)
     pid_guard ${PID_FILE} ${JOB_NAME}
-
+    
     # Set limitations on system resources
     ulimit -c unlimited
     ulimit -v unlimited
 
     # Enable syslog forwarding to logstash
-    if [ ! -L /etc/rsyslog.d/49-fabrik_forwarding.conf ]; then
-        ln -s /var/vcap/jobs/service-fabrik-broker/config/syslog_forwarding.conf /etc/rsyslog.d/49-fabrik_forwarding.conf
+    if [ ! -L /etc/rsyslog.d/50-fabrik_job_scheduler_forwarding.conf ]; then
+        ln -s ${CONF_DIR}/syslog_forwarding.conf /etc/rsyslog.d/50-fabrik_job_scheduler_forwarding.conf
     fi
     /usr/sbin/service rsyslog restart
 
-    # Start Service-Fabrik-Broker
+	# Start Service Fabrik Job Scheduler
     start-stop-daemon --start --quiet -m \
       --pidfile ${PID_FILE} \
       --startas ${NODE_CMD} \
@@ -30,19 +30,15 @@ case $1 in
       --background \
       --no-close \
       --chdir ${PACKAGE_DIR} \
-      -- ${PACKAGE_DIR}/server.js \
+      -- ${PACKAGE_DIR}/JobScheduler.js \
       1>> ${LOG_DIR}/${OUTPUT_LABEL}.stdout.log \
       2>> ${LOG_DIR}/${OUTPUT_LABEL}.stderr.log
     ;;
 
-  stop)
-    # Stop Service-Fabrik-Broker
-    start-stop-daemon --stop --quiet --retry=0/0/KILL/5 \
-      --pidfile ${PID_FILE} \
-      1>> ${LOG_DIR}/${OUTPUT_LABEL}.stdout.log \
-      2>> ${LOG_DIR}/${OUTPUT_LABEL}.stderr.log
 
-    rm -f ${PID_FILE}
+  stop)
+    # Stop Service Fabrik Monitoring Agent daemon
+    kill_and_wait ${PID_FILE}
     ;;
 
   *)
