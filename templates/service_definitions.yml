@@ -1,0 +1,7 @@
+meta:
+  environment: ~
+  host: ~
+  redirect_uri: ~
+  service_definitions: 
+  - <%= JSON.pretty_generate(YAML.load(ERB.new(File.read("../services/redis.yml.erb")).result)) %>
+  - <%= JSON.pretty_generate(YAML.load(ERB.new(File.read("../services/blueprint.yml.erb")).result)) %>

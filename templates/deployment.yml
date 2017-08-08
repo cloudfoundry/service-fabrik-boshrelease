@@ -1,0 +1,39 @@
+meta:
+  environment: (( merge ))
+  stemcell: (( merge ))
+
+name: (( meta.environment ))
+
+director_uuid: (( merge ))
+
+releases: (( merge ))
+
+networks: (( merge ))
+
+jobs: (( merge ))
+
+properties: (( merge ))
+
+resource_pools:
+- name: default
+  network: default
+  size: (( auto ))
+  stemcell: (( meta.stemcell ))
+  cloud_properties: (( merge ))
+
+compilation:
+  network: default
+  reuse_compilation_vms: true
+  workers: 4
+  cloud_properties: (( merge ))
+
+update:
+  canaries: 1         # safer but slower: watch one machine closely at first
+  canary_watch_time: 1000-60000
+  update_watch_time: 1000-60000
+  max_in_flight: 1 # update the rest one by one
+  serial: true        # update docker jobs before broker job that runs swarm;
+                      # see swarm discovery issue (depending on that order):
+                      # https://github.com/cf-platform-eng/docker-boshrelease/issues/35
+
+

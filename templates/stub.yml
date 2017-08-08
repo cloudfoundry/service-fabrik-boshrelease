@@ -1,0 +1,11 @@
+
+---
+meta:
+  environment: NAME
+  host: service-fabrik-broker.bosh-lite.com
+  redirect_uri: https://service-fabrik-broker.bosh-lite.com/manage/auth/cloudfoundry/callback
+  dns_root: microbosh
+  stemcell:
+    name: STEMCELL
+
+director_uuid: PLACEHOLDER-DIRECTOR-UUID

@@ -1,0 +1,159 @@
+<%
+  redirect_uri = "https://services-fabrik-broker.bosh-lite.com/manage/auth/cloudfoundry/callback"
+  def base64_template(prefix)
+    filename = "../services/#{prefix}-manifest.yml.ejs"
+    JSON.dump(Base64.encode64(File.read(filename)))
+  end
+%>
+---
+id: '24731fb8-7b84-4f57-914f-c3d55d793dd4'
+name: 'blueprint'
+description: &description 'Blueprint service for internal development, testing, and documentation purposes of the Service Fabrik'
+bindable: true
+tags:
+- 'blueprint'
+- 'no-not-use'
+metadata:
+  displayName: 'Blueprint'
+  longDescription: *description
+  providerDisplayName: 'SAP SE'
+  documentationUrl: 'https://sap.com/'
+  supportUrl: 'https://sap.com/'
+dashboard_client:
+  id: 'service-fabrik-blueprint-client'
+  secret: 'service-fabrik-blueprint-secret'
+  redirect_uri: <%= redirect_uri %>
+plan_updateable: true
+plans:
+###########################
+# CONTAINER SERVICE PLANS #
+###########################
+- id: '466c5078-df6e-427d-8fb2-c76af50c0f56'
+  name: 'v1.0-container'
+  free: true
+  manager:
+    name: 'docker'
+    settings:
+      image: 'servicefabrikjenkins/blueprint'
+      tag: 'latest'
+      memory: '128m'
+      # disable persistent volumes while running on Bosh Lite where lvmvd isn't available
+      # persistent_volumes:
+      # - name: 'data'
+      #   path: '/data'
+      #   size: '100m'
+  credentials:
+    username:
+      key: 'BLUEPRINT_USER_NAME'
+    password:
+      key: 'BLUEPRINT_USER_PASS'
+    uri:
+      prefix: 'http'
+      port: 8080/tcp
+  description: 'Blueprint 1.0 service running inside a Docker container (for non-productive usage)'
+  metadata:
+    costs:
+    - amount:
+        usd: 0.0
+      unit: 'MONTHLY'
+    bullets:
+    - 'Container Deployment'
+    - '128 MB Memory'
+    - '100 MB Disk'
+- id: '6a252f89-c974-4ef9-a4de-c49f300de39a'
+  name: 'v1.0-container-large'
+  free: true
+  manager:
+    name: 'docker'
+    settings:
+      image: 'servicefabrikjenkins/blueprint'
+      tag: 'latest'
+      memory: '256m'
+      # disable persistent volumes while running on Bosh Lite where lvmvd isn't available
+      # persistent_volumes:
+      # - name: 'data'
+      #   path: '/data'
+      #   size: '200m'
+  credentials:
+    username:
+      key: 'BLUEPRINT_USER_NAME'
+    password:
+      key: 'BLUEPRINT_USER_PASS'
+    uri:
+      prefix: 'http'
+      port: 8080/tcp
+  description: 'Blueprint 1.0 service running inside a large Docker container (for non-productive usage)'
+  metadata:
+    costs:
+    - amount:
+        usd: 0.0
+      unit: 'MONTHLY'
+    bullets:
+    - 'Container Deployment'
+    - '256 MB Memory'
+    - '200 MB Disk'
+###########################
+# DEDICATED SERVICE PLANS #
+###########################
+- id: 'bc158c9a-7934-401e-94ab-057082a5073f'
+  name: 'v1.0-dedicated-xsmall'
+  free: false
+  manager:
+    name: 'director'
+    settings:
+      prefix: 'blueprint'
+      agent: &agent
+        version: '1'
+        auth:
+          username: agent
+          password: secret
+        supported_features:
+        - state
+        - lifecycle
+        - credentials
+        provider: boshlite
+      template: <%= base64_template('blueprint') %>
+      releases: &dedicated_releases
+      - { name: blueprint, version: 1.0.0, git: "https://github.com/sap/service-fabrik-blueprint-boshrelease.git" }
+      context:
+        agent: *agent
+        resource_pool: micro
+        disk_pool: hdd_1gb
+  description: 'Blueprint 1.0 service x-small (managed service in beta)'
+  metadata:
+    costs:
+    - amount:
+        usd: 0.0
+      unit: 'MONTHLY'
+    bullets:
+    - 'Dedicated Deployment'
+    - '1 VM'
+    - '1 vCPUs'
+    - '1 GB Memory'
+    - '1 GB Disk'
+- id: 'd616b00a-5949-4b1c-bc73-0d3c59f3954a'
+  name: 'v1.0-dedicated-large'
+  free: false
+  manager:
+    name: 'director'
+    settings:
+      prefix: 'blueprint'
+      agent: *agent
+      template: <%= base64_template('blueprint') %>
+      releases: *dedicated_releases
+      context:
+        agent: *agent
+        resource_pool: micro
+        disk_pool: hdd_2gb
+  description: 'Blueprint 1.0 service large (managed service in beta)'
+  metadata:
+    costs:
+    - amount:
+        usd: 0.0
+      unit: 'MONTHLY'
+    bullets:
+    - 'Dedicated Deployment'
+    - '1 VM'
+    - '1 vCPUs'
+    - '1 GB Memory'
+    - '2 GB Disk'

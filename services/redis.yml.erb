@@ -1,0 +1,59 @@
+<%
+  redirect_uri = "https://services-fabrik-broker.bosh-lite.com/manage/auth/cloudfoundry/callback"
+  def base64_template(prefix)
+    filename = "../services/#{prefix}-manifest.yml.ejs"
+    JSON.dump(Base64.encode64(File.read(filename)))
+  end
+%>
+---
+id: '6855ef2c-e036-4984-9654-f6b0169d95de'
+name: 'redis'
+description: &description 'Redis in-memory data structure store'
+bindable: true
+tags:
+- 'redis'
+- 'keyvalue'
+metadata:
+  displayName: 'Redis'
+  longDescription: *description
+  providerDisplayName: 'Provider'
+  documentationUrl: 'http://redis.io/documentation'
+  supportUrl: 'http://redis.io/community'
+dashboard_client:
+  id: 'e317d88d-86c8-4103-8212-5c41025e1f6f'
+  secret: '08263931-0e77-419c-9f37-4f673d4e36d1'
+  redirect_uri: <%= redirect_uri %>
+plan_updateable: true
+plans:
+###########################
+# CONTAINER SERVICE PLANS #
+###########################
+- id: '39c1cf1f-c698-4db1-a0c5-42cfc394f246'
+  name: 'v3.0-container'
+  free: true
+  manager:
+    name: 'docker'
+    settings:
+      image: 'weberstephanhd/redis'
+      tag: '3.0.7.1'
+      memory: '50m'
+      persistent_volumes:
+      - name: 'data'
+        path: '/data'
+        size: '500m'
+      environment:
+      - 'REDIS_MAXMEMORY=31457280'
+  credentials:
+    password:
+      key: 'REDIS_PASSWORD'
+  description: 'Redis 3.0.7 service running inside a Docker container'
+  metadata:
+    costs:
+    - amount:
+        usd: 0.0
+      unit: 'MONTHLY'
+    bullets:
+    - 'Container Deployment'
+    - '50 MB Memory'
+    - '30 MB Redis maxmemory'
+    - '500 MB Disk'
