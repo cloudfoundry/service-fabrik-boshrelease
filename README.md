@@ -86,7 +86,7 @@ cf delete-service -f my-service
 #### Integrating a new docker service
 There are couple steps one will have to follow to integrate a new docker service. Following are the steps to be followed.
 
-1. Create the catalog.yml file for your service which has details of the service catalog. We have provided an example of a Redis service catalog file redis.yml.erb under services folder.
+1. Create a Catalog file for your service which has details of the service catalog. We have provided an example of a Redis service catalog file redis.yml.erb under services folder.
 
 1. Now, if you want to add this service, edit templates/service_definitions.yml and add the following line.
     ```
@@ -140,3 +140,51 @@ There are couple steps one will have to follow to integrate a new docker service
     }
     ```
 
+#### Integrating a new BOSH based service
+Integration of BOSH based service also is similar to Docker based services, except in this case, in order to deploy BOSH based services, bosh release and bosh manifest information is also needed for service fabrik to deploy it on BOSH.
+
+A Catalog file for your service which has details of the service catalog similar to [blueprint.yml.erb](services/blueprint.yml.erb). In this file, we need to provide the bosh release link as shown [here](https://github.com/SAP/service-fabrik-boshrelease/blob/master/services/blueprint.yml.erb#L117)
+The manifest is added as ejs file similar to [blueprint-manifest.yml.ejs](services/blueprint-manifest.yml.ejs) file and added in the catalog file as base64 file, as shown [here](https://github.com/SAP/service-fabrik-boshrelease/blob/master/services/blueprint.yml.erb#L115).
+
+
+service manifest ejs file provides the skeleton of a deployment manifest. If we look at https://github.com/SAP/service-fabrik-boshrelease/blob/master/services/blueprint-manifest.yml.ejs, it contains update section, job section, and properties section. Other things like network and all are taken care of by service fabrik. Network section can be accessed using the following code, as shown in blueprint example.
+
+    
+    <%
+	const net = spec.networks[0];
+	%>
+    
+
+Similarly, resource pool can be accessed in the following way:
+  
+      
+      <%= `${p('resource_pool')}_${net.az}` %>
+      
+      
+and disk pool in the following way:
+
+      
+	  <%= p('disk_pool') %>
+      
+  
+
+Secure random numbers can be generated and used for credentials of service, as shown in blueprint, in the following way
+
+    
+    properties.blueprint = {
+	    admin: {
+	      username: SecureRandom.hex(16),
+	      password: SecureRandom.hex(16)
+	    }
+    
+
+If any parameters are passed during service creation, service fabrik directly passes it and it can be access here in the following way.
+
+    
+    <% if (spec.parameters.myproperty) { %>
+          properties:
+              myproperty: <%= spec.parameters.myproperty  %>
+        <% } %>
+    
+
+Once, these two files are created, same steps as of docker service integration can be followed to deploy BOSH based service as well.
