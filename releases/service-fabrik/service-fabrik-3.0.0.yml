@@ -32,9 +32,9 @@ packages:
   sha1: aefa108539d140245c2c1be8e2d5e0cdfdf5243a
   dependencies: []
 - name: service-fabrik-broker
-  version: 86b91a7d34999f9a03db76d75fedf76a536727b7
-  fingerprint: 86b91a7d34999f9a03db76d75fedf76a536727b7
-  sha1: 90f60a465b5b596b9d3ed4c111a79e274c3f8245
+  version: 13911c64adb72948011a5a4e1941c3908fc8739c
+  fingerprint: 13911c64adb72948011a5a4e1941c3908fc8739c
+  sha1: 6f734d007f32acd540ddb86675ba27117bdc6c24
   dependencies:
   - node
 - name: swarm
@@ -64,7 +64,7 @@ license:
   version: fe3f181be807945657470c6326bf36e67ef5263e
   fingerprint: fe3f181be807945657470c6326bf36e67ef5263e
   sha1: df54c7725e2c758cb1557d49c63be9f297ba99bb
-commit_hash: 8471f694
+commit_hash: 6e36863e
 uncommitted_changes: true
 name: service-fabrik
-version: 2.10.0
+version: 3.0.0
