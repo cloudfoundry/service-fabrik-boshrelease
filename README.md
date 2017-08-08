@@ -107,37 +107,36 @@ There are couple steps one will have to follow to integrate a new docker service
     ```
 1. Now cf market place should show the newly added service, and one should be able to create as well.
     ```
-    $ cf m
-Getting services from marketplace in org dev / space broker as admin...
-OK
+        $ cf m
+    Getting services from marketplace in org dev / space broker as admin...
+    OK
 
-service     plans                                                                                 description
-blueprint   v1.0-container, v1.0-container-large, v1.0-dedicated-xsmall*, v1.0-dedicated-large*   Blueprint service for internal development, testing, and documentation purposes of the Service Fabrik
-redis       v3.0-container                                                                        Redis in-memory data structure store
+    service     plans                                                                                 description
+    blueprint   v1.0-container, v1.0-container-large, v1.0-dedicated-xsmall*, v1.0-dedicated-large*   Blueprint service for internal development, testing, and documentation purposes of the Service Fabrik
+    redis       v3.0-container                                                                        Redis in-memory data structure store
 
-* These service plans have an associated cost. Creating a service instance will incur this cost.
+    * These service plans have an associated cost. Creating a service instance will incur this cost.
 
-TIP:  Use 'cf marketplace -s SERVICE' to view descriptions of individual plans of a given service.
+    TIP:  Use 'cf marketplace -s SERVICE' to view descriptions of individual plans of a given service.
 
-$ cf cs redis v3.0-container r1c
-Creating service instance r1c in org dev / space broker as admin...
-OK
+    $ cf cs redis v3.0-container r1c
+    Creating service instance r1c in org dev / space broker as admin...
+    OK
 
-$ cf csk r1c r1ck
-Creating service key r1ck for service instance r1c as admin...
-OK
+    $ cf csk r1c r1ck
+    Creating service key r1ck for service instance r1c as admin...
+    OK
 
-$ cf service-key r1c r1ck
-Getting key r1ck for service instance r1c as admin...
+    $ cf service-key r1c r1ck
+    Getting key r1ck for service instance r1c as admin...
 
-{
- "hostname": "10.244.4.3",
- "password": "tAzsqs4qqx3VSs32",
- "port": "32843",
- "ports": {
-  "6379/tcp": "32843"
- }
-}
+    {
+     "hostname": "10.244.4.3",
+     "password": "tAzsqs4qqx3VSs32",
+     "port": "32843",
+     "ports": {
+      "6379/tcp": "32843"
+     }
+    }
     ```
 
-#### Integrating a new BOSH based service
