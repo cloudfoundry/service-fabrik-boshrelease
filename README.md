@@ -2,10 +2,6 @@
 
 A bosh release to deploy Service Fabrik which provisions service instances as Docker containers and Bosh deployments.
 
-## License
-
-This project is licensed under the Apache Software License, v. 2 except as noted otherwise in the LICENSE file.
-
 ## 3rd Party
 This BOSH release is based on/forked from and therefore includes sources from the following 3rd party BOSH release: https://github.com/cloudfoundry-community/docker-boshrelease, [Apache License Version 2.0](https://github.com/cloudfoundry-community/docker-boshrelease/blob/master/LICENSE).
 
@@ -192,3 +188,7 @@ Once, these two files are created, same steps as of docker service integration c
 ## How to obtain support
 
 If you need any support, have any question or have found a bug, please report it in the [GitHub bug tracking system](https://github.com/sap/service-fabrik-boshrelease/issues). We shall get back to you.
+
+## License
+
+This project is licensed under the Apache Software License, v. 2 except as noted otherwise in the LICENSE file.
