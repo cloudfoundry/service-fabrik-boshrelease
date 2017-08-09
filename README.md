@@ -188,3 +188,7 @@ If any parameters are passed during service creation, service fabrik directly pa
     
 
 Once, these two files are created, same steps as of docker service integration can be followed to deploy BOSH based service as well.
+
+## How to obtain support
+
+If you need any support, have any question or have found a bug, please report it in the [GitHub bug tracking system](https://github.com/sap/service-fabrik-boshrelease/issues). We shall get back to you.
