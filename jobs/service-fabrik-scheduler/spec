@@ -188,32 +188,8 @@ properties:
   common.tls_client_key:
     description: "TLS key file"
 
-  broker.bootstrap_bosh_director.url:
-    description: "URL of the Boot Strap Bosh director"
-  broker.bootstrap_bosh_director.username:
-    description: "Admin username for the Boot Strap Bosh director"
-  broker.bootstrap_bosh_director.password:
-    description: "Admin password for the Boot Strap Bosh director"
-  broker.bootstrap_bosh_director.skip_ssl_validation:
-    description: "Determines whether the broker should verify SSL certificates when communicating with the Boot Strap Bosh director"
-    default: true
-  broker.director.url:
-    description: "URL of the Bosh director"
-  broker.director.username:
-    description: "Admin username for the Bosh director"
-  broker.director.password:
-    description: "Admin password for the Bosh director"
-  broker.director.skip_ssl_validation:
-    description: "Determines whether the broker should verify SSL certificates when communicating with the Bosh director"
-    default: true
-  broker.director.infrastructure:
-    description: "Infrastructure type for which the service manifests should be generated for"
-  broker.director.default_task_poll_interval:
-    description: "Interval in milliseconds at which bosh task status is checked.(This is used whenever any consumer asks bosh client to pollForTaskStatus till complete)"
-    default: 10000
-  broker.director.lock_deployment_max_duration:
-    description: "Maxinum duration in minutes for which a deployment may be locked; default 24hrs"
-    default: 86400
+  broker.directors:
+    description: "URL of the Bosh directors"
 
   broker.services:
     description: "Services and plans offered by the broker"
