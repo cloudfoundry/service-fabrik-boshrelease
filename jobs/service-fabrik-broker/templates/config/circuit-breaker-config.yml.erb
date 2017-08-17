@@ -1,6 +1,6 @@
 <% if_p('broker.circuit_breaker') do |config| %>
 <%= JSON.dump(config) %>
-<% else %>
+<% end.else do %>
 # Circuit breaker configurations are done at Protocol level (only http for now)
 # If an API URL is not configured in the below, then all calls to that subsystem bypass the circuit breaker.
 # One circuit is created for each of the configured API URL (Base Circuit) & additional circuits are created if configuration are overridden.
