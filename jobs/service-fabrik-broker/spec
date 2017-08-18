@@ -35,6 +35,9 @@ properties:
   broker.sys_log_level:
     description: "Log level of the messages that are to be forwarded to ELK via syslog transport"
     default: "info"
+  broker.enable_circuit_breaker:
+    description: "Switch used to turn on/off circuit breaker"
+    default: false
 
   broker.external.port:
     description: "Port used for external endpoints such as dashboards or the Service Fabrik API"
