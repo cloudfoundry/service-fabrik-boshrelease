@@ -198,19 +198,7 @@ production:
   #####################
   # DIRECTOR SETTINGS #
   #####################
-  bootstrap_bosh_director:
-    url: <%= p('broker.bootstrap_bosh_director.url') %>
-    username: <%= p('broker.bootstrap_bosh_director.username') %>
-    password: <%= p('broker.bootstrap_bosh_director.password') %>
-    skip_ssl_validation: <%= p('broker.bootstrap_bosh_director.skip_ssl_validation') %>
-  director:
-    url: <%= p('broker.director.url') %>
-    username: <%= p('broker.director.username') %>
-    password: <%= p('broker.director.password') %>
-    skip_ssl_validation: <%= p('broker.director.skip_ssl_validation') %>
-    infrastructure: <%= JSON.pretty_generate(p('broker.director.infrastructure')) %>
-    default_task_poll_interval: <%= p('broker.director.default_task_poll_interval') %>
-    lock_deployment_max_duration: <%= p('broker.director.lock_deployment_max_duration') %>
+  directors: <%= JSON.dump(p('broker.directors')) %>
   ####################
   # SERVICES CATALOG #
   ####################
