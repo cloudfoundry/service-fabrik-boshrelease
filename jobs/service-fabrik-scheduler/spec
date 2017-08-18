@@ -11,6 +11,7 @@ templates:
   bin/job_properties.sh.erb: bin/job_properties.sh
   config/settings.yml.erb: config/settings.yml
   config/syslog_forwarding.conf.erb: config/syslog_forwarding.conf
+  config/circuit-breaker-config.yml.erb: config/circuit-breaker-config.yml
 
 properties:
   scheduler.name:
@@ -34,6 +35,9 @@ properties:
   broker.sys_log_level:
     description: "Log level of the messages that are to be forwarded to ELK via syslog transport"
     default: "info"
+  broker.enable_circuit_breaker:
+    description: "Switch used to turn on/off circuit breaker"
+    default: false
 
   broker.external.port:
     description: "Port used for external endpoints such as dashboards or the Service Fabrik API"
@@ -286,3 +290,6 @@ properties:
     description: "clientId for quota service"
   broker.quota.password:
     description: "Client secret for quota service"
+  
+  broker.circuit_breaker:
+    description: "Overridden circuit breaker configuration"

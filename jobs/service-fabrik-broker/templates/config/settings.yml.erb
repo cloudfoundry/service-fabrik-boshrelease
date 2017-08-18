@@ -26,6 +26,7 @@ production:
   log_path: <%= log_path %>
   log_level: <%= p('broker.log_level') %>
   sys_log_level: <%= p('broker.sys_log_level') %>
+  enable_circuit_breaker: <%= p('broker.enable_circuit_breaker') %>
 
   ##############################
   # EXTERNAL ENDPOINT SETTINGS #
