@@ -218,16 +218,21 @@ meta:
       # DIRECTOR SETTINGS #
       #####################
       #bootstrap_bosh_director settings
-      bootstrap_bosh_director:
-        url: https://192.168.50.3:25555
+      directors:
+      - url: https://192.168.50.3:25555
         username: admin
         password: admin
+        primary: false
+        support_create: false
         skip_ssl_validation: true
+        name: bootstrap-bosh
         cpi: warden_cpi
-      director:
-        url: https://192.168.50.4:25555
+      - url: https://192.168.50.4:25555
+        name: bosh
         username: admin
         password: admin
+        primary: true
+        support_create: true
         lock_deployment_max_duration: 86400
         default_task_poll_interval: 10000
         skip_ssl_validation: true
