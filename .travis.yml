@@ -1,0 +1,6 @@
+language: ruby
+install:
+        - "./scripts/update"
+        - "gem install bosh_cli --no-ri --no-rdoc"
+script:
+        - "bosh create release --force --name service-fabrik"
