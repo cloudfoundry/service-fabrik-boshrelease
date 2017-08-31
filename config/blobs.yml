@@ -39,3 +39,7 @@ node/node-v6.9.1-linux-x64.tar.xz:
   object_id: e79323b1-66d8-42a6-aba3-df4525ce82cd
   sha: 84b0b6fde43a4d892186119ba6b9f1db3c2c6129
   size: 9351072
+golang/go1.8.3.linux-amd64.tar.gz:
+  object_id: 531dbe5c-f65b-4c3a-a524-c630a7762567
+  sha: 838c415896ef5ecd395dfabde5e7e6f8ac943c8e
+  size: 90029041
