@@ -116,6 +116,20 @@ production:
     default_lock_lifetime: <%= p('broker.scheduler.default_lock_lifetime') %> # Specifies the default lock lifetime of a batchjob in milliseconds.
     agenda_collection: <%= p('broker.scheduler.agenda_collection') %> # Name of the collection in mongodb which is to be used by agendaJS to store the scheduled job meta info
     job_history_retention_in_days: <%= p('broker.scheduler.job_history_retention_in_days') %> # Retention period in number of days, for which the job run history is maintained.
+    maintenance_check_interval:  <%= p('broker.scheduler.maintenance_check_interval') %>
+    maintenance_mode_time_out:  <%= p('broker.scheduler.maintenance_mode_time_out') %>
+    jobs:
+      reschedule_delay: <%= p('broker.scheduler.jobs.reschedule_delay') %>
+      scheduled_backup:
+        max_attempts: <%= p('broker.scheduler.jobs.') %>
+      service_instance_update: 
+        max_attempts: <%= p('broker.scheduler.jobs.max_attempts') %>
+        run_every_xdays:  <%= p('broker.scheduler.jobs.run_every_xdays') %>
+        should_start_after_hr: <%= p('broker.scheduler.jobs.run_every_xdays') %>
+        should_start_before_hr: <%= p('broker.scheduler.jobs.should_start_before_hr') %>
+        should_start_after_min: <%= p('broker.scheduler.jobs.should_start_after_min') %>
+        should_start_before_min: <%= p('broker.scheduler.jobs.should_start_before_min') %>
+        time_zone: <%= p('broker.scheduler.jobs.time_zone') %> 
     system_jobs:
       - name: 'service-fabrik-mongodb'
         type: 'ScheduledOobDeploymentBackup'

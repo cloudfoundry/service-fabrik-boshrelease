@@ -129,12 +129,45 @@ properties:
   broker.scheduler.default_lock_lifetime:
     description: "Specifies the default lock lifetime of a batchjob in milliseconds. A job cannot be re-run when within this locktime period (in case of errors, crash etc.)"
     default: 180000
+  broker.scheduler.maintenance_check_interval: 
+    description: "Once scheduler is placed in maintenace mode, it checks every configured (ms) for status of maitenance mode"
+    default: 90000
+  broker.scheduler.maintenance_mode_time_out:
+    description: "(ms) - wait for sf deployment to complete. Beyond this timeout out time scheduler starts"
+    default: 36000000
   broker.scheduler.agenda_collection:
     description: "Name of the collection in mongodb which is to be used by agendaJS to store the scheduled job meta info"
     default: "agendaJobs"
   broker.scheduler.job_history_retention_in_days:
     description: "Retention period in number of days, for which the job run history is maintained. (for ex. 30 - job run history for 30 days will be maintained)"
     default: 30
+  broker.scheduler.jobs.reschedule_delay:
+    description: "Jobs when found to be conflicting with each other are rescheduled after this delay (human-interval)"
+    default: "20 mins from now"
+  broker.scheduler.jobs.scheduled_backup.max_attempts:
+    description: "If an update is in-progess while backup is to be run, then the backup will be rescheduled after a delay. This will be repeated for the below configured times if update is long running"
+    default: 3
+  broker.scheduler.jobs.service_instance_update.max_attempts:
+    description: "In case of an error while trigerring an update, max retry attempts will be done based on the below configured value (note errors due to running backups are not considered)"
+    default: 3
+  broker.scheduler.jobs.service_instance_update.run_every_xdays:
+    description: "Runs the service instance update job once every configured number of days"
+    default: 7
+  broker.scheduler.jobs.service_instance_update.should_start_after_hr:
+    description: "Service instance update job schedule is randomized but this param specifies the start time (hrs) after which the randomization must be done"
+    default: 8
+  broker.scheduler.jobs.service_instance_update.should_start_before_hr:
+    description: "Service instance update job schedule is randomized but this param specifies the start time (hrs) before which the randomization must be done"
+    default: 17
+  broker.scheduler.jobs.service_instance_update.should_start_after_min:
+    description: "Service instance update job schedule is randomized but this param specifies the start time (mins) after which the randomization must be done"
+    default: 0
+  broker.scheduler.jobs.service_instance_update.should_start_before_min:
+    description: "Service instance update job schedule is randomized but this param specifies the start time (mins) before which the randomization must be done"
+    default: 59
+  broker.scheduler.jobs.service_instance_update.time_zone:
+    description: "Timezone in which the service instance update job runs"
+    default: "Asia/Kolkata"
   broker.scheduler.system_jobs.backup_reaper.job_data.delete_delay:
     description: "delay in processing between two tasks (in millisecond)"
     default: 1000
