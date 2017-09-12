@@ -118,15 +118,15 @@ production:
     jobs:
       reschedule_delay: <%= p('broker.scheduler.jobs.reschedule_delay') %>
       scheduled_backup:
-        max_attempts: <%= p('broker.scheduler.jobs.') %>
+        max_attempts: <%= p('broker.scheduler.jobs.scheduled_backup.max_attempts') %>
       service_instance_update: 
-        max_attempts: <%= p('broker.scheduler.jobs.max_attempts') %>
-        run_every_xdays:  <%= p('broker.scheduler.jobs.run_every_xdays') %>
-        should_start_after_hr: <%= p('broker.scheduler.jobs.run_every_xdays') %>
-        should_start_before_hr: <%= p('broker.scheduler.jobs.should_start_before_hr') %>
-        should_start_after_min: <%= p('broker.scheduler.jobs.should_start_after_min') %>
-        should_start_before_min: <%= p('broker.scheduler.jobs.should_start_before_min') %>
-        time_zone: <%= p('broker.scheduler.jobs.time_zone') %> 
+        max_attempts: <%= p('broker.scheduler.jobs.service_instance_update.max_attempts') %>
+        run_every_xdays:  <%= p('broker.scheduler.jobs.service_instance_update.run_every_xdays') %>
+        should_start_after_hr: <%= p('broker.scheduler.jobs.service_instance_update.run_every_xdays') %>
+        should_start_before_hr: <%= p('broker.scheduler.jobs.service_instance_update.should_start_before_hr') %>
+        should_start_after_min: <%= p('broker.scheduler.jobs.service_instance_update.should_start_after_min') %>
+        should_start_before_min: <%= p('broker.scheduler.jobs.service_instance_update.should_start_before_min') %>
+        time_zone: <%= p('broker.scheduler.jobs.service_instance_update.time_zone') %> 
     system_jobs:
       - name: 'service-fabrik-mongodb'
         type: 'ScheduledOobDeploymentBackup'
