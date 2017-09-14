@@ -51,17 +51,6 @@ case $1 in
     # Mount cgroupfs hierarchy
     ${JOB_DIR}/bin/cgroupfs-mount
 
-    # Create network bridge
-    if [ ! -z ${DOCKER_BRIDGE_NAME} ]; then
-        set +e
-        ip link delete docker0
-        ip link delete ${DOCKER_BRIDGE_NAME}
-        /var/vcap/packages/docker/sbin/brctl addbr ${DOCKER_BRIDGE_NAME}
-        ip addr add ${DOCKER_BRIDGE_CIDR} dev ${DOCKER_BRIDGE_NAME}
-        ip link set dev ${DOCKER_BRIDGE_NAME} up
-        set -e
-    fi
-
     # Create user for usernamespace if DOCKER_ENABLE_USERNS is true
     if [ ! -z ${DOCKER_ENABLE_USERNS} ]; then
         set +e                                                             
