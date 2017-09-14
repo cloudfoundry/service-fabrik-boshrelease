@@ -126,6 +126,9 @@ properties:
   broker.scheduler.default_concurrency:
     description: "A number which specifies the default number of a specific job that can be running at any given moment"
     default: 20
+  broker.scheduler.start_delay: 
+    description: "Scheduler start must be delayed for DB connections to happen"
+    default: 120000
   broker.scheduler.default_lock_lifetime:
     description: "Specifies the default lock lifetime of a batchjob in milliseconds. A job cannot be re-run when within this locktime period (in case of errors, crash etc.)"
     default: 180000

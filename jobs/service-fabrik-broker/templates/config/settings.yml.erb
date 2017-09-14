@@ -110,6 +110,7 @@ production:
     run_with_web_process: <%= p('broker.scheduler.run_with_web_process') %> # Flag which indicates if scheduler can run in the same process as that of service fabrik broker web process
     max_concurrency: <%= p('broker.scheduler.max_concurrency') %> # A number which specifies the max number of batch jobs that can be running at any given moment
     default_concurrency: <%= p('broker.scheduler.default_concurrency') %> # A number which specifies the default number of a specific job that can be running at any given moment
+    start_delay: <%= p('broker.scheduler.start_delay') %>
     default_lock_lifetime: <%= p('broker.scheduler.default_lock_lifetime') %> # Specifies the default lock lifetime of a batchjob in milliseconds.
     agenda_collection: <%= p('broker.scheduler.agenda_collection') %> # Name of the collection in mongodb which is to be used by agendaJS to store the scheduled job meta info
     job_history_retention_in_days: <%= p('broker.scheduler.job_history_retention_in_days') %> # Retention period in number of days, for which the job run history is maintained.
