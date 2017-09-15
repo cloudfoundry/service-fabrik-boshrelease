@@ -85,6 +85,9 @@ production:
     record_max_fetch_count: <%= p('broker.mongodb.record_max_fetch_count') %>  # Max number of records that can be fetched at a time
     backup:
       schedule_interval: <%= p('broker.mongodb.backup.schedule_interval') %>
+    agent:
+      provider:
+        container: <%= p('broker.mongodb.agent.provider.container') %>
 
   ######################
   # SCHEDULER SETTINGS #
