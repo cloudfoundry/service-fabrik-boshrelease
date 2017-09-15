@@ -81,23 +81,6 @@ production:
       max_attempt: <%= p('broker.mongodb.retry_connect.max_attempt') %>
       min_delay: <%= p('broker.mongodb.retry_connect.min_delay') %>
     record_max_fetch_count: <%= p('broker.mongodb.record_max_fetch_count') %>  # Max number of records that can be fetched at a time
-    backup:
-      schedule_interval: <%= p('broker.mongodb.backup.schedule_interval') %> # Cron expression schedule interval for backup job of service fabrik's internal mongo DB
-      status_check_every: <%= p('broker.mongodb.backup.status_check_every') %> # Interval at which service fabrik's backup job checks for backup operation status with mongo service agent
-      backup_timeout_time: <%= p('broker.mongodb.backup.backup_timeout_time') %> # Timeout by which duration the backup job/operation for service fabrik's mongodb must be completed (2 hrs)
-    agent:
-      version: <%= p('broker.mongodb.agent.version') %>
-      provider:
-        container: <%= p('broker.mongodb.agent.provider.container') %>
-      auth:
-        username: <%= p('broker.mongodb.agent.auth.username') %>
-        password: <%= p('broker.mongodb.agent.auth.password') %>
-      supported_features:
-        - state
-        - lifecycle
-        - credentials
-        - backup
-        - restore
 
   ######################
   # SCHEDULER SETTINGS #

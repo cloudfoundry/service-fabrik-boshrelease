@@ -94,20 +94,6 @@ properties:
   broker.mongodb.retry_connect.min_delay:
     description: "Minimum delay before retry attempt to connect to DB"
     default: 120000
-  broker.mongodb.backup.schedule_interval:
-    description: "Cron expression defining the backup interval for service fabrik's internal mongodb's backup job"
-  broker.mongodb.backup.status_check_every:
-    description: "Interval in milliseconds at which service fabrik's mongodb backup job checks for backup operation status with mongo service agent"
-  broker.mongodb.backup.backup_timeout_time:
-    description: "Timeout time in milliseconds by which duration the backup job/operation for service fabrik's mongodb must be completed"
-  broker.mongodb.agent.version:
-    description: "mongodb service fabrik API agent version"
-  broker.mongodb.agent.provider.container:
-    description: "S3/Swift container name where service fabrik's mongodb backup blobs will be stored"
-  broker.mongodb.agent.auth.username:
-    description: "username authorized to invoke  service fabrik agent API's on mongodb agent"
-  broker.mongodb.agent.auth.password:
-    description: "password for the user authorized to invoke  service fabrik agent API's on mongodb agent"
 
   broker.scheduler.job_types:
     description: "Comma seperated list of batch job types that are enabled in service fabrik. Jobs can be enabled disabled by changing this list."
