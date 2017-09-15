@@ -94,6 +94,8 @@ properties:
   broker.mongodb.retry_connect.min_delay:
     description: "Minimum delay before retry attempt to connect to DB"
     default: 120000
+  broker.mongodb.backup.schedule_interval:
+    description: "Cron expression defining the backup interval for service fabrik's internal mongodb's backup job"
 
   broker.scheduler.job_types:
     description: "Comma seperated list of batch job types that are enabled in service fabrik. Jobs can be enabled disabled by changing this list."

@@ -81,6 +81,8 @@ production:
       max_attempt: <%= p('broker.mongodb.retry_connect.max_attempt') %>
       min_delay: <%= p('broker.mongodb.retry_connect.min_delay') %>
     record_max_fetch_count: <%= p('broker.mongodb.record_max_fetch_count') %>  # Max number of records that can be fetched at a time
+    backup:
+      schedule_interval: <%= p('broker.mongodb.backup.schedule_interval') %>
 
   ######################
   # SCHEDULER SETTINGS #
