@@ -146,7 +146,7 @@ properties:
     default: 30
   broker.scheduler.jobs.reschedule_delay:
     description: "Jobs when found to be conflicting with each other are rescheduled after this delay (human-interval)"
-    default: "20 mins from now"
+    default: "20 minutes from now"
   broker.scheduler.jobs.scheduled_backup.max_attempts:
     description: "If an update is in-progess while backup is to be run, then the backup will be rescheduled after a delay. This will be repeated for the below configured times if update is long running"
     default: 3
