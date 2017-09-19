@@ -34,7 +34,7 @@ cd service-fabrik-boshrelease
 
 If you need to modify the sources (beyond the example manifest):
 ```shell
-./update
+./scripts/update
 bosh create release --force && bosh upload release # repeat these commands on every change
 cd templates
 ./make_manifest warden

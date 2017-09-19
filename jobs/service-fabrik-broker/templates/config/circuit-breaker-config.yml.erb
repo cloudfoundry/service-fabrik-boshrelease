@@ -13,12 +13,10 @@ http:
   statistical_window_length: 120000 #ms the metrics are caclucated for, after this the metrics are reset.
   statistical_window_number_of_buckets: 10 #statistical window length is sliced into this configured number of buckets
   apis:
-    "<%= p('broker.bootstrap_bosh_director.url') %>":
-      name: "Boot Strap Bosh Director"
-    "<%= p('broker.director.url') %>":
-      name: "Bosh Director"
+    <% p('broker.directors').each do |director| %>
+    "<%= director['url'] %>":
+    name: "<%= director['name'] %>"
+    <% end %>
     "<%= p('broker.cf.url') %>":
       name: "Cloud Controller"
-    "<%= p('broker.quota.serviceDomain')%>":
-      name: "Qutoa Management APIs"
 <% end %>

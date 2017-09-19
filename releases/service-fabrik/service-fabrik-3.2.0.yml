@@ -1,0 +1,70 @@
+---
+packages:
+- name: node
+  version: 6e8abfa2343654d6a81d1816f82ead8720c986d2
+  fingerprint: 6e8abfa2343654d6a81d1816f82ead8720c986d2
+  sha1: aefa108539d140245c2c1be8e2d5e0cdfdf5243a
+  dependencies: []
+- name: docker
+  version: 45062aefa4be8e9f0a2af53e5591e04be5a8db0b
+  fingerprint: 45062aefa4be8e9f0a2af53e5591e04be5a8db0b
+  sha1: 9781cde8df0a9ecee0c60516b734d7c140536415
+  dependencies: []
+- name: swarm
+  version: 41daf26b2c4ce34a5be3716fe353d53953523d40
+  fingerprint: 41daf26b2c4ce34a5be3716fe353d53953523d40
+  sha1: 5dcfe5420140b865412b540e26439f47df9062f1
+  dependencies:
+  - golang
+- name: lvmvd
+  version: 8a071715ae5084c0728d081e89050f6c73140420
+  fingerprint: 8a071715ae5084c0728d081e89050f6c73140420
+  sha1: 8333841517c727e1fd35808e53ac51d6f4e521d3
+  dependencies:
+  - golang
+- name: lvm2
+  version: 94234aaafde31e917248664480f650b4c2973065
+  fingerprint: 94234aaafde31e917248664480f650b4c2973065
+  sha1: d7ae3e0fc03e6188c8ee00a52f24be355401609c
+  dependencies: []
+- name: bosh-helpers
+  version: e1bbff85fa1e4b1d51887ba6ecff6949ca92e8f6
+  fingerprint: e1bbff85fa1e4b1d51887ba6ecff6949ca92e8f6
+  sha1: 326e36a1cff37458cbbb976cee10edd54c0aaae8
+  dependencies: []
+- name: golang
+  version: b4471eff2367da0891705297096cd4db41e19d5e
+  fingerprint: b4471eff2367da0891705297096cd4db41e19d5e
+  sha1: a91ff21d1f18281c334fe8d870482c0745041b06
+  dependencies: []
+- name: service-fabrik-broker
+  version: 510f45f01abaf9f484c1647cb2338c378206e3fb
+  fingerprint: 510f45f01abaf9f484c1647cb2338c378206e3fb
+  sha1: 7034161beea400740b3f1169fea047b97af91ee3
+  dependencies:
+  - node
+jobs:
+- name: swarm_manager
+  version: 07050f9b0364c51d0a5004aae0fa32a0fa10821b
+  fingerprint: 07050f9b0364c51d0a5004aae0fa32a0fa10821b
+  sha1: 6cf4595b429a013fdf6909b4c9b6d5c8ca177433
+- name: docker
+  version: b76343f51a3f298b86e4b7fe36b2cc53d649e9a4
+  fingerprint: b76343f51a3f298b86e4b7fe36b2cc53d649e9a4
+  sha1: f55e6f7b1155d33d914be09ec2c2aafb6fd8c398
+- name: service-fabrik-scheduler
+  version: bcf038cabfd85037aa8a36f3598323002b45de2a
+  fingerprint: bcf038cabfd85037aa8a36f3598323002b45de2a
+  sha1: d8df1b149ab764eddf32a5241c4d2646aeccbb96
+- name: service-fabrik-broker
+  version: 32003ff265e475d40f335ee18a9cf2b07c237f54
+  fingerprint: 32003ff265e475d40f335ee18a9cf2b07c237f54
+  sha1: be527652ebcde7c42de37cc2b0e54cb349cf15b4
+license:
+  version: fe3f181be807945657470c6326bf36e67ef5263e
+  fingerprint: fe3f181be807945657470c6326bf36e67ef5263e
+  sha1: df54c7725e2c758cb1557d49c63be9f297ba99bb
+commit_hash: b858b252
+uncommitted_changes: true
+name: service-fabrik
+version: 3.2.0
