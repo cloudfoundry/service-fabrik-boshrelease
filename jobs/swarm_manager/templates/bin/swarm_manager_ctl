@@ -16,7 +16,9 @@ case $1 in
     if [ ! -L /etc/rsyslog.d/45-swarm_manager_forwarding.conf ]; then
         ln -s /var/vcap/jobs/swarm_manager/config/syslog_forwarding.conf /etc/rsyslog.d/45-swarm_manager_forwarding.conf
     fi
+    set +e
     /usr/sbin/service rsyslog restart
+    set -e
 
     # Start Swarm Manager daemon
     exec chpst -u vcap:vcap /var/vcap/packages/swarm/bin/swarm \
