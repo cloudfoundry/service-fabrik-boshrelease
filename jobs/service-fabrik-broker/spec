@@ -38,6 +38,9 @@ properties:
   broker.enable_circuit_breaker:
     description: "Switch used to turn on/off circuit breaker"
     default: false
+  broker.feature.schedule_update:
+    description: "Switch used to turn on/off schedule update feature"
+    default: "off"
 
   broker.external.port:
     description: "Port used for external endpoints such as dashboards or the Service Fabrik API"
@@ -233,6 +236,9 @@ properties:
   broker.monitoring.event_name_prefix:
     description: "All riemann events originating from service fabrik will have this prefix"
     default: CF.service-fabrik
+  broker.monitoring.events_logged_in_db: 
+    description: "Comma seperated list of event names that are to be logged in DB"
+    default: "create_backup, update_instance"
   broker.monitoring.include_response_body:
     description: "Determines if the riemann event should contain the HTTP method response while logging"
     default: false

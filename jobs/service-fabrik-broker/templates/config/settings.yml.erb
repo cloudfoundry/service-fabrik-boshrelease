@@ -27,6 +27,8 @@ production:
   log_level: <%= p('broker.log_level') %>
   sys_log_level: <%= p('broker.sys_log_level') %>
   enable_circuit_breaker: <%= p('broker.enable_circuit_breaker') %>
+  feature:
+    schedule_update: <%= p('broker.feature.schedule_update') %>
 
   ##############################
   # EXTERNAL ENDPOINT SETTINGS #
@@ -149,6 +151,7 @@ production:
     inprogress_metric: 2
     event_name_prefix: <%= p('broker.riemann.prefix') %>.<%= name %>.<%= index %>.<%= spec.deployment %>
     include_response_body: <%= p('broker.monitoring.include_response_body') %>
+    events_logged_in_db: <%= p('broker.monitoring.events_logged_in_db') %>
     unauthorized:
       http_status: [401,403]
       event_name: 'unauthorized_access'
