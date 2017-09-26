@@ -104,7 +104,6 @@ production:
     start_delay: <%= p('broker.scheduler.start_delay') %>
     default_lock_lifetime: <%= p('broker.scheduler.default_lock_lifetime') %> # Specifies the default lock lifetime of a batchjob in milliseconds.
     agenda_collection: <%= p('broker.scheduler.agenda_collection') %> # Name of the collection in mongodb which is to be used by agendaJS to store the scheduled job meta info
-    job_history_retention_in_days: <%= p('broker.scheduler.job_history_retention_in_days') %> # Retention period in number of days, for which the job run history is maintained.
     maintenance_check_interval:  <%= p('broker.scheduler.maintenance_check_interval') %>
     maintenance_mode_time_out:  <%= p('broker.scheduler.maintenance_mode_time_out') %>
     jobs:
