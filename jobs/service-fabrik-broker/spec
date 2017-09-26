@@ -134,9 +134,6 @@ properties:
   broker.scheduler.agenda_collection:
     description: "Name of the collection in mongodb which is to be used by agendaJS to store the scheduled job meta info"
     default: "agendaJobs"
-  broker.scheduler.job_history_retention_in_days:
-    description: "Retention period in number of days, for which the job run history is maintained. (for ex. 30 - job run history for 30 days will be maintained)"
-    default: 30
   broker.scheduler.jobs.reschedule_delay:
     description: "Jobs when found to be conflicting with each other are rescheduled after this delay (human-interval)"
     default: "20 minutes from now"
@@ -170,7 +167,16 @@ properties:
   broker.scheduler.system_jobs.backup_reaper.interval:
     description: "Cron expression defining schedule interval for backup reaper job"
     default: 0 1 * * *
-
+  broker.scheduler.system_jobs.dbcollection_reaper.interval:
+    description: "Cron expression defining schedule interval for db collection reaper job"
+    default: 0 2 * * *
+  broker.scheduler.system_jobs.dbcollection_reaper.jobrun_detail.retention_in_days:
+    description: "Retention period in days for the agenda job run details. Data older than this is deleted"
+    default: 60
+  broker.scheduler.system_jobs.dbcollection_reaper.event_detail.retention_in_days:
+    description: "Retention period in days for the event details (create_backup/update_instance) stored in SF. Data older than this is deleted"
+    default: 90
+    
   broker.backup.retention_period_in_days:
     description: "Scheduled backups are going to be maintained during this period & cannot be deleted. Beyond this period backups are automatically deleted by backup job"
     default: 14

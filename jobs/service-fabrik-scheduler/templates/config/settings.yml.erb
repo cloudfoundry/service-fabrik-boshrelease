@@ -135,6 +135,16 @@ production:
         interval: <%= p('broker.scheduler.system_jobs.backup_reaper.interval') %> #Schedule interval for backup reaper job
         job_data:
           delete_delay: <%= p('broker.scheduler.system_jobs.backup_reaper.job_data.delete_delay') %>
+      - name: 'DbCollection_Reaper'
+        type: 'DbCollectionReaper'
+        interval:  <%= p('broker.scheduler.system_jobs.dbcollection_reaper.interval') %> #Schedule interval for DB Collection reaper job 
+        job_data:
+          reap_collections:
+            - name : JobRunDetail
+              retention_in_days:  <%= p('broker.scheduler.system_jobs.dbcollection_reaper.jobrun_detail.retention_in_days') %> 
+            - name : EventDetail
+              retention_in_days: <%= p('broker.scheduler.system_jobs.dbcollection_reaper.event_detail.retention_in_days') %> 
+        enabled: true
       - name: 'MongoDB'
         type: 'ServiceFabrikBackup'
         interval: <%= p('broker.mongodb.backup.schedule_interval') %>
