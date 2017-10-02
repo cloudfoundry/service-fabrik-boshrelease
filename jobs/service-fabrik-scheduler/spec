@@ -38,9 +38,9 @@ properties:
   broker.enable_circuit_breaker:
     description: "Switch used to turn on/off circuit breaker"
     default: false
-  broker.feature.schedule_update:
+  broker.feature.ServiceInstanceAutoUpdate:
     description: "Switch used to turn on/off schedule update feature"
-    default: "off"
+    default: false
 
   broker.external.port:
     description: "Port used for external endpoints such as dashboards or the Service Fabrik API"
