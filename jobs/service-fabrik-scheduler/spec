@@ -10,6 +10,8 @@ templates:
   bin/service-fabrik-scheduler_ctl.erb: bin/service-fabrik-scheduler_ctl
   bin/job_properties.sh.erb: bin/job_properties.sh
   config/settings.yml.erb: config/settings.yml
+  config/eventlog-config-external.yml.erb: config/eventlog-config-external.yml
+  config/eventlog-config-internal.yml.erb: config/eventlog-config-internal.yml
   config/syslog_forwarding.conf.erb: config/syslog_forwarding.conf
   config/circuit-breaker-config.yml.erb: config/circuit-breaker-config.yml
 

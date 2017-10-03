@@ -1,45 +1,40 @@
----
-golang/go1.6.2.linux-amd64.tar.gz:
-  object_id: abc1be7b-ce69-4442-a841-cfc0a88109e4
-  sha: b8318b09de06076d5397e6ec18ebef3b45cd315d
-  size: 84840658
-apt/lvm2/libreadline5_5.2+dfsg-2_amd64.deb:
-  object_id: 2f4d6377-7c29-470b-a917-acdcb05e0c75
-  sha: 5e0e4d8cbad5302244c06f79f74497a30754f8af
-  size: 130428
-apt/lvm2/lvm2_2.02.98-6ubuntu2_amd64.deb:
-  object_id: 3bbf149a-e117-4d5e-9667-3632ae9c0b95
-  sha: 52bca696115b57cd1ad1aa5afe187001f72c5ee2
-  size: 469600
 apt/lvm2/libdevmapper-event1.02.1_2:1.02.77-6ubuntu2_amd64.deb:
+  size: 10812
   object_id: 67e8628d-c7a4-4182-8fdd-4cddd60bcaa0
   sha: 2873ddde9dfa3897918fb48a470fdf6ba511e182
-  size: 10812
+apt/lvm2/libreadline5_5.2+dfsg-2_amd64.deb:
+  size: 130428
+  object_id: 2f4d6377-7c29-470b-a917-acdcb05e0c75
+  sha: 5e0e4d8cbad5302244c06f79f74497a30754f8af
+apt/lvm2/lvm2_2.02.98-6ubuntu2_amd64.deb:
+  size: 469600
+  object_id: 3bbf149a-e117-4d5e-9667-3632ae9c0b95
+  sha: 52bca696115b57cd1ad1aa5afe187001f72c5ee2
 apt/lvm2/watershed_7_amd64.deb:
+  size: 11356
   object_id: a72d0857-ae9b-4b2f-b5b6-725bee7006d9
   sha: 5c02014b7daecff6c0a6367996d2819d9b16745e
-  size: 11356
-docker/autoconf-2.69.tar.gz:
-  object_id: 83391b7e-d4bf-4052-92bb-e708f33e25c6
-  sha: 562471cbcb0dd0fa42a76665acf0dbb68479b78a
-  size: 1927468
-docker/docker-1.12.3.tgz:
-  object_id: 8a0c3c93-e009-4777-9292-8cb8c4e0e73c
-  sha: a3bb88649bcc47775c29dab7d95709f4dda04d0e
-  size: 28891346
-docker/bridge-utils-1.5.tar.gz:
-  object_id: ca1ba44e-c674-428e-b15e-f6eb2e0cfd79
-  sha: 1f71b6f22f5d2b6d21e146f4ac20820ad42e58ee
-  size: 33472
 docker/aufs-tools_20120411-3_amd64.deb:
+  size: 91762
   object_id: b95dca91-e344-4c54-a908-68651b81264f
   sha: 2dfc1fe386cd3f05ac7e0b4ebcf3ebc8a7f3b04d
-  size: 91762
-node/node-v6.9.1-linux-x64.tar.xz:
-  object_id: e79323b1-66d8-42a6-aba3-df4525ce82cd
-  sha: 84b0b6fde43a4d892186119ba6b9f1db3c2c6129
-  size: 9351072
+docker/autoconf-2.69.tar.gz:
+  size: 1927468
+  object_id: 83391b7e-d4bf-4052-92bb-e708f33e25c6
+  sha: 562471cbcb0dd0fa42a76665acf0dbb68479b78a
+docker/docker-17.06.1.tgz:
+  size: 29699281
+  object_id: 128671d4-33ef-4cad-8239-0ae39d38f55d
+  sha: 01c73e6548e588e6d5bdc3dea45bb90239516e4b
+golang/go1.6.2.linux-amd64.tar.gz:
+  size: 84840658
+  object_id: abc1be7b-ce69-4442-a841-cfc0a88109e4
+  sha: b8318b09de06076d5397e6ec18ebef3b45cd315d
 golang/go1.8.3.linux-amd64.tar.gz:
+  size: 90029041
   object_id: 531dbe5c-f65b-4c3a-a524-c630a7762567
   sha: 838c415896ef5ecd395dfabde5e7e6f8ac943c8e
-  size: 90029041
+node/node-v6.9.1-linux-x64.tar.xz:
+  size: 9351072
+  object_id: e79323b1-66d8-42a6-aba3-df4525ce82cd
+  sha: 84b0b6fde43a4d892186119ba6b9f1db3c2c6129

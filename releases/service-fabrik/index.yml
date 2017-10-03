@@ -8,4 +8,14 @@ builds:
     version: 3.1.0
   a0e5dc3f-a06d-488e-a071-0c56b7169af3:
     version: 3.2.0
+  62d755eb-bebc-4285-9446-323a97887898:
+    version: 3.3.0
+  c4960600-0f65-4fcc-ae89-97237b682e53:
+    version: 3.4.0
+  4ee204d3-599e-4e7a-8361-ecbafd2ee8a2:
+    version: 3.5.0
+  b01ef361-2afb-432c-b9a8-0f8ac382e5a1:
+    version: 3.6.0
+  2fee872e-205c-4a31-b548-eef034109a0a:
+    version: 3.7.0
 format-version: '2'
