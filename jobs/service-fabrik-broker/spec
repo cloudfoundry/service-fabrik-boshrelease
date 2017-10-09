@@ -226,9 +226,6 @@ properties:
   broker.riemann.prefix:
     description: "Riemann Prefix"
     default: "CF"
-  broker.riemann.log_additional_event:
-    description: "Boolean configuration to log additional event to Riemann"
-    default: true
 
   broker.syslog.host:
     description: "Syslog ingestor host IP of ELK stack"
