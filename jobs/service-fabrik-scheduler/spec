@@ -261,13 +261,6 @@ properties:
     description: "Defines the HTTP success codes for Delete operation"
     default: [200, 410]
 
-  broker.event.external.get_backup_by_guid.enabled:
-    description: "Enables publishing of events while retrieving metadata of a specific backup within the given space"
-    default: false
-  broker.event.external.get_backup_schedule.enabled:
-    description: "Enables publishing of events while retrieving schedule of a particular service instance"
-    default: false 
-
   broker.quota.enabled:
     description: "If Quota Management Service is enabled"
     default: false
