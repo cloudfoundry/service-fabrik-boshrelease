@@ -40,6 +40,9 @@ properties:
   broker.enable_circuit_breaker:
     description: "Switch used to turn on/off circuit breaker"
     default: false
+  broker.feature.ServiceInstanceAutoUpdate:
+    description: "Switch used to turn on/off schedule update feature"
+    default: false
 
   broker.external.port:
     description: "Port used for external endpoints such as dashboards or the Service Fabrik API"
@@ -98,18 +101,8 @@ properties:
     default: 120000
   broker.mongodb.backup.schedule_interval:
     description: "Cron expression defining the backup interval for service fabrik's internal mongodb's backup job"
-  broker.mongodb.backup.status_check_every:
-    description: "Interval in milliseconds at which service fabrik's mongodb backup job checks for backup operation status with mongo service agent"
-  broker.mongodb.backup.backup_timeout_time:
-    description: "Timeout time in milliseconds by which duration the backup job/operation for service fabrik's mongodb must be completed"
-  broker.mongodb.agent.version:
-    description: "mongodb service fabrik API agent version"
   broker.mongodb.agent.provider.container:
     description: "S3/Swift container name where service fabrik's mongodb backup blobs will be stored"
-  broker.mongodb.agent.auth.username:
-    description: "username authorized to invoke  service fabrik agent API's on mongodb agent"
-  broker.mongodb.agent.auth.password:
-    description: "password for the user authorized to invoke  service fabrik agent API's on mongodb agent"
 
   broker.scheduler.job_types:
     description: "Comma seperated list of batch job types that are enabled in service fabrik. Jobs can be enabled disabled by changing this list."
@@ -128,22 +121,67 @@ properties:
   broker.scheduler.default_concurrency:
     description: "A number which specifies the default number of a specific job that can be running at any given moment"
     default: 20
+  broker.scheduler.start_delay: 
+    description: "Scheduler start must be delayed for DB connections to happen"
+    default: 120000
   broker.scheduler.default_lock_lifetime:
     description: "Specifies the default lock lifetime of a batchjob in milliseconds. A job cannot be re-run when within this locktime period (in case of errors, crash etc.)"
     default: 180000
+  broker.scheduler.maintenance_check_interval: 
+    description: "Once scheduler is placed in maintenace mode, it checks every configured (ms) for status of maitenance mode"
+    default: 90000
+  broker.scheduler.maintenance_mode_time_out:
+    description: "(ms) - wait for sf deployment to complete. Beyond this timeout out time scheduler starts"
+    default: 36000000
   broker.scheduler.agenda_collection:
     description: "Name of the collection in mongodb which is to be used by agendaJS to store the scheduled job meta info"
     default: "agendaJobs"
   broker.scheduler.job_history_retention_in_days:
     description: "Retention period in number of days, for which the job run history is maintained. (for ex. 30 - job run history for 30 days will be maintained)"
     default: 30
+  broker.scheduler.jobs.reschedule_delay:
+    description: "Jobs when found to be conflicting with each other are rescheduled after this delay (human-interval)"
+    default: "20 minutes from now"
+  broker.scheduler.jobs.scheduled_backup.max_attempts:
+    description: "If an update is in-progess while backup is to be run, then the backup will be rescheduled after a delay. This will be repeated for the below configured times if update is long running"
+    default: 3
+  broker.scheduler.jobs.service_instance_update.max_attempts:
+    description: "In case of an error while trigerring an update, max retry attempts will be done based on the below configured value (note errors due to running backups are not considered)"
+    default: 3
+  broker.scheduler.jobs.service_instance_update.run_every_xdays:
+    description: "Runs the service instance update job once every configured number of days"
+    default: 7
+  broker.scheduler.jobs.service_instance_update.should_start_after_hr:
+    description: "Service instance update job schedule is randomized but this param specifies the start time (hrs) after which the randomization must be done"
+    default: 8
+  broker.scheduler.jobs.service_instance_update.should_start_before_hr:
+    description: "Service instance update job schedule is randomized but this param specifies the start time (hrs) before which the randomization must be done"
+    default: 17
+  broker.scheduler.jobs.service_instance_update.should_start_after_min:
+    description: "Service instance update job schedule is randomized but this param specifies the start time (mins) after which the randomization must be done"
+    default: 0
+  broker.scheduler.jobs.service_instance_update.should_start_before_min:
+    description: "Service instance update job schedule is randomized but this param specifies the start time (mins) before which the randomization must be done"
+    default: 59
+  broker.scheduler.jobs.service_instance_update.time_zone:
+    description: "Timezone in which the service instance update job runs"
+    default: "Asia/Kolkata"
   broker.scheduler.system_jobs.backup_reaper.job_data.delete_delay:
     description: "delay in processing between two tasks (in millisecond)"
     default: 1000
   broker.scheduler.system_jobs.backup_reaper.interval:
     description: "Cron expression defining schedule interval for backup reaper job"
     default: 0 1 * * *
-
+  broker.scheduler.system_jobs.dbcollection_reaper.interval:
+    description: "Cron expression defining schedule interval for db collection reaper job"
+    default: 0 2 * * *
+  broker.scheduler.system_jobs.dbcollection_reaper.jobrun_detail.retention_in_days:
+    description: "Retention period in days for the agenda job run details. Data older than this is deleted"
+    default: 60
+  broker.scheduler.system_jobs.dbcollection_reaper.event_detail.retention_in_days:
+    description: "Retention period in days for the event details (create_backup/update_instance) stored in SF. Data older than this is deleted"
+    default: 90
+    
   broker.backup.retention_period_in_days:
     description: "Scheduled backups are going to be maintained during this period & cannot be deleted. Beyond this period backups are automatically deleted by backup job"
     default: 14
@@ -209,6 +247,9 @@ properties:
   broker.monitoring.event_name_prefix:
     description: "All riemann events originating from service fabrik will have this prefix"
     default: CF.service-fabrik
+  broker.monitoring.events_logged_in_db: 
+    description: "Comma seperated list of event names that are to be logged in DB"
+    default: "create_backup, update_instance"
   broker.monitoring.include_response_body:
     description: "Determines if the riemann event should contain the HTTP method response while logging"
     default: false

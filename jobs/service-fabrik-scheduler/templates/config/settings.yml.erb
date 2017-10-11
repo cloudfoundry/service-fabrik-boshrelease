@@ -29,6 +29,8 @@ production:
   log_level: <%= p('broker.log_level') %>
   sys_log_level: <%= p('broker.sys_log_level') %>
   enable_circuit_breaker: <%= p('broker.enable_circuit_breaker') %>
+  feature:
+    ServiceInstanceAutoUpdate: <%= p('broker.feature.ServiceInstanceAutoUpdate') %>
 
   ##############################
   # EXTERNAL ENDPOINT SETTINGS #
@@ -84,22 +86,10 @@ production:
       min_delay: <%= p('broker.mongodb.retry_connect.min_delay') %>
     record_max_fetch_count: <%= p('broker.mongodb.record_max_fetch_count') %>  # Max number of records that can be fetched at a time
     backup:
-      schedule_interval: <%= p('broker.mongodb.backup.schedule_interval') %> # Cron expression schedule interval for backup job of service fabrik's internal mongo DB
-      status_check_every: <%= p('broker.mongodb.backup.status_check_every') %> # Interval at which service fabrik's backup job checks for backup operation status with mongo service agent
-      backup_timeout_time: <%= p('broker.mongodb.backup.backup_timeout_time') %> # Timeout by which duration the backup job/operation for service fabrik's mongodb must be completed (2 hrs)
+      schedule_interval: <%= p('broker.mongodb.backup.schedule_interval') %>
     agent:
-      version: <%= p('broker.mongodb.agent.version') %>
       provider:
         container: <%= p('broker.mongodb.agent.provider.container') %>
-      auth:
-        username: <%= p('broker.mongodb.agent.auth.username') %>
-        password: <%= p('broker.mongodb.agent.auth.password') %>
-      supported_features:
-        - state
-        - lifecycle
-        - credentials
-        - backup
-        - restore
 
   ######################
   # SCHEDULER SETTINGS #
@@ -113,9 +103,23 @@ production:
     run_with_web_process: <%= p('broker.scheduler.run_with_web_process') %> # Flag which indicates if scheduler can run in the same process as that of service fabrik broker web process
     max_concurrency: <%= p('broker.scheduler.max_concurrency') %> # A number which specifies the max number of batch jobs that can be running at any given moment
     default_concurrency: <%= p('broker.scheduler.default_concurrency') %> # A number which specifies the default number of a specific job that can be running at any given moment
+    start_delay: <%= p('broker.scheduler.start_delay') %>
     default_lock_lifetime: <%= p('broker.scheduler.default_lock_lifetime') %> # Specifies the default lock lifetime of a batchjob in milliseconds.
     agenda_collection: <%= p('broker.scheduler.agenda_collection') %> # Name of the collection in mongodb which is to be used by agendaJS to store the scheduled job meta info
-    job_history_retention_in_days: <%= p('broker.scheduler.job_history_retention_in_days') %> # Retention period in number of days, for which the job run history is maintained.
+    maintenance_check_interval:  <%= p('broker.scheduler.maintenance_check_interval') %>
+    maintenance_mode_time_out:  <%= p('broker.scheduler.maintenance_mode_time_out') %>
+    jobs:
+      reschedule_delay: <%= p('broker.scheduler.jobs.reschedule_delay') %>
+      scheduled_backup:
+        max_attempts: <%= p('broker.scheduler.jobs.scheduled_backup.max_attempts') %>
+      service_instance_update: 
+        max_attempts: <%= p('broker.scheduler.jobs.service_instance_update.max_attempts') %>
+        run_every_xdays:  <%= p('broker.scheduler.jobs.service_instance_update.run_every_xdays') %>
+        should_start_after_hr: <%= p('broker.scheduler.jobs.service_instance_update.run_every_xdays') %>
+        should_start_before_hr: <%= p('broker.scheduler.jobs.service_instance_update.should_start_before_hr') %>
+        should_start_after_min: <%= p('broker.scheduler.jobs.service_instance_update.should_start_after_min') %>
+        should_start_before_min: <%= p('broker.scheduler.jobs.service_instance_update.should_start_before_min') %>
+        time_zone: <%= p('broker.scheduler.jobs.service_instance_update.time_zone') %> 
     system_jobs:
       - name: 'service-fabrik-mongodb'
         type: 'ScheduledOobDeploymentBackup'
@@ -130,6 +134,16 @@ production:
         interval: <%= p('broker.scheduler.system_jobs.backup_reaper.interval') %> #Schedule interval for backup reaper job
         job_data:
           delete_delay: <%= p('broker.scheduler.system_jobs.backup_reaper.job_data.delete_delay') %>
+      - name: 'DbCollection_Reaper'
+        type: 'DbCollectionReaper'
+        interval:  <%= p('broker.scheduler.system_jobs.dbcollection_reaper.interval') %> #Schedule interval for DB Collection reaper job 
+        job_data:
+          reap_collections:
+            - name : JobRunDetail
+              retention_in_days:  <%= p('broker.scheduler.system_jobs.dbcollection_reaper.jobrun_detail.retention_in_days') %> 
+            - name : EventDetail
+              retention_in_days: <%= p('broker.scheduler.system_jobs.dbcollection_reaper.event_detail.retention_in_days') %> 
+        enabled: true
       - name: 'MongoDB'
         type: 'ServiceFabrikBackup'
         interval: <%= p('broker.mongodb.backup.schedule_interval') %>
@@ -148,6 +162,7 @@ production:
     inprogress_metric: 2
     event_name_prefix: <%= p('broker.riemann.prefix') %>.<%= name %>.<%= index %>.<%= spec.deployment %>
     include_response_body: <%= p('broker.monitoring.include_response_body') %>
+    events_logged_in_db: <%= p('broker.monitoring.events_logged_in_db') %>
     unauthorized:
       http_status: [401,403]
       event_name: 'unauthorized_access'
