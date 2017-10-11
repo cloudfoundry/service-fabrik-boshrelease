@@ -97,7 +97,7 @@ defaults:
     - backup
 "/api/v1/backups/:backup_guid":
   GET:
-    enabled: false
+    enabled: <%= p('broker.event.external.get_backup_by_guid.enabled') %>
     event_name: get_backup_by_guid
     description: Retrieve metadata of a specific backup within the given space
     tags:
@@ -112,7 +112,7 @@ defaults:
     - <%= code %><% end %>
 "/api/v1/service_instances/:instance_id/schedule_backup":
   GET:
-    enabled: false
+    enabled: <%= p('broker.event.external.get_backup_schedule.enabled') %>
     event_name: get_backup_schedule
     description: Retrieving the backup schedule for a service instance
     tags:
