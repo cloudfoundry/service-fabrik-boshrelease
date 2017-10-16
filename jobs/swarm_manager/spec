@@ -47,7 +47,7 @@ properties:
     description: "Time in second between each heartbeat"
     default: "20s"
   swarm_manager.node-heartbeat-retries:
-    description: " No of retries swarm manager makes to check if docker nodes is healthy  again once its finds it un-healthy"
+    description: "No of retries swarm manager makes to check if docker nodes is healthy again if it was un-healthy previously"
     default: "30"
   swarm_manager.api_enable_cors:
     description: "Enable CORS headers in the remote API"
