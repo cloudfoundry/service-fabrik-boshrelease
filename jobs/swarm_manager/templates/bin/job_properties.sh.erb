@@ -57,7 +57,7 @@ export SWARM_MANAGER_ADVERTISE="--advertise=<%= "#{p('swarm_manager.advertise', 
 export SWARM_MANAGER_HEARTBEAT="--heartbeat=<%= p('swarm_manager.heartbeat') %>"
 
 # No of retries swarm manager makes to check if docker nodes is healthy again if it was un-healthy previously
-export SWARM_MANAGER_HEARTBEAT_RETRIES="--engine-failure-retry=<%= p('swarm_manager.node-heartbeat-retries') %>"
+export SWARM_MANAGER_HEARTBEAT_RETRIES="--engine-failure-retry=<%= p('swarm_manager.node_heartbeat_retries') %>"
 
 # Enable CORS headers in the remote API
 export SWARM_MANAGER_API_ENABLE_CORS="--api-enable-cors=<%= p('swarm_manager.api_enable_cors') %>"
