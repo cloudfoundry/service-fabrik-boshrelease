@@ -1,0 +1,69 @@
+name: service-fabrik
+version: 3.12.1
+commit_hash: 0948c21
+uncommitted_changes: false
+jobs:
+- name: docker
+  version: a929106f17d24fa9f5f22a07b0a97f9d5df63c6a
+  fingerprint: a929106f17d24fa9f5f22a07b0a97f9d5df63c6a
+  sha1: 886ab78e5cb552a323cfe965f7f21969a5ebe977
+- name: service-fabrik-broker
+  version: cdfc0edfc2b7e2cb08a86d02a0654e2b4fe9087a
+  fingerprint: cdfc0edfc2b7e2cb08a86d02a0654e2b4fe9087a
+  sha1: 877ad8ebed1a035cfaa99949fe145470f492e3e2
+- name: service-fabrik-scheduler
+  version: f54cba405d8c9932f1aef5946657c4c86952e275
+  fingerprint: f54cba405d8c9932f1aef5946657c4c86952e275
+  sha1: 6eea01e7ed45f01c024f56b3e327e7b7727d75f3
+- name: swarm_manager
+  version: 313978e3b7a372c79b47eb52d3cc5a6b9715fc30
+  fingerprint: 313978e3b7a372c79b47eb52d3cc5a6b9715fc30
+  sha1: a8a884955d72881e4b6e29ba0cf04409a7a7cc81
+packages:
+- name: bosh-helpers
+  version: e1bbff85fa1e4b1d51887ba6ecff6949ca92e8f6
+  fingerprint: e1bbff85fa1e4b1d51887ba6ecff6949ca92e8f6
+  sha1: 326e36a1cff37458cbbb976cee10edd54c0aaae8
+  dependencies: []
+- name: docker
+  version: 6ef4feeaf01ffb4d27b5f2f7094b0380d2624019
+  fingerprint: 6ef4feeaf01ffb4d27b5f2f7094b0380d2624019
+  sha1: 280bd6d784531e14eaa680e44e81568c54cf0899
+  dependencies: []
+- name: golang
+  version: b4471eff2367da0891705297096cd4db41e19d5e
+  fingerprint: b4471eff2367da0891705297096cd4db41e19d5e
+  sha1: a91ff21d1f18281c334fe8d870482c0745041b06
+  dependencies: []
+- name: lvm2
+  version: 94234aaafde31e917248664480f650b4c2973065
+  fingerprint: 94234aaafde31e917248664480f650b4c2973065
+  sha1: d7ae3e0fc03e6188c8ee00a52f24be355401609c
+  dependencies: []
+- name: lvmvd
+  version: df5f93a86e1b58d93e437dc456c27b2711431292
+  fingerprint: df5f93a86e1b58d93e437dc456c27b2711431292
+  sha1: 019b5908c16c97562163d974e2c1e4bf83d48372
+  dependencies:
+  - golang
+- name: node
+  version: 6e8abfa2343654d6a81d1816f82ead8720c986d2
+  fingerprint: 6e8abfa2343654d6a81d1816f82ead8720c986d2
+  sha1: aefa108539d140245c2c1be8e2d5e0cdfdf5243a
+  dependencies: []
+- name: service-fabrik-broker
+  version: 684754d2ab77dfadfab91328d540f5b6a5b43e56
+  fingerprint: 684754d2ab77dfadfab91328d540f5b6a5b43e56
+  sha1: c32a21738ec8305f93bd35d65eb366d7c6d7e467
+  dependencies:
+  - node
+- name: swarm
+  version: 4f38eed641aaa1ecefc94fd74515dd5b00a7b78b
+  fingerprint: 4f38eed641aaa1ecefc94fd74515dd5b00a7b78b
+  sha1: e84602c040b340cbe970b9578f32c66671cc0d06
+  dependencies:
+  - golang
+license:
+  version: fe3f181be807945657470c6326bf36e67ef5263e
+  fingerprint: fe3f181be807945657470c6326bf36e67ef5263e
+  sha1: df54c7725e2c758cb1557d49c63be9f297ba99bb
