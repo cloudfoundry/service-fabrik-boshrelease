@@ -267,6 +267,9 @@ properties:
   broker.riemann.log_additional_event:
     description: "Boolean configuration to log additional event to Riemann"
     default: true
+  broker.riemann.skip_events_with_client_errors:
+    description: "Boolean configuration to skip logging events to riemann when the HTTP response from broker indicates a client error"
+    default: true
 
   broker.syslog.host:
     description: "Syslog ingestor host IP of ELK stack"
