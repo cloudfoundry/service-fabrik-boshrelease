@@ -41,6 +41,9 @@ properties:
   broker.feature.ServiceInstanceAutoUpdate:
     description: "Switch used to turn on/off schedule update feature"
     default: false
+  broker.http_timeout:
+    description: "Timeout duration for any request to broker"
+    default: 120000 
 
   broker.external.port:
     description: "Port used for external endpoints such as dashboards or the Service Fabrik API"
