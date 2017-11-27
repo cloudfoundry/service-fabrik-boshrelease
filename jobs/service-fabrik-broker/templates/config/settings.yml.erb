@@ -29,7 +29,7 @@ production:
   enable_circuit_breaker: <%= p('broker.enable_circuit_breaker') %>
   feature:
     ServiceInstanceAutoUpdate: <%= p('broker.feature.ServiceInstanceAutoUpdate') %>
-
+  http_timeout: 120000
   ##############################
   # EXTERNAL ENDPOINT SETTINGS #
   ##############################
