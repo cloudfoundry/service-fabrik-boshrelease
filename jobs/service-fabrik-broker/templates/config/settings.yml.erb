@@ -143,7 +143,7 @@ production:
             - name : EventDetail
               retention_in_days: <%= link("scheduler").p('system_jobs.dbcollection_reaper.event_detail.retention_in_days') %>
         enabled: true
-	- name: 'MongoDB'
+      - name: 'MongoDB'
         type: 'ServiceFabrikBackup'
         interval: <%= p('mongodb.backup.schedule_interval') %>
         enabled: false

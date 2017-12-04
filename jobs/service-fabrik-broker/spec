@@ -17,7 +17,9 @@ templates:
   config/circuit-breaker-config.yml.erb: config/circuit-breaker-config.yml
 
 provides:
-- {name: broker, type: broker, properties: [name, username, password, skip_ssl_validation, log_level, internal.port, internal.ip, internal.ssl, external.host, monitoring_agent.log_level, cf.url, cf.username, cf.password, docker.url, docker.skip_ssl_validation, common.tls_cacert, common.tls_client_cert, common.tls_client_key, riemann.host, riemann.port, riemann.prefix, riemann.metrics, services ]}
+- {name: broker, type: broker, properties: [name, username, password, skip_ssl_validation, log_level, enable_circuit_breaker, feature.ServiceInstanceAutoUpdate, internal.port, internal.ip, internal.ssl,internal.log_event, internal.domain_socket.path, external.host, external.log_event, external.api_requires_admin_scope, mongodb.url, mongodb.provision.plan_id, mongodb.provision.network_index, mongodb.deployment_name, mongodb.retry_connect.max_attempt, mongodb.retry_connect.min_delay, mongodb.record_max_fetch_count, mongodb.backup.schedule_interval, mongodb.agent.provider.container, mongodb.backup.schedule_interval, mongodb.deployment_name, mongodb.agent.provider.container, monitoring.include_response_body, monitoring.events_logged_in_db, monitoring.unauthorized.include_response_body, riemann.show_errors, riemann.log_additional_event, riemann.skip_http_status_40x, cf.url, cf.username, cf.password, backup.retention_period_in_days, backup.max_num_on_demand_backup, backup.status_check_every, backup.retry_delay_on_error, backup.lock_check_delay_on_restart, backup.backup_restore_status_poller_timeout, backup.backup_restore_status_check_every, backup.abort_time_out, backup.provider, docker.url, docker.skip_ssl_validation, docker.allocate_docker_host_ports, docker.volume_driver, common.tls_cacert, common.tls_client_cert, common.tls_client_key, riemann.host, riemann.port, riemann.prefix, riemann.metrics, syslog.host, syslog.port, sys_log_level, event.defaults.http_success_codes, event.defaults.http_inprogress_codes, event.defaults.log_inprogress_state, event.defaults.cf_last_operation, event.defaults.ignore_service_fabrik_operation, event.defaults.include_response_body, event.delete.http_success_codes, quota, services, directors ]}
+consumes:
+- {name: scheduler, type: scheduler}
 
 properties:
   name:
@@ -114,7 +116,7 @@ properties:
   backup.max_num_on_demand_backup:
     description: "Maximum number of on-demand backups"
     default: 2
-  broker.backup.retry_delay_on_error:
+  backup.retry_delay_on_error:
     description: "In case of unlock failure 3 retry attempts will be done with this configured delay (milliseconds) in exponential manner"
     default: 60000
   backup.lock_check_delay_on_restart:

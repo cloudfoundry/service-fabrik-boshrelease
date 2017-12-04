@@ -1,18 +1,19 @@
 ---
+address: "<%= link("broker").instances[0].address %>"
 defaults:
-  http_success_codes:<% p('broker.event.defaults.http_success_codes').each do |code| %>
+  http_success_codes:<% link("broker").p('event.defaults.http_success_codes').each do |code| %>
   - <%= code %><% end %>
-  http_inprogress_codes:<% p('broker.event.defaults.http_inprogress_codes').each do |code| %>
+  http_inprogress_codes:<% link("broker").p('event.defaults.http_inprogress_codes').each do |code| %>
   - <%= code %><% end %>
   # flag used to determine if async operations in-progress state is to be logged
-  log_inprogress_state: <%= p('broker.event.defaults.log_inprogress_state') %>
+  log_inprogress_state: <%= link("broker").p('event.defaults.log_inprogress_state') %>
   # flag to indicate if a particular HTTP operation is to be treated as cf-lastoperation semantics additionally
-  cf_last_operation: <%= p('broker.event.defaults.cf_last_operation') %>
+  cf_last_operation: <%= link("broker").p('event.defaults.cf_last_operation') %>
   # flag to indicate if service-fabrik operations are to be excluded. for ex. broker update (HTTP Patch)
   #  gets invoked via backup/restore etc, which are to be ignored when coming via HTTP Patch.
-  ignore_service_fabrik_operation: <%= p('broker.event.defaults.ignore_service_fabrik_operation') %>
+  ignore_service_fabrik_operation: <%= link("broker").p('event.defaults.ignore_service_fabrik_operation') %>
   # wheter HTTP response body is to be logged or not
-  include_response_body: <%= p('broker.event.defaults.include_response_body') %>
+  include_response_body: <%= link("broker").p('event.defaults.include_response_body') %>
 "/cf/v2/catalog":
   GET:
     enabled: true
@@ -40,7 +41,7 @@ defaults:
     description: Delete service instance
     tags:
     - delete
-    http_success_codes:<% p('broker.event.delete.http_success_codes').each do |code| %>
+    http_success_codes:<% link("broker").p('event.delete.http_success_codes').each do |code| %>
     - <%= code %><% end %>
 "/cf/v2/service_instances/:instance_id/service_bindings/:binding_id":
   PUT:
@@ -56,7 +57,7 @@ defaults:
     description: Unbind service instance
     tags:
     - binding
-    http_success_codes:<% p('broker.event.delete.http_success_codes').each do |code| %>
+    http_success_codes:<% link("broker").p('event.delete.http_success_codes').each do |code| %>
     - <%= code %><% end %>
 "/cf/v2/service_instances/:instance_id/last_operation":
   GET:
@@ -154,7 +155,7 @@ defaults:
     - delete
     - admin
     - backup
-    http_success_codes:<% p('broker.event.delete.http_success_codes').each do |code| %>
+    http_success_codes:<% link("broker").p('event.delete.http_success_codes').each do |code| %>
     - <%= code %><% end %>
 "/admin/service-fabrik/backup":
   GET:
