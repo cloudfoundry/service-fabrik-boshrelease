@@ -1,5 +1,4 @@
 ---
-address: "<%= link("broker").instances[0].address %>"
 defaults:
   http_success_codes:<% link("broker").p('event.defaults.http_success_codes').each do |code| %>
   - <%= code %><% end %>

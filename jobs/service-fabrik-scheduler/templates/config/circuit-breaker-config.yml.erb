@@ -1,4 +1,3 @@
-address: "<%= link("broker").instances[0].address %>"
 <% link("broker").if_p('circuit_breaker') do |config| %>
 <%= JSON.dump(config) %>
 <% end.else do %>
