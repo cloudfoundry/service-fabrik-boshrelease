@@ -16,10 +16,38 @@ templates:
   config/circuit-breaker-config.yml.erb: config/circuit-breaker-config.yml
 
 provides:
-- {name: scheduler, type: scheduler, properties: [ job_types, process_every, run_with_web_process, max_workers, max_concurrency, default_concurrency, start_delay, default_lock_lifetime, maintenance_check_interval, maintenance_mode_time_out, agenda_collection, jobs.reschedule_delay, jobs.scheduled_backup.max_attempts, jobs.service_instance_update.max_attempts, jobs.service_instance_update.run_every_xdays, jobs.service_instance_update.should_start_after_hr, jobs.service_instance_update.should_start_before_hr, jobs.service_instance_update.should_start_after_min, jobs.service_instance_update.should_start_before_min, jobs.service_instance_update.time_zone, system_jobs.backup_reaper.job_data.delete_delay, system_jobs.backup_reaper.interval, system_jobs.dbcollection_reaper.interval, system_jobs.dbcollection_reaper.jobrun_detail.retention_in_days, system_jobs.dbcollection_reaper.event_detail.retention_in_days ]}
+- name: scheduler
+  type: scheduler
+  properties: 
+  - job_types
+  - process_every
+  - run_with_web_process
+  - max_workers
+  - max_concurrency
+  - default_concurrency
+  - start_delay
+  - default_lock_lifetime
+  - maintenance_check_interval
+  - maintenance_mode_time_out
+  - agenda_collection
+  - jobs.reschedule_delay
+  - jobs.scheduled_backup.max_attempts
+  - jobs.service_instance_update.max_attempts
+  - jobs.service_instance_update.run_every_xdays
+  - jobs.service_instance_update.should_start_after_hr
+  - jobs.service_instance_update.should_start_before_hr
+  - jobs.service_instance_update.should_start_after_min 
+  - jobs.service_instance_update.should_start_before_min
+  - jobs.service_instance_update.time_zone
+  - system_jobs.backup_reaper.job_data.delete_delay
+  - system_jobs.backup_reaper.interval
+  - system_jobs.dbcollection_reaper.interval
+  - system_jobs.dbcollection_reaper.jobrun_detail.retention_in_days
+  - system_jobs.dbcollection_reaper.event_detail.retention_in_days
 
 consumes:
-- {name: broker, type: broker}
+- name: broker
+  type: broker
 
 properties:
   scheduler.name:
