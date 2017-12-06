@@ -196,6 +196,12 @@ production:
     abort_time_out: <%= p('broker.backup.abort_time_out') %>
     provider: <%= JSON.dump(p('broker.backup.provider', nil)) %>
 
+  #################################
+  # VIRTUAL HOST MANAGER SETTINGS #
+  #################################
+  virtual_host:
+    provider: <%= JSON.dump(p('broker.virtual_host.provider', nil)) %>
+
   #########################
   # CLOUDFOUNDRY SETTINGS #
   #########################

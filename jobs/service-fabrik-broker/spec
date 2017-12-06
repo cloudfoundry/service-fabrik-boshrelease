@@ -207,6 +207,9 @@ properties:
     description: "Interval in milliseconds to check the status of service fabrik backup"
     default: 120000
 
+  broker.virtual_host.provider:
+    description: "IaaS-specific virtual host manager provider configuration"
+
   broker.cf.url:
     description: "URL of the Cloud Foundry cloud controller"
   broker.cf.username:
