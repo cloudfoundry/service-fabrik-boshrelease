@@ -85,7 +85,7 @@ properties:
     description: "MongoDB connection URL for service-fabrik's internal needs. ex : mongodb://user:pass@localhost:port/database"
   broker.mongodb.record_max_fetch_count:
     description: "Max number of records that can be fetched at a time from DB"
-    default: 100
+    default: 300
   broker.mongodb.provision.plan_id:
     description: "Mongo Plan Id from the service catalog which is to be used for provisioning internal mongodb by Fabrik"
   broker.mongodb.provision.network_index:
