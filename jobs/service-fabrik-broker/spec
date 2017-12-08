@@ -42,8 +42,8 @@ properties:
     description: "Switch used to turn on/off schedule update feature"
     default: false
   broker.http_timeout:
-    description: "Timeout duration for any request to broker"
-    default: 120000 
+    description: "Timeout duration for any request to broker, this timeout is set to 175 secs by default because CF has a default timeout of 180 secs"
+    default: 175000 
 
   broker.external.port:
     description: "Port used for external endpoints such as dashboards or the Service Fabrik API"
