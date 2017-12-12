@@ -15,7 +15,7 @@ http:
   apis:
     <% link("broker").p('directors').each do |director| %>
     "<%= director['url'] %>":
-    name: "<%= director['name'] %>"
+      name: "<%= director['name'] %>"
     <% end %>
     "<%= link("broker").p('cf.url') %>":
       name: "Cloud Controller"
