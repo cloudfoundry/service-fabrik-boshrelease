@@ -120,7 +120,7 @@ properties:
     default: false
   http_timeout:
     description: "Timeout duration for any request to broker"
-    default: 120000 
+    default: 175000 
 
   external.port:
     description: "Port used for external endpoints such as dashboards or the Service Fabrik API"
@@ -162,7 +162,7 @@ properties:
     description: "MongoDB connection URL for service-fabrik's internal needs. ex : mongodb://user:pass@localhost:port/database"
   mongodb.record_max_fetch_count:
     description: "Max number of records that can be fetched at a time from DB"
-    default: 100
+    default: 300
   mongodb.provision.plan_id:
     description: "Mongo Plan Id from the service catalog which is to be used for provisioning internal mongodb by Fabrik"
   mongodb.provision.network_index:
