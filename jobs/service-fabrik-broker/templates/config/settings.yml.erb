@@ -5,12 +5,12 @@
     end.reduce(&:merge)
   end
 
-  broker_name = p('broker.name')
+  broker_name = p('name')
   log_path = "/var/vcap/sys/log/#{broker_name}/#{broker_name}.log"
   networks = ostruct_to_hash(spec.networks)
   default_ip = networks.values.find { |net| net.has_key?(:default) }[:ip]
-  external = p('broker.external')
-  internal = p('broker.internal')
+  external = p('external')
+  internal = p('internal')
 %>---
 production:
   ####################
@@ -18,23 +18,23 @@ production:
   ####################
   broker_name: '<%= broker_name %>'
   deployment_name: '<%= spec.deployment %>'
-  username: '<%= p('broker.username') %>'
-  password: '<%= p('broker.password') %>'
-  skip_ssl_validation: <%= p('broker.skip_ssl_validation') %>
+  username: '<%= p('username') %>'
+  password: '<%= p('password') %>'
+  skip_ssl_validation: <%= p('skip_ssl_validation') %>
   session_store:
     path: <%= "/var/vcap/store/#{broker_name}/session" %>
   log_path: <%= log_path %>
-  log_level: <%= p('broker.log_level') %>
-  sys_log_level: <%= p('broker.sys_log_level') %>
-  enable_circuit_breaker: <%= p('broker.enable_circuit_breaker') %>
+  log_level: <%= p('log_level') %>
+  sys_log_level: <%= p('sys_log_level') %>
+  enable_circuit_breaker: <%= p('enable_circuit_breaker') %>
   feature:
-    ServiceInstanceAutoUpdate: <%= p('broker.feature.ServiceInstanceAutoUpdate') %>
-  http_timeout: <%= p('broker.http_timeout') %>
+    ServiceInstanceAutoUpdate: <%= p('feature.ServiceInstanceAutoUpdate') %>
+  http_timeout: <%= p('http_timeout') %>
   ##############################
   # EXTERNAL ENDPOINT SETTINGS #
   ##############################
   external:
-    log_event: <%= p('broker.external.log_event') %>
+    log_event: <%= p('external.log_event') %>
     event_type: SF.API_EVENT
     trust_proxy: <%= external['trust_proxy'] %>
     port: <%= external['port'] %>
@@ -43,21 +43,21 @@ production:
     cookie_secret: <%= external['cookie_secret'] %>
     cookie_secure: true
     session_expiry: <%= external['session_expiry'] %>
-    api_requires_admin_scope: <%= p('broker.external.api_requires_admin_scope', false) %>
+    api_requires_admin_scope: <%= p('external.api_requires_admin_scope', false) %>
 
   ##############################
   # INTERNAL ENDPOINT SETTINGS #
   ##############################
   internal:
-    log_event: <%= p('broker.internal.log_event') %>
+    log_event: <%= p('internal.log_event') %>
     event_type: SF.BROKER_EVENT
     domain_socket:
-      path: <%= p('broker.internal.domain_socket.path') %>
+      path: <%= p('internal.domain_socket.path') %>
       fwd_events: true
     port: <%= internal['port'] %>
     ip: <%= internal['ip'] %>
     host: <%= "#{internal['ip']}:#{internal['port']}" %>
-    <% if_p('broker.internal.ssl') do |ssl| %>
+    <% if_p('internal.ssl') do |ssl| %>
     protocol: 'https'
     ssl: <%= JSON.dump(ssl) %>
     <% end.else do %>
@@ -68,83 +68,83 @@ production:
   # MONGODB SETTINGS #
   ####################
   mongodb:
-    <% if_p('broker.mongodb.url') do |mongodb_url| %>
+    <% if_p('mongodb.url') do |mongodb_url| %>
     url: <%= mongodb_url %>
     <% end %>
-    <% if_p('broker.mongodb.provision.plan_id') do |mongodb_plan_id| %>
+    <% if_p('mongodb.provision.plan_id') do |mongodb_plan_id| %>
     provision:
       plan_id: <%= mongodb_plan_id %>
-      network_index: <%= p('broker.mongodb.provision.network_index') %>
+      network_index: <%= p('mongodb.provision.network_index') %>
     <% end %>
     # Choice of integrating mongodb is either via an already provisioned mongo instance by specifying the URL OR
     # by specifying the plan id from service catalog, which fabrik will provision automatically and start using
-    deployment_name: <%= p('broker.mongodb.deployment_name') %>
+    deployment_name: <%= p('mongodb.deployment_name') %>
     retry_connect:
-      max_attempt: <%= p('broker.mongodb.retry_connect.max_attempt') %>
-      min_delay: <%= p('broker.mongodb.retry_connect.min_delay') %>
-    record_max_fetch_count: <%= p('broker.mongodb.record_max_fetch_count') %>  # Max number of records that can be fetched at a time
+      max_attempt: <%= p('mongodb.retry_connect.max_attempt') %>
+      min_delay: <%= p('mongodb.retry_connect.min_delay') %>
+    record_max_fetch_count: <%= p('mongodb.record_max_fetch_count') %>  # Max number of records that can be fetched at a time
     backup:
-      schedule_interval: <%= p('broker.mongodb.backup.schedule_interval') %>
+      schedule_interval: <%= p('mongodb.backup.schedule_interval') %>
     agent:
       provider:
-        container: <%= p('broker.mongodb.agent.provider.container') %>
+        container: <%= p('mongodb.agent.provider.container') %>
       
 
   ######################
   # SCHEDULER SETTINGS #
   ######################
   scheduler:
-    <% if_p('broker.scheduler.job_types') do |job_types| %>
+    <% link("scheduler").if_p('job_types') do |job_types| %>
     job_types: <%= job_types %> # Comma seperated list of batch job types that are enabled in service fabrik
     <% end %>
-    process_every: <%= p('broker.scheduler.process_every') %> # Interval at which scheduler will query the database looking for jobs that need to be processed
-    run_with_web_process: <%= p('broker.scheduler.run_with_web_process') %> # Flag which indicates if scheduler can run in the same process as that of service fabrik broker web process
-    max_concurrency: <%= p('broker.scheduler.max_concurrency') %> # A number which specifies the max number of batch jobs that can be running at any given moment
-    default_concurrency: <%= p('broker.scheduler.default_concurrency') %> # A number which specifies the default number of a specific job that can be running at any given moment
-    start_delay: <%= p('broker.scheduler.start_delay') %>
-    default_lock_lifetime: <%= p('broker.scheduler.default_lock_lifetime') %> # Specifies the default lock lifetime of a batchjob in milliseconds.
-    agenda_collection: <%= p('broker.scheduler.agenda_collection') %> # Name of the collection in mongodb which is to be used by agendaJS to store the scheduled job meta info
-    maintenance_check_interval:  <%= p('broker.scheduler.maintenance_check_interval') %>
-    maintenance_mode_time_out:  <%= p('broker.scheduler.maintenance_mode_time_out') %>
+    process_every: <%= link("scheduler").p('process_every') %> # Interval at which scheduler will query the database looking for jobs that need to be processed
+    run_with_web_process: <%= link("scheduler").p('run_with_web_process') %> # Flag which indicates if scheduler can run in the same process as that of service fabrik broker web process
+    max_concurrency: <%= link("scheduler").p('max_concurrency') %> # A number which specifies the max number of batch jobs that can be running at any given moment
+    default_concurrency: <%= link("scheduler").p('default_concurrency') %> # A number which specifies the default number of a specific job that can be running at any given moment
+    start_delay: <%= link("scheduler").p('start_delay') %>
+    default_lock_lifetime: <%= link("scheduler").p('default_lock_lifetime') %> # Specifies the default lock lifetime of a batchjob in milliseconds.
+    agenda_collection: <%= link("scheduler").p('agenda_collection') %> # Name of the collection in mongodb which is to be used by agendaJS to store the scheduled job meta info
+    maintenance_check_interval:  <%= link("scheduler").p('maintenance_check_interval') %>
+    maintenance_mode_time_out:  <%= link("scheduler").p('maintenance_mode_time_out') %>
     jobs:
-      reschedule_delay: <%= p('broker.scheduler.jobs.reschedule_delay') %>
+      reschedule_delay: <%= link("scheduler").p('jobs.reschedule_delay') %>
       scheduled_backup:
-        max_attempts: <%= p('broker.scheduler.jobs.scheduled_backup.max_attempts') %>
-      service_instance_update: 
-        max_attempts: <%= p('broker.scheduler.jobs.service_instance_update.max_attempts') %>
-        run_every_xdays:  <%= p('broker.scheduler.jobs.service_instance_update.run_every_xdays') %>
-        should_start_after_hr: <%= p('broker.scheduler.jobs.service_instance_update.run_every_xdays') %>
-        should_start_before_hr: <%= p('broker.scheduler.jobs.service_instance_update.should_start_before_hr') %>
-        should_start_after_min: <%= p('broker.scheduler.jobs.service_instance_update.should_start_after_min') %>
-        should_start_before_min: <%= p('broker.scheduler.jobs.service_instance_update.should_start_before_min') %>
-        time_zone: <%= p('broker.scheduler.jobs.service_instance_update.time_zone') %> 
+        max_attempts: <%= link("scheduler").p('jobs.scheduled_backup.max_attempts') %>
+      service_instance_update:
+        max_attempts: <%= link("scheduler").p('jobs.service_instance_update.max_attempts') %>
+        run_every_xdays:  <%= link("scheduler").p('jobs.service_instance_update.run_every_xdays') %>
+        should_start_after_hr: <%= link("scheduler").p('jobs.service_instance_update.run_every_xdays') %>
+        should_start_before_hr: <%= link("scheduler").p('jobs.service_instance_update.should_start_before_hr') %>
+        should_start_after_min: <%= link("scheduler").p('jobs.service_instance_update.should_start_after_min') %>
+        should_start_before_min: <%= link("scheduler").p('jobs.service_instance_update.should_start_before_min') %>
+        time_zone: <%= link("scheduler").p('jobs.service_instance_update.time_zone') %>
     system_jobs:
       - name: 'service-fabrik-mongodb'
         type: 'ScheduledOobDeploymentBackup'
-        interval: <%= p('broker.mongodb.backup.schedule_interval') %> #Backup schedule interval for service fabrik DB
+        interval: <%= p('mongodb.backup.schedule_interval') %> #Backup schedule interval for service fabrik DB
         job_data:
           type: 'online'
           trigger: 'scheduled'
-          deployment_name: <%= p('broker.mongodb.deployment_name') %>
-          container: <%= p('broker.mongodb.agent.provider.container') %>
+          deployment_name: <%= p('mongodb.deployment_name') %>
+          container: <%= p('mongodb.agent.provider.container') %>
       - name: 'Backup_Reaper'
         type: 'BackupReaper'
-        interval: <%= p('broker.scheduler.system_jobs.backup_reaper.interval') %> #Schedule interval for backup reaper job
+        interval: <%= link("scheduler").p('system_jobs.backup_reaper.interval') %> #Schedule interval for backup reaper job
         job_data:
-          delete_delay: <%= p('broker.scheduler.system_jobs.backup_reaper.job_data.delete_delay') %>
+          delete_delay: <%= link("scheduler").p('system_jobs.backup_reaper.job_data.delete_delay') %>
       - name: 'DbCollection_Reaper'
         type: 'DbCollectionReaper'
-        interval:  <%= p('broker.scheduler.system_jobs.dbcollection_reaper.interval') %> #Schedule interval for DB Collection reaper job 
+        interval:  <%= link("scheduler").p('system_jobs.dbcollection_reaper.interval') %> #Schedule interval for DB Collection reaper job
         job_data:
           reap_collections:
             - name : JobRunDetail
-              retention_in_days:  <%= p('broker.scheduler.system_jobs.dbcollection_reaper.jobrun_detail.retention_in_days') %> 
+              retention_in_days:  <%= link("scheduler").p('system_jobs.dbcollection_reaper.jobrun_detail.retention_in_days') %>
             - name : EventDetail
-              retention_in_days: <%= p('broker.scheduler.system_jobs.dbcollection_reaper.event_detail.retention_in_days') %> 
+              retention_in_days: <%= link("scheduler").p('system_jobs.dbcollection_reaper.event_detail.retention_in_days') %>
         enabled: true
       - name: 'MongoDB'
         type: 'ServiceFabrikBackup'
-        interval: <%= p('broker.mongodb.backup.schedule_interval') %>
+        interval: <%= p('mongodb.backup.schedule_interval') %>
         enabled: false
 
   #######################
@@ -158,57 +158,57 @@ production:
     warning_state: 'warning'
     inprogress_state: 'in progress'
     inprogress_metric: 2
-    event_name_prefix: <%= p('broker.riemann.prefix') %>.<%= name %>.<%= index %>.<%= spec.deployment %>
-    include_response_body: <%= p('broker.monitoring.include_response_body') %>
-    events_logged_in_db: <%= p('broker.monitoring.events_logged_in_db') %>
+    event_name_prefix: <%= p('riemann.prefix') %>.<%= name %>.<%= index %>.<%= spec.deployment %>
+    include_response_body: <%= p('monitoring.include_response_body') %>
+    events_logged_in_db: <%= p('monitoring.events_logged_in_db') %>
     unauthorized:
       http_status: [401,403]
       event_name: 'unauthorized_access'
       description: 'Unauthorized access to service attempted'
       tags: ['security', 'unauthorized']
-      include_response_body: <%= p('broker.monitoring.unauthorized.include_response_body') %>
+      include_response_body: <%= p('monitoring.unauthorized.include_response_body') %>
   riemann:
-    host: <%= p('broker.riemann.host') %>
-    port: <%= p('broker.riemann.port') %>
+    host: <%= p('riemann.host') %>
+    port: <%= p('riemann.port') %>
     protocol : tcp
-    show_errors: <%= p('broker.riemann.show_errors') %>
-    prefix: <%= p('broker.riemann.prefix') %>
-    log_additional_event: <%= p('broker.riemann.log_additional_event') %>
-    skip_http_status_40x: <%= p('broker.riemann.skip_http_status_40x') %>
+    show_errors: <%= p('riemann.show_errors') %>
+    prefix: <%= p('riemann.prefix') %>
+    log_additional_event: <%= p('riemann.log_additional_event') %>
+    skip_http_status_40x: <%= p('riemann.skip_http_status_40x') %>
   ###################
   # QUOTA MANAGEMENT SETTINGS #
   ###################
-  quota: <%= JSON.dump(p('broker.quota', nil)) %>
+  quota: <%= JSON.dump(p('quota', nil)) %>
 
   ###################
   # BACKUP SETTINGS #
   ###################
   backup:
-    retention_period_in_days: <%= p('broker.backup.retention_period_in_days') %>
-    max_num_on_demand_backup: <%= p('broker.backup.max_num_on_demand_backup') %>
-    status_check_every: <%= p('broker.backup.status_check_every') %>
-    retry_delay_on_error: <%= p('broker.backup.retry_delay_on_error') %>
-    lock_check_delay_on_restart: <%= p('broker.backup.lock_check_delay_on_restart') %>
-    backup_restore_status_poller_timeout: <%= p('broker.backup.backup_restore_status_poller_timeout') %>
-    backup_restore_status_check_every: <%= p('broker.backup.backup_restore_status_check_every') %>
-    abort_time_out: <%= p('broker.backup.abort_time_out') %>
-    provider: <%= JSON.dump(p('broker.backup.provider', nil)) %>
+    retention_period_in_days: <%= p('backup.retention_period_in_days') %>
+    max_num_on_demand_backup: <%= p('backup.max_num_on_demand_backup') %>
+    status_check_every: <%= p('backup.status_check_every') %>
+    retry_delay_on_error: <%= p('backup.retry_delay_on_error') %>
+    lock_check_delay_on_restart: <%= p('backup.lock_check_delay_on_restart') %>
+    backup_restore_status_poller_timeout: <%= p('backup.backup_restore_status_poller_timeout') %>
+    backup_restore_status_check_every: <%= p('backup.backup_restore_status_check_every') %>
+    abort_time_out: <%= p('backup.abort_time_out') %>
+    provider: <%= JSON.dump(p('backup.provider', nil)) %>
 
   #########################
   # CLOUDFOUNDRY SETTINGS #
   #########################
   cf:
-    url: <%= p('broker.cf.url') %>
-    username: <%= p('broker.cf.username') %>
-    password: <%= p('broker.cf.password') %>
+    url: <%= p('cf.url') %>
+    username: <%= p('cf.username') %>
+    password: <%= p('cf.password') %>
 
   ###################
   # DOCKER SETTINGS #
   ###################
   docker:
-    url: <%= p('broker.docker.url') %>
-    allocate_docker_host_ports: <%= p('broker.docker.allocate_docker_host_ports') %>
-    volume_driver: <%= p('broker.docker.volume_driver') %>
+    url: <%= p('docker.url') %>
+    allocate_docker_host_ports: <%= p('docker.allocate_docker_host_ports') %>
+    volume_driver: <%= p('docker.volume_driver') %>
     ssl:
       ca: <%= JSON.dump(p('common.tls_cacert')) %>
       cert: <%= JSON.dump(p('common.tls_client_cert')) %>
@@ -217,8 +217,8 @@ production:
   #####################
   # DIRECTOR SETTINGS #
   #####################
-  directors: <%= JSON.dump(p('broker.directors')) %>
+  directors: <%= JSON.dump(p('directors')) %>
   ####################
   # SERVICES CATALOG #
   ####################
-  services: <%= JSON.pretty_generate(p('broker.services')) %>
+  services: <%= JSON.pretty_generate(p('services')) %>

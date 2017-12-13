@@ -9,7 +9,7 @@ $InputTCPServerRun 514
 template(
     name="logstash-template"
     type="string"
-    string="<%%PRI%>%TIMESTAMP:::date-rfc3339% <%= ip %> <%= p('broker.name')%> [job=<%= name %> index=<%= index %>] %msg:::sp-if-no-1st-sp%%msg%"
+    string="<%%PRI%>%TIMESTAMP:::date-rfc3339% <%= ip %> <%= p('name')%> [job=<%= name %> index=<%= index %>] %msg:::sp-if-no-1st-sp%%msg%"
 )
 
-:msg, contains , "[<%= p('broker.name')%>]"     @@<%= p("broker.syslog.host") %>:<%= p("broker.syslog.port") %>;logstash-template
+:msg, contains , "[<%= p('name')%>]"     @@<%= p("syslog.host") %>:<%= p("syslog.port") %>;logstash-template
