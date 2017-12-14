@@ -64,6 +64,7 @@ provides:
   - backup.backup_restore_status_poller_timeout
   - backup.backup_restore_status_check_every
   - backup.abort_time_out
+  - backup.max_allowed_no_backup_days_in_row
   - backup.provider
   - virtual_host.provider
   - docker.url
@@ -204,6 +205,9 @@ properties:
   backup.abort_time_out:
     description: "Timeout time for abort of backup to complete in ms (defaults to 5 mins)"
     default: 300000
+  backup.max_allowed_no_backup_days_in_row:
+    description: "Max allowed no backup days in a row (defaults to 3 days)"
+    default: 3
   backup.provider:
     description: "IaaS-specific backup provider configuration"
   backup.status_check_every:

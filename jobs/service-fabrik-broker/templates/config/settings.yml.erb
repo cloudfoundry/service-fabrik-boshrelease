@@ -194,6 +194,7 @@ production:
     backup_restore_status_poller_timeout: <%= p('backup.backup_restore_status_poller_timeout') %>
     backup_restore_status_check_every: <%= p('backup.backup_restore_status_check_every') %>
     abort_time_out: <%= p('backup.abort_time_out') %>
+    max_allowed_no_backup_days_in_row: <%= p('backup.max_allowed_no_backup_days_in_row') %>
     provider: <%= JSON.dump(p('backup.provider', nil)) %>
 
   #################################

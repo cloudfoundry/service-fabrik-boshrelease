@@ -1,0 +1,4 @@
+check process service-fabrik-report with pidfile /var/vcap/sys/run/service-fabrik-report/service-fabrik-report.pid
+  group vcap
+  start program "/var/vcap/packages/bosh-helpers/monit_debugger service-fabrik-report_ctl '/var/vcap/jobs/service-fabrik-report/bin/service-fabrik-report_ctl start'"
+  stop program "/var/vcap/packages/bosh-helpers/monit_debugger service-fabrik-report_ctl '/var/vcap/jobs/service-fabrik-report/bin/service-fabrik-report_ctl stop'"
