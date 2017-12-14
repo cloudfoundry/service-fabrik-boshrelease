@@ -176,7 +176,8 @@ production:
     show_errors: <%= link("broker").p('riemann.show_errors') %>
     prefix: <%= link("broker").p('riemann.prefix') %>
     log_additional_event: <%= link("broker").p('riemann.log_additional_event') %>
-    skip_http_status_40x: <%= link("broker").p('riemann.skip_http_status_40x') %>
+    skip_http_status_response_codes: <% link("broker").p('riemann.skip_http_status_response_codes').each do |code| %>
+    - <%= code %><% end %>
   ###################
   # QUOTA MANAGEMENT SETTINGS #
   ###################
