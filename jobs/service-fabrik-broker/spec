@@ -274,7 +274,7 @@ properties:
     default: true
   riemann.skip_http_status_response_codes:
     description: "Broker events with http response codes matching this list will be skipped from logging to riemann"
-    default: [400, 409, 422]
+    default: [400, 409]
 
   syslog.host:
     description: "Syslog ingestor host IP of ELK stack"
