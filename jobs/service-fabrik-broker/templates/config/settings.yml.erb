@@ -174,7 +174,9 @@ production:
     show_errors: <%= p('riemann.show_errors') %>
     prefix: <%= p('riemann.prefix') %>
     log_additional_event: <%= p('riemann.log_additional_event') %>
-    skip_http_status_40x: <%= p('riemann.skip_http_status_40x') %>
+    http_status_codes_to_be_skipped: <% p('riemann.http_status_codes_to_be_skipped').each do |code| %>
+    - <%= code %><% end %>
+    
   ###################
   # QUOTA MANAGEMENT SETTINGS #
   ###################

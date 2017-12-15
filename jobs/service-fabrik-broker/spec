@@ -52,7 +52,7 @@ provides:
   - monitoring.unauthorized.include_response_body
   - riemann.show_errors
   - riemann.log_additional_event
-  - riemann.skip_http_status_40x
+  - riemann.http_status_codes_to_be_skipped
   - cf.url
   - cf.username
   - cf.password
@@ -272,9 +272,9 @@ properties:
   riemann.log_additional_event:
     description: "Boolean configuration to log additional event to Riemann"
     default: true
-  riemann.skip_http_status_40x:
-    description: "Boolean configuration to skip logging events to riemann when the HTTP response from broker indicates a client error"
-    default: true
+  riemann.http_status_codes_to_be_skipped:
+    description: "Broker events with http response codes matching this list will be skipped from logging to riemann"
+    default: [400, 409]
 
   syslog.host:
     description: "Syslog ingestor host IP of ELK stack"
