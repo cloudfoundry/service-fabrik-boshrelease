@@ -1,13 +1,13 @@
 #!/bin/bash
 
-nc -z $(hostname -I) <%= p('broker.external.port') %>
+nc -z $(hostname -I) <%= p('external.port') %>
 
 # http://www.consul.io/docs/agent/checks.html
 if [ $? -ne 0 ]; then
   exit 2 # Exit higher than 1 to ensure service is registered as 'critical'
 fi
 
-nc -z $(hostname -I) <%= p('broker.internal.port') %>
+nc -z $(hostname -I) <%= p('internal.port') %>
 
 # http://www.consul.io/docs/agent/checks.html
 if [ $? -ne 0 ]; then

@@ -15,312 +15,119 @@ templates:
   config/syslog_forwarding.conf.erb: config/syslog_forwarding.conf
   config/circuit-breaker-config.yml.erb: config/circuit-breaker-config.yml
 
+provides:
+- name: scheduler
+  type: scheduler
+  properties: 
+  - job_types
+  - process_every
+  - run_with_web_process
+  - max_workers
+  - max_concurrency
+  - default_concurrency
+  - start_delay
+  - default_lock_lifetime
+  - maintenance_check_interval
+  - maintenance_mode_time_out
+  - agenda_collection
+  - jobs.reschedule_delay
+  - jobs.scheduled_backup.max_attempts
+  - jobs.service_instance_update.max_attempts
+  - jobs.service_instance_update.run_every_xdays
+  - jobs.service_instance_update.should_start_after_hr
+  - jobs.service_instance_update.should_start_before_hr
+  - jobs.service_instance_update.should_start_after_min 
+  - jobs.service_instance_update.should_start_before_min
+  - jobs.service_instance_update.time_zone
+  - system_jobs.backup_reaper.job_data.delete_delay
+  - system_jobs.backup_reaper.interval
+  - system_jobs.dbcollection_reaper.interval
+  - system_jobs.dbcollection_reaper.jobrun_detail.retention_in_days
+  - system_jobs.dbcollection_reaper.event_detail.retention_in_days
+
+consumes:
+- name: broker
+  type: broker
+
 properties:
   scheduler.name:
     description: "Name of the service fabrik job scheduler"
     default: "service-fabrik-scheduler"
-  broker.name:
-    description: "Name of the service broker as it will be registered at the Cloud Foundry cloud controller"
-    default: "service-fabrik-broker"
-  broker.username:
-    description: "Broker's basic auth username"
-    default: "broker"
-  broker.password:
-    description: "Broker's basic auth password"
-    default: "secret"
-  broker.skip_ssl_validation:
-    description: "Determines whether the broker should verify SSL certificates when communicating with other endpoints such as the cloud controller or the UAA"
-    default: true
-  broker.log_level:
-    description: "Log level of the broker"
-    default: "info"
-  broker.sys_log_level:
-    description: "Log level of the messages that are to be forwarded to ELK via syslog transport"
-    default: "info"
-  broker.enable_circuit_breaker:
-    description: "Switch used to turn on/off circuit breaker"
-    default: false
-  broker.feature.ServiceInstanceAutoUpdate:
-    description: "Switch used to turn on/off schedule update feature"
-    default: false
 
-  broker.external.port:
-    description: "Port used for external endpoints such as dashboards or the Service Fabrik API"
-    default: 9292
-  broker.external.host:
-    description: "Domain name used for external endpoints such as dashboards or the Service Fabrik API (will be registered at the router)"
-  broker.external.trust_proxy:
-    description: "This is required when running an Express app behind a proxy (see http://expressjs.com/en/guide/behind-proxies.html)"
-    default: 2
-  broker.external.cookie_secret:
-    description: "Unique secret key, used to sign sessions"
-  broker.external.session_expiry:
-    description: "Session expiry time of the session in seconds"
-    default: 86400
-  broker.external.api_requires_admin_scope:
-    description: "Only Administrators of the Cloud Foundry cloud controller are allowed to use the Service Fabrik API endpoint"
-    default: false
-  broker.external.log_event:
-    description: "Determines whether event logging must be enabled or not"
-    default: true
-
-  broker.internal.port:
-    description: "Port used for internal endpoints such as administration or the service broker API"
-    default: 9443
-  broker.internal.ip:
-    description: "IP address used for internal endpoints such as administration or the service broker API"
-  broker.internal.ssl.key:
-    description: "Private key used for internal communication"
-  broker.internal.ssl.cert:
-    description: "Signed certificate used for internal communication"
-  broker.internal.log_event:
-    description: "Determines whether event logging must be enabled or not"
-    default: true
-  broker.internal.domain_socket.path:
-    description: "domain socket path used to communicate with broker monitoring agent"
-    default: /tmp/sfevents
-
-  broker.mongodb.url:
-    description: "MongoDB connection URL for service-fabrik's internal needs. ex : mongodb://user:pass@localhost:port/database"
-  broker.mongodb.record_max_fetch_count:
-    description: "Max number of records that can be fetched at a time from DB"
-    default: 100
-  broker.mongodb.provision.plan_id:
-    description: "Mongo Plan Id from the service catalog which is to be used for provisioning internal mongodb by Fabrik"
-  broker.mongodb.provision.network_index:
-    description: "Network segment index within the service fabrik network where the internal mongodb is to be provisioned"
-    default: 1
-  broker.mongodb.deployment_name:
-    description: "Bosh deployment name of the internal mongo-db"
-    default: "service-fabrik-mongodb"
-  broker.mongodb.retry_connect.max_attempt:
-    description: "Maximum retry attempts for connecting to DB on errors"
-    default: 8
-  broker.mongodb.retry_connect.min_delay:
-    description: "Minimum delay before retry attempt to connect to DB"
-    default: 120000
-  broker.mongodb.backup.schedule_interval:
-    description: "Cron expression defining the backup interval for service fabrik's internal mongodb's backup job"
-  broker.mongodb.agent.provider.container:
-    description: "S3/Swift container name where service fabrik's mongodb backup blobs will be stored"
-
-  broker.scheduler.job_types:
+  job_types:
     description: "Comma seperated list of batch job types that are enabled in service fabrik. Jobs can be enabled disabled by changing this list."
-  broker.scheduler.process_every:
+  process_every:
     description: "Interval at which scheduler will query the database looking for jobs that need to be processed"
     default: "1 minute"
-  broker.scheduler.run_with_web_process:
+  run_with_web_process:
     description: "Flag which indicates if scheduler can run in the same process as that of service fabrik broker web process"
     default: false
-  broker.scheduler.max_workers:
+  max_workers:
     description: "Max number of Job process workers"
     default: 2
-  broker.scheduler.max_concurrency:
+  max_concurrency:
     description: "A number which specifies the max number of batch jobs that can be running at any given moment"
     default: 30
-  broker.scheduler.default_concurrency:
+  default_concurrency:
     description: "A number which specifies the default number of a specific job that can be running at any given moment"
     default: 20
-  broker.scheduler.start_delay: 
+  start_delay:
     description: "Scheduler start must be delayed for DB connections to happen"
     default: 120000
-  broker.scheduler.default_lock_lifetime:
+  default_lock_lifetime:
     description: "Specifies the default lock lifetime of a batchjob in milliseconds. A job cannot be re-run when within this locktime period (in case of errors, crash etc.)"
     default: 180000
-  broker.scheduler.maintenance_check_interval: 
+  maintenance_check_interval:
     description: "Once scheduler is placed in maintenace mode, it checks every configured (ms) for status of maitenance mode"
     default: 90000
-  broker.scheduler.maintenance_mode_time_out:
+  maintenance_mode_time_out:
     description: "(ms) - wait for sf deployment to complete. Beyond this timeout out time scheduler starts"
     default: 36000000
-  broker.scheduler.agenda_collection:
+  agenda_collection:
     description: "Name of the collection in mongodb which is to be used by agendaJS to store the scheduled job meta info"
     default: "agendaJobs"
-  broker.scheduler.job_history_retention_in_days:
+  job_history_retention_in_days:
     description: "Retention period in number of days, for which the job run history is maintained. (for ex. 30 - job run history for 30 days will be maintained)"
     default: 30
-  broker.scheduler.jobs.reschedule_delay:
+  jobs.reschedule_delay:
     description: "Jobs when found to be conflicting with each other are rescheduled after this delay (human-interval)"
     default: "20 minutes from now"
-  broker.scheduler.jobs.scheduled_backup.max_attempts:
+  jobs.scheduled_backup.max_attempts:
     description: "If an update is in-progess while backup is to be run, then the backup will be rescheduled after a delay. This will be repeated for the below configured times if update is long running"
     default: 3
-  broker.scheduler.jobs.service_instance_update.max_attempts:
+  jobs.service_instance_update.max_attempts:
     description: "In case of an error while trigerring an update, max retry attempts will be done based on the below configured value (note errors due to running backups are not considered)"
     default: 3
-  broker.scheduler.jobs.service_instance_update.run_every_xdays:
+  jobs.service_instance_update.run_every_xdays:
     description: "Runs the service instance update job once every configured number of days"
     default: 7
-  broker.scheduler.jobs.service_instance_update.should_start_after_hr:
+  jobs.service_instance_update.should_start_after_hr:
     description: "Service instance update job schedule is randomized but this param specifies the start time (hrs) after which the randomization must be done"
     default: 8
-  broker.scheduler.jobs.service_instance_update.should_start_before_hr:
+  jobs.service_instance_update.should_start_before_hr:
     description: "Service instance update job schedule is randomized but this param specifies the start time (hrs) before which the randomization must be done"
     default: 17
-  broker.scheduler.jobs.service_instance_update.should_start_after_min:
+  jobs.service_instance_update.should_start_after_min:
     description: "Service instance update job schedule is randomized but this param specifies the start time (mins) after which the randomization must be done"
     default: 0
-  broker.scheduler.jobs.service_instance_update.should_start_before_min:
+  jobs.service_instance_update.should_start_before_min:
     description: "Service instance update job schedule is randomized but this param specifies the start time (mins) before which the randomization must be done"
     default: 59
-  broker.scheduler.jobs.service_instance_update.time_zone:
+  jobs.service_instance_update.time_zone:
     description: "Timezone in which the service instance update job runs"
     default: "Asia/Kolkata"
-  broker.scheduler.system_jobs.backup_reaper.job_data.delete_delay:
+  system_jobs.backup_reaper.job_data.delete_delay:
     description: "delay in processing between two tasks (in millisecond)"
     default: 1000
-  broker.scheduler.system_jobs.backup_reaper.interval:
+  system_jobs.backup_reaper.interval:
     description: "Cron expression defining schedule interval for backup reaper job"
     default: 0 1 * * *
-  broker.scheduler.system_jobs.dbcollection_reaper.interval:
+  system_jobs.dbcollection_reaper.interval:
     description: "Cron expression defining schedule interval for db collection reaper job"
     default: 0 2 * * *
-  broker.scheduler.system_jobs.dbcollection_reaper.jobrun_detail.retention_in_days:
+  system_jobs.dbcollection_reaper.jobrun_detail.retention_in_days:
     description: "Retention period in days for the agenda job run details. Data older than this is deleted"
     default: 60
-  broker.scheduler.system_jobs.dbcollection_reaper.event_detail.retention_in_days:
+  system_jobs.dbcollection_reaper.event_detail.retention_in_days:
     description: "Retention period in days for the event details (create_backup/update_instance) stored in SF. Data older than this is deleted"
     default: 90
-    
-  broker.backup.retention_period_in_days:
-    description: "Scheduled backups are going to be maintained during this period & cannot be deleted. Beyond this period backups are automatically deleted by backup job"
-    default: 14
-  broker.backup.max_num_on_demand_backup:
-    description: "Maximum number of on-demand backups"
-    default: 2
-  broker.backup.retry_delay_on_error:
-    description: "In case of unlock failure 3 retry attempts will be done with this configured delay (milliseconds) in exponential manner"
-    default: 60000
-  broker.backup.lock_check_delay_on_restart:
-    description: "On restart of service fabrik queries all deployments to see if there is a lock on it. This delay ensures each call is spaced with this delay (ms)"
-    default: 5000
-  broker.backup.backup_restore_status_poller_timeout:
-    description: "Timeout for backup/restore status checker in ms"
-    default: 86400000
-  broker.backup.backup_restore_status_check_every:
-    description: "Status of deployment backup/restore once in every ms"
-    default: 120000
-  broker.backup.abort_time_out:
-    description: "Timeout time for abort of backup to complete in ms (defaults to 5 mins)"
-    default: 300000
-  broker.backup.provider:
-    description: "IaaS-specific backup provider configuration"
-  broker.backup.status_check_every:
-    description: "Interval in milliseconds to check the status of service fabrik backup"
-    default: 120000
-
-  broker.virtual_host.provider:
-    description: "IaaS-specific virtual host manager provider configuration"
-
-  broker.cf.url:
-    description: "URL of the Cloud Foundry cloud controller"
-  broker.cf.username:
-    description: "Admin username for the Cloud Foundry cloud controller"
-  broker.cf.password:
-    description: "Admin password for the Cloud Foundry cloud controller"
-
-  broker.docker.job:
-    description: "Name of the swarm/docker job"
-    default: "swarm_manager"
-  broker.docker.url:
-    description: "Docker URL (HTTP address or Unix socket)"
-    default: "https://10.11.252.10:2376"
-  broker.docker.allocate_docker_host_ports:
-    description: "Allocate Docker host ports when creating a container"
-    default: true
-  broker.docker.volume_driver:
-    description: "Volume driver used for Docker containers (only local or lvm-volume-driver are currently supported)"
-    default: "local"
-  broker.docker.skip_ssl_validation:
-    description: "Determines whether the broker should verify SSL certificates when communicating with the Swarm Manager"
-    default: true
-  common.tls_cacert:
-    description: "Trust only remotes providing a certificate signed by the CA given here"
-  common.tls_client_cert:
-    description: "TLS certificate file"
-  common.tls_client_key:
-    description: "TLS key file"
-
-  broker.directors:
-    description: "URL of the Bosh directors"
-
-  broker.services:
-    description: "Services and plans offered by the broker"
-
-  broker.monitoring.event_name_prefix:
-    description: "All riemann events originating from service fabrik will have this prefix"
-    default: CF.service-fabrik
-  broker.monitoring.events_logged_in_db: 
-    description: "Comma seperated list of event names that are to be logged in DB"
-    default: "create_backup, update_instance"
-  broker.monitoring.include_response_body:
-    description: "Determines if the riemann event should contain the HTTP method response while logging"
-    default: false
-  broker.monitoring.unauthorized.include_response_body:
-    description: "Determines if the unauthorized event should contain the HTTP method response while logging"
-    default: true
-
-  broker.riemann.host:
-    description: "Riemann Host IP"
-    default: "10.1.3.1"
-  broker.riemann.port:
-    description: "Riemann Port"
-    default: 5555
-  broker.riemann.show_errors:
-    description: "Determines whether Riemann errors are to be logged or not"
-    default: true
-  broker.riemann.prefix:
-    description: "Riemann Prefix"
-    default: "CF"
-  broker.riemann.log_additional_event:
-    description: "Boolean configuration to log additional event to Riemann"
-    default: true
-  broker.riemann.skip_http_status_40x:
-    description: "Boolean configuration to skip logging events to riemann when the HTTP response from broker indicates a client error"
-    default: true
-
-  broker.syslog.host:
-    description: "Syslog ingestor host IP of ELK stack"
-    default: "10.1.4.3"
-  broker.syslog.port:
-    description: "Syslog ingestor Port"
-    default: 5514
-
-  broker.event.defaults.http_success_codes:
-    description: "Defines the default HTTP success codes"
-    default: [200, 201]
-  broker.event.defaults.http_inprogress_codes:
-    description: "Defines the default in progress HTTP status codes"
-    default: [202]
-  broker.event.defaults.log_inprogress_state:
-    description: "Determines if an in-progress event is to be logged or not"
-    default: true
-  broker.event.defaults.cf_last_operation:
-    description: "Determines if an HTTP operation is to be additionally treated with cf-last operation semantics"
-    default: false
-  broker.event.defaults.ignore_service_fabrik_operation:
-    description: "Determines if a broker API is being invoked via service fabrik API operation"
-    default: false
-  broker.event.defaults.include_response_body:
-    description: "Determines wheter HTTP response body is to be logged or not"
-    default: false
-  broker.event.delete.http_success_codes:
-    description: "Defines the HTTP success codes for Delete operation"
-    default: [200, 410]
-
-  broker.quota.enabled:
-    description: "If Quota Management Service is enabled"
-    default: false
-  broker.quota.whitelist:
-    description: "List of whitelisted organitions for which quota check should not happen"
-  broker.quota.oauthDomain:
-    description: "Oauth domain for quota service"
-  broker.quota.serviceDomain:
-    description: "Onboarding Service domain for quota service"
-  broker.quota.username:
-    description: "clientId for quota service"
-  broker.quota.password:
-    description: "Client secret for quota service"
-  
-  broker.circuit_breaker:
-    description: "Overridden circuit breaker configuration"

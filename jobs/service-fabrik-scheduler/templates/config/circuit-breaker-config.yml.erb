@@ -1,4 +1,4 @@
-<% if_p('broker.circuit_breaker') do |config| %>
+<% link("broker").if_p('circuit_breaker') do |config| %>
 <%= JSON.dump(config) %>
 <% end.else do %>
 # Circuit breaker configurations are done at Protocol level (only http for now)
@@ -13,10 +13,10 @@ http:
   statistical_window_length: 120000 #ms the metrics are caclucated for, after this the metrics are reset.
   statistical_window_number_of_buckets: 10 #statistical window length is sliced into this configured number of buckets
   apis:
-    <% p('broker.directors').each do |director| %>
+    <% link("broker").p('directors').each do |director| %>
     "<%= director['url'] %>":
-    name: "<%= director['name'] %>"
+      name: "<%= director['name'] %>"
     <% end %>
-    "<%= p('broker.cf.url') %>":
+    "<%= link("broker").p('cf.url') %>":
       name: "Cloud Controller"
 <% end %>
