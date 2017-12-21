@@ -200,7 +200,7 @@ production:
   # VIRTUAL HOST MANAGER SETTINGS #
   #################################
   virtual_host:
-    provider: <%= JSON.dump(p('broker.virtual_host.provider', nil)) %>
+    provider: <%= JSON.dump(p('virtual_host.provider', nil)) %>
 
   #########################
   # CLOUDFOUNDRY SETTINGS #
