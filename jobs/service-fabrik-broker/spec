@@ -65,6 +65,7 @@ provides:
   - backup.backup_restore_status_check_every
   - backup.abort_time_out
   - backup.provider
+  - virtual_host.provider
   - docker.url
   - docker.skip_ssl_validation
   - docker.allocate_docker_host_ports
@@ -208,7 +209,7 @@ properties:
   backup.status_check_every:
     description: "Interval in milliseconds to check the status of service fabrik backup"
     default: 120000
-  broker.virtual_host.provider:
+  virtual_host.provider:
     description: "IaaS-specific virtual host manager provider configuration"
 
   cf.url:
