@@ -20,8 +20,7 @@ instance_groups:
 - name: broker
   instances: 1
   networks:
-  - name: sf_service_fabrik_broker
-    static_ips: 10.244.4.2
+  - name: default
   stemcell: boshlite_stemcell
   vm_type: default
   azs: [z1]
@@ -30,35 +29,35 @@ instance_groups:
     release: service-fabrik
     properties:
       name: service-fabrik-broker
-      username: broker
-      password: secret
+      username: default
+      password: default
       skip_ssl_validation: true
       log_level: debug
       common:
-        tls_cacert: <%= JSON.dump(File.read("../certs/sf-ca.crt")) %>
-        tls_client_cert: <%= JSON.dump(File.read("../certs/sf.crt")) %>
-        tls_client_key: <%= JSON.dump(File.read("../certs/sf.key")) %>
+        tls_cacert: "((common.tls_cacert))"
+        tls_client_cert: "((common.tls_client_cert))"
+        tls_client_key: "((common.tls_client_key))"
       internal:
-        ip: 10.244.4.2
+        ip: default
         log_event: true
-        port: 9293
+        port: default
         ssl:
-          cert: <%= JSON.dump(File.read("../certs/sf.crt")) %>
-          key: <%= JSON.dump(File.read("../certs/sf.key")) %>
+          cert: "((ssl.cert))"
+          key: "((ssl.key))"
       external:
         api_requires_admin_scope: false
-        cookie_secret: 214a2bed-4988-4841-ae8b-c1b6c29a9de4
-        host: service-fabrik-broker.bosh-lite.com
+        cookie_secret: default
+        host: default
         log_event: true
-        port: 9292
+        port: default
         trust_proxy: 2
       mongodb:
         agent:
           auth:
-            password: service-fabrik-mongodb-secret
-            username: service-fabrik-mongodb-agent
+            password: default
+            username: default
           provider:
-            container: cf.mycf.com-service-fabrik-mongodb
+            container: default
           supported_features:
           - state
           - lifecycle
@@ -67,8 +66,8 @@ instance_groups:
           - restore
           version: "1"
         backup:
-          backup_timeout_time: 7200000
-          schedule_interval: 0 12 * * *
+          backup_timeout_time: default
+          schedule_interval: default
           status_check_every: 120000
         deployment_name: service-fabrik-mongodb
         provision:
@@ -78,15 +77,15 @@ instance_groups:
           max_attempt: 8
           min_delay: 120000
       cf:
-        password: admin
-        url: https://api.bosh-lite.com
-        username: admin
+        password: default
+        url: default
+        username: default
       syslog:
-        host: example
-        port: 5514
+        host: default
+        port: default
       docker:
         allocate_docker_host_ports: true
-        url: https://10.244.4.2:2376
+        url: default
       quota:
         whitelist: null
         oauthDomain: null
@@ -96,12 +95,12 @@ instance_groups:
       directors:
       - cpi: warden_cpi
         name: bootstrap-bosh
-        password: admin
+        password: default
         primary: false
         skip_ssl_validation: true
         support_create: false
-        url: https://192.168.50.4:25555
-        username: admin
+        url: default
+        username: default
       - default_task_poll_interval: 10000
         infrastructure:
           azs:
@@ -214,12 +213,12 @@ instance_groups:
             name: 10xlarge
         lock_deployment_max_duration: 86400
         name: bosh
-        password: admin
+        password: default
         primary: true
         skip_ssl_validation: true
         support_create: true
-        url: https://192.168.50.4:25555
-        username: admin
+        url: default
+        username: default
       services:
       - <%= JSON.pretty_generate(YAML.load(ERB.new(File.read("../services/redis.yml.erb")).result))
         %>
@@ -249,9 +248,9 @@ instance_groups:
       nats:
         machines:
         - 10.244.0.6
-        password: nats
-        port: 4222
-        user: nats
+        password: default
+        port: default
+        user: default
       route_registrar:
         routes:
         - health_check:
@@ -283,11 +282,11 @@ instance_groups:
       swarm:
         discovery: nodes://10.244.4.3:4243
         tls: true
-        tls_cert: <%= JSON.dump(File.read("../certs/sf.crt")) %>
-        tls_key: <%= JSON.dump(File.read("../certs/sf.key")) %>
+        tls_cert: "((swarm.tls_cert))"
+        tls_key: "((swarm.tls_key))"
         tls_verify: true
       common:
-        tls_cacert: <%= JSON.dump(File.read("../certs/sf-ca.crt")) %>
+        tls_cacert: "((common.tls_cacert))"
   - name: route_registrar
     release: cf
     properties:
@@ -308,14 +307,13 @@ instance_groups:
       nats:
         machines:
         - 10.244.0.6
-        password: nats
-        port: 4222
-        user: nats
+        password: default
+        port: default
+        user: default
 - name: docker
   instances: 1
   networks:
-  - name: sf_service_fabrik_broker
-    static_ips: 10.244.4.3
+  - name: default
   stemcell: boshlite_stemcell
   vm_type: default
   azs: [z1]
@@ -328,13 +326,13 @@ instance_groups:
         icc: true
         tcp_address: 0.0.0.0
         tls: true
-        tls_cert: <%= JSON.dump(File.read("../certs/sf.crt")) %>
-        tls_key: <%= JSON.dump(File.read("../certs/sf.key")) %>
+        tls_cert: "((docker.tls_cert))"
+        tls_key: "((docker.tls_key))"
         tls_verify: true
         ulimit:
           nofile: 1000000
       common:
-        tls_cacert: <%= JSON.dump(File.read("../certs/sf-ca.crt")) %>
+        tls_cacert: "((common.tls_cacert))"
       lvmvd:
         disabled: true
 releases:

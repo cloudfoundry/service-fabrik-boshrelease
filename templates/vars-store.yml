@@ -1,0 +1,13 @@
+common:
+  tls_cacert: <%= JSON.dump(File.read("../certs/sf-ca.crt")) %>
+  tls_client_cert: <%= JSON.dump(File.read("../certs/sf.crt")) %>
+  tls_client_key: <%= JSON.dump(File.read("../certs/sf.key")) %>
+ssl:
+  cert: <%= JSON.dump(File.read("../certs/sf.crt")) %>
+  key: <%= JSON.dump(File.read("../certs/sf.key")) %>
+docker:
+  tls_cert: <%= JSON.dump(File.read("../certs/sf.crt")) %>
+  tls_key: <%= JSON.dump(File.read("../certs/sf.key")) %>
+swarm:
+  tls_cert: <%= JSON.dump(File.read("../certs/sf.crt")) %>
+  tls_key: <%= JSON.dump(File.read("../certs/sf.key")) %>
