@@ -1,0 +1,74 @@
+azs:
+- name: z1
+  cloud_properties:
+    availability_zone: z1
+- name: z2
+  cloud_properties:
+    availability_zone: z2
+- name: z3
+  cloud_properties:
+    availability_zone: z3
+compilation:
+  network: compilation_network
+  reuse_compilation_vms: true
+  vm_type: default
+  workers: 6
+vm_types:
+- name: default
+  cloud_properties:
+    cpu: 2
+    ram: 4096
+    disk: 30_240
+disk_types:
+- disk_size: 1024
+  name: service_fabrik_hdd_1gb
+- disk_size: 2048
+  name: service_fabrik_hdd_2gb
+- disk_size: 4096
+  name: service_fabrik_hdd_4gb
+- disk_size: 10240
+  name: service_fabrik_hdd_10gb
+- disk_size: 20480
+  name: service_fabrik_hdd_20gb
+- disk_size: 40960
+  name: service_fabrik_hdd_40gb
+- disk_size: 61440
+  name: service_fabrik_hdd_60gb
+- disk_size: 81920
+  name: service_fabrik_hdd_80gb
+- disk_size: 102400
+  name: service_fabrik_hdd_100gb
+- disk_size: 204800
+  name: service_fabrik_hdd_200gb
+- disk_size: 409600
+  name: service_fabrik_hdd_400gb
+- disk_size: 614400
+  name: service_fabrik_hdd_600gb
+- disk_size: 819200
+  name: service_fabrik_hdd_800gb
+- disk_size: 1024000
+  name: service_fabrik_hdd_1tb
+networks:
+- name: compilation_network
+  type: dynamic
+- name: sf_compilation
+  type: dynamic
+- name: sf_service_fabrik_broker
+  type: manual
+  subnets:
+  - az: z1
+    gateway: 10.244.4.1
+    cloud_properties: {}
+    range: 10.244.4.0/24
+    reserved:
+    - 10.244.4.1
+    static:
+    - 10.244.4.2 # broker/0
+    - 10.244.4.3 # docker/0
+    - 10.244.4.4 # docker/1 (if you have configured a second node)
+- name: sf_bosh_services
+  type: manual
+  subnets:
+  - { range: 10.244.10.0/24, az: z1, cloud_properties: { name: random } }
+  - { range: 10.244.11.0/24, az: z2, cloud_properties: { name: random } }
+  - { range: 10.244.12.0/24, az: z3, cloud_properties: { name: random } }

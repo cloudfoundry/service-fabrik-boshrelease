@@ -1,31 +1,5 @@
-meta:
-  environment: (( merge ))
-  stemcell: (( merge ))
-
-name: (( meta.environment ))
-
-director_uuid: (( merge ))
-
-releases: (( merge ))
-
-networks: (( merge ))
-
-jobs: (( merge ))
-
-properties: (( merge ))
-
-resource_pools:
-- name: default
-  network: default
-  size: (( auto ))
-  stemcell: (( meta.stemcell ))
-  cloud_properties: (( merge ))
-
-compilation:
-  network: default
-  reuse_compilation_vms: true
-  workers: 4
-  cloud_properties: (( merge ))
+---
+name: service-fabrik
 
 update:
   canaries: 1         # safer but slower: watch one machine closely at first
@@ -37,3 +11,334 @@ update:
                       # https://github.com/cf-platform-eng/docker-boshrelease/issues/35
 
 
+stemcells:
+- alias: boshlite_stemcell
+  name: bosh-warden-boshlite-ubuntu-trusty-go_agent
+  version: latest
+
+instance_groups:
+- name: broker
+  instances: 1
+  networks:
+  - name: sf_service_fabrik_broker
+    static_ips: 10.244.4.2
+  stemcell: boshlite_stemcell
+  vm_type: default
+  azs: [z1]
+  jobs:
+  - name: service-fabrik-broker
+    release: service-fabrik
+    properties:
+      name: service-fabrik-broker
+      username: broker
+      password: secret
+      skip_ssl_validation: true
+      log_level: debug
+      common:
+        tls_cacert: <%= JSON.dump(File.read("../certs/sf-ca.crt")) %>
+        tls_client_cert: <%= JSON.dump(File.read("../certs/sf.crt")) %>
+        tls_client_key: <%= JSON.dump(File.read("../certs/sf.key")) %>
+      internal:
+        ip: 10.244.4.2
+        log_event: true
+        port: 9293
+        ssl:
+          cert: <%= JSON.dump(File.read("../certs/sf.crt")) %>
+          key: <%= JSON.dump(File.read("../certs/sf.key")) %>
+      external:
+        api_requires_admin_scope: false
+        cookie_secret: 214a2bed-4988-4841-ae8b-c1b6c29a9de4
+        host: service-fabrik-broker.bosh-lite.com
+        log_event: true
+        port: 9292
+        trust_proxy: 2
+      mongodb:
+        agent:
+          auth:
+            password: service-fabrik-mongodb-secret
+            username: service-fabrik-mongodb-agent
+          provider:
+            container: cf.mycf.com-service-fabrik-mongodb
+          supported_features:
+          - state
+          - lifecycle
+          - credentials
+          - backup
+          - restore
+          version: "1"
+        backup:
+          backup_timeout_time: 7200000
+          schedule_interval: 0 12 * * *
+          status_check_every: 120000
+        deployment_name: service-fabrik-mongodb
+        provision:
+          network_index: 1
+        record_max_fetch_count: 100
+        retry_connect:
+          max_attempt: 8
+          min_delay: 120000
+      cf:
+        password: admin
+        url: https://api.bosh-lite.com
+        username: admin
+      syslog:
+        host: example
+        port: 5514
+      docker:
+        allocate_docker_host_ports: true
+        url: https://10.244.4.2:2376
+      quota:
+        whitelist: null
+        oauthDomain: null
+        serviceDomain: null
+        username: null
+        password: null
+      directors:
+      - cpi: warden_cpi
+        name: bootstrap-bosh
+        password: admin
+        primary: false
+        skip_ssl_validation: true
+        support_create: false
+        url: https://192.168.50.4:25555
+        username: admin
+      - default_task_poll_interval: 10000
+        infrastructure:
+          azs:
+          - cloud_properties:
+              name: random
+            name: z1
+          - cloud_properties:
+              name: random
+            name: z2
+          - cloud_properties:
+              name: random
+            name: z3
+          compilation:
+            cloud_properties:
+              name: random
+            network: compilation
+            reuse_compilation_vms: true
+            workers: 4
+          disk_types:
+          - disk_size: 1024
+            name: hdd_1gb
+          - disk_size: 2000
+            name: hdd_2gb
+          - disk_size: 4000
+            name: hdd_4gb
+          - disk_size: 6000
+            name: hdd_6gb
+          - disk_size: 8000
+            name: hdd_8gb
+          - disk_size: 10000
+            name: hdd_10gb
+          - disk_size: 20000
+            name: hdd_20gb
+          - disk_size: 40000
+            name: hdd_40gb
+          - disk_size: 60000
+            name: hdd_60gb
+          - disk_size: 80000
+            name: hdd_80gb
+          - disk_size: 100000
+            name: hdd_100gb
+          - disk_size: 200000
+            name: hdd_200gb
+          - disk_size: 400000
+            name: hdd_400gb
+          - disk_size: 600000
+            name: hdd_600gb
+          - disk_size: 800000
+            name: hdd_800gb
+          - disk_size: 1000000
+            name: hdd_1tb
+          - disk_size: 2000000
+            name: hdd_2tb
+          - disk_size: 4000000
+            name: hdd_4tb
+          - disk_size: 6000000
+            name: hdd_6tb
+          - disk_size: 8000000
+            name: hdd_8tb
+          networks:
+          - name: service-fabrik-bosh-services
+            subnets:
+            - az: z1
+              cloud_properties:
+                name: random
+              range: 10.244.10.0/24
+            - az: z2
+              cloud_properties:
+                name: random
+              range: 10.244.11.0/24
+            - az: z3
+              cloud_properties:
+                name: random
+              range: 10.244.12.0/24
+            type: manual
+          - name: compilation
+            type: dynamic
+          segmentation:
+            capacity: -1
+            network_name: service-fabrik-bosh-services
+            offset: 1
+            size: 8
+          stemcell:
+            name: bosh-warden-boshlite-ubuntu-trusty-go_agent
+            version: latest
+          vm_types:
+          - cloud_properties:
+              name: random
+            name: micro
+          - cloud_properties:
+              name: random
+            name: small
+          - cloud_properties:
+              name: random
+            name: medium
+          - cloud_properties:
+              name: random
+            name: large
+          - cloud_properties:
+              name: random
+            name: xlarge
+          - cloud_properties:
+              name: random
+            name: 2xlarge
+          - cloud_properties:
+              name: random
+            name: 4xlarge
+          - cloud_properties:
+              name: random
+            name: 10xlarge
+        lock_deployment_max_duration: 86400
+        name: bosh
+        password: admin
+        primary: true
+        skip_ssl_validation: true
+        support_create: true
+        url: https://192.168.50.4:25555
+        username: admin
+      services:
+      - <%= JSON.pretty_generate(YAML.load(ERB.new(File.read("../services/redis.yml.erb")).result))
+        %>
+      - <%= JSON.pretty_generate(YAML.load(ERB.new(File.read("../services/blueprint.yml.erb")).result))
+        %>
+      riemann:
+        host: example
+        metrics: metrics
+        port: 5555
+        prefix: CF
+      backup:
+        backup_restore_status_check_every: 120000
+        backup_restore_status_poller_timeout: 86400000
+        max_num_on_demand_backup: 2
+        provider:
+          authUrl: null
+          container: null
+          keystoneAuthVersion: null
+          name: openstack
+          password: null
+          projectDomainName: null
+          region: null
+          strictSSL: false
+          tenantId: null
+          username: null
+        retention_period_in_days: 14
+      nats:
+        machines:
+        - 10.244.0.6
+        password: nats
+        port: 4222
+        user: nats
+      route_registrar:
+        routes:
+        - health_check:
+            name: service-fabrik-broker-health-check
+            script_path: /var/vcap/jobs/service-fabrik-broker/bin/health_check
+            timeout: 5s
+        name: service-fabrik-broker
+        port: 9292
+        registration_interval: 20s
+        tags:
+          component: service-fabrik-broker
+          env: production
+        uris:
+        - service-fabrik-broker.bosh-lite.com
+
+  - name: service-fabrik-scheduler
+    release: service-fabrik
+    properties:
+      agenda_collection: agendaJobs
+      default_concurrency: 20
+      default_lock_lifetime: 900000
+      job_history_retention_in_days: 30
+      job_types: ScheduledBackup, ServiceFabrikBackup, ScheduledOobDeploymentBackup, OperationStatusPoller
+      max_concurrency: 50
+      process_every: 3 minutes
+  - name: swarm_manager
+    release: service-fabrik
+    properties:
+      swarm:
+        discovery: nodes://10.244.4.3:4243
+        tls: true
+        tls_cert: <%= JSON.dump(File.read("../certs/sf.crt")) %>
+        tls_key: <%= JSON.dump(File.read("../certs/sf.key")) %>
+        tls_verify: true
+      common:
+        tls_cacert: <%= JSON.dump(File.read("../certs/sf-ca.crt")) %>
+  - name: route_registrar
+    release: cf
+    properties:
+      route_registrar:
+        routes:
+        - health_check:
+            name: service-fabrik-broker-health-check
+            script_path: /var/vcap/jobs/service-fabrik-broker/bin/health_check
+            timeout: 5s
+          name: service-fabrik-broker
+          port: 9292
+          registration_interval: 20s
+          tags:
+            component: service-fabrik-broker
+            env: production
+          uris:
+          - service-fabrik-broker.bosh-lite.com
+      nats:
+        machines:
+        - 10.244.0.6
+        password: nats
+        port: 4222
+        user: nats
+- name: docker
+  instances: 1
+  networks:
+  - name: sf_service_fabrik_broker
+    static_ips: 10.244.4.3
+  stemcell: boshlite_stemcell
+  vm_type: default
+  azs: [z1]
+  persistent_disk_type: service_fabrik_hdd_100gb
+  jobs:
+  - name: docker
+    release: service-fabrik
+    properties:
+      docker:
+        icc: true
+        tcp_address: 0.0.0.0
+        tls: true
+        tls_cert: <%= JSON.dump(File.read("../certs/sf.crt")) %>
+        tls_key: <%= JSON.dump(File.read("../certs/sf.key")) %>
+        tls_verify: true
+        ulimit:
+          nofile: 1000000
+      common:
+        tls_cacert: <%= JSON.dump(File.read("../certs/sf-ca.crt")) %>
+      lvmvd:
+        disabled: true
+releases:
+- name: cf
+  version: latest
+- name: service-fabrik
+  version: latest
