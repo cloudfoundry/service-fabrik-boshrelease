@@ -14,6 +14,22 @@
     - 10.244.4.4
 
 - type: replace
+  path: /instance_groups/name=broker/jobs/name=service-fabrik-broker/properties/directors/name=bosh/infrastructure/networks/name=service-fabrik-bosh-services/subnets
+  value:
+  - az: z1
+    cloud_properties:
+      name: random
+    range: 10.244.10.0/24
+  - az: z2
+    cloud_properties:
+      name: random
+    range: 10.244.11.0/24
+   - az: z3
+     cloud_properties:
+       name: random
+     range: 10.244.12.0/24
+
+- type: replace
   path: /instance_groups/name=broker/jobs/name=service-fabrik-broker/properties/password
   value: secret
 
@@ -122,6 +138,11 @@
   value: 4222
 
 - type: replace
+  path: /instance_groups/name=broker/jobs/name=service-fabrik-broker/properties/nats/machines
+  value:
+  - 10.244.0.6
+
+- type: replace
   path: /instance_groups/name=broker/jobs/name=route_registrar/properties/nats/port
   value: 4222
 
@@ -132,3 +153,12 @@
 - type: replace
   path: /instance_groups/name=broker/jobs/name=route_registrar/properties/nats/password
   value: nats
+
+- type: replace
+  path: /instance_groups/name=broker/jobs/name=route_registrar/properties/nats/machines
+  value:
+  - 10.244.0.6
+
+- type: replace
+  path: /instance_groups/name=broker/jobs/name=swarm_manager/properties/swarm/discovery
+  value: nodes://10.244.4.3:4243

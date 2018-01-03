@@ -1,0 +1,221 @@
+azs:
+- cloud_properties:
+    availability_zone: ((availability_zone1))
+  name: z1
+- cloud_properties:
+    availability_zone: ((availability_zone2))
+  name: z2
+- cloud_properties:
+    availability_zone: ((availability_zone3))
+  name: z3
+compilation:
+  az: z1
+  network: compilation_network
+  reuse_compilation_vms: true
+  vm_type: vm_2cpu_8gb
+  workers: 6
+disk_types:
+- cloud_properties:
+    encrypted: true
+  disk_size: 1024
+  name: service_fabrik_hdd_1gb
+- cloud_properties:
+    encrypted: true
+  disk_size: 2048
+  name: service_fabrik_hdd_2gb
+- cloud_properties:
+    encrypted: true
+  disk_size: 4096
+  name: service_fabrik_hdd_4gb
+- cloud_properties:
+    encrypted: true
+  disk_size: 10240
+  name: service_fabrik_hdd_10gb
+- cloud_properties:
+    encrypted: true
+  disk_size: 20480
+  name: service_fabrik_hdd_20gb
+- cloud_properties:
+    encrypted: true
+  disk_size: 40960
+  name: service_fabrik_hdd_40gb
+- cloud_properties:
+    encrypted: true
+  disk_size: 61440
+  name: service_fabrik_hdd_60gb
+- cloud_properties:
+    encrypted: true
+  disk_size: 81920
+  name: service_fabrik_hdd_80gb
+- cloud_properties:
+    encrypted: true
+  disk_size: 102400
+  name: service_fabrik_hdd_100gb
+- cloud_properties:
+    encrypted: true
+  disk_size: 204800
+  name: service_fabrik_hdd_200gb
+- cloud_properties:
+    encrypted: true
+  disk_size: 409600
+  name: service_fabrik_hdd_400gb
+- cloud_properties:
+    encrypted: true
+  disk_size: 614400
+  name: service_fabrik_hdd_600gb
+- cloud_properties:
+    encrypted: true
+  disk_size: 819200
+  name: service_fabrik_hdd_800gb
+- cloud_properties:
+    encrypted: true
+  disk_size: 1024000
+  name: service_fabrik_hdd_1tb
+- disk_size: 1024
+  name: service_fabrik_hdd_1gb_unenc
+- disk_size: 10240
+  name: service_fabrik_hdd_10gb_unenc
+- disk_size: 20480
+  name: service_fabrik_hdd_20gb_unenc
+- disk_size: 40960
+  name: service_fabrik_hdd_40gb_unenc
+- disk_size: 81920
+  name: service_fabrik_hdd_80gb_unenc
+networks:
+- name: compilation_network
+  type: manual
+  subnets:
+  - range: 10.0.3.0/24
+    gateway: 10.0.3.1
+    az: z1
+    dns:
+    - 10.0.0.2
+    reserved:
+    - 10.0.3.0 - 10.0.3.30
+    cloud_properties:
+      subnet: ((network_id1))
+      security_groups:
+      - ((security_group1))
+- name: sf_compilation
+  type: dynamic
+  cloud_properties:
+    subnet: ((network_id2))
+    security_groups:
+    - ((security_group2))
+- name: sf_service_fabrik_broker
+  type: manual
+  subnets:
+  - range: 10.11.252.0/24
+    gateway: 10.11.252.1
+    az: z1
+    reserved:
+    - 10.11.252.2 - 10.11.252.9
+    - 10.11.252.255
+    static:
+    - 10.11.252.10 - 10.11.252.254
+    cloud_properties:
+      subnet: ((network_id3))
+      security_groups:
+      - ((security_group3)) # Security group for the Service Fabrik (broker and others)
+- name: sf_docker_services
+  type: manual
+  subnets:
+  - range: 10.11.240.0/22
+    gateway: 10.11.240.1
+    az: z1
+    reserved:
+    - 10.11.240.2 - 10.11.240.255
+    - 10.11.243.0 - 10.11.243.255
+    static:
+    - 10.11.241.0 - 10.11.242.255
+    cloud_properties:
+      subnet: ((network_id4))
+      security_groups:
+      - ((security_group4))  # Security group for the Docker services managed by the Service Fabrik
+- name: sf_bosh_services
+  type: manual
+  subnets:
+  - range: 10.11.0.0/18
+    dns: 
+    - 10.0.0.2
+    gateway: 10.11.0.1
+    az: z1
+    reserved:
+    - 10.11.0.1
+    - 10.11.63.255
+    static:
+    - 10.11.0.2 - 10.11.63.254
+    cloud_properties:
+      subnet: ((network_id5))
+      security_groups:
+      - ((security_group5))
+  - range: 10.11.64.0/18
+    dns:
+    - 10.0.0.2
+    gateway: 10.11.64.1
+    az: z2
+    reserved:
+    - 10.11.64.1
+    - 10.11.127.255
+    static:
+    - 10.11.64.2 - 10.11.127.254
+    cloud_properties:
+      subnet: ((network_id6))
+      security_groups:
+      - ((security_group6))
+
+vm_types:
+- cloud_properties:
+    ephemeral_disk:
+      size: 10240
+      type: gp2
+    instance_type: t2.micro
+  name: service_fabrik_vm_micro
+- cloud_properties:
+    ephemeral_disk:
+      size: 10240
+      type: gp2
+    instance_type: t2.small
+  name: service_fabrik_vm_small
+- cloud_properties:
+    ephemeral_disk:
+      size: 10240
+      type: gp2
+    instance_type: t2.medium
+  name: service_fabrik_vm_medium
+- cloud_properties:
+    ephemeral_disk:
+      size: 10240
+      type: gp2
+    instance_type: m4.large
+  name: service_fabrik_vm_mlarge
+- cloud_properties:
+    ephemeral_disk:
+      size: 10240
+      type: gp2
+    instance_type: t2.large
+  name: service_fabrik_vm_large
+- cloud_properties:
+    ephemeral_disk:
+      size: 10240
+      type: gp2
+    instance_type: m4.xlarge
+  name: service_fabrik_vm_xlarge
+- cloud_properties:
+    ephemeral_disk:
+      size: 10240
+      type: gp2
+    instance_type: m4.2xlarge
+  name: service_fabrik_vm_2xlarge
+- cloud_properties:
+    ephemeral_disk:
+      size: 10240
+      type: gp2
+    instance_type: m4.4xlarge
+  name: service_fabrik_vm_4xlarge
+- cloud_properties:
+    ephemeral_disk:
+      size: 10240
+      type: gp2
+    instance_type: m4.10xlarge
+  name: service_fabrik_vm_10xlarge
