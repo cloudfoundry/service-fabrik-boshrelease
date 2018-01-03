@@ -1,35 +1,5 @@
 ---
 - type: replace
-  path: /instance_groups/name=broker/networks
-  value:
-  - name: sf_service_fabrik_broker
-    static_ips: 10.244.4.2
-
-- type: replace
-  path: /instance_groups/name=docker/networks
-  value:
-  - name: sf_service_fabrik_broker
-    static_ips: 
-    - 10.244.4.3
-    - 10.244.4.4
-
-- type: replace
-  path: /instance_groups/name=broker/jobs/name=service-fabrik-broker/properties/directors/name=bosh/infrastructure/networks/name=service-fabrik-bosh-services/subnets
-  value:
-  - az: z1
-    cloud_properties:
-      name: random
-    range: 10.244.10.0/24
-  - az: z2
-    cloud_properties:
-      name: random
-    range: 10.244.11.0/24
-   - az: z3
-     cloud_properties:
-       name: random
-     range: 10.244.12.0/24
-
-- type: replace
   path: /instance_groups/name=broker/jobs/name=service-fabrik-broker/properties/password
   value: secret
 

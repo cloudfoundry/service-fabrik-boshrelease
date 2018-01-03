@@ -11,7 +11,7 @@ azs:
 compilation:
   network: compilation_network
   reuse_compilation_vms: true
-  vm_type: default
+  vm_type: service_fabrik_hdd_10gb
   workers: 6
 vm_types:
 - name: default

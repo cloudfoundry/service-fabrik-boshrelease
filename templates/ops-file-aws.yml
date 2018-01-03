@@ -1,0 +1,38 @@
+---
+- type: replace
+  path: /instance_groups/name=broker/networks
+  value:
+  - name: sf_service_fabrik_broker
+    static_ips: 10.11.252.10
+
+- type: replace
+  path: /instance_groups/name=docker/networks
+  value:
+  - name: sf_service_fabrik_broker
+    static_ips:
+    - 10.11.252.11
+    - 10.11.252.12
+
+- type: replace
+  path: /instance_groups/name=broker/jobs/name=service-fabrik-broker/properties/directors/name=bosh/infrastructure/networks/name=service-fabrik-bosh-services/subnets
+  value:
+  - range: 10.11.0.0/18
+    dns:
+    - 10.0.0.2
+    gateway: 10.11.0.1
+    az: z1
+    reserved:
+    - 10.11.0.1
+    - 10.11.63.255
+    static:
+    - 10.11.0.2 - 10.11.63.254
+  - range: 10.11.64.0/18
+    dns:
+    - 10.0.0.2
+    gateway: 10.11.64.1
+    az: z2
+    reserved:
+    - 10.11.64.1
+    - 10.11.127.255
+    static:
+    - 10.11.64.2 - 10.11.127.254
