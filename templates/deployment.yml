@@ -22,7 +22,7 @@ instance_groups:
   networks:
   - name: default
   stemcell: default
-  vm_type: default
+  vm_type: service_fabrik_vm_medium
   azs: [z1]
   jobs:
   - name: service-fabrik-broker
@@ -34,20 +34,20 @@ instance_groups:
       skip_ssl_validation: true
       log_level: debug
       common:
-        tls_cacert: "((common.tls_cacert))"
-        tls_client_cert: "((common.tls_client_cert))"
-        tls_client_key: "((common.tls_client_key))"
+        tls_cacert: ((common.tls_cacert))
+        tls_client_cert: ((common.tls_client_cert))
+        tls_client_key: ((common.tls_client_key))
       internal:
         ip: default
         log_event: true
         port: default
         ssl:
-          cert: "((ssl.cert))"
-          key: "((ssl.key))"
+          cert: ((ssl.cert))
+          key: ((ssl.key))
       external:
         api_requires_admin_scope: false
         cookie_secret: default
-        host: default
+        host: ((broker_host))
         log_event: true
         port: default
         trust_proxy: 2
@@ -78,7 +78,7 @@ instance_groups:
           min_delay: 120000
       cf:
         password: default
-        url: default
+        url: ((cf_url))
         username: default
       syslog:
         host: default
@@ -204,11 +204,11 @@ instance_groups:
       swarm:
         discovery: default
         tls: true
-        tls_cert: "((swarm.tls_cert))"
-        tls_key: "((swarm.tls_key))"
+        tls_cert: ((swarm.tls_cert))
+        tls_key: ((swarm.tls_key))
         tls_verify: true
       common:
-        tls_cacert: "((common.tls_cacert))"
+        tls_cacert: ((common.tls_cacert))
   - name: route_registrar
     release: cf
     properties:
@@ -236,7 +236,7 @@ instance_groups:
   networks:
   - name: default
   stemcell: default
-  vm_type: default
+  vm_type: service_fabrik_vm_medium
   azs: [z1]
   persistent_disk_type: service_fabrik_hdd_100gb
   jobs:
@@ -247,13 +247,13 @@ instance_groups:
         icc: true
         tcp_address: 0.0.0.0
         tls: true
-        tls_cert: "((docker.tls_cert))"
-        tls_key: "((docker.tls_key))"
+        tls_cert: ((docker.tls_cert))
+        tls_key: ((docker.tls_key))
         tls_verify: true
         ulimit:
           nofile: 1000000
       common:
-        tls_cacert: "((common.tls_cacert))"
+        tls_cacert: ((common.tls_cacert))
       lvmvd:
         disabled: true
 releases:

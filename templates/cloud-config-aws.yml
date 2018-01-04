@@ -12,7 +12,7 @@ compilation:
   az: z1
   network: compilation_network
   reuse_compilation_vms: true
-  vm_type: service_fabrik_hdd_10gb
+  vm_type: service_fabrik_vm_medium
   workers: 6
 disk_types:
 - cloud_properties:
