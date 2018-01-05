@@ -27,6 +27,8 @@ jobs:
     release: service-fabrik
   - name: service-fabrik-scheduler
     release: service-fabrik
+  - name: service-fabrik-report
+    release: service-fabrik
   - name: swarm_manager
     release: service-fabrik
   - name: route_registrar
