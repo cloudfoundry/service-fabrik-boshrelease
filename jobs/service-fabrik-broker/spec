@@ -91,6 +91,7 @@ provides:
   - quota
   - services
   - directors
+  - multi_az_enabled
 consumes:
 - name: scheduler
   type: scheduler
@@ -123,6 +124,9 @@ properties:
   http_timeout:
     description: "Timeout duration for any request to broker"
     default: 175000
+  multi_az_enabled:
+    description: "Switch used to turn on/off the multi-az support"
+    default: false
 
   external.port:
     description: "Port used for external endpoints such as dashboards or the Service Fabrik API"
