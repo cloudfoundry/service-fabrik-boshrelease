@@ -91,6 +91,7 @@ provides:
   - quota
   - services
   - directors
+  - multi_az_enabled
 consumes:
 - name: scheduler
   type: scheduler
