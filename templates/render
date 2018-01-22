@@ -5,15 +5,14 @@ require 'erb'
 require 'json'
 require 'base64'
 
-redis_result = JSON.pretty_generate(YAML.load(ERB.new(File.read("../services/redis.yml.erb")).result))
-blueprint_result = JSON.pretty_generate(YAML.load(ERB.new(File.read("../services/blueprint.yml.erb")).result))
 File.write("services.yml", "---\n")
 File.open('services.yml', 'a') do |f|
   f.puts("- type: replace")
   f.puts("  path: /instance_groups/name=broker/jobs/name=service-fabrik-broker/properties/services")
   f.puts("  value:")
-  f << "  - "
-  f.puts redis_result
-  f << "  - "
-  f.puts blueprint_result
+  Dir.glob("../services/*.erb") do |filename|
+    f << "  - "
+    result = JSON.pretty_generate(YAML.load(ERB.new(File.read("#{filename}")).result))
+    f.puts result
+  end
 end
