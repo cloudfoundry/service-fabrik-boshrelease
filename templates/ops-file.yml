@@ -1,0 +1,80 @@
+---
+- type: replace
+  path: /instance_groups/name=broker/jobs/name=service-fabrik-broker/properties/password
+  value: secret
+
+- type: replace
+  path: /instance_groups/name=broker/jobs/name=service-fabrik-broker/properties/username
+  value: broker
+
+- type: replace
+  path: /instance_groups/name=broker/jobs/name=service-fabrik-broker/properties/external/cookie_secret
+  value: 214a2bed-4988-4841-ae8b-c1b6c29a9de4
+
+- type: replace
+  path: /instance_groups/name=broker/jobs/name=service-fabrik-broker/properties/mongodb/agent/auth/username
+  value: service-fabrik-mongodb-agent
+
+- type: replace
+  path: /instance_groups/name=broker/jobs/name=service-fabrik-broker/properties/mongodb/agent/auth/password
+  value: service-fabrik-mongodb-secret
+
+- type: replace
+  path: /instance_groups/name=broker/jobs/name=service-fabrik-broker/properties/mongodb/agent/provider/container
+  value: cf.mycf.com-service-fabrik-mongodb
+
+- type: replace
+  path: /instance_groups/name=broker/jobs/name=service-fabrik-broker/properties/mongodb/backup/backup_timeout_time
+  value: 7200000
+
+- type: replace
+  path: /instance_groups/name=broker/jobs/name=service-fabrik-broker/properties/mongodb/backup/schedule_interval
+  value: 0 12 * * *
+
+- type: replace
+  path: /instance_groups/name=broker/jobs/name=service-fabrik-broker/properties/cf/password
+  value: admin
+
+- type: replace
+  path: /instance_groups/name=broker/jobs/name=service-fabrik-broker/properties/cf/username
+  value: admin
+
+- type: replace
+  path: /instance_groups/name=broker/jobs/name=service-fabrik-broker/properties/directors/name=bootstrap-bosh/password
+  value: admin
+
+- type: replace
+  path: /instance_groups/name=broker/jobs/name=service-fabrik-broker/properties/directors/name=bootstrap-bosh/username
+  value: admin
+
+- type: replace
+  path: /instance_groups/name=broker/jobs/name=service-fabrik-broker/properties/directors/name=bosh/username
+  value: admin
+
+- type: replace
+  path: /instance_groups/name=broker/jobs/name=service-fabrik-broker/properties/directors/name=bosh/password
+  value: admin
+
+- type: replace
+  path: /instance_groups/name=broker/jobs/name=service-fabrik-broker/properties/nats/password
+  value: nats
+
+- type: replace
+  path: /instance_groups/name=broker/jobs/name=service-fabrik-broker/properties/nats/user
+  value: nats
+
+- type: replace
+  path: /instance_groups/name=broker/jobs/name=service-fabrik-broker/properties/nats/port
+  value: 4222
+
+- type: replace
+  path: /instance_groups/name=broker/jobs/name=route_registrar/properties/nats/port
+  value: 4222
+
+- type: replace
+  path: /instance_groups/name=broker/jobs/name=route_registrar/properties/nats/user
+  value: nats
+
+- type: replace
+  path: /instance_groups/name=broker/jobs/name=route_registrar/properties/nats/password
+  value: nats

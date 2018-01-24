@@ -1,0 +1,17 @@
+availability_zone1: us-east-1a
+availability_zone2: us-east-1b
+availability_zone3: us-east-1b
+
+network_id1: subnet-2fc31205
+network_id2: subnet-4d356205
+network_id3: subnet-7fc47607
+network_id4: subnet-0fc78909
+network_id5: subnet-1fc89729
+network_id6: subnet-2fc23456
+
+security_group1: sg-cc712bb3 
+security_group2: sg-cd623cb4
+security_group3: sg-dc923cb4
+security_group4: sg-ec723cc9
+security_group5: sg-tt223ff4
+security_group6: sg-ds023gh4

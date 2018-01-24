@@ -1,0 +1,18 @@
+#!/usr/bin/env ruby
+
+require 'yaml'
+require 'erb'
+require 'json'
+require 'base64'
+
+File.write("services.yml", "---\n")
+File.open('services.yml', 'a') do |f|
+  f.puts("- type: replace")
+  f.puts("  path: /instance_groups/name=broker/jobs/name=service-fabrik-broker/properties/services")
+  f.puts("  value:")
+  Dir.glob("../services/*.erb") do |filename|
+    f << "  - "
+    result = JSON.pretty_generate(YAML.load(ERB.new(File.read("#{filename}")).result))
+    f.puts result
+  end
+end

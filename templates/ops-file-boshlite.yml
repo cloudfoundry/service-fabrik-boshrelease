@@ -1,0 +1,76 @@
+---
+- type: replace
+  path: /instance_groups/name=broker/networks
+  value:
+  - name: sf_service_fabrik_broker
+    static_ips: 10.244.4.2
+
+- type: replace
+  path: /instance_groups/name=docker/networks
+  value:
+  - name: sf_service_fabrik_broker
+    static_ips:
+    - 10.244.4.3
+    #- 10.244.4.4
+
+- type: replace
+  path: /instance_groups/name=broker/jobs/name=service-fabrik-broker/properties/directors/name=bosh/infrastructure/networks/name=service-fabrik-bosh-services/subnets
+  value:
+  - az: z1
+    cloud_properties:
+      name: random
+    range: 10.244.10.0/24
+  - az: z2
+    cloud_properties:
+      name: random
+    range: 10.244.11.0/24
+   - az: z3
+     cloud_properties:
+       name: random
+     range: 10.244.12.0/24
+
+- type: replace
+  path: /instance_groups/name=broker/jobs/name=service-fabrik-broker/properties/internal/ip
+  value: 10.244.4.2
+
+- type: replace
+  path: /instance_groups/name=broker/jobs/name=service-fabrik-broker/properties/internal/port
+  value: 9293
+
+- type: replace
+  path: /instance_groups/name=broker/jobs/name=service-fabrik-broker/properties/external/port
+  value: 9292
+
+- type: replace
+  path: /instance_groups/name=broker/jobs/name=service-fabrik-broker/properties/syslog/port
+  value: 5514
+
+- type: replace
+  path: /instance_groups/name=broker/jobs/name=service-fabrik-broker/properties/syslog/host
+  value: default
+
+- type: replace
+  path: /instance_groups/name=broker/jobs/name=service-fabrik-broker/properties/docker/url
+  value: https://10.244.4.2:2376
+
+- type: replace
+  path: /instance_groups/name=broker/jobs/name=service-fabrik-broker/properties/directors/name=bootstrap-bosh/url
+  value: https://192.168.50.4:25555
+
+- type: replace
+  path: /instance_groups/name=broker/jobs/name=service-fabrik-broker/properties/directors/name=bosh/url
+  value: https://192.168.50.4:25555
+
+- type: replace
+  path: /instance_groups/name=broker/jobs/name=service-fabrik-broker/properties/nats/machines
+  value:
+  - 10.244.0.6
+
+- type: replace
+  path: /instance_groups/name=broker/jobs/name=route_registrar/properties/nats/machines
+  value:
+  - 10.244.0.6
+
+- type: replace
+  path: /instance_groups/name=broker/jobs/name=swarm_manager/properties/swarm/discovery
+  value: nodes://10.244.4.3:4243

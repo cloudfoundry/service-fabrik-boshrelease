@@ -29,26 +29,80 @@ git clone https://github.com/sap/service-fabrik-boshrelease
 cd service-fabrik-boshrelease
 ```
 
+### Deploying Service-Fabrik
 
-### Deploy from Sources
+#### Creating and uploading release:
 
-If you need to modify the sources (beyond the example manifest):
+  ##### Deploying from Sources
+
+  If you need to modify the sources (beyond the example manifest):
+  ```shell
+  ./scripts/update
+  bosh create release --force && bosh upload release # repeat these commands on every change
+  ```
+
+  #### Deploying from Release
+
+  If you do not need to modify the sources (beyond the example manifest):
+  ```shell
+  bosh upload release $(ls -1rv releases/service-fabrik/service-fabrik-*.yml | head -1)
+  ```
+
+#### Uploading the cloud-config:
+Then, we need to upload the cloud-config required for service-fabrik on bosh.
+
+For bosh-lite, you can upload cloud-config in the following manner:
 ```shell
-./scripts/update
-bosh create release --force && bosh upload release # repeat these commands on every change
 cd templates
-./make_manifest warden
-bosh -n deploy
+bosh –e bosh upload-cloud-config cloud-config-boshlite.yml
 ```
 
-### Deploy from Release
-
-If you do not need to modify the sources (beyond the example manifest):
+For AWS, we need to update the vars-files for the cloud-config. 
+The vars file to be edited is `cloud-config-aws-vars.yml`. It can be found in the `templates` directory.
+Once the vars file is filled with proper details, the cloud-config can be uploaded:
 ```shell
-bosh upload release $(ls -1rv releases/service-fabrik/service-fabrik-*.yml | head -1)
 cd templates
-./make_manifest warden
-bosh -n deploy
+bosh –e bosh upload-cloud-config --vars-store=cloud-config-aws-vars.yml cloud-config-aws.yml
+```
+
+#### Deployment:
+Once the release and cloud-config has been uploaded to bosh, we can deploy service-fabrik.
+
+First we need to generate the services catalog file. Run the render script present in the templates directory.
+```shell
+./render
+```
+
+Service-fabrik uses various ops-files which provide the configs required during deployment.
+The ops-file specific to AWS is `ops-file-aws.yml`. Similary for boshlite, it is `ops-file-boshlite.yml`.
+Normally, this shouldn't require any modification.
+
+The common ops-file used for any IaaS is `ops-file.yml`.
+This file may require modifications depending on the user's landscape configurations.
+An example of such an use-case:
+Suppose you need to change the cf's username. Let's assume the new username should be `user`.
+The entry present in the ops-file is:
+```
+- type: replace
+  path: /instance_groups/name=broker/jobs/name=service-fabrik-broker/properties/cf/username
+  value: admin
+```
+The `value` parameter here can be modified as: `value: user`.
+
+Service-fabrik also uses vars-store file for its deployment.
+This file contains mostly essential certificates and some configurations which are likely to be specific to an user's environment.
+The required certificates can be edited/replaced and other configurations like, `cf_url` and `broker_host` can be edited.
+
+Once all the changes are made, service-fabrik can be deployed:
+
+for AWS:
+```shell
+bosh –e bosh deploy -o services.yml -o ops-file.yml -o ops-file-aws.yml --vars-store=vars-store.yml deployment.yml
+```
+
+for boshlite:
+```shell
+bosh –e bosh deploy -o services.yml -o ops-file.yml -o ops-file-boshlite.yml --vars-store=vars-store.yml deployment.yml
 ```
 
 ### Register the Broker
