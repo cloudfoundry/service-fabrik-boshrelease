@@ -93,14 +93,6 @@ instance_groups:
         username: null
         password: null
       directors:
-      - cpi: default_cpi
-        name: bootstrap-bosh
-        password: default
-        primary: false
-        skip_ssl_validation: true
-        support_create: false
-        url: default
-        username: default
       - default_task_poll_interval: 10000
         infrastructure:
           azs:
@@ -194,6 +186,8 @@ instance_groups:
       job_types: ScheduledBackup, ServiceFabrikBackup, ScheduledOobDeploymentBackup, OperationStatusPoller
       max_concurrency: 50
       process_every: 3 minutes
+  - name: service-fabrik-report
+    release: service-fabrik
   - name: swarm_manager
     release: service-fabrik
     properties:

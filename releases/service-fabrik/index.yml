@@ -1,6 +1,10 @@
 builds:
+  08c7d826-2080-456c-4140-a29aef135d8c:
+    version: 3.27.0
   1666f6d6-0003-493d-7046-0d8a6a7a936d:
     version: 3.22.0
+  1d864e26-769f-46fd-70a0-69bc5fa3d596:
+    version: 3.26.0
   23653c71-754b-4250-4563-1b9f91da777c:
     version: 3.11.0
   284d4c92-d3e3-480a-73f9-74c61d109d34:
@@ -51,4 +55,6 @@ builds:
     version: 3.10.0
   f171af99-ea5c-4981-4656-aa6d139467e3:
     version: 3.16.0
+  f85c9e2a-3b2d-49a9-5623-d2ee7da0540c:
+    version: 3.25.0
 format-version: "2"

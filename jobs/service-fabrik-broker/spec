@@ -64,6 +64,7 @@ provides:
   - backup.backup_restore_status_poller_timeout
   - backup.backup_restore_status_check_every
   - backup.abort_time_out
+  - backup.consecutive_backup_failure_sla_count
   - backup.provider
   - virtual_host.provider
   - docker.url
@@ -90,6 +91,7 @@ provides:
   - quota
   - services
   - directors
+  - multi_az_enabled
 consumes:
 - name: scheduler
   type: scheduler
@@ -121,7 +123,10 @@ properties:
     default: false
   http_timeout:
     description: "Timeout duration for any request to broker"
-    default: 175000 
+    default: 175000
+  multi_az_enabled:
+    description: "Switch used to turn on/off the multi-az support"
+    default: false
 
   external.port:
     description: "Port used for external endpoints such as dashboards or the Service Fabrik API"
@@ -204,6 +209,9 @@ properties:
   backup.abort_time_out:
     description: "Timeout time for abort of backup to complete in ms (defaults to 5 mins)"
     default: 300000
+  backup.consecutive_backup_failure_sla_count:
+    description: "Max allowed no backup days in a row (defaults to 3 days)"
+    default: 3
   backup.provider:
     description: "IaaS-specific backup provider configuration"
   backup.status_check_every:
@@ -250,7 +258,7 @@ properties:
   monitoring.event_name_prefix:
     description: "All riemann events originating from service fabrik will have this prefix"
     default: CF.service-fabrik
-  monitoring.events_logged_in_db: 
+  monitoring.events_logged_in_db:
     description: "Comma seperated list of event names that are to be logged in DB"
     default: "create_backup, update_instance"
   monitoring.include_response_body:

@@ -1,0 +1,15 @@
+---
+"/reports/backups/summary/:instance_id":
+  GET:
+    enabled: true
+    event_name: get_instance_backup_summary
+    description: Retrieve backup summary for given instance id
+    tags:
+    - instancebackupsummary
+"/reports/backups/scheduled_instances":
+  GET:
+    enabled: true
+    event_name: get_scheduled_backup_instances
+    description: Retrieve list of instances for which backup was taken
+    tags:
+    - instancebackupsummary

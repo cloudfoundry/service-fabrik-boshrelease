@@ -30,6 +30,7 @@ production:
   feature:
     ServiceInstanceAutoUpdate: <%= p('feature.ServiceInstanceAutoUpdate') %>
   http_timeout: <%= p('http_timeout') %>
+  multi_az_enabled: <%= p('multi_az_enabled') %>
   ##############################
   # EXTERNAL ENDPOINT SETTINGS #
   ##############################
@@ -88,7 +89,7 @@ production:
     agent:
       provider:
         container: <%= p('mongodb.agent.provider.container') %>
-      
+
 
   ######################
   # SCHEDULER SETTINGS #
@@ -176,7 +177,7 @@ production:
     log_additional_event: <%= p('riemann.log_additional_event') %>
     http_status_codes_to_be_skipped: <% p('riemann.http_status_codes_to_be_skipped').each do |code| %>
     - <%= code %><% end %>
-    
+
   ###################
   # QUOTA MANAGEMENT SETTINGS #
   ###################
@@ -194,6 +195,7 @@ production:
     backup_restore_status_poller_timeout: <%= p('backup.backup_restore_status_poller_timeout') %>
     backup_restore_status_check_every: <%= p('backup.backup_restore_status_check_every') %>
     abort_time_out: <%= p('backup.abort_time_out') %>
+    consecutive_backup_failure_sla_count: <%= p('backup.consecutive_backup_failure_sla_count') %>
     provider: <%= JSON.dump(p('backup.provider', nil)) %>
 
   #################################

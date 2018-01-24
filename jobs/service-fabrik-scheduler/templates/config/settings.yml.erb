@@ -31,7 +31,7 @@ production:
   enable_circuit_breaker: <%= link("broker").p('enable_circuit_breaker') %>
   feature:
     ServiceInstanceAutoUpdate: <%= link("broker").p('feature.ServiceInstanceAutoUpdate') %>
-
+  multi_az_enabled: <%= link("broker").p('multi_az_enabled') %>
   ##############################
   # EXTERNAL ENDPOINT SETTINGS #
   ##############################
@@ -112,14 +112,14 @@ production:
       reschedule_delay: <%= p('jobs.reschedule_delay') %>
       scheduled_backup:
         max_attempts: <%= p('jobs.scheduled_backup.max_attempts') %>
-      service_instance_update: 
+      service_instance_update:
         max_attempts: <%= p('jobs.service_instance_update.max_attempts') %>
         run_every_xdays:  <%= p('jobs.service_instance_update.run_every_xdays') %>
         should_start_after_hr: <%= p('jobs.service_instance_update.run_every_xdays') %>
         should_start_before_hr: <%= p('jobs.service_instance_update.should_start_before_hr') %>
         should_start_after_min: <%= p('jobs.service_instance_update.should_start_after_min') %>
         should_start_before_min: <%= p('jobs.service_instance_update.should_start_before_min') %>
-        time_zone: <%= p('jobs.service_instance_update.time_zone') %> 
+        time_zone: <%= p('jobs.service_instance_update.time_zone') %>
     system_jobs:
       - name: 'service-fabrik-mongodb'
         type: 'ScheduledOobDeploymentBackup'
@@ -136,13 +136,13 @@ production:
           delete_delay: <%= p('system_jobs.backup_reaper.job_data.delete_delay') %>
       - name: 'DbCollection_Reaper'
         type: 'DbCollectionReaper'
-        interval:  <%= p('system_jobs.dbcollection_reaper.interval') %> #Schedule interval for DB Collection reaper job 
+        interval:  <%= p('system_jobs.dbcollection_reaper.interval') %> #Schedule interval for DB Collection reaper job
         job_data:
           reap_collections:
             - name : JobRunDetail
-              retention_in_days:  <%= p('system_jobs.dbcollection_reaper.jobrun_detail.retention_in_days') %> 
+              retention_in_days:  <%= p('system_jobs.dbcollection_reaper.jobrun_detail.retention_in_days') %>
             - name : EventDetail
-              retention_in_days: <%= p('system_jobs.dbcollection_reaper.event_detail.retention_in_days') %> 
+              retention_in_days: <%= p('system_jobs.dbcollection_reaper.event_detail.retention_in_days') %>
         enabled: true
       - name: 'MongoDB'
         type: 'ServiceFabrikBackup'
@@ -195,6 +195,7 @@ production:
     backup_restore_status_poller_timeout: <%= link("broker").p('backup.backup_restore_status_poller_timeout') %>
     backup_restore_status_check_every: <%= link("broker").p('backup.backup_restore_status_check_every') %>
     abort_time_out: <%= link("broker").p('backup.abort_time_out') %>
+    consecutive_backup_failure_sla_count: <%= link("broker").p('backup.consecutive_backup_failure_sla_count') %>
     provider: <%= JSON.dump(link("broker").p('backup.provider', nil)) %>
 
   #################################

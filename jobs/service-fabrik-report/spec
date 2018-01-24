@@ -1,0 +1,44 @@
+---
+name: service-fabrik-report
+
+packages:
+  - bosh-helpers
+  - node
+  - service-fabrik-broker
+
+templates:
+  bin/service-fabrik-report_ctl.erb: bin/service-fabrik-report_ctl
+  bin/job_properties.sh.erb: bin/job_properties.sh
+  config/settings.yml.erb: config/settings.yml
+  config/syslog_forwarding.conf.erb: config/syslog_forwarding.conf
+  config/circuit-breaker-config.yml.erb: config/circuit-breaker-config.yml
+  config/eventlog-config-report.yml.erb: config/eventlog-config-report.yml
+
+provides:
+- name: report
+  type: report
+  properties:
+  - report.port
+  - report.ip
+  - report.ssl
+  - report.log_event
+
+consumes:
+- name: broker
+  type: broker
+- name: scheduler
+  type: scheduler
+
+properties:
+  report.port:
+    description: "Port used for reporting endpoints"
+    default: 9294
+  report.ip:
+    description: "IP address used for reporting endpoints"
+  report.ssl.key:
+    description: "Private key used for communication"
+  report.ssl.cert:
+    description: "Signed certificate used for communication"
+  report.log_event:
+    description: "Determines whether event logging must be enabled or not"
+    default: true
