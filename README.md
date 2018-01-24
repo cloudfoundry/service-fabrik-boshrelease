@@ -48,44 +48,21 @@ cd service-fabrik-boshrelease
   bosh upload release $(ls -1rv releases/service-fabrik/service-fabrik-*.yml | head -1)
   ```
 
-#### Uploading the cloud-config (for AWS):
+#### Uploading the cloud-config:
 Then, we need to upload the cloud-config required for service-fabrik on bosh.
-For that, we need to update the vars-files for the cloud-config. 
-This can be done in 2 ways, providing the parameters through command line or editing the vars-file directly.
 
+For bosh-lite, you can upload cloud-config in the following manner:
+```shell
+cd templates
+bosh –e bosh upload-cloud-config cloud-config-boshlite.yml
+```
+
+For AWS, we need to update the vars-files for the cloud-config. 
 The vars file to be edited is `cloud-config-aws-vars.yml`. It can be found in the `templates` directory.
 Once the vars file is filled with proper details, the cloud-config can be uploaded:
 ```shell
 cd templates
 bosh –e bosh upload-cloud-config --vars-store=cloud-config-aws-vars.yml cloud-config-aws.yml
-```
-
-Alternatively, the parameters can be passed through the command line as below:
-```shell
-cd templates
-bosh –e bosh upload-cloud-config -v availability_zone1="value1" \
--v availability_zone2="value2" \
--v availability_zone3="value3" \
--v network_id1="value4" \
--v network_id2="value5" \
--v network_id3="value6" \
--v network_id4="value7" \
--v network_id5="value8" \
--v network_id6="value9" \
--v security_group1="value10" \
--v security_group2="value11" \
--v security_group3="value12" \
--v security_group4="value13" \
--v security_group5="value14" \
--v security_group6="value15" \
-cloud-config-aws.yml
-```
-
-#### Uploading the cloud-config (for boshlite):
-For bosh-lite, you can upload cloud-config in the following manner:
-```shell
-cd templates
-bosh –e bosh upload-cloud-config cloud-config-boshlite.yml
 ```
 
 #### Deployment:

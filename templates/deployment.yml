@@ -93,7 +93,7 @@ instance_groups:
         username: null
         password: null
       directors:
-      - cpi: warden_cpi
+      - cpi: default_cpi
         name: bootstrap-bosh
         password: default
         primary: false
@@ -142,11 +142,7 @@ instance_groups:
         support_create: true
         url: default
         username: default
-      services:
-      - <%= JSON.pretty_generate(YAML.load(ERB.new(File.read("../services/redis.yml.erb")).result))
-        %>
-      - <%= JSON.pretty_generate(YAML.load(ERB.new(File.read("../services/blueprint.yml.erb")).result))
-        %>
+      services: default
       riemann:
         host: example
         metrics: metrics
