@@ -1,7 +1,7 @@
 <%
   redirect_uri = "https://services-fabrik-broker.bosh-lite.com/manage/auth/cloudfoundry/callback"
-  def base64_template(prefix)
-    filename = "../services/#{prefix}-manifest.yml.ejs"
+  def base64_template(prefix, type)
+    filename = "../services/#{prefix}.yml.ejs"
     JSON.dump(Base64.encode64(File.read(filename)))
   end
 %>

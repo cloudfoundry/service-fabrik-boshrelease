@@ -26,6 +26,7 @@ provides:
   - skip_ssl_validation
   - log_level
   - enable_circuit_breaker
+  - enable_swarm_manager
   - feature.ServiceInstanceAutoUpdate
   - internal.port
   - internal.ip
