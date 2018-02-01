@@ -1,7 +1,7 @@
 <%
   redirect_uri = "https://services-fabrik-broker.bosh-lite.com/manage/auth/cloudfoundry/callback"
   def base64_template(prefix)
-    filename = "../services/#{prefix}-manifest.yml.ejs"
+    filename = "../services/#{prefix}.yml.ejs"
     JSON.dump(Base64.encode64(File.read(filename)))
   end
 %>
@@ -112,7 +112,8 @@ plans:
         - lifecycle
         - credentials
         provider: boshlite
-      template: <%= base64_template('blueprint') %>
+      template: <%= base64_template('blueprint-manifest') %>
+      dashboard_template: <%= base64_template('blueprint-dashboard') %>
       releases: &dedicated_releases
       - { name: blueprint, version: 1.0.0, git: "https://github.com/sap/service-fabrik-blueprint-boshrelease.git" }
       context:
@@ -139,7 +140,7 @@ plans:
     settings:
       prefix: 'blueprint'
       agent: *agent
-      template: <%= base64_template('blueprint') %>
+      template: <%= base64_template('blueprint-manifest') %>
       releases: *dedicated_releases
       context:
         agent: *agent

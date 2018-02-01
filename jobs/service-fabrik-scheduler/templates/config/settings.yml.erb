@@ -29,6 +29,7 @@ production:
   log_level: <%= link("broker").p('log_level') %>
   sys_log_level: <%= link("broker").p('sys_log_level') %>
   enable_circuit_breaker: <%= link("broker").p('enable_circuit_breaker') %>
+  enable_swarm_manager: <%= link("broker").p('enable_swarm_manager') %>
   feature:
     ServiceInstanceAutoUpdate: <%= link("broker").p('feature.ServiceInstanceAutoUpdate') %>
   multi_az_enabled: <%= link("broker").p('multi_az_enabled') %>

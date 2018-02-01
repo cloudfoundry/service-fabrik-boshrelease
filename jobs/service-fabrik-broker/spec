@@ -26,6 +26,7 @@ provides:
   - skip_ssl_validation
   - log_level
   - enable_circuit_breaker
+  - enable_swarm_manager
   - feature.ServiceInstanceAutoUpdate
   - internal.port
   - internal.ip
@@ -118,6 +119,9 @@ properties:
   enable_circuit_breaker:
     description: "Switch used to turn on/off circuit breaker"
     default: false
+  enable_swarm_manager:
+    description: "Determines whether the broker has dependency on swarm manager"
+    default: true
   feature.ServiceInstanceAutoUpdate:
     description: "Switch used to turn on/off schedule update feature"
     default: false
