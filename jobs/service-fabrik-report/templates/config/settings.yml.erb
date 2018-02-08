@@ -22,6 +22,7 @@ production:
     path: <%= "/var/vcap/store/#{broker_name}/session" %>
   log_path: <%= log_path %>
   enable_circuit_breaker: <%= link("broker").p('enable_circuit_breaker') %>
+  http_timeout: <%= link("broker").p('http_timeout') %>
 
   ##############################
   # EXTERNAL ENDPOINT SETTINGS #
