@@ -28,6 +28,7 @@ provides:
   - enable_circuit_breaker
   - enable_swarm_manager
   - feature.ServiceInstanceAutoUpdate
+  - http_timeout
   - internal.port
   - internal.ip
   - internal.ssl
