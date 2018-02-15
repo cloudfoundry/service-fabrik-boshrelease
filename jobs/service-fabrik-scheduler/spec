@@ -103,7 +103,7 @@ properties:
     default: 7
   jobs.service_instance_update.should_start_after_hr:
     description: "Service instance update job schedule is randomized but this param specifies the start time (hrs) after which the randomization must be done"
-    default: 8
+    default: 7
   jobs.service_instance_update.should_start_before_hr:
     description: "Service instance update job schedule is randomized but this param specifies the start time (hrs) before which the randomization must be done"
     default: 17
