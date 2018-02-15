@@ -115,7 +115,7 @@ production:
       service_instance_update:
         max_attempts: <%= link("scheduler").p('jobs.service_instance_update.max_attempts') %>
         run_every_xdays:  <%= link("scheduler").p('jobs.service_instance_update.run_every_xdays') %>
-        should_start_after_hr: <%= link("scheduler").p('jobs.service_instance_update.run_every_xdays') %>
+        should_start_after_hr: <%= link("scheduler").p('jobs.service_instance_update.should_start_after_hr') %>
         should_start_before_hr: <%= link("scheduler").p('jobs.service_instance_update.should_start_before_hr') %>
         should_start_after_min: <%= link("scheduler").p('jobs.service_instance_update.should_start_after_min') %>
         should_start_before_min: <%= link("scheduler").p('jobs.service_instance_update.should_start_before_min') %>
