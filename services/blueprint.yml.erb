@@ -118,8 +118,8 @@ plans:
       - { name: blueprint, version: 1.0.0, git: "https://github.com/sap/service-fabrik-blueprint-boshrelease.git" }
       context:
         agent: *agent
-        resource_pool: micro
-        disk_pool: hdd_1gb
+        vm_type: service_fabrik_vm_micro
+        disk_type: service_fabrik_hdd_1gb
   description: 'Blueprint 1.0 service x-small (managed service in beta)'
   metadata:
     costs:
@@ -144,8 +144,8 @@ plans:
       releases: *dedicated_releases
       context:
         agent: *agent
-        resource_pool: micro
-        disk_pool: hdd_2gb
+        vm_type: service_fabrik_vm_micro
+        disk_type: service_fabrik_hdd_2gb
   description: 'Blueprint 1.0 service large (managed service in beta)'
   metadata:
     costs:
