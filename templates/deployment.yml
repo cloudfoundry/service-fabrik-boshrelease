@@ -200,6 +200,12 @@ instance_groups:
       process_every: 3 minutes
   - name: service-fabrik-report
     release: service-fabrik
+    properties:
+      report:
+        ip: default
+        ssl:
+          cert: ((ssl.cert))
+          key: ((ssl.key))
   - name: swarm_manager
     release: service-fabrik
     properties:
