@@ -112,14 +112,14 @@ instance_groups:
             reuse_compilation_vms: true
             workers: 4
           networks:
-          - name: service-fabrik-bosh-services
+          - name: sf_bosh_services
             subnets: default
             type: manual
           - name: compilation
             type: dynamic
           segmentation:
             capacity: -1
-            network_name: service-fabrik-bosh-services
+            network_name: sf_bosh_services
             offset: 1
             size: 8
           stemcell:
@@ -200,6 +200,12 @@ instance_groups:
       process_every: 3 minutes
   - name: service-fabrik-report
     release: service-fabrik
+    properties:
+      report:
+        ip: default
+        ssl:
+          cert: ((ssl.cert))
+          key: ((ssl.key))
   - name: swarm_manager
     release: service-fabrik
     properties:
