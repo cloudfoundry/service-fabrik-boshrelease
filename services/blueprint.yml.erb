@@ -115,7 +115,7 @@ plans:
       template: <%= base64_template('blueprint-manifest') %>
       dashboard_template: <%= base64_template('blueprint-dashboard') %>
       releases: &dedicated_releases
-      - { name: blueprint, version: 1.0.0, git: "https://github.com/sap/service-fabrik-blueprint-boshrelease.git" }
+      - { name: blueprint, version: 1.7.0, git: "https://github.com/sap/service-fabrik-blueprint-boshrelease.git" }
       context:
         agent: *agent
         vm_type: service_fabrik_vm_micro
