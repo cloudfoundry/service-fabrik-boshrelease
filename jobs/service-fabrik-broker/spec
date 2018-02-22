@@ -91,6 +91,7 @@ provides:
   - event.defaults.include_response_body
   - event.delete.http_success_codes
   - quota
+  - actions
   - services
   - directors
   - multi_az_enabled
@@ -256,6 +257,9 @@ properties:
 
   directors:
     description: "URL of the Bosh directors"
+  
+  actions:
+    description: "Deployment actions template"
 
   services:
     description: "Services and plans offered by the broker"
