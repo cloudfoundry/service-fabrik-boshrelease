@@ -8,13 +8,13 @@
 - type: replace
   path: /instance_groups/name=docker/networks
   value:
-  - name: sf_service_fabrik_broker
+  - name: sf_docker_services
     static_ips:
-    - 10.11.252.11
-    #- 10.11.252.12
+    - 10.11.241.0
+    #- 10.11.241.1
 
 - type: replace
-  path: /instance_groups/name=broker/jobs/name=service-fabrik-broker/properties/directors/name=bosh/infrastructure/networks/name=service-fabrik-bosh-services/subnets
+  path: /instance_groups/name=broker/jobs/name=service-fabrik-broker/properties/directors/name=bosh/infrastructure/networks/name=sf_bosh_services/subnets
   value:
   - range: 10.11.0.0/18
     dns:
@@ -59,7 +59,7 @@
 
 - type: replace
   path: /instance_groups/name=broker/jobs/name=service-fabrik-broker/properties/docker/url
-  value: https://10.11.252.10:2376
+  value: https://10.11.241.0:2376
 
 - type: replace
   path: /instance_groups/name=broker/jobs/name=service-fabrik-broker/properties/directors/name=bosh/url
@@ -79,4 +79,4 @@
 
 - type: replace
   path: /instance_groups/name=broker/jobs/name=swarm_manager/properties/swarm/discovery
-  value: nodes://10.11.252.11:4243
+  value: nodes://10.11.241.0:4243
