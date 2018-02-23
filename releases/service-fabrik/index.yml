@@ -63,4 +63,6 @@ builds:
     version: 3.25.0
   f8de895a-a6c8-432c-4c16-42ac33bc2fe2:
     version: 3.29.0
+  fb2db6b0-5d2f-453e-4b3a-f79e64f302d8:
+    version: 3.31.0
 format-version: "2"
