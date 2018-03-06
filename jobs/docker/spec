@@ -128,10 +128,6 @@ properties:
     description: "directory on which NFS volume is mounted on docker node"
     default: "/var/vcap/store"  
 
-  docker.daemon.old.keyfile:
-    description: "old location where docker keeps its key file"
-    default: "/etc/docker/key.json"
-
   docker.daemon.keyfile:
     description: "location where docker keeps key file in persistence disk"
     default: "/var/vcap/store/docker/key.json"
