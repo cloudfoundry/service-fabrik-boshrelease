@@ -27,7 +27,7 @@ case $1 in
     ${NODE_CMD} ${PACKAGE_DIR}/lib/LoadDeploymentActions.js \
       1>> ${LOG_DIR}/${OUTPUT_LABEL}.stdout.log \
       2>> ${LOG_DIR}/${OUTPUT_LABEL}.stderr.log
-    echo "scripts loaded successfully"
+    echo "deployment action scripts loaded successfully"
     
     # Start Service-Fabrik-Broker
     start-stop-daemon --start --quiet -m \
