@@ -29,6 +29,7 @@ provides:
   - enable_swarm_manager
   - feature.ServiceInstanceAutoUpdate
   - http_timeout
+  - deployment_action_timeout
   - internal.port
   - internal.ip
   - internal.ssl
@@ -130,6 +131,9 @@ properties:
   http_timeout:
     description: "Timeout duration for any request to broker"
     default: 175000
+  deployment_action_timeout:
+    description: "Timeout duration for deployment hook actions"
+    default: 80000
   multi_az_enabled:
     description: "Switch used to turn on/off the multi-az support"
     default: false
