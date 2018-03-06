@@ -87,6 +87,7 @@ case $1 in
         --group vcap \
         --data-root ${DOCKER_STORE_DIR}/docker \
         --host unix://${DOCKER_PID_DIR}/docker.sock \
+        ${DOCKER_DAEMON_KEY_FILE_ARG} \
         ${DOCKER_ICC} \
         ${DOCKER_INSECURE_REGISTRIES:-} \
         ${DOCKER_IP:-} \
@@ -136,6 +137,13 @@ case $1 in
     # Stop Docker daemon
     echo -n "Stopping docker daemon..."
     kill_and_wait ${DOCKER_PID_FILE}
+
+    # Move key.json if it exists in ephemeral disk to persistent disk
+    if [ -f ${DOCKER_DAEMON_OLD_KEY_FILE} ]
+    then
+       cp ${DOCKER_DAEMON_OLD_KEY_FILE} ${DOCKER_DAEMON_KEY_FILE}
+    fi
+
     set -e
     ;;
 

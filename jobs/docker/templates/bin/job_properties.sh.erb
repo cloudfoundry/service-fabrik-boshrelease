@@ -182,6 +182,13 @@ export DOCKER_ULIMIT_NOFILE=<%= p('docker.ulimit.nofile') %>
 # NFS Mount path on docker node
 export DOCKER_VOLUME_MOUNTDIR=<%= p('docker.volume.mount_dir') %>
 
+# Default key file path docker daemon creates
+export DOCKER_DAEMON_OLD_KEY_FILE=<%= p('docker.daemon.old.keyfile') %>
+# Docker daemon key file in persistence disk
+export DOCKER_DAEMON_KEY_FILE=<%= p('docker.daemon.keyfile') %>
+# key file location argument passed to docker daemon
+export DOCKER_DAEMON_KEY_FILE_ARG="--deprecated-key-path=<%= p('docker.daemon.keyfile') %>"
+
 # Proxy configuration
 <% if_p('env.http_proxy') do |http_proxy| %>
 export HTTP_PROXY="<%= http_proxy %>"
