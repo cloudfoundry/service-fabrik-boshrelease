@@ -10,7 +10,6 @@ case $1 in
 
   start)
     pid_guard ${SWARM_MANAGER_PID_FILE} ${JOB_NAME}
-    echo $$ > ${SWARM_MANAGER_PID_FILE}
 
     # Enable syslog forwarding to logstash
     if [ ! -L /etc/rsyslog.d/45-swarm_manager_forwarding.conf ]; then
@@ -21,7 +20,7 @@ case $1 in
     set -e
 
     # Start Swarm Manager daemon
-    exec chpst -u vcap:vcap /var/vcap/packages/swarm/bin/swarm \
+    chpst -u vcap:vcap /var/vcap/packages/swarm/bin/swarm \
         ${SWARM_MANAGER_DEBUG} \
         ${SWARM_MANAGER_LOG_LEVEL} \
         manage \
@@ -46,7 +45,8 @@ case $1 in
         ${SWARM_MANAGER_DISCOVERY_OPTIONS:-} \
         ${SWARM_MANAGER_DISCOVERY} \
         >>${SWARM_MANAGER_LOG_DIR}/${OUTPUT_LABEL}.stdout.log \
-        2>>${SWARM_MANAGER_LOG_DIR}/${OUTPUT_LABEL}.stderr.log
+        2>>${SWARM_MANAGER_LOG_DIR}/${OUTPUT_LABEL}.stderr.log &
+    echo $! > ${SWARM_MANAGER_PID_FILE}
     ;;
 
 
