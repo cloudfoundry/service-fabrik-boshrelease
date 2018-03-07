@@ -87,6 +87,7 @@ case $1 in
         --group vcap \
         --data-root ${DOCKER_STORE_DIR}/docker \
         --host unix://${DOCKER_PID_DIR}/docker.sock \
+        ${DOCKER_DAEMON_KEY_FILE_ARG} \
         ${DOCKER_ICC} \
         ${DOCKER_INSECURE_REGISTRIES:-} \
         ${DOCKER_IP:-} \
