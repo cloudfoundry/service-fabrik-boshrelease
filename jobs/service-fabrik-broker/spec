@@ -29,6 +29,7 @@ provides:
   - enable_swarm_manager
   - feature.ServiceInstanceAutoUpdate
   - http_timeout
+  - deployment_action_timeout
   - internal.port
   - internal.ip
   - internal.ssl
@@ -91,6 +92,7 @@ provides:
   - event.defaults.include_response_body
   - event.delete.http_success_codes
   - quota
+  - actions
   - services
   - directors
   - multi_az_enabled
@@ -129,6 +131,9 @@ properties:
   http_timeout:
     description: "Timeout duration for any request to broker"
     default: 175000
+  deployment_action_timeout:
+    description: "Timeout duration for deployment hook actions"
+    default: 80000
   multi_az_enabled:
     description: "Switch used to turn on/off the multi-az support"
     default: false
@@ -256,6 +261,9 @@ properties:
 
   directors:
     description: "URL of the Bosh directors"
+  
+  actions:
+    description: "Deployment actions template"
 
   services:
     description: "Services and plans offered by the broker"
