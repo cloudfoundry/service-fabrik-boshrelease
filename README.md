@@ -68,7 +68,7 @@ bosh –e bosh upload-cloud-config --vars-store=cloud-config-aws-vars.yml cloud-
 #### Deployment:
 Once the release and cloud-config has been uploaded to bosh, we can deploy service-fabrik.
 
-First we need to generate the services catalog file. Run the render script present in the templates directory.
+First we need to generate the services catalog file. Run the render script present in the templates directory. In case deployment actions need to be added, actions should be placed inside `services/actions` directory.
 ```shell
 ./render
 ```
@@ -97,12 +97,12 @@ Once all the changes are made, service-fabrik can be deployed:
 
 for AWS:
 ```shell
-bosh –e bosh deploy -o services.yml -o ops-file.yml -o ops-file-aws.yml --vars-store=vars-store.yml deployment.yml
+bosh –e bosh deploy -o services.yml -o actions.yml -o ops-file.yml -o ops-file-aws.yml --vars-store=vars-store.yml deployment.yml
 ```
 
 for boshlite:
 ```shell
-bosh –e bosh deploy -o services.yml -o ops-file.yml -o ops-file-boshlite.yml --vars-store=vars-store.yml deployment.yml
+bosh –e bosh deploy -o services.yml -o actions.yml -o ops-file.yml -o ops-file-boshlite.yml --vars-store=vars-store.yml deployment.yml
 ```
 
 ### Register the Broker
