@@ -134,6 +134,7 @@ instance_groups:
         support_create: true
         url: default
         username: default
+      actions: default
       services: default
       riemann:
         host: example
