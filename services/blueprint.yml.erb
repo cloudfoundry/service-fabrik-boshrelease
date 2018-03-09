@@ -24,6 +24,7 @@ dashboard_client:
   secret: 'service-fabrik-blueprint-secret'
   redirect_uri: <%= redirect_uri %>
 plan_updateable: true
+actions: Blueprint
 plans:
 ###########################
 # CONTAINER SERVICE PLANS #
@@ -98,6 +99,7 @@ plans:
 - id: 'bc158c9a-7934-401e-94ab-057082a5073f'
   name: 'v1.0-dedicated-xsmall'
   free: false
+  actions: ReserveIps
   manager:
     name: 'director'
     settings:

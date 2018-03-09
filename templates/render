@@ -16,3 +16,16 @@ File.open('services.yml', 'a') do |f|
     f.puts result
   end
 end
+File.write("actions.yml", "---\n")
+File.open('actions.yml', 'a') do |f|
+  f.puts("- type: replace")
+  f.puts("  path: /instance_groups/name=broker/jobs/name=service-fabrik-broker/properties/actions")
+  f.puts("  value:")
+  actions = {}
+  Dir.entries("../services/actions").select{ |filename| !File.directory?filename}.each{ |filename|
+    template = Base64.strict_encode64(File.read("../services/actions/#{filename}"))
+    actions[filename] = template
+  }
+  f << "    "
+  f.puts(actions.to_json)
+end

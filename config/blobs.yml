@@ -34,6 +34,10 @@ golang/go1.8.3.linux-amd64.tar.gz:
   size: 90029041
   object_id: 531dbe5c-f65b-4c3a-a524-c630a7762567
   sha: 838c415896ef5ecd395dfabde5e7e6f8ac943c8e
+jq/jq:
+  size: 497799
+  object_id: 61d27ef5-32cc-439d-6842-97be75dae6fb
+  sha: e820e9e91c9cce6154f52949a3b2a451c4de8af4
 node/node-v6.9.1-linux-x64.tar.xz:
   size: 9351072
   object_id: e79323b1-66d8-42a6-aba3-df4525ce82cd
