@@ -14,7 +14,7 @@ if [[ $message != null ]] ; then
   if echo -e "$maintenance_status" | grep -E "true" > /dev/null ; then
     curl -skL -u "${current_broker_username}:${current_broker_password}" \
     -X PUT -H "Accept: application/json" "$broker_admin_target/service-fabrik/maintenance" \
-    -d "progress=$message"
+    -d "progress=$message" > /dev/null 2>&1
   fi
   echo 60 #sleep for 1 minute and let for batch jobs to go into maintenance gracefully
 fi
