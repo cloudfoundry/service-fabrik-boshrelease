@@ -13,6 +13,7 @@ set -e # exit immediately if a simple command exits with a non-zero status
 
 export JOB_NAME=$1
 export OUTPUT_LABEL=${2:-$JOB_NAME}
+REDIRECT_STDOUT_STDERR=${3:-'true'}
 
 # Setup job home folder
 export HOME=/var/vcap
@@ -41,4 +42,6 @@ fi
 source $HOME/packages/bosh-helpers/ctl_utils.sh
 
 # Redirect output
-redirect_output ${OUTPUT_LABEL}
+if [[ $REDIRECT_STDOUT_STDERR == 'true' ]]; then
+  redirect_output ${OUTPUT_LABEL}
+fi

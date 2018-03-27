@@ -23,7 +23,7 @@ production:
   log_path: <%= log_path %>
   enable_circuit_breaker: <%= link("broker").p('enable_circuit_breaker') %>
   http_timeout: <%= link("broker").p('http_timeout') %>
-
+  broker_drain_message: <%= link("broker").p('broker_drain_message') %>
   ##############################
   # EXTERNAL ENDPOINT SETTINGS #
   ##############################

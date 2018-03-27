@@ -5,8 +5,11 @@ packages:
   - bosh-helpers
   - node
   - service-fabrik-broker
+  - jq
+  - yaml2json
 
 templates:
+  bin/drain.erb: bin/drain
   bin/service-fabrik-broker_ctl.erb: bin/service-fabrik-broker_ctl
   bin/job_properties.sh.erb: bin/job_properties.sh
   bin/health_check.erb: bin/health_check
@@ -28,6 +31,7 @@ provides:
   - enable_circuit_breaker
   - enable_swarm_manager
   - feature.ServiceInstanceAutoUpdate
+  - broker_drain_message
   - http_timeout
   - deployment_action_timeout
   - internal.port
@@ -137,6 +141,9 @@ properties:
   multi_az_enabled:
     description: "Switch used to turn on/off the multi-az support"
     default: false
+  broker_drain_message:
+    description: "Drain message that is updated into broker maintenance state. If undefined, then during drain maintenance state is not updated"
+    default: "BROKER_DRAIN_INITIATED"
 
   external.port:
     description: "Port used for external endpoints such as dashboards or the Service Fabrik API"
