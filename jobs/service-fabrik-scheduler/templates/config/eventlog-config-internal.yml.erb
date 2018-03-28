@@ -98,6 +98,8 @@ defaults:
       tags:
       - delete
       log_inprogress_state: false
+      http_success_codes:<% link("broker").p('event.delete.http_success_codes').each do |code| %>
+      - <%= code %><% end %>
 "/admin/deployments":
   GET:
     enabled: true
