@@ -1,0 +1,16 @@
+#!/bin/bash
+set -e
+set -u
+
+yaml2jsonbinary=yaml2json/yaml2json
+
+if [[ -f $yaml2jsonbinary ]] ; then
+  echo "Binary: $yaml2jsonbinary found"
+else
+  echo "Binary: $yaml2jsonbinary not found"
+  exit 1
+fi
+
+chmod +x $yaml2jsonbinary
+mkdir -p "${BOSH_INSTALL_TARGET}"/bin/
+cp -a "$yaml2jsonbinary" "${BOSH_INSTALL_TARGET}"/bin
