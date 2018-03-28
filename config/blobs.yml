@@ -42,3 +42,7 @@ node/node-v6.9.1-linux-x64.tar.xz:
   size: 9351072
   object_id: e79323b1-66d8-42a6-aba3-df4525ce82cd
   sha: 84b0b6fde43a4d892186119ba6b9f1db3c2c6129
+yaml2json/yaml2json:
+  size: 2349240
+  object_id: b3d57a81-3790-43a4-69eb-c2bcb02fcc54
+  sha: 8386a711bfc5f8dca5239f81277cb910ace5d7c2
