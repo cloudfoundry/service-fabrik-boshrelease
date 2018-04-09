@@ -33,6 +33,7 @@ production:
   feature:
     ServiceInstanceAutoUpdate: <%= link("broker").p('feature.ServiceInstanceAutoUpdate') %>
   multi_az_enabled: <%= link("broker").p('multi_az_enabled') %>
+  broker_drain_message: <%= link("broker").p('broker_drain_message') %>
   ##############################
   # EXTERNAL ENDPOINT SETTINGS #
   ##############################
@@ -109,6 +110,7 @@ production:
     agenda_collection: <%= p('agenda_collection') %> # Name of the collection in mongodb which is to be used by agendaJS to store the scheduled job meta info
     maintenance_check_interval:  <%= p('maintenance_check_interval') %>
     maintenance_mode_time_out:  <%= p('maintenance_mode_time_out') %>
+    downtime_maintenance_phases: <%= p('downtime_maintenance_phases') %>
     jobs:
       reschedule_delay: <%= p('jobs.reschedule_delay') %>
       scheduled_backup:
@@ -145,10 +147,6 @@ production:
             - name : EventDetail
               retention_in_days: <%= p('system_jobs.dbcollection_reaper.event_detail.retention_in_days') %>
         enabled: true
-      - name: 'MongoDB'
-        type: 'ServiceFabrikBackup'
-        interval: <%= link("broker").p('mongodb.backup.schedule_interval') %>
-        enabled: false
 
   #######################
   # MONITORING SETTINGS #

@@ -1,0 +1,21 @@
+#!/bin/bash
+set -e
+# shellcheck disable=SC1091
+source /var/vcap/packages/bosh-helpers/ctl_setup.sh 'service-fabrik-broker' 'service-fabrik-broker' 'false'
+message="$("${YAML2JSON_CMD}" < "${SETTINGS_PATH}" | "${JQ_CMD}" -r ."${NODE_ENV}".broker_drain_message)"
+if [[ $message != null ]] ; then
+  current_broker_username="$("${YAML2JSON_CMD}" < "${SETTINGS_PATH}" | "${JQ_CMD}" -r ."${NODE_ENV}".username)"
+  current_broker_password="$("${YAML2JSON_CMD}" < "${SETTINGS_PATH}" | "${JQ_CMD}" -r ."${NODE_ENV}".password)"
+  admin_endpoint_host="$("${YAML2JSON_CMD}"  < "${SETTINGS_PATH}" | "${JQ_CMD}" -r ."${NODE_ENV}".internal.ip)"
+  admin_endpoint_port="$("${YAML2JSON_CMD}" < "${SETTINGS_PATH}" | "${JQ_CMD}" -r ."${NODE_ENV}".internal.port)"
+
+  broker_admin_target=https://${admin_endpoint_host}:${admin_endpoint_port}/admin
+  maintenance_status="$(curl -skL -u "${current_broker_username}:${current_broker_password}" "$broker_admin_target/service-fabrik/maintenance" 2> null)"
+  if echo -e "$maintenance_status" | grep -E "true" > /dev/null ; then
+    curl -skL -u "${current_broker_username}:${current_broker_password}" \
+    -X PUT -H "Accept: application/json" "$broker_admin_target/service-fabrik/maintenance" \
+    -d "progress=$message" > /dev/null 2>&1
+  fi
+  echo 60 #sleep for 1 minute and let for batch jobs to go into maintenance gracefully
+fi
+exit 0

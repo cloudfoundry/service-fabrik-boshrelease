@@ -29,6 +29,7 @@ provides:
   - default_lock_lifetime
   - maintenance_check_interval
   - maintenance_mode_time_out
+  - downtime_maintenance_phases
   - agenda_collection
   - jobs.reschedule_delay
   - jobs.scheduled_backup.max_attempts
@@ -83,6 +84,9 @@ properties:
   maintenance_mode_time_out:
     description: "(ms) - wait for sf deployment to complete. Beyond this timeout out time scheduler starts"
     default: 36000000
+  downtime_maintenance_phases:
+    description: "Maintenance phases during which (even any one of them) the scheduler must be shut down as ZDM is not in place across dependent components"
+    default: ['BROKER_DRAIN_INITIATED']
   agenda_collection:
     description: "Name of the collection in mongodb which is to be used by agendaJS to store the scheduled job meta info"
     default: "agendaJobs"

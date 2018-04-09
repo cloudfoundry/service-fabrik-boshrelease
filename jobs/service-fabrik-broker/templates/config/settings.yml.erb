@@ -33,6 +33,7 @@ production:
   http_timeout: <%= p('http_timeout') %>
   deployment_action_timeout: <%= p('deployment_action_timeout') %>
   multi_az_enabled: <%= p('multi_az_enabled') %>
+  broker_drain_message: <%= p('broker_drain_message') %>
   ##############################
   # EXTERNAL ENDPOINT SETTINGS #
   ##############################
@@ -109,6 +110,7 @@ production:
     agenda_collection: <%= link("scheduler").p('agenda_collection') %> # Name of the collection in mongodb which is to be used by agendaJS to store the scheduled job meta info
     maintenance_check_interval:  <%= link("scheduler").p('maintenance_check_interval') %>
     maintenance_mode_time_out:  <%= link("scheduler").p('maintenance_mode_time_out') %>
+    downtime_maintenance_phases: <%= link("scheduler").p('downtime_maintenance_phases') %>
     jobs:
       reschedule_delay: <%= link("scheduler").p('jobs.reschedule_delay') %>
       scheduled_backup:
@@ -145,10 +147,6 @@ production:
             - name : EventDetail
               retention_in_days: <%= link("scheduler").p('system_jobs.dbcollection_reaper.event_detail.retention_in_days') %>
         enabled: true
-      - name: 'MongoDB'
-        type: 'ServiceFabrikBackup'
-        interval: <%= p('mongodb.backup.schedule_interval') %>
-        enabled: false
 
   #######################
   # MONITORING SETTINGS #
