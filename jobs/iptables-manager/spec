@@ -1,0 +1,12 @@
+---
+name: iptables-manager
+
+templates:
+  bin/iptables_manager_ctl: bin/iptables_manager_ctl
+ 
+properties:
+  allow_ips_list:
+    description: "Comma seperated list of ips from which requests are ACCEPTED"
+    default: "127.0.0.1"
+  block_ips_list:
+    description: "Comma seperated List of ips from which the requests will be DROPPED"

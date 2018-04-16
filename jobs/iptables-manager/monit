@@ -1,0 +1,2 @@
+check program iptables-manager with path /var/vcap/jobs/iptables-manager/bin/iptables_manager_ctl start
+  if status = 1 then alert
