@@ -1,2 +1,5 @@
-check program iptables-manager with path /var/vcap/jobs/iptables-manager/bin/iptables_manager_ctl start
-  if status = 1 then alert
+check process iptables-manager
+  with pidfile /var/vcap/sys/run/iptables-manager/iptables-manager.pid
+  start program "/var/vcap/sys/run/iptables-manager/iptables-manager_ctl start"
+  stop program "/var/vcap/sys/run/iptables-manager/iptables-manager_ctl stop"
+  group vcap
