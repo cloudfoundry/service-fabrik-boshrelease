@@ -13,6 +13,8 @@ builds:
     version: 3.11.0
   284d4c92-d3e3-480a-73f9-74c61d109d34:
     version: 3.8.0
+  292a521a-ec69-47b4-762c-e7c77163d829:
+    version: 3.43.1
   29bb67b0-4c60-4dd2-74de-f0165418ddb5:
     version: 3.21.0
   2fee872e-205c-4a31-b548-eef034109a0a:
