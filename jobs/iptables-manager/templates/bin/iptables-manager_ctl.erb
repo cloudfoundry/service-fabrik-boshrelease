@@ -18,5 +18,9 @@ case $1 in
     echo 1 >> $PIDFILE
     ;;
   stop)
+    iptables -F
     rm -f $PIDFILE
     ;;
+
+esac
+exit 0

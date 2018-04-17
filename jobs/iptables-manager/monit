@@ -1,5 +1,3 @@
-check process iptables-manager
-  with pidfile /var/vcap/sys/run/iptables-manager/iptables-manager.pid
-  start program "/var/vcap/sys/run/iptables-manager/iptables-manager_ctl start"
-  stop program "/var/vcap/sys/run/iptables-manager/iptables-manager_ctl stop"
-  group vcap
+check process iptables-manager with pidfile /var/vcap/sys/run/iptables-manager/iptables-manager.pid
+  start program "/var/vcap/packages/bosh-helpers/monit_debugger iptables-manager_ctl '/var/vcap/jobs/iptables-manager/bin/iptables-manager_ctl start'"
+  stop program "/var/vcap/packages/bosh-helpers/monit_debugger iptables-manager_ctl '/var/vcap/jobs/iptables-manager/bin/iptables-manager_ctl stop'"
