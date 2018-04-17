@@ -2,7 +2,7 @@
 name: iptables-manager
 
 templates:
-  bin/iptables-manager_ctl: bin/iptables-manager_ctl
+  bin/iptables-manager_ctl.erb: bin/iptables-manager_ctl
  
 properties:
   allow_ips_list:
