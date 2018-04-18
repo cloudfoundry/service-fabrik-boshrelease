@@ -1,0 +1,11 @@
+#!/bin/bash
+set -e
+set -u
+
+curl --progress http://keepalived.org/software/keepalived-1.2.15.tar.gz | tar xz
+cd keepalived-1.2.15/
+
+#compile keepalive
+./configure --prefix=${BOSH_INSTALL_TARGET}
+make 
+make install
