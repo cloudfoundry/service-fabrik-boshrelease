@@ -3,4 +3,6 @@ name: service-fabrik-broker
 dependencies:
   - node
 files:
-  - service-fabrik-broker/**/*
+  - service-fabrik-broker/broker/**/*
+  - service-fabrik-broker/common/**/*
+  - service-fabrik-broker/package.json
