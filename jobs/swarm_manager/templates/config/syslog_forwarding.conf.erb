@@ -7,9 +7,10 @@ swarm_name= p('swarm.name')
 $ModLoad imfile
 
 #variables required for non-syslog log file forwarding – SystemErr
+$WorkDirectory /var/vcap/sys/log/swarm_manager
 $InputFileName /var/vcap/sys/log/swarm_manager/swarm_manager.stderr.log
 $InputFileTag <%= swarm_name %>
-$InputFileStateFile <%= swarm_name %>
+$InputFileStateFile <%= swarm_name %>-monit
 $InputFileSeverity error
 $InputFileFacility local7
 $InputRunFileMonitor

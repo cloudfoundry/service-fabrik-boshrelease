@@ -7,6 +7,7 @@ docker_name = p('docker.name')
 $ModLoad imfile
 
 #variables required for non-syslog log file forwarding – SystemErr
+$WorkDirectory /var/vcap/sys/log/docker
 $InputFileName /var/vcap/sys/log/docker/docker.stderr.log
 $InputFileTag <%= docker_name %>
 $InputFileStateFile <%= docker_name %>
