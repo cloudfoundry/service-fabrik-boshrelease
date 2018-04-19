@@ -226,6 +226,8 @@ production:
       cert: <%= JSON.dump(p('common.tls_client_cert')) %>
       key: <%= JSON.dump(p('common.tls_client_key')) %>
 
+  service_addon_jobs: <%= p('service_addon_jobs') %>
+
   #####################
   # DIRECTOR SETTINGS #
   #####################
