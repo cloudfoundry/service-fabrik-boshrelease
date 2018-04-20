@@ -1,6 +1,9 @@
 ---
 name: iptables-manager
 
+packages:
+  - bosh-helpers
+
 templates:
   bin/iptables-manager_ctl.erb: bin/iptables-manager_ctl
  
