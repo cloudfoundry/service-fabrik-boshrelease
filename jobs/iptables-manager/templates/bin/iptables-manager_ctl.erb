@@ -2,7 +2,9 @@
 
 set -e
 
-source /var/vcap/packages/bosh-helpers/ctl_setup.sh 'iptables-manager'
+export JOB_NAME='iptables-manager'
+export LOG_DIR=$HOME/sys/log/$JOB_NAME
+export RUN_DIR=$HOME/sys/run/$JOB_NAME
 export PID_FILE=${RUN_DIR}/iptables-manager.pid
 
 exec 1>> $LOG_DIR/$JOB_NAME.stdout.log
