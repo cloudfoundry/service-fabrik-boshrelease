@@ -10,7 +10,7 @@ $ModLoad imfile
 $WorkDirectory /var/vcap/sys/log/swarm_manager
 $InputFileName /var/vcap/sys/log/swarm_manager/swarm_manager.stderr.log
 $InputFileTag <%= swarm_name %>
-$InputFileStateFile <%= swarm_name %>-monit
+$InputFileStateFile <%= swarm_name %>
 $InputFileSeverity error
 $InputFileFacility local7
 $InputRunFileMonitor
