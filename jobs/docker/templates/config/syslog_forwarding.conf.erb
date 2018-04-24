@@ -2,12 +2,14 @@
 network = spec.networks.methods(false).first
 ip = spec.networks.send(network).ip
 docker_name = p('docker.name')
+docker_logs_dir = p('docker.logs_dir')
 %>
 
 $ModLoad imfile
 
 #variables required for non-syslog log file forwarding – SystemErr
-$InputFileName /var/vcap/sys/log/docker/docker.stderr.log
+$WorkDirectory <%= docker_logs_dir %>
+$InputFileName <%= docker_logs_dir %>/docker.stderr.log
 $InputFileTag <%= docker_name %>
 $InputFileStateFile <%= docker_name %>
 $InputFileSeverity error
