@@ -1,3 +1,4 @@
+
 #!/bin/bash
 
 set -e # exit immediately if a simple command exits with a non-zero status
@@ -47,6 +48,11 @@ case $1 in
 
     # Set ulimits
     ulimit -n ${DOCKER_ULIMIT_NOFILE}
+
+    # Open up the docker demon port, remove any drop rule on the port
+    set +e
+    iptables -D INPUT -p tcp --dport ${DOCKER_TCP_PORT} -j DROP
+    set -e
 
     # Mount cgroupfs hierarchy
     ${JOB_DIR}/bin/cgroupfs-mount
@@ -119,6 +125,13 @@ case $1 in
   stop)
     set +e
     # Stop Docker containers
+    
+    # Before stopping the docker deamon & containers block the demon port so that no further create
+    # request are allowed/serviced during the stopping process, else if any create container request 
+    # is allowed in-between it will keep using the lvm volume that will keep the corresponding device 
+    # busy not allowing device to be unmounted during node update.
+    iptables -A INPUT -p tcp --dport ${DOCKER_TCP_PORT} -j DROP
+
     echo "Stopping docker containers..."
     containers="$(/var/vcap/packages/docker/bin/docker --host unix://${DOCKER_PID_DIR}/docker.sock ps -q)"
     if [[ ! -z $containers ]]; then
@@ -137,6 +150,9 @@ case $1 in
     # Stop Docker daemon
     echo -n "Stopping docker daemon..."
     kill_and_wait ${DOCKER_PID_FILE}
+
+    # Unblock the port docker demon port by removing the rule
+    iptables -D INPUT -p tcp --dport ${DOCKER_TCP_PORT} -j DROP
     set -e
     ;;
 

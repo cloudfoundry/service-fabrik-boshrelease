@@ -26,6 +26,7 @@ export DOCKER_TMP_DIR=${TMP_DIR}
 <% if_p('docker.tcp_address', 'docker.tcp_port') do |address, port| %>
 # TCP Address/Port where Docker daemon will listen to
 export DOCKER_TCP="--host tcp://<%= address %>:<%= port %>"
+export DOCKER_TCP_PORT="<%= port %>"
 <% end %>
 
 # Set CORS headers in the remote API
