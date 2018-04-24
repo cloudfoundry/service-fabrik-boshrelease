@@ -55,6 +55,11 @@ properties:
   swarm_manager.overcommit:
     description: "Overcommit to apply on resources"
     default: "0.5"
+  swarm_manager.logs_dir:
+    description: "logs directory of swarm_manager"
+    default: "/var/vcap/sys/log/swarm_manager"
+
+
 
   swarm.discovery_options:
     description: "Swarm discovery options"

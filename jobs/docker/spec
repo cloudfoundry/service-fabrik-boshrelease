@@ -132,6 +132,10 @@ properties:
     description: "location where docker keeps key file in persistence disk"
     default: "/var/vcap/store/docker/key.json"
 
+  docker.logs_dir:
+    description: "logs directory of docker"
+    default: "/var/vcap/sys/log/docker"
+
 
   env.http_proxy:
     description: "HTTP proxy that Docker should use"

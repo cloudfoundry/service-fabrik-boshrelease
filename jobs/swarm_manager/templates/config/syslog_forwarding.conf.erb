@@ -2,14 +2,14 @@
 network = spec.networks.methods(false).first
 ip = spec.networks.send(network).ip
 swarm_name= p('swarm.name')
-swarm_logs_dir=${LOG_DIR}
+swarm_logs_dir=p('swarm_manager.logs_dir')
 %>
 
 $ModLoad imfile
 
 #variables required for non-syslog log file forwarding – SystemErr
 $WorkDirectory <%= swarm_logs_dir %>
-$InputFileName /var/vcap/sys/log/swarm_manager/swarm_manager.stderr.log
+$InputFileName <%= swarm_logs_dir %>/swarm_manager.stderr.log
 $InputFileTag <%= swarm_name %>
 $InputFileStateFile <%= swarm_name %>
 $InputFileSeverity error
