@@ -24,10 +24,10 @@
     cloud_properties:
       name: random
     range: 10.244.11.0/24
-   - az: z3
-     cloud_properties:
-       name: random
-     range: 10.244.12.0/24
+  - az: z3
+    cloud_properties:
+      name: random
+    range: 10.244.12.0/24
 
 - type: replace
   path: /instance_groups/name=broker/jobs/name=service-fabrik-broker/properties/internal/ip
@@ -52,10 +52,6 @@
 - type: replace
   path: /instance_groups/name=broker/jobs/name=service-fabrik-broker/properties/docker/url
   value: https://10.244.4.2:2376
-
-- type: replace
-  path: /instance_groups/name=broker/jobs/name=service-fabrik-broker/properties/directors/name=bootstrap-bosh/url
-  value: https://192.168.50.4:25555
 
 - type: replace
   path: /instance_groups/name=broker/jobs/name=service-fabrik-broker/properties/directors/name=bosh/url
