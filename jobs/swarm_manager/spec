@@ -59,8 +59,6 @@ properties:
     description: "logs directory of swarm_manager"
     default: "/var/vcap/sys/log/swarm_manager"
 
-
-
   swarm.discovery_options:
     description: "Swarm discovery options"
     default: []

@@ -136,7 +136,6 @@ properties:
     description: "logs directory of docker"
     default: "/var/vcap/sys/log/docker"
 
-
   env.http_proxy:
     description: "HTTP proxy that Docker should use"
   env.https_proxy:
