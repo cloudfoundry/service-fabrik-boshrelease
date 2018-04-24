@@ -28,5 +28,16 @@ vrrp_instance VI_1 {
     track_script {
         chk_sfnode
     }
+    # for ANY state transition.
+    # "notify" script is called AFTER the
+    # notify_* script(s) and is executed
+    # with 3 arguments provided by keepalived
+    # (ie don’t include parameters in the notify line).
+    # arguments
+    # $1 = "GROUP"|"INSTANCE"
+    # $2 = name of group or instance
+    # $3 = target state of transition
+    #     ("MASTER"|"BACKUP"|"FAULT")
+    notify /etc/keepalived/notify.sh
     notify_master /etc/keepalived/master.sh
 }

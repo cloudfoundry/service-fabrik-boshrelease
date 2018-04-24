@@ -25,6 +25,7 @@ templates:
   config/syslog_forwarding.conf.erb: config/syslog_forwarding.conf
   config/circuit-breaker-config.yml.erb: config/circuit-breaker-config.yml
   config/master.sh.erb: config/master.sh
+  config/notify.sh.erb: config/notify.sh
   config/getAgentStatus.sh.erb: config/getAgentStatus.sh
   config/restartFabrikStatusPoller.js.erb: config/restartFabrikStatusPoller.js
 provides:
