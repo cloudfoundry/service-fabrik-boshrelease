@@ -11,9 +11,11 @@ cp /var/vcap/jobs/service-fabrik-broker/config/master.sh /etc/keepalived/master.
 cp /var/vcap/jobs/service-fabrik-broker/config/getAgentStatus.sh /etc/keepalived/getAgentStatus.sh
 cp /var/vcap/jobs/service-fabrik-broker/config/keepalived_healthcheck.conf /etc/keepalived/keepalived.conf
 cp /var/vcap/jobs/service-fabrik-broker/config/notify.sh /etc/keepalived/notify.sh
+cp /var/vcap/jobs/service-fabrik-broker/config/get_keepalived_state.sh /etc/keepalived/get_keepalived_state.sh
 
 chmod +x /etc/keepalived/master.sh
 chmod +x /etc/keepalived/getAgentStatus.sh
 chmod +x /etc/keepalived/notify.sh
+chmod +x /etc/keepalived/get_keepalived_state.sh
 
 sudo service keepalived restart
