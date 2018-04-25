@@ -1,3 +1,4 @@
+<% internal = p('internal') %>
 vrrp_script chk_sfnode {
     script "/etc/keepalived/getAgentStatus.sh"
     weight 10
@@ -14,7 +15,7 @@ vrrp_instance VI_1 {
     priority 101 # 101 on master, 100 on backup
     unicast_src_ip <%= spec.ip %> # My IP
     unicast_peer {
-        10.11.252.11 # peer IP
+        <%= internal['slave_ip']  %> # peer IP
     }
     <% else %>
     state BACKUP
@@ -22,7 +23,7 @@ vrrp_instance VI_1 {
     priority 100 # 101 on master, 100 on backup
     unicast_src_ip <%= spec.ip %> # My IP
     unicast_peer {
-        10.11.252.10 # peer IP
+        <%= internal['master_ip']  %> # peer IP
     }
     <% end %>     
     track_script {

@@ -1,5 +1,6 @@
 SUBNET_ID='<%= spec.networks.sf_service_fabrik_broker.cloud_properties.subnet %>'
 SOURCE_IP=<%= spec.ip %>
+<% internal = p('internal') %>
 
 BACKUP_OBJ='<%= JSON.dump(p('backup.provider', nil)) %>'
 AWS_CLI_CMD=/var/vcap/packages/awscli/bin/aws
@@ -16,6 +17,6 @@ $AWS_CLI_CMD configure set region "$REGION_NAME"
 
 network_metadata=$("$AWS_CLI_CMD" ec2 describe-network-interfaces --filter "Name=private-ip-address,Values=${SOURCE_IP}" | "${JQ_CMD}" -r --arg SUBNET_ID "$SUBNET_ID" '.[][] | select(.SubnetId==$SUBNET_ID)')
 export ENI_ID=$(echo "$network_metadata" | "${JQ_CMD}" -r '.NetworkInterfaceId')
-$AWS_CLI_CMD ec2 assign-private-ip-addresses --network-interface-id $ENI_ID --allow-reassignment --private-ip-addresses 10.11.252.13
-sudo ip addr add 10.11.252.13 dev eth0
+$AWS_CLI_CMD ec2 assign-private-ip-addresses --network-interface-id $ENI_ID --allow-reassignment --private-ip-addresses <%= internal['floating_ip'] %>
+sudo ip addr add <%= internal['floating_ip'] %> dev eth0
 $NODE_CMD restartFabrikStatusPoller.js
