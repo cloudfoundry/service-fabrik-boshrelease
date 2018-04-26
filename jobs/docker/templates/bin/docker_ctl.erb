@@ -1,4 +1,3 @@
-
 #!/bin/bash
 
 set -e # exit immediately if a simple command exits with a non-zero status
@@ -128,8 +127,8 @@ case $1 in
     
     # Before stopping the docker deamon & containers block the demon port so that no further create
     # request are allowed/serviced during the stopping process, else if any create container request 
-    # is allowed in-between it will keep using the lvm volume that will keep the corresponding device 
-    # busy not allowing device to be unmounted during node update.
+    # is allowed in-between it will keep using the lvm volume which will keep the corresponding device 
+    # busy and not allowing device to be unmounted during node update.
     iptables -A INPUT -p tcp --dport ${DOCKER_TCP_PORT} -j DROP
 
     echo "Stopping docker containers..."
