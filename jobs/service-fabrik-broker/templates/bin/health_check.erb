@@ -1,13 +1,18 @@
 #!/bin/bash
 
-nc -z $(hostname -I) <%= p('external.port') %>
+vm_state=$(/etc/keepalived/get_keepalived_state.sh)
+if [[ $vm_state == "down" ]]; then
+  exit 1
+fi
+
+nc -z <%= p('internal.floating_ip') %> <%= p('external.port') %>
 
 # http://www.consul.io/docs/agent/checks.html
 if [ $? -ne 0 ]; then
   exit 2 # Exit higher than 1 to ensure service is registered as 'critical'
 fi
 
-nc -z $(hostname -I) <%= p('internal.port') %>
+nc -z <%= p('internal.floating_ip') %> <%= p('internal.port') %>
 
 # http://www.consul.io/docs/agent/checks.html
 if [ $? -ne 0 ]; then
