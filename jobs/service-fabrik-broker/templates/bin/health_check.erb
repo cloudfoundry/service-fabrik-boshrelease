@@ -1,6 +1,6 @@
 #!/bin/bash
 
-vm_state=$(/etc/keepalived/get_keepalived_state.sh)
+vm_state=$(sudo /etc/keepalived/get_keepalived_state.sh)
 if [[ $vm_state == "down" ]]; then
   exit 1
 fi
