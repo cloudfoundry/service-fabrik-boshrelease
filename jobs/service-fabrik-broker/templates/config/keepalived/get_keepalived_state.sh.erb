@@ -2,7 +2,7 @@
 
 function get_status(){
   if [[ "$(cat /var/run/keepalive.*.state)" == "MASTER" && \
-   "$(service keepalived status | awk '{print $2}')" = *"running"* ]]; then
+   "$(sudo service keepalived status | awk '{print $2}')" = *"running"* ]]; then
     echo "up"
    else
     echo "down"
