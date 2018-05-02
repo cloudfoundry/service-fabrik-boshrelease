@@ -18,16 +18,16 @@ templates:
   bin/health_check.erb: bin/health_check
   bin/pre-start.erb: bin/pre-start
   config/settings.yml.erb: config/settings.yml
-  config/keepalived_upstart.conf.erb: config/keepalived_upstart.conf
-  config/keepalived_healthcheck.conf.erb: config/keepalived_healthcheck.conf
   config/eventlog-config-external.yml.erb: config/eventlog-config-external.yml
   config/eventlog-config-internal.yml.erb: config/eventlog-config-internal.yml
   config/syslog_forwarding.conf.erb: config/syslog_forwarding.conf
   config/circuit-breaker-config.yml.erb: config/circuit-breaker-config.yml
-  config/master.sh.erb: config/master.sh
-  config/notify.sh.erb: config/notify.sh
-  config/get_keepalived_state.sh.erb: config/get_keepalived_state.sh
-  config/getAgentStatus.sh.erb: config/getAgentStatus.sh
+  config/keepalived/upstart.conf.erb: config/keepalived/upstart.conf
+  config/keepalived/keepalived.conf.erb: config/keepalived/keepalived.conf
+  config/keepalived/master.sh.erb: config/keepalived/master.sh
+  config/keepalived/notify.sh.erb: config/keepalived/notify.sh
+  config/keepalived/get_keepalived_state.sh.erb: config/keepalived/get_keepalived_state.sh
+  config/keepalived/get_sf_broker_status.sh.erb: config/keepalived/get_sf_broker_status.sh
   config/restartFabrikStatusPoller.js.erb: config/restartFabrikStatusPoller.js
 provides:
 - name: broker

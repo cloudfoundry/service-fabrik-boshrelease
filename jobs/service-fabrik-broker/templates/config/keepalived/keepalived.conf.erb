@@ -1,6 +1,6 @@
 <% internal = p('internal') %>
 vrrp_script chk_sfnode {
-    script "/etc/keepalived/getAgentStatus.sh"
+    script "/etc/keepalived/get_sf_broker_status.sh"
     weight 10
     interval 2
     fall 2
