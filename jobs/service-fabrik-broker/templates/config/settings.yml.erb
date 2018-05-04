@@ -18,6 +18,8 @@ production:
   ####################
   broker_name: '<%= broker_name %>'
   deployment_name: '<%= spec.deployment %>'
+  release_name: '<%= spec.release.name %>'
+  release_version: '<%= spec.release.version %>'
   username: '<%= p('username') %>'
   password: '<%= p('password') %>'
   skip_ssl_validation: <%= p('skip_ssl_validation') %>
@@ -223,6 +225,8 @@ production:
       ca: <%= JSON.dump(p('common.tls_cacert')) %>
       cert: <%= JSON.dump(p('common.tls_client_cert')) %>
       key: <%= JSON.dump(p('common.tls_client_key')) %>
+
+  service_addon_jobs: <%= p('service_addon_jobs') %>
 
   #####################
   # DIRECTOR SETTINGS #

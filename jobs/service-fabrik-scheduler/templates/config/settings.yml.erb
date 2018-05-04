@@ -20,6 +20,8 @@ production:
   scheduler_name: '<%= scheduler_name %>'
   broker_name: '<%= broker_name %>'
   deployment_name: '<%= spec.deployment %>'
+  release_name: '<%= spec.release.name %>'
+  release_version: '<%= spec.release.version %>'
   username: '<%= link("broker").p('username') %>'
   password: '<%= link("broker").p('password') %>'
   skip_ssl_validation: <%= link("broker").p('skip_ssl_validation') %>
