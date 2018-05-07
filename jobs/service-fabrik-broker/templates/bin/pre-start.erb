@@ -9,23 +9,23 @@ fi
 
 mkdir -p /etc/keepalived
 
-if [ ! -L /etc/init/keepalived.conf ]; then
+if [ ! -L /etc/keepalived/keepalived.conf ]; then
    ln -s /var/vcap/jobs/service-fabrik-broker/config/keepalived/keepalived.conf /etc/keepalived/keepalived.conf
 fi
 
 if [ ! -L /etc/keepalived/get_sf_broker_status.sh ]; then
-   ln -s /var/vcap/jobs/service-fabrik-broker/config/keepalived/get_agent_status.sh /etc/keepalived/get_sf_broker_status.sh
+   ln -s /var/vcap/jobs/service-fabrik-broker/config/keepalived/get_sf_broker_status.sh /etc/keepalived/get_sf_broker_status.sh
 fi
 
-if [ ! -L /etc/keepalived/get_sf_broker_status.sh ]; then
+if [ ! -L /etc/keepalived/notify.sh ]; then
    ln -s /var/vcap/jobs/service-fabrik-broker/config/keepalived/notify.sh /etc/keepalived/notify.sh
 fi
 
-if [ ! -L /etc/keepalived/get_sf_broker_status.sh ]; then
+if [ ! -L /etc/keepalived/master.sh ]; then
    ln -s /var/vcap/jobs/service-fabrik-broker/config/keepalived/master.sh /etc/keepalived/master.sh
 fi
 
-if [ ! -L /etc/keepalived/get_sf_broker_status.sh ]; then
+if [ ! -L /etc/keepalived/get_keepalived_state.sh  ]; then
    ln -s /var/vcap/jobs/service-fabrik-broker/config/keepalived/get_keepalived_state.sh /etc/keepalived/get_keepalived_state.sh
 fi
 
