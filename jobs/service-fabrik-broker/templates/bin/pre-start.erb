@@ -3,15 +3,11 @@
 set -e # exit immediately if a simple command exits with a non-zero status
 set -u # report the usage of uninitialized variables
 
-if [ ! -L /etc/init/keepalived.conf ]; then
-   ln -s /var/vcap/jobs/service-fabrik-broker/config/keepalived/upstart.conf /etc/init/keepalived.conf
-fi
+cp /var/vcap/jobs/service-fabrik-broker/config/keepalived/upstart.conf /etc/init/keepalived.conf
 
 mkdir -p /etc/keepalived
 
-if [ ! -L /etc/keepalived/keepalived.conf ]; then
-   ln -s /var/vcap/jobs/service-fabrik-broker/config/keepalived/keepalived.conf /etc/keepalived/keepalived.conf
-fi
+cp /var/vcap/jobs/service-fabrik-broker/config/keepalived/keepalived.conf /etc/keepalived/keepalived.conf
 
 if [ ! -L /etc/keepalived/get_sf_broker_status.sh ]; then
    ln -s /var/vcap/jobs/service-fabrik-broker/config/keepalived/get_sf_broker_status.sh /etc/keepalived/get_sf_broker_status.sh
