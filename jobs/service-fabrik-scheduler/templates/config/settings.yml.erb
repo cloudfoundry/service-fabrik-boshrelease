@@ -225,6 +225,7 @@ production:
       cert: <%= JSON.dump(link("broker").p('common.tls_client_cert')) %>
       key: <%= JSON.dump(link("broker").p('common.tls_client_key')) %>
 
+  service_addon_jobs: <%= link("broker").p('service_addon_jobs') %>
   #####################
   # DIRECTOR SETTINGS #
   #####################
