@@ -24,7 +24,7 @@ case $1 in
 
     #Load deployment actions
     echo "starting to load deployment action scripts"
-    ${NODE_CMD} ${PACKAGE_DIR}/lib/LoadDeploymentActions.js \
+    ${NODE_CMD} ${PACKAGE_DIR}/broker/lib/LoadDeploymentActions.js \
       1>> ${LOG_DIR}/${OUTPUT_LABEL}.stdout.log \
       2>> ${LOG_DIR}/${OUTPUT_LABEL}.stderr.log
     echo "deployment action scripts loaded successfully"
@@ -37,7 +37,7 @@ case $1 in
       --background \
       --no-close \
       --chdir ${PACKAGE_DIR} \
-      -- ${PACKAGE_DIR}/server.js \
+      -- ${PACKAGE_DIR}/broker/server.js \
       1>> ${LOG_DIR}/${OUTPUT_LABEL}.stdout.log \
       2>> ${LOG_DIR}/${OUTPUT_LABEL}.stderr.log
     ;;
