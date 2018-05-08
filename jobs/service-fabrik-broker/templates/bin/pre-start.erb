@@ -1,8 +1,21 @@
 #!/bin/bash
 
-set -e # exit immediately if a simple command exits with a non-zero status
 set -u # report the usage of uninitialized variables
 
+# Default actions to be taken before HA setup
+sudo rm /etc/init/keepalived.conf
+sudo rm -rf /etc/keepalived/
+sudo service keepalived stop
+
+set -e # exit immediately if a simple command exits with a non-zero status
+
+# Checking if HA setup needs to be done or not.
+ha_enabled=<%= p('ha_enabled') %>
+if [[ $ha_enabled == false ]]; then
+  exit 0
+fi
+
+# Steps for performing HA setup
 cp /var/vcap/jobs/service-fabrik-broker/config/keepalived/upstart.conf /etc/init/keepalived.conf
 
 mkdir -p /etc/keepalived
