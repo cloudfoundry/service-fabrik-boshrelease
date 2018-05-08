@@ -98,6 +98,7 @@ provides:
   - quota
   - actions
   - services
+  - service_addon_jobs
   - directors
   - multi_az_enabled
 consumes:
