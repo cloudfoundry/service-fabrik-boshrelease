@@ -199,13 +199,13 @@ properties:
     default: /tmp/sfevents
   internal.floating_ip:
     description: "Floating IP used for Ip re-assignment in HA setup"
-    default: 10.11.252.12
+    default: 10.11.252.10
   internal.master_ip:
     description: "Ip used for master vm in HA setup"
-    default: 10.11.252.10
+    default: 10.11.252.11
   internal.slave_ip:
     description: "Ip used for slave vm in HA setup"
-    default: 10.11.252.11
+    default: 10.11.252.12
 
   mongodb.url:
     description: "MongoDB connection URL for service-fabrik's internal needs. ex : mongodb://user:pass@localhost:port/database"
