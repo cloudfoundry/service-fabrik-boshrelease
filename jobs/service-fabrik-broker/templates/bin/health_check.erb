@@ -1,8 +1,18 @@
 #!/bin/bash
 
-vm_state=$(sudo /etc/keepalived/get_keepalived_state.sh)
-if [[ $vm_state == "down" ]]; then
-  exit 1
+# Checking if HA setup needs to be done or not.
+ha_enabled=<%= p('ha_enabled') %>
+if [[ "$ha_enabled" == "true"  ] ]; then
+
+  # If ha is configured and /etc/keepalived/get_keepalived_state.sh not present,
+  # it should throw exception
+  if [[ ! -f /etc/keepalived/get_keepalived_state.sh ]]; then
+    exit 1
+  fi
+  vm_state=$(sudo /etc/keepalived/get_keepalived_state.sh)
+  if [[ "$vm_state" != "up" ]]; then
+    exit 1
+  fi
 fi
 
 nc -z <%= spec.ip %> <%= p('external.port') %>
