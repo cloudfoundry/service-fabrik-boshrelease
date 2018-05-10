@@ -6,6 +6,7 @@ export JOB_NAME='iptables-manager'
 export HOME=/var/vcap
 export LOG_DIR=$HOME/sys/log/$JOB_NAME
 export RUN_DIR=$HOME/sys/run/$JOB_NAME
+export JOB_DIR=$HOME/jobs/$JOB_NAME
 
 for dir in $LOG_DIR $RUN_DIR
 do
@@ -34,14 +35,14 @@ fi
 case $1 in
   start)
     setcap CAP_NET_RAW,CAP_NET_ADMIN=eip  /sbin/xtables-multi
-    su ${SF_USER} -c './clear-iptables' #Flush all existing rules
-    su ${SF_USER} -c './update-iptables'
+    su ${SF_USER} -c '$JOB_DIR/bin/clear-iptables' #Flush all existing rules
+    su ${SF_USER} -c '$JOB_DIR/bin/update-iptables'
     setcap -r /sbin/xtables-multi
     echo 1 >> $PID_FILE
     ;;
   stop)
     setcap CAP_NET_RAW,CAP_NET_ADMIN=eip  /sbin/xtables-multi
-    su ${SF_USER} -c './clear-iptables'
+    su ${SF_USER} -c '$JOB_DIR/bin/clear-iptables'
     setcap -r /sbin/xtables-multi
     rm -f $PID_FILE
     ;;
