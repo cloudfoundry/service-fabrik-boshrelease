@@ -1,4 +1,8 @@
 #!/bin/bash
-# notify.sh
+set -e
 
-echo $3 > /var/run/keepalive.$1.$2.state
+TYPE=$1
+NAME=$2
+STATE=$3
+
+echo $STATE > /var/run/keepalive.$TYPE.$NAME.state

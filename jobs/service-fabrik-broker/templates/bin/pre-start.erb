@@ -31,8 +31,8 @@ if [ ! -L /etc/keepalived/notify.sh ]; then
    ln -s /var/vcap/jobs/service-fabrik-broker/config/keepalived/notify.sh /etc/keepalived/notify.sh
 fi
 
-if [ ! -L /etc/keepalived/master.sh ]; then
-   ln -s /var/vcap/jobs/service-fabrik-broker/config/keepalived/master.sh /etc/keepalived/master.sh
+if [ ! -L /etc/keepalived/action.sh ]; then
+   ln -s /var/vcap/jobs/service-fabrik-broker/config/keepalived/action.sh /etc/keepalived/action.sh
 fi
 
 if [ ! -L /etc/keepalived/get_keepalived_state.sh  ]; then
@@ -41,7 +41,7 @@ fi
 
 chmod +x /etc/keepalived/get_sf_broker_status.sh
 chmod +x /etc/keepalived/notify.sh
-chmod +x /etc/keepalived/master.sh
+chmod +x /etc/keepalived/action.sh
 chmod +x /etc/keepalived/get_keepalived_state.sh
 
 sudo service keepalived restart

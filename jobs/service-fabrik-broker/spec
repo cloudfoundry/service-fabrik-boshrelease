@@ -7,7 +7,7 @@ packages:
   - service-fabrik-broker
   - jq
   - keepalived
-  - awscli
+  - aws-cli
   - python
   - yaml2json
 
@@ -24,7 +24,7 @@ templates:
   config/circuit-breaker-config.yml.erb: config/circuit-breaker-config.yml
   config/keepalived/upstart.conf.erb: config/keepalived/upstart.conf
   config/keepalived/keepalived.conf.erb: config/keepalived/keepalived.conf
-  config/keepalived/master.sh.erb: config/keepalived/master.sh
+  config/keepalived/action.sh.erb: config/keepalived/action.sh
   config/keepalived/notify.sh.erb: config/keepalived/notify.sh
   config/keepalived/get_keepalived_state.sh.erb: config/keepalived/get_keepalived_state.sh
   config/keepalived/get_sf_broker_status.sh.erb: config/keepalived/get_sf_broker_status.sh
