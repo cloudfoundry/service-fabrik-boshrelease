@@ -19,17 +19,30 @@ export PID_FILE=${RUN_DIR}/iptables-manager.pid
 exec 1>> $LOG_DIR/$JOB_NAME.stdout.log
 exec 2>> $LOG_DIR/$JOB_NAME.stderr.log
 
+export SF_USER=sf_user
+if grep -q "^${SF_USER}:" /etc/passwd
+then
+  /usr/sbin/adduser \
+   --system \
+   --group \
+   --shell /bin/bash \
+   --disabled-password \
+   --home /home/${SF_USER} ${SF_USER} \
+   --gecos "SF user to manage iptables"
+fi
+
 case $1 in
   start)
-    iptables -F #Flush all existing rules
-    iptables -A INPUT -p tcp -s  "<%= p('allow_ips_list') %>" -j ACCEPT
-    <% if_p('block_ips_list') do |block_ips_list| %>
-    iptables -A INPUT -p tcp -s  "<%= block_ips_list %>" -j DROP
-    <% end %>
+    setcap CAP_NET_RAW,CAP_NET_ADMIN=eip  /sbin/xtables-multi
+    su ${SF_USER} -c './clear-iptables' #Flush all existing rules
+    su ${SF_USER} -c './update-iptables'
+    setcap -r /sbin/xtables-multi
     echo 1 >> $PID_FILE
     ;;
   stop)
-    iptables -F
+    setcap CAP_NET_RAW,CAP_NET_ADMIN=eip  /sbin/xtables-multi
+    su ${SF_USER} -c './clear-iptables'
+    setcap -r /sbin/xtables-multi
     rm -f $PID_FILE
     ;;
 
