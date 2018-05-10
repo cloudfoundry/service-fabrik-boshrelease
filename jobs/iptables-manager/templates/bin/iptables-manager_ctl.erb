@@ -20,7 +20,7 @@ exec 1>> $LOG_DIR/$JOB_NAME.stdout.log
 exec 2>> $LOG_DIR/$JOB_NAME.stderr.log
 
 export SF_USER=sf_user
-if grep -q "^${SF_USER}:" /etc/passwd
+if ! grep -q "^${SF_USER}:" /etc/passwd
 then
   /usr/sbin/adduser \
    --system \
