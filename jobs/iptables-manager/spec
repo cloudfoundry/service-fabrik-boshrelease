@@ -3,6 +3,8 @@ name: iptables-manager
 
 templates:
   bin/iptables-manager_ctl.erb: bin/iptables-manager_ctl
+  bin/update-iptables.erb: bin/update-iptables
+  bin/clear-iptables: bin/clear-iptables
  
 properties:
   allow_ips_list:
