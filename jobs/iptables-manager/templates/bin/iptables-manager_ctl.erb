@@ -34,15 +34,15 @@ fi
 
 case $1 in
   start)
-    setcap CAP_NET_RAW,CAP_NET_ADMIN=eip  /sbin/xtables-multi
-    su ${SF_USER} -c '$JOB_DIR/bin/clear-iptables' #Flush all existing rules
-    su ${SF_USER} -c '$JOB_DIR/bin/update-iptables'
+    setcap CAP_NET_RAW,CAP_NET_ADMIN=ei /sbin/xtables-multi
+    capsh --keep=1 --user=${SF_USER} --caps="cap_net_admin,cap_net_raw+eip" -- -c '$JOB_DIR/bin/clear-iptables' #Flush all existing rules
+    capsh --keep=1 --user=${SF_USER} --caps="cap_net_admin,cap_net_raw+eip" -- -c '$JOB_DIR/bin/update-iptables'
     setcap -r /sbin/xtables-multi
     echo 1 >> $PID_FILE
     ;;
   stop)
-    setcap CAP_NET_RAW,CAP_NET_ADMIN=eip  /sbin/xtables-multi
-    su ${SF_USER} -c '$JOB_DIR/bin/clear-iptables'
+    setcap CAP_NET_RAW,CAP_NET_ADMIN=ei /sbin/xtables-multi
+    capsh --keep=1 --user=${SF_USER} --caps="cap_net_admin,cap_net_raw+eip" -- -c '$JOB_DIR/bin/clear-iptables'
     setcap -r /sbin/xtables-multi
     rm -f $PID_FILE
     ;;
