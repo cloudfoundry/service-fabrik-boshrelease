@@ -111,6 +111,7 @@ provides:
   - quota
   - actions
   - services
+  - service_addon_jobs
   - directors
   - multi_az_enabled
   - ha_enabled
@@ -291,6 +292,10 @@ properties:
     description: "TLS certificate file"
   common.tls_client_key:
     description: "TLS key file"
+
+  service_addon_jobs:
+    description: "Add on jobs that will be added onto the services deployment"
+    default: ['iptables-manager']
 
   directors:
     description: "URL of the Bosh directors"

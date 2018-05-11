@@ -1,0 +1,37 @@
+#!/bin/bash
+
+set -e
+
+export JOB_NAME='iptables-manager'
+export HOME=/var/vcap
+export LOG_DIR=$HOME/sys/log/$JOB_NAME
+export RUN_DIR=$HOME/sys/run/$JOB_NAME
+
+for dir in $LOG_DIR $RUN_DIR
+do
+  mkdir -p ${dir}
+  chown vcap:vcap ${dir}
+  chmod 775 ${dir}
+done
+
+export PID_FILE=${RUN_DIR}/iptables-manager.pid
+
+exec 1>> $LOG_DIR/$JOB_NAME.stdout.log
+exec 2>> $LOG_DIR/$JOB_NAME.stderr.log
+
+case $1 in
+  start)
+    iptables -F #Flush all existing rules
+    iptables -A INPUT -p tcp -s  "<%= p('allow_ips_list') %>" -j ACCEPT
+    <% if_p('block_ips_list') do |block_ips_list| %>
+    iptables -A INPUT -p tcp -s  "<%= block_ips_list %>" -j DROP
+    <% end %>
+    echo 1 >> $PID_FILE
+    ;;
+  stop)
+    iptables -F
+    rm -f $PID_FILE
+    ;;
+
+esac
+exit 0

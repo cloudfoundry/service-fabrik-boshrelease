@@ -12,8 +12,9 @@ set -u
   # Precompile static files if needed
 
   # Remove unneeded files
-  rm -rf bin
-  rm -rf config/*
+  rm -rf broker/bin
+  rm -rf broker/config/*
+  rm -rf common/config/*
   rm -rf coverage
   rm -rf docs
   rm -rf logs/*
