@@ -1,6 +1,6 @@
-<% internal = p('internal') %>
+<% internal = link("broker").p('internal') %>
 vrrp_script chk_sfnode {
-    script "/etc/keepalived/get_sf_broker_status.sh"
+    script "/var/vcap/jobs/keepalived/bin/get_sf_broker_status.sh"
     weight 10
     interval 2
     fall 2
@@ -39,8 +39,8 @@ vrrp_instance VI_1 {
     # $2 = name of group or instance
     # $3 = target state of transition
     #     ("MASTER"|"BACKUP"|"FAULT")
-    notify /etc/keepalived/notify.sh
-    notify_master "/etc/keepalived/action.sh MASTER"
-    notify_backup "/etc/keepalived/action.sh BACKUP"
-    notify_fault  "/etc/keepalived/action.sh FAULT"
+    notify /var/vcap/jobs/keepalived/bin/notify.sh
+    notify_master "/var/vcap/jobs/keepalived/bin/action.sh MASTER"
+    notify_backup "/var/vcap/jobs/keepalived/bin/action.sh BACKUP"
+    notify_fault  "/var/vcap/jobs/keepalived/bin/action.sh FAULT"
 }

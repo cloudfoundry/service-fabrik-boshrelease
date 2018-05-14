@@ -1,0 +1,21 @@
+---
+name: keepalived
+
+description: "The keepalived job can be used to add a VRRP IP address to enforce HA on service-fabrik release"
+
+packages:
+- keepalived
+- bosh-helpers
+- aws-cli
+
+templates:
+  bin/keepalived_ctl.erb: 		bin/keepalived_ctl
+  bin/action.sh.erb: 			bin/action.sh
+  bin/notify.sh.erb: 			bin/notify.sh
+  bin/get_keepalived_state.sh.erb: 	bin/get_keepalived_state.sh
+  bin/get_sf_broker_status.sh.erb: 	bin/get_sf_broker_status.sh
+  config/keepalived.conf.erb: 		config/keepalived.conf
+
+consumes:
+- name: broker
+  type: broker

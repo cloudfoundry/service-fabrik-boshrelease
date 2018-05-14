@@ -1,0 +1,32 @@
+#!/bin/bash
+
+set -e # exit immediately if a simple command exits with a non-zero status
+# Setup common env vars and folders
+source /var/vcap/packages/bosh-helpers/ctl_setup.sh 'keepalived'
+
+case $1 in
+
+  start)
+
+    exec /var/vcap/packages/keepalived/sbin/keepalived -l -D --dont-fork \
+        -f ${JOB_DIR}/config/keepalived.conf \
+        --pid=${RUN_DIR}/keepalived.pid \
+        --vrrp_pid=${RUN_DIR}/vrrp.pid \
+        --checkers_pid=${RUN_DIR}/checkers.pid \
+        --log-file=${LOG_DIR}/${OUTPUT_LABEL}.log \
+        >> ${LOG_DIR}/${OUTPUT_LABEL}.stdout.log \
+        2>> ${LOG_DIR}/${OUTPUT_LABEL}.stderr.log
+    ;;
+
+  stop)
+    for PIDFILE in ${RUN_DIR}/*.pid; do
+        kill_and_wait $PIDFILE
+    done
+    ;;
+
+  *)
+    echo "Usage: keepalived_ctl {start|stop}"
+    exit 1
+    ;;
+
+esac

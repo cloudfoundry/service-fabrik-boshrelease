@@ -1,8 +1,0 @@
-description "high-availability service"
-
-start on runlevel [2345]
-stop on runlevel [!2345]
-
-respawn
-
-exec /var/vcap/packages/keepalived/sbin/keepalived --dont-fork

@@ -1,8 +1,0 @@
-#!/bin/bash
-set -e
-
-TYPE=$1
-NAME=$2
-STATE=$3
-
-echo $STATE > /var/run/keepalive.$TYPE.$NAME.state
