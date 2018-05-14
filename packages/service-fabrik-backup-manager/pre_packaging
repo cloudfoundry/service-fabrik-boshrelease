@@ -1,0 +1,21 @@
+#!/bin/bash
+
+set -e
+set -u
+
+(
+  cd ${BUILD_DIR}/service-fabrik-broker
+
+  # Install production dependencies
+  npm install --production
+
+  # Precompile static files if needed
+
+  # Remove unneeded files
+  rm -rf common/config/*
+  rm -rf coverage
+  rm -rf docs
+  rm -rf logs/*
+  rm -rf store
+  rm -rf test
+)

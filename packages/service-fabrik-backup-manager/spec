@@ -1,0 +1,9 @@
+---
+name: service-fabrik-broker
+dependencies:
+  - node
+files:
+  - service-fabrik-broker/eventmesh/**/*
+  - service-fabrik-broker/managers/**/*
+  - service-fabrik-broker/common/**/*
+  - service-fabrik-broker/package.json
