@@ -2,8 +2,7 @@
 
 # Checking if HA setup needs to be done or not.
 ha_enabled=<%= p('ha_enabled') %>
-if [[ "$ha_enabled" == "true"  ] ]; then
-
+if [[ "$ha_enabled" == "true"  ]]; then
   # If ha is configured and /etc/keepalived/get_keepalived_state.sh not present,
   # it should throw exception
   if [[ ! -f /etc/keepalived/get_keepalived_state.sh ]]; then

@@ -24,8 +24,13 @@ if [[ "$iaas_name" == "aws" ]]; then
     network_metadata=$("$AWS_CLI_CMD" ec2 describe-network-interfaces --filter "Name=private-ip-address,Values=${SOURCE_IP}" | "${JQ_CMD}" -r --arg SUBNET_ID "$SUBNET_ID" '.[][] | select(.SubnetId==$SUBNET_ID)')
     export ENI_ID=$(echo "$network_metadata" | "${JQ_CMD}" -r '.NetworkInterfaceId')
     $AWS_CLI_CMD ec2 assign-private-ip-addresses --network-interface-id $ENI_ID --allow-reassignment --private-ip-addresses <%= internal['floating_ip'] %>
+    set +e
     sudo ip addr add <%= internal['floating_ip'] %> dev eth0
+    set -e
   elif [[ "$STATE" == "BACKUP" ]] || [[ "$STATE" == "FAULT" ]]; then
-    sudo ip addr del <%= internal['floating_ip'] %> dev eth0
+    set +e
+    sudo ip addr del <%= internal['floating_ip'] %>/32 dev eth0
+    set -e
   fi
 fi
+exit 0
