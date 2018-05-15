@@ -15,3 +15,5 @@ templates:
 consumes:
 - name: broker
   type: broker
+- name: scheduler
+  type: scheduler
