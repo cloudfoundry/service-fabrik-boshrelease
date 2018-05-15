@@ -8,13 +8,13 @@ if [[ "$iaas_name" == "aws" ]]; then
   SOURCE_IP=<%= spec.ip %>
   <% internal = link("broker").p('internal') %>
 
-  BACKUP_OBJ='<%= JSON.dump(link("broker").p('ha.provider', nil)) %>'
+  IAAS_CONFIG='<%= JSON.dump(link("broker").p('ha.provider', nil)) %>'
   AWS_CLI_CMD=/var/vcap/packages/aws-cli/bin/aws
   JQ_CMD=/var/vcap/packages/jq/bin/jq
 
-  ACCESS_KEY_ID="$(echo "${BACKUP_OBJ}" | "${JQ_CMD}" -r '.keyId')"
-  SECRET_ACCESS_KEY="$(echo "${BACKUP_OBJ}" | "${JQ_CMD}" -r '.key')"
-  REGION_NAME="$(echo "${BACKUP_OBJ}" | "${JQ_CMD}" -r '.region')"
+  ACCESS_KEY_ID="$(echo "${IAAS_CONFIG}" | "${JQ_CMD}" -r '.keyId')"
+  SECRET_ACCESS_KEY="$(echo "${IAAS_CONFIG}" | "${JQ_CMD}" -r '.key')"
+  REGION_NAME="$(echo "${IAAS_CONFIG}" | "${JQ_CMD}" -r '.region')"
 
   $AWS_CLI_CMD configure set aws_access_key_id "$ACCESS_KEY_ID"
   $AWS_CLI_CMD configure set aws_secret_access_key "$SECRET_ACCESS_KEY"
