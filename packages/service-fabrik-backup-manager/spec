@@ -1,5 +1,5 @@
 ---
-name: service-fabrik-broker
+name: service-fabrik-backup-manager
 dependencies:
   - node
 files:
