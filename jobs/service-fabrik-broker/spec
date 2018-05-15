@@ -6,9 +6,6 @@ packages:
   - node
   - service-fabrik-broker
   - jq
-  - keepalived
-  - aws-cli
-  - python
   - yaml2json
 
 templates:
@@ -79,6 +76,7 @@ provides:
   - backup.abort_time_out
   - backup.consecutive_backup_failure_sla_count
   - backup.provider
+  - ha.provider
   - virtual_host.provider
   - docker.url
   - docker.skip_ssl_validation
@@ -251,6 +249,8 @@ properties:
     default: 3
   backup.provider:
     description: "IaaS-specific backup provider configuration"
+  ha.provider:
+    description: "IaaS-specific ha provider configuration"
   backup.status_check_every:
     description: "Interval in milliseconds to check the status of service fabrik backup"
     default: 120000

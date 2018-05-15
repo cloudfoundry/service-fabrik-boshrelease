@@ -1,14 +1,14 @@
 #!/bin/bash
 
 STATE=$1
-iaas_name='<%= link("broker").p('backup.provider.name') %>'
+iaas_name='<%= link("broker").p('ha.provider.name', nil) %>'
 if [[ "$iaas_name" == "aws" ]]; then
 
   SUBNET_ID='<%= spec.networks.sf_service_fabrik_broker.cloud_properties.subnet %>'
   SOURCE_IP=<%= spec.ip %>
   <% internal = link("broker").p('internal') %>
 
-  BACKUP_OBJ='<%= JSON.dump(link("broker").p('backup.provider', nil)) %>'
+  BACKUP_OBJ='<%= JSON.dump(link("broker").p('ha.provider', nil)) %>'
   AWS_CLI_CMD=/var/vcap/packages/aws-cli/bin/aws
   JQ_CMD=/var/vcap/packages/jq/bin/jq
 
