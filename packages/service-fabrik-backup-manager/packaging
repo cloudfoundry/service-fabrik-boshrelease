@@ -6,7 +6,9 @@ PATH=/var/vcap/packages/node/bin:$PATH
 
 # Copy package
 echo "Copying required service fabrik folders..."
-cp -a ${BOSH_COMPILE_TARGET}/service-fabrik-broker/{eventmesh,managers,common,node_modules} ${BOSH_INSTALL_TARGET}/
+
+echo ${BOSH_COMPILE_TARGET}
+cp -a ${BOSH_COMPILE_TARGET}/service-fabrik-backup-manager/{eventmesh,managers,common,node_modules} ${BOSH_INSTALL_TARGET}/
 
 #Added the below line to avoid node-gyp connect to internet and download headers during "npm rebuild"
 #which internally calls "node-gyp rebuild" of unix-dgram package based on https://github.com/nodejs/node-gyp/issues/1020

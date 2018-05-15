@@ -4,6 +4,7 @@ set -e
 set -u
 
 (
+  echo ${BUILD_DIR}
   cd ${BUILD_DIR}/service-fabrik-broker
 
   # Install production dependencies
