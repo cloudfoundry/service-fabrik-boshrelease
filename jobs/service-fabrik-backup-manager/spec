@@ -13,11 +13,6 @@ templates:
   config/syslog_forwarding.conf.erb: config/syslog_forwarding.conf
 
 provides:
-- name: backup-manager
-  type: backup-manager
-  properties: 
-  - random
-
 - name: etcd
   type: etcd
   properties:
@@ -28,10 +23,6 @@ consumes:
   type: broker
   
 properties:
-  backup-manager.random:
-    description: "random"
-    default: "random"
-
   etcd.url:
     description: "URL of ETCD"
     default: ["10.11.122.106", "10.11.122.107", "10.11.122.108"]
