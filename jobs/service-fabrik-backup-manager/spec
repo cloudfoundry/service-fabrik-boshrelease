@@ -12,17 +12,6 @@ templates:
   config/settings.yml.erb: config/settings.yml
   config/syslog_forwarding.conf.erb: config/syslog_forwarding.conf
 
-provides:
-- name: etcd
-  type: etcd
-  properties:
-  - url
-
 consumes:
 - name: broker
   type: broker
-  
-properties:
-  etcd.url:
-    description: "URL of ETCD"
-    default: ["10.11.122.106", "10.11.122.107", "10.11.122.108"]
