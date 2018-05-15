@@ -8,7 +8,7 @@ if [[ "$ha_enabled" == "true"  ]]; then
   if [[ ! -f /var/vcap/jobs/keepalived/bin/get_keepalived_state.sh ]]; then
     exit 1
   fi
-  vm_state=$(sudo /var/vcap/jobs/keepalived/bin/get_keepalived_state.sh)
+  vm_state=$(/var/vcap/jobs/keepalived/bin/get_keepalived_state.sh)
   if [[ "$vm_state" != "up" ]]; then
     exit 1
   fi
