@@ -1,0 +1,4 @@
+check process service-fabrik-deployment-hooks with pidfile /var/vcap/sys/run/service-fabrik-deployment-hooks/service-fabrik-deployment-hooks.pid
+  group vcap
+  start program "/var/vcap/packages/bosh-helpers/monit_debugger service-fabrik-deployment-hooks_ctl '/var/vcap/jobs/service-fabrik-deployment-hooks/bin/service-fabrik-deployment-hooks_ctl start'"
+  stop program "/var/vcap/packages/bosh-helpers/monit_debugger service-fabrik-deployment-hooks_ctl '/var/vcap/jobs/service-fabrik-deployment-hooks/bin/service-fabrik-deployment-hooks_ctl stop'"

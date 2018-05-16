@@ -1,0 +1,68 @@
+---
+name: service-fabrik-deployment-hooks
+
+packages:
+  - bosh-helpers
+  - node
+  - service-fabrik-broker
+
+templates:
+  bin/service-fabrik-deployment-hooks_ctl.erb: bin/service-fabrik-deployment-hooks_ctl
+  bin/job_properties.sh.erb: bin/job_properties.sh
+  config/settings.yml.erb: config/settings.yml
+  config/syslog_forwarding.conf.erb: config/syslog_forwarding.conf
+  config/circuit-breaker-config.yml.erb: config/circuit-breaker-config.yml
+  config/eventlog-config-deployment-hooks.yml.erb: config/eventlog-config-deployment-hooks.yml
+
+provides:
+- name: deployment_hooks
+  type: deployment_hooks
+  properties:
+  - username
+  - password
+  - skip_ssl_validation
+  - log_level
+  - enable_circuit_breaker
+  http_timeout
+  - hook.port
+  - hook.ip
+  - hook.ssl
+  - hook.log_event
+
+consumes:
+- name: broker
+  type: broker
+
+properties:
+  username:
+    description: "Deployment Hook's basic auth username"
+    default: "hook"
+  password:
+    description: "Deployment Hook's basic auth password"
+    default: "secret"
+  skip_ssl_validation:
+    description: "Determines whether the deployment hooks should verify SSL certificates when communicating with other endpoints such as broker"
+    default: true
+  log_level:
+    description: "Log level of the deployment hooks"
+    default: "debug"
+  enable_circuit_breaker:
+    description: "Switch used to turn on/off circuit breaker"
+    default: false
+  http_timeout:
+    description: "Timeout duration for any request to deployment hooks"
+    default: 80000
+  hook.port:
+    description: "Port used for reporting endpoints"
+    default: 9295
+  hook.ip:
+    description: "IP address used for reporting endpoints"
+  hook.ssl.key:
+    description: "Private key used for communication"
+  hook.ssl.cert:
+    description: "Signed certificate used for communication"
+  hook.log_event:
+    description: "Determines whether event logging must be enabled or not"
+    default: false
+  actions:
+    description: "Deployment actions template"
