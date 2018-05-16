@@ -11,6 +11,7 @@ if [[ "$iaas_name" == "aws" ]]; then
   IAAS_CONFIG='<%= JSON.dump(p('ha.provider', nil)) %>'
   AWS_CLI_CMD=/var/vcap/packages/aws-cli/bin/aws
   JQ_CMD=/var/vcap/packages/jq/bin/jq
+  NODE_CMD=/var/vcap/packages/node/bin/node
 
   ACCESS_KEY_ID="$(echo "${IAAS_CONFIG}" | "${JQ_CMD}" -r '.keyId')"
   SECRET_ACCESS_KEY="$(echo "${IAAS_CONFIG}" | "${JQ_CMD}" -r '.key')"
@@ -27,6 +28,7 @@ if [[ "$iaas_name" == "aws" ]]; then
     set +e
     sudo ip addr add <%= internal['ip'] %> dev eth0
     set -e
+    $NODE_CMD restartFabrikStatusPoller.js
   elif [[ "$STATE" == "BACKUP" ]] || [[ "$STATE" == "FAULT" ]]; then
     set +e
     sudo ip addr del <%= internal['ip'] %>/32 dev eth0
