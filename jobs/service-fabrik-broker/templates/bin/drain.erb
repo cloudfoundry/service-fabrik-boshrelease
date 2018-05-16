@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+
 # shellcheck disable=SC1091
 source /var/vcap/packages/bosh-helpers/ctl_setup.sh 'service-fabrik-broker' 'service-fabrik-broker' 'false'
 message="$("${YAML2JSON_CMD}" < "${SETTINGS_PATH}" | "${JQ_CMD}" -r ."${NODE_ENV}".broker_drain_message)"
