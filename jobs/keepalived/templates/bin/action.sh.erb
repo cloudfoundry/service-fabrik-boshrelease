@@ -1,17 +1,18 @@
 #!/bin/bash
 
 STATE=$1
-iaas_name='<%= p('ha.provider.name', nil) %>'
+iaas_name='<%= p('iaas_config.name', nil) %>'
 if [[ "$iaas_name" == "aws" ]]; then
 
   SUBNET_ID='<%= spec.networks.sf_service_fabrik_broker.cloud_properties.subnet %>'
   SOURCE_IP=<%= spec.ip %>
   <% internal = link("broker").p('internal') %>
 
-  IAAS_CONFIG='<%= JSON.dump(p('ha.provider', nil)) %>'
+  IAAS_CONFIG='<%= JSON.dump(p('iaas_config', nil)) %>'
   AWS_CLI_CMD=/var/vcap/packages/aws-cli/bin/aws
   JQ_CMD=/var/vcap/packages/jq/bin/jq
   NODE_CMD=/var/vcap/packages/node/bin/node
+  RESTART_FABRIK_STATUS_POLLER_SCRIPT=/var/vcap/jobs/service-fabrik-broker/bin/restartFabrikStatusPoller.js
 
   ACCESS_KEY_ID="$(echo "${IAAS_CONFIG}" | "${JQ_CMD}" -r '.keyId')"
   SECRET_ACCESS_KEY="$(echo "${IAAS_CONFIG}" | "${JQ_CMD}" -r '.key')"
@@ -27,8 +28,8 @@ if [[ "$iaas_name" == "aws" ]]; then
     $AWS_CLI_CMD ec2 assign-private-ip-addresses --network-interface-id $ENI_ID --allow-reassignment --private-ip-addresses <%= internal['ip'] %>
     set +e
     sudo ip addr add <%= internal['ip'] %> dev eth0
+    $NODE_CMD $RESTART_FABRIK_STATUS_POLLER_SCRIPT
     set -e
-    $NODE_CMD restartFabrikStatusPoller.js
   elif [[ "$STATE" == "BACKUP" ]] || [[ "$STATE" == "FAULT" ]]; then
     set +e
     sudo ip addr del <%= internal['ip'] %>/32 dev eth0
