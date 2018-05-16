@@ -1,14 +1,14 @@
 #!/bin/bash
 
 STATE=$1
-iaas_name='<%= link("broker").p('ha.provider.name', nil) %>'
+iaas_name='<%= p('ha.provider.name', nil) %>'
 if [[ "$iaas_name" == "aws" ]]; then
 
   SUBNET_ID='<%= spec.networks.sf_service_fabrik_broker.cloud_properties.subnet %>'
   SOURCE_IP=<%= spec.ip %>
   <% internal = link("broker").p('internal') %>
 
-  IAAS_CONFIG='<%= JSON.dump(link("broker").p('ha.provider', nil)) %>'
+  IAAS_CONFIG='<%= JSON.dump(p('ha.provider', nil)) %>'
   AWS_CLI_CMD=/var/vcap/packages/aws-cli/bin/aws
   JQ_CMD=/var/vcap/packages/jq/bin/jq
 
@@ -23,13 +23,13 @@ if [[ "$iaas_name" == "aws" ]]; then
   if [[ "$STATE" == "MASTER" ]]; then
     network_metadata=$("$AWS_CLI_CMD" ec2 describe-network-interfaces --filter "Name=private-ip-address,Values=${SOURCE_IP}" | "${JQ_CMD}" -r --arg SUBNET_ID "$SUBNET_ID" '.[][] | select(.SubnetId==$SUBNET_ID)')
     export ENI_ID=$(echo "$network_metadata" | "${JQ_CMD}" -r '.NetworkInterfaceId')
-    $AWS_CLI_CMD ec2 assign-private-ip-addresses --network-interface-id $ENI_ID --allow-reassignment --private-ip-addresses <%= internal['floating_ip'] %>
+    $AWS_CLI_CMD ec2 assign-private-ip-addresses --network-interface-id $ENI_ID --allow-reassignment --private-ip-addresses <%= internal['ip'] %>
     set +e
-    sudo ip addr add <%= internal['floating_ip'] %> dev eth0
+    sudo ip addr add <%= internal['ip'] %> dev eth0
     set -e
   elif [[ "$STATE" == "BACKUP" ]] || [[ "$STATE" == "FAULT" ]]; then
     set +e
-    sudo ip addr del <%= internal['floating_ip'] %>/32 dev eth0
+    sudo ip addr del <%= internal['ip'] %>/32 dev eth0
     set -e
   fi
 fi

@@ -16,17 +16,10 @@ templates:
   bin/get_sf_broker_status.sh.erb: 	bin/get_sf_broker_status.sh
   config/keepalived.conf.erb: 		config/keepalived.conf
 
-provides:
-- name: keepalived
-  type: keepalived
-  properties:
-  - status_script
-
 consumes:
 - name: broker
   type: broker
 
 properties:
-  status_script:
-    description: "Script to check current node is master or backup"
-    default: "/var/vcap/jobs/keepalived/bin/get_keepalived_state.sh"
+  ha.provider:
+    description: "IaaS-specific ha provider configuration"
