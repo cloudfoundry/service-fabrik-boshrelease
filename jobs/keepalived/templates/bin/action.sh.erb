@@ -1,17 +1,15 @@
 #!/bin/bash
-
+set -e
 STATE=$1
 iaas_name='<%= p('iaas_config.name', nil) %>'
 if [[ "$iaas_name" == "aws" ]]; then
-
   SUBNET_ID='<%= spec.networks.sf_service_fabrik_broker.cloud_properties.subnet %>'
   SOURCE_IP=<%= spec.ip %>
   <% internal = link("broker").p('internal') %>
-
+  virtual_ip=<%= internal['ip'] %>
   IAAS_CONFIG='<%= JSON.dump(p('iaas_config', nil)) %>'
   AWS_CLI_CMD=/var/vcap/packages/aws-cli/bin/aws
   JQ_CMD=/var/vcap/packages/jq/bin/jq
-  NODE_CMD=/var/vcap/packages/node/bin/node
   RESTART_FABRIK_STATUS_POLLER_SCRIPT=/var/vcap/jobs/service-fabrik-broker/bin/restartFabrikStatusPoller.js
 
   ACCESS_KEY_ID="$(echo "${IAAS_CONFIG}" | "${JQ_CMD}" -r '.keyId')"
@@ -25,14 +23,14 @@ if [[ "$iaas_name" == "aws" ]]; then
   if [[ "$STATE" == "MASTER" ]]; then
     network_metadata=$("$AWS_CLI_CMD" ec2 describe-network-interfaces --filter "Name=private-ip-address,Values=${SOURCE_IP}" | "${JQ_CMD}" -r --arg SUBNET_ID "$SUBNET_ID" '.[][] | select(.SubnetId==$SUBNET_ID)')
     export ENI_ID=$(echo "$network_metadata" | "${JQ_CMD}" -r '.NetworkInterfaceId')
-    $AWS_CLI_CMD ec2 assign-private-ip-addresses --network-interface-id $ENI_ID --allow-reassignment --private-ip-addresses <%= internal['ip'] %>
-    set +e
-    sudo ip addr add <%= internal['ip'] %> dev eth0
-    $NODE_CMD $RESTART_FABRIK_STATUS_POLLER_SCRIPT
-    set -e
+    $AWS_CLI_CMD ec2 assign-private-ip-addresses --network-interface-id $ENI_ID --allow-reassignment --private-ip-addresses $virtual_ip
+    if [[ "$(sudo ip addr show | grep $virtual_ip)" != *"$virtual_ip"* ]]; then
+      sudo ip addr add $virtual_ip dev eth0
+    fi
+    monit restart service-fabrik-broker
   elif [[ "$STATE" == "BACKUP" ]] || [[ "$STATE" == "FAULT" ]]; then
     set +e
-    sudo ip addr del <%= internal['ip'] %>/32 dev eth0
+    sudo ip addr del $virtual_ip/32 dev eth0
     set -e
   fi
 fi

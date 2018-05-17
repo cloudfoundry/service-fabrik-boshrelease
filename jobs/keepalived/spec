@@ -23,3 +23,9 @@ consumes:
 properties:
   iaas_config:
     description: "IaaS-specific configuration"
+  master_ip:
+    description: "Ip used for master vm in HA setup"
+    default: 10.11.252.11
+  slave_ip:
+    description: "Ip used for slave vm in HA setup"
+    default: 10.11.252.12

@@ -13,7 +13,6 @@ templates:
   bin/service-fabrik-broker_ctl.erb: bin/service-fabrik-broker_ctl
   bin/job_properties.sh.erb: bin/job_properties.sh
   bin/health_check.erb: bin/health_check
-  bin/restartFabrikStatusPoller.js.erb: bin/restartFabrikStatusPoller.js
   config/settings.yml.erb: config/settings.yml
   config/eventlog-config-external.yml.erb: config/eventlog-config-external.yml
   config/eventlog-config-internal.yml.erb: config/eventlog-config-internal.yml
@@ -39,8 +38,6 @@ provides:
   - internal.ssl
   - internal.log_event
   - internal.domain_socket.path
-  - internal.master_ip
-  - internal.slave_ip
   - external.host
   - external.log_event
   - external.api_requires_admin_scope
@@ -187,12 +184,6 @@ properties:
   internal.domain_socket.path:
     description: "domain socket path used to communicate with broker monitoring agent"
     default: /tmp/sfevents
-  internal.master_ip:
-    description: "Ip used for master vm in HA setup"
-    default: 10.11.252.11
-  internal.slave_ip:
-    description: "Ip used for slave vm in HA setup"
-    default: 10.11.252.12
 
   mongodb.url:
     description: "MongoDB connection URL for service-fabrik's internal needs. ex : mongodb://user:pass@localhost:port/database"

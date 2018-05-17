@@ -1,7 +1,7 @@
 #!/bin/bash
-
 # shellcheck disable=SC1091
 source /var/vcap/packages/bosh-helpers/ctl_setup.sh 'service-fabrik-broker' 'service-fabrik-broker' 'false'
+set +e
 message="$("${YAML2JSON_CMD}" < "${SETTINGS_PATH}" | "${JQ_CMD}" -r ."${NODE_ENV}".broker_drain_message)"
 if [[ $message != null ]] ; then
   current_broker_username="$("${YAML2JSON_CMD}" < "${SETTINGS_PATH}" | "${JQ_CMD}" -r ."${NODE_ENV}".username)"
@@ -10,7 +10,7 @@ if [[ $message != null ]] ; then
   admin_endpoint_port="$("${YAML2JSON_CMD}" < "${SETTINGS_PATH}" | "${JQ_CMD}" -r ."${NODE_ENV}".internal.port)"
 
   broker_admin_target=https://${admin_endpoint_host}:${admin_endpoint_port}/admin
-  maintenance_status="$(curl -skL -u "${current_broker_username}:${current_broker_password}" "$broker_admin_target/service-fabrik/maintenance" 2> null)"
+  maintenance_status="$(curl -skL -u "${current_broker_username}:${current_broker_password}" "$broker_admin_target/service-fabrik/maintenance" 2> /dev/null)"
   if echo -e "$maintenance_status" | grep -E "true" > /dev/null ; then
     curl -skL -u "${current_broker_username}:${current_broker_password}" \
     -X PUT -H "Accept: application/json" "$broker_admin_target/service-fabrik/maintenance" \
