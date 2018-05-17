@@ -134,7 +134,6 @@ instance_groups:
         support_create: true
         url: default
         username: default
-      actions: default
       services: default
       riemann:
         host: example
@@ -203,6 +202,15 @@ instance_groups:
     release: service-fabrik
     properties:
       report:
+        ip: default
+        ssl:
+          cert: ((ssl.cert))
+          key: ((ssl.key))
+  - name: service-fabrik-deployment-hooks
+    release: service-fabrik
+    properties:
+      actions: default
+      hook:
         ip: default
         ssl:
           cert: ((ssl.cert))
