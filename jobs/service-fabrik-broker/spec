@@ -103,6 +103,8 @@ provides:
 consumes:
 - name: scheduler
   type: scheduler
+- name: deployment_hooks
+  type: deployment_hooks
 
 properties:
   name:

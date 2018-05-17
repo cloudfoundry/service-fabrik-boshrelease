@@ -1,5 +1,5 @@
 ---
-name: service-fabrik-broker
+name: service-fabrik-deployment-hooks
 dependencies:
   - node
 files:

@@ -27,7 +27,7 @@ production:
     ip: <%= hook['ip'] %>
     host: <%= "#{hook['ip']}:#{hook['port']}" %>
     <% if_p('hook.ssl') do |ssl| %>
-    protocol: 'https'
+    protocol: <%= hook['protocol'] %>
     ssl: <%= JSON.dump(ssl) %>
     <% end.else do %>
     protocol: 'http'

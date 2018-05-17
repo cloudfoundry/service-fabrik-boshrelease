@@ -4,15 +4,15 @@ name: service-fabrik-deployment-hooks
 packages:
   - bosh-helpers
   - node
-  - service-fabrik-broker
+  - service-fabrik-deployment-hooks
+  - jq
+  - yaml2json
 
 templates:
   bin/service-fabrik-deployment-hooks_ctl.erb: bin/service-fabrik-deployment-hooks_ctl
   bin/job_properties.sh.erb: bin/job_properties.sh
   config/settings.yml.erb: config/settings.yml
-  config/syslog_forwarding.conf.erb: config/syslog_forwarding.conf
-  config/circuit-breaker-config.yml.erb: config/circuit-breaker-config.yml
-  config/eventlog-config-deployment-hooks.yml.erb: config/eventlog-config-deployment-hooks.yml
+  config/eventlog-config-hook.yml.erb: config/eventlog-config-hook.yml
 
 provides:
 - name: deployment_hooks
@@ -23,9 +23,10 @@ provides:
   - skip_ssl_validation
   - log_level
   - enable_circuit_breaker
-  http_timeout
+  - http_timeout
   - hook.port
   - hook.ip
+  - hook.protocol
   - hook.ssl
   - hook.log_event
 
@@ -57,6 +58,9 @@ properties:
     default: 9295
   hook.ip:
     description: "IP address used for reporting endpoints"
+  hook.protocol:
+    description: "Protocol for reporting endpoints"
+    default: 'https'
   hook.ssl.key:
     description: "Private key used for communication"
   hook.ssl.cert:
