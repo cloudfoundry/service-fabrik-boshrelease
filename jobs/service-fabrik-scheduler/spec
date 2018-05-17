@@ -49,6 +49,8 @@ provides:
 consumes:
 - name: broker
   type: broker
+- name: deployment_hooks
+  type: deployment_hooks
 
 properties:
   scheduler.name:

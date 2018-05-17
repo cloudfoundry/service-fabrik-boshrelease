@@ -77,8 +77,8 @@ production:
   deployment_hooks:
     username: '<%= link("deployment_hooks").p('username') %>'
     password: '<%= link("deployment_hooks").p('password') %>'
-    host: <%= #{link("deployment_hooks").p('ip')}:#{link("deployment_hooks").p('port')}%>
-    protocol: '<%= link("deployment_hooks").p('protocol')%>'
+    host: <%= "#{link("deployment_hooks").p('hook.ip')}:#{link("deployment_hooks").p('hook.port')}"%>
+    protocol: '<%= link("deployment_hooks").p('hook.protocol')%>'
 
   ####################
   # MONGODB SETTINGS #
