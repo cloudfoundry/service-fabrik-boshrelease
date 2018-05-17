@@ -3,6 +3,7 @@ name: service-fabrik-broker
 dependencies:
   - node
 files:
+  - service-fabrik-broker/eventmesh/**/*
   - service-fabrik-broker/broker/**/*
   - service-fabrik-broker/common/**/*
   - service-fabrik-broker/package.json

@@ -5,7 +5,7 @@ set -e # exit immediately if a simple command exits with a non-zero status
 source /var/vcap/packages/bosh-helpers/ctl_setup.sh 'service-fabrik-backup-manager'
 
 export PID_FILE=${RUN_DIR}/service-fabrik-backup-manager.pid
-export PACKAGE_DIR=${HOME}/packages/service-fabrik-broker
+export PACKAGE_DIR=${HOME}/packages/service-fabrik-backup-manager
 
 case $1 in
 

@@ -6,7 +6,7 @@
   end
 
   broker_name = link("broker").p('name')
-  log_path = "/var/vcap/sys/log/service-fabrik-report/service-fabrik-report.log"
+  log_path = "/var/vcap/sys/log/service-fabrik-backup-manager/service-fabrik-backup-manager.log"
   external = link("broker").p('external')
   internal = link("broker").p('internal')
 %>---
@@ -157,6 +157,8 @@ production:
     url: <%= link("broker").p('cf.url') %>
     username: <%= link("broker").p('cf.username') %>
     password: <%= link("broker").p('cf.password') %>
+  etcd:
+    url: <%= link("broker").p('etcd.url') %>
   ###################
   # DOCKER SETTINGS #
   ###################
