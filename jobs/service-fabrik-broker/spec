@@ -18,7 +18,6 @@ templates:
   config/eventlog-config-internal.yml.erb: config/eventlog-config-internal.yml
   config/syslog_forwarding.conf.erb: config/syslog_forwarding.conf
   config/circuit-breaker-config.yml.erb: config/circuit-breaker-config.yml
-
 provides:
 - name: broker
   type: broker
@@ -101,6 +100,7 @@ provides:
   - service_addon_jobs
   - directors
   - multi_az_enabled
+  - ha_enabled
 consumes:
 - name: scheduler
   type: scheduler
@@ -141,6 +141,9 @@ properties:
     default: 80000
   multi_az_enabled:
     description: "Switch used to turn on/off the multi-az support"
+    default: false
+  ha_enabled:
+    description: "Switch used to turn on/off the HA support"
     default: false
   broker_drain_message:
     description: "Drain message that is updated into broker maintenance state. If undefined, then during drain maintenance state is not updated"

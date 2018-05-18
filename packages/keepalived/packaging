@@ -1,0 +1,19 @@
+#!/bin/bash
+set -e
+set -u
+
+KEEPALIVED_VERSION="1.4.2"
+# Extracting keepalived package
+tar zxvf keepalived/keepalived-${KEEPALIVED_VERSION}.tar.gz
+
+if [[ $? != 0 ]] ; then
+  echo "Failed extracting keepalived ${KEEPALIVED_VERSION}"
+  exit 1
+fi
+
+cd keepalived-${KEEPALIVED_VERSION}/
+
+#compile keepalive
+./configure --prefix=${BOSH_INSTALL_TARGET}
+make 
+make install
