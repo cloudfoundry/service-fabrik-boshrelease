@@ -159,6 +159,8 @@ production:
     password: <%= link("broker").p('cf.password') %>
   etcd:
     url: <%= link("broker").p('etcd.url') %>
+    ssl: <%= JSON.dump(link("broker").p('etcd.ssl')) %>
+
   ###################
   # DOCKER SETTINGS #
   ###################
