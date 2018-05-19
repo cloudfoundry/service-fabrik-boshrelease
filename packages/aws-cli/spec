@@ -3,5 +3,6 @@ name: aws-cli
 
 dependencies:
 - python
+- python-dev
 files:
 - aws-cli/awscli-bundle.zip 

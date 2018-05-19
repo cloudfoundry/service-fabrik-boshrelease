@@ -1,0 +1,28 @@
+#!/bin/bash
+set -e # exit immediately if a simple command exits with a non-zero status
+# Available variables
+# $BOSH_COMPILE_TARGET - where this package & spec'd source files are available
+# $BOSH_INSTALL_TARGET - where you copy/install files to be included in package
+
+# We see lock issues, maybe we can check these?
+for DEB in $(ls -1 apt/python-dev/*.deb); do
+  echo "Copying $(basename $DEB) to ${BOSH_INSTALL_TARGET}"
+  cp -a $DEB ${BOSH_INSTALL_TARGET}/
+done
+
+cd ${BOSH_INSTALL_TARGET}
+
+#Installing python-dev's dependency packages, then python-dev
+# check if package already installed else install, incase package not found
+# using dpkg -s for checking the installation which does not lock the /var/lib/dpkg/lock
+set +e
+for package in libexpat1-dev libpython2.7 libpython2.7-dev python2.7-dev #Don't change the order
+do
+  if ! dpkg -s $package > /dev/null 2>&1 ; then
+    echo "Installing debian package $package"
+    set -e
+    dpkg -i "$(ls -1 ${package}_*.deb)"
+    set +e
+  fi
+done
+set -e
