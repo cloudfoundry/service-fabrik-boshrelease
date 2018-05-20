@@ -12,7 +12,6 @@ templates:
   bin/service-fabrik-deployment-hooks_ctl.erb: bin/service-fabrik-deployment-hooks_ctl
   bin/job_properties.sh.erb: bin/job_properties.sh
   config/settings.yml.erb: config/settings.yml
-  config/eventlog-config-hook.yml.erb: config/eventlog-config-hook.yml
 
 provides:
 - name: deployment_hooks
@@ -20,15 +19,9 @@ provides:
   properties:
   - username
   - password
-  - skip_ssl_validation
-  - log_level
-  - enable_circuit_breaker
-  - http_timeout
   - hook.port
   - hook.ip
   - hook.protocol
-  - hook.ssl
-  - hook.log_event
 
 consumes:
 - name: broker

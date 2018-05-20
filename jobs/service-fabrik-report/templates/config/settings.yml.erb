@@ -60,15 +60,6 @@ production:
     protocol: 'http'
     <% end %>
 
-  #############################
-  # DEPLOYMENT HOOKS SETTINGS #
-  #############################
-  deployment_hooks:
-    username: '<%= link("deployment_hooks").p('username') %>'
-    password: '<%= link("deployment_hooks").p('password') %>'
-    host: <%= "#{link("deployment_hooks").p('hook.ip')}:#{link("deployment_hooks").p('hook.port')}"%>
-    protocol: '<%= link("deployment_hooks").p('hook.protocol')%>'
-
   ###################
   # QUOTA MANAGEMENT SETTINGS #
   ###################

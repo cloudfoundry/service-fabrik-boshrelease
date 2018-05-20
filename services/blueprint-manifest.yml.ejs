@@ -36,9 +36,21 @@ if (!spec.previous_manifest) {
     properties.blueprint = spec.previous_manifest.instance_groups[0].jobs[0].properties;
   }
 }
+if(!spec.preUpdateAgentResponse){
+  properties.blueprint.preUpdateAgentResponse = JSON.stringify(spec.previous_manifest.instance_groups[0].jobs[0].properties.preUpdateAgentResponse);
+}
+else{
+  properties.blueprint.preUpdateAgentResponse = JSON.stringify(spec.preUpdateAgentResponse);
+}
+if(!spec.actions){
+  properties.blueprint.actionResponse = JSON.stringify(spec.previous_manifest.instance_groups[0].jobs[0].properties.actionResponse);
+}
+else{
+  properties.blueprint.actionResponse = JSON.stringify(spec.actions);
+}
 %>
 - name: blueprint
-  migrated_from: 
+  migrated_from:
   - name: blueprint_z1
     az: z1
   instances: <%= members.length %>
@@ -55,7 +67,8 @@ if (!spec.previous_manifest) {
     blueprint: &blueprint
     properties:
       port: 8080
-      actionResponse: <%= JSON.stringify(spec.actions) %>
+      actionResponse: <%= properties.blueprint.actionResponse %>
+      preUpdateAgentResponse: <%= properties.blueprint.preUpdateAgentResponse %>
       admin:
         username: <%= properties.blueprint.admin.username %>
         password: <%= properties.blueprint.admin.password %>
