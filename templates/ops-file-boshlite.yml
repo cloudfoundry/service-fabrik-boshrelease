@@ -14,7 +14,7 @@
     #- 10.244.4.4
 
 - type: replace
-  path: /instance_groups/name=broker/jobs/name=service-fabrik-broker/properties/directors/name=bosh/infrastructure/networks/name=service-fabrik-bosh-services/subnets
+  path: /instance_groups/name=broker/jobs/name=service-fabrik-broker/properties/directors/name=bosh/infrastructure/networks/name=sf_bosh_services/subnets
   value:
   - az: z1
     cloud_properties:

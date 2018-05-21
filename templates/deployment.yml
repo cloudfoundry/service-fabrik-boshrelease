@@ -219,7 +219,7 @@ instance_groups:
       common:
         tls_cacert: ((common.tls_cacert))
   - name: route_registrar
-    release: cf
+    release: routing
     properties:
       route_registrar:
         routes:
@@ -266,7 +266,7 @@ instance_groups:
       lvmvd:
         disabled: true
 releases:
-- name: cf
+- name: routing
   version: latest
 - name: service-fabrik
   version: latest
