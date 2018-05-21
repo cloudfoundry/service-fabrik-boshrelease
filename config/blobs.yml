@@ -14,6 +14,22 @@ apt/lvm2/watershed_7_amd64.deb:
   size: 11356
   object_id: a72d0857-ae9b-4b2f-b5b6-725bee7006d9
   sha: 5c02014b7daecff6c0a6367996d2819d9b16745e
+apt/python-dev/libexpat1-dev_2.1.0-4ubuntu1.4_amd64.deb:
+  size: 115468
+  object_id: 7b80b483-5dd9-4009-5f7d-4d3bd7f64f99
+  sha: dfa31a016142eb8c818f2240a295a01febba86c5
+apt/python-dev/libpython2.7-dev_2.7.6-8ubuntu0.4_amd64.deb:
+  size: 22008886
+  object_id: 0ef2f661-6ae2-45d4-6280-49ae890cdc12
+  sha: c4f04137cf12eed95ac28e94b296623e368b7022
+apt/python-dev/libpython2.7_2.7.6-8ubuntu0.4_amd64.deb:
+  size: 1039522
+  object_id: e594228f-3d90-4649-44ab-74431da8b860
+  sha: 9c321a1385f61489188f7ad3eb201698a7ed74ab
+apt/python-dev/python2.7-dev_2.7.6-8ubuntu0.4_amd64.deb:
+  size: 269280
+  object_id: 54d5034d-cc8b-4d7a-4872-5b30bc961753
+  sha: afcf569c1124c3799bf43509c6079e3091986d4a
 aws-cli/awscli-bundle.zip:
   size: 9855997
   object_id: 21f4561c-f4d1-4dbd-5fb2-29e00296f0b6
