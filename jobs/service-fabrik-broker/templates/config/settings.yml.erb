@@ -240,7 +240,7 @@ production:
 
   etcd:
     url: <%= p('etcd.url') %>
-    ssl: <%= JSON.dump('etcd.ssl') %>
+    ssl: <%= JSON.dump(p('etcd.ssl')) %>
 
   ###################
   # DOCKER SETTINGS #
