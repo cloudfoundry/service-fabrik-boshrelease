@@ -15,9 +15,9 @@ apt/lvm2/watershed_7_amd64.deb:
   object_id: a72d0857-ae9b-4b2f-b5b6-725bee7006d9
   sha: 5c02014b7daecff6c0a6367996d2819d9b16745e
 aws-cli/awscli-bundle.zip:
-  size: 9855997
-  object_id: 21f4561c-f4d1-4dbd-5fb2-29e00296f0b6
-  sha: eff29ac4b759c5b104560c5c81c386b28f4473eb
+  size: 7500720
+  object_id: 65e17a4e-644d-456c-7451-fa4de7c68ebd
+  sha: 0ad44b243d41d788418cc86bd6179ab002224267
 docker/aufs-tools_20120411-3_amd64.deb:
   size: 91762
   object_id: b95dca91-e344-4c54-a908-68651b81264f
