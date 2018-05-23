@@ -20,6 +20,7 @@ production:
   session_store:
     path: <%= "/var/vcap/store/#{broker_name}/session" %>
   log_path: <%= log_path %>
+  log_level: <%= link("broker").p('log_level') %>
   enable_circuit_breaker: <%= link("broker").p('enable_circuit_breaker') %>
   http_timeout: <%= link("broker").p('http_timeout') %>
   broker_drain_message: <%= link("broker").p('broker_drain_message') %>
