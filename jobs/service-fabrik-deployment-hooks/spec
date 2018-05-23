@@ -7,6 +7,7 @@ packages:
   - service-fabrik-deployment-hooks
   - jq
   - yaml2json
+  - libseccomp
 
 templates:
   bin/service-fabrik-deployment-hooks_ctl.erb: bin/service-fabrik-deployment-hooks_ctl
@@ -46,6 +47,12 @@ properties:
   http_timeout:
     description: "Timeout duration for any request to deployment hooks"
     default: 80000
+  enable_syscall_filters:
+    description: "Determines whether to enable syscall filtering for action scripts"
+    default: false
+  whitelisted_syscalls:
+    description: "Space separated string of syscalls"
+    default: ""
   hook.port:
     description: "Port used for reporting endpoints"
     default: 9295
