@@ -8,19 +8,10 @@ export PID_FILE=${RUN_DIR}/service-fabrik-deployment-hooks.pid
 export PACKAGE_DIR=${HOME}/packages/service-fabrik-deployment-hooks
 export SECCOMP_CMD=${PACKAGE_DIR}/deployment_hooks/bin/seccomp/seccomp
 
-# installing libseccomp here because .so files are needed at runtime for seccomp executable 
-# installing libseccomp
-pushd ${HOME}/packages/libseccomp
-./configure
-make
-make install
-# set linkings
-ldconfig -v
-popd
-
-# compile add_seccomp_filters script
-pushd ${HOME}/packages/service-fabrik-deployment-hooks/deployment_hooks/bin/seccomp
-make
+# create the necessary links and cache
+pushd /etc/ld.so.conf.d/
+echo "${HOME}/packages/libseccomp/libseccomp_installation/lib" > usr-lib-local.conf
+ldconfig
 popd
 
 case $1 in
