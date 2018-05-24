@@ -16,6 +16,3 @@ npm config set nodedir /var/vcap/packages/node
 echo "Rebuild depend packages..."
 cd ${BOSH_INSTALL_TARGET}
 npm rebuild
-# Compile add_seccomp_filters
-cd ${BOSH_INSTALL_TARGET}/deployment_hooks/bin/seccomp
-make

@@ -2,7 +2,6 @@
 name: service-fabrik-deployment-hooks
 dependencies:
   - node
-  - libseccomp
 files:
   - service-fabrik-broker/deployment_hooks/**/*
   - service-fabrik-broker/common/**/*
