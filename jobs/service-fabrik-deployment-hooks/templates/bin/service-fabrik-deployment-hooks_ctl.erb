@@ -6,7 +6,7 @@ source /var/vcap/packages/bosh-helpers/ctl_setup.sh 'service-fabrik-deployment-h
 
 export PID_FILE=${RUN_DIR}/service-fabrik-deployment-hooks.pid
 export PACKAGE_DIR=${HOME}/packages/service-fabrik-deployment-hooks
-export SECCOMP_CMD=${PACKAGE_DIR}/bin/seccomp/seccomp
+export SECCOMP_CMD=${PACKAGE_DIR}/deployment_hooks/bin/seccomp/seccomp
 
 case $1 in
 
