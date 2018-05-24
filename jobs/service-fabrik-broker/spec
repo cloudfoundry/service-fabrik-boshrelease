@@ -95,7 +95,6 @@ provides:
   - event.defaults.include_response_body
   - event.delete.http_success_codes
   - quota
-  - actions
   - services
   - service_addon_jobs
   - directors
@@ -104,6 +103,8 @@ provides:
 consumes:
 - name: scheduler
   type: scheduler
+- name: deployment_hooks
+  type: deployment_hooks
 
 properties:
   name:
@@ -276,9 +277,6 @@ properties:
 
   directors:
     description: "URL of the Bosh directors"
-  
-  actions:
-    description: "Deployment actions template"
 
   services:
     description: "Services and plans offered by the broker"
