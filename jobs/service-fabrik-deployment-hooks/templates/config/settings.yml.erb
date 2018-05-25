@@ -16,6 +16,8 @@ production:
   log_level: <%= p('log_level') %>
   enable_circuit_breaker: <%= p('enable_circuit_breaker') %>
   http_timeout: <%= p('http_timeout') %>
+  enable_syscall_filters: <%= p('enable_syscall_filters') %>
+  whitelisted_syscalls: <%= p('whitelisted_syscalls') %>
   
   ##############################
   # HOOK ENDPOINT SETTINGS #
