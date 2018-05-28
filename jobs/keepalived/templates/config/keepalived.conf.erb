@@ -9,29 +9,20 @@ vrrp_script chk_sfnode {
 vrrp_instance VI_1 {
     debug 2
     interface eth0 # interface to monitor
-    <% if ( spec.bootstrap === TRUE ) %>
-    state MASTER
     virtual_router_id 51 # Assign one ID for this route
+    <% if ( spec.ip == p('master_ip') ) %>
+    state MASTER
     priority 101 # 101 on master, 100 on backup
     unicast_src_ip <%= spec.ip %> # My IP
     unicast_peer {
-    <% if ( spec.ip == p('slave_ip') ) %>
-        <%= p('master_ip')  %> # peer IP
-    <% else %>
         <%= p('slave_ip')  %> # peer IP
-    <% end %>
     }
     <% else %>
     state BACKUP
-    virtual_router_id 51 # Assign one ID for this route
     priority 100 # 101 on master, 100 on backup
     unicast_src_ip <%= spec.ip %> # My IP
     unicast_peer {
-    <% if ( spec.ip == p('slave_ip') ) %>
         <%= p('master_ip')  %> # peer IP
-    <% else %>
-        <%= p('slave_ip')  %> # peer IP
-    <% end %>
     }
     <% end %>     
     track_script {
