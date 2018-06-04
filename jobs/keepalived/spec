@@ -10,10 +10,12 @@ packages:
 
 templates:
   bin/keepalived_ctl.erb: 		bin/keepalived_ctl
+  bin/ha_health_check_ctl.erb:          bin/ha_health_check_ctl
   bin/action.sh.erb: 			bin/action.sh
   bin/notify.sh.erb: 			bin/notify.sh
   bin/get_keepalived_state.sh.erb: 	bin/get_keepalived_state.sh
   bin/get_sf_broker_status.sh.erb: 	bin/get_sf_broker_status.sh
+  bin/ha_health_check.js:               bin/ha_health_check.js
   config/keepalived.conf.erb: 		config/keepalived.conf
 
 consumes:
