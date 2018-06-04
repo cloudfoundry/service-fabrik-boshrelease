@@ -3,3 +3,9 @@ check process keepalived
   start program "/var/vcap/jobs/keepalived/bin/keepalived_ctl start"
   stop program "/var/vcap/jobs/keepalived/bin/keepalived_ctl stop"
   group vcap
+
+check process ha_health_check
+  with pidfile /var/vcap/sys/run/keepalived/ha_health_check.pid
+  start program "/var/vcap/jobs/keepalived/bin/ha_health_check_ctl start"
+  stop program "/var/vcap/jobs/keepalived/bin/ha_health_check_ctl stop"
+  group vcap
