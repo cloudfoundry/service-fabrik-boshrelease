@@ -45,7 +45,12 @@ production:
     event_type: SF.API_EVENT
     trust_proxy: <%= external['trust_proxy'] %>
     port: <%= external['port'] %>
+    <% if_p('external.ssl') do |ssl| %>
     protocol: 'https'
+    ssl: <%= JSON.dump(ssl) %>
+    <% end.else do %>  
+    protocol: 'http'
+    <% end %>  
     host: <%= external['host'] %>
     cookie_secret: <%= external['cookie_secret'] %>
     cookie_secure: true
