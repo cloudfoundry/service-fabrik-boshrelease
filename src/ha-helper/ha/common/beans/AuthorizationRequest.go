@@ -7,9 +7,9 @@ type AuthorizationRequest struct {
 	ClientId     string
 	ClientSecret string
 	TenantId     string
-	
-	ClientEmailId string 
-	PrivateKeyId string
-	PrivateKey string
-	Scopes []string 
+
+	ClientEmailId string
+	PrivateKeyId  string
+	PrivateKey    string
+	Scopes        []string
 }

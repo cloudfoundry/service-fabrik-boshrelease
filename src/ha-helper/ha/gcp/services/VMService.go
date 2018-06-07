@@ -63,7 +63,7 @@ func (vmService *VMService) GetVirtualMachineByIP(instanceIP string) (*gcpbeans.
 		return nil, false
 	} else {
 		log.Println("Found virtual machine :", virtualMachineResult.ID, "--", virtualMachineResult.Name, "corresponding to ip: ", instanceIP)
-//		log.Println(virtualMachineResult.Zone, virtualMachineResult.NetworkInterfaces[0].Network, virtualMachineResult.NetworkInterfaces[0].Subnetwork)
+		//		log.Println(virtualMachineResult.Zone, virtualMachineResult.NetworkInterfaces[0].Network, virtualMachineResult.NetworkInterfaces[0].Subnetwork)
 		return virtualMachineResult, true
 	}
 

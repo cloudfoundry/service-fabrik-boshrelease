@@ -1,10 +1,10 @@
 package clients
 
 import (
-	"ha-helper/ha/gcp/services"
 	"ha-helper/ha/common/beans"
 	"ha-helper/ha/common/interfaces"
 	"ha-helper/ha/common/utils/apiutils"
+	"ha-helper/ha/gcp/services"
 	"log"
 )
 
@@ -74,4 +74,3 @@ func (svc *GCPServiceClient) GetProvisioningWaitTime() float64 {
 func (svc *GCPServiceClient) GetProvisioningPollTime() float64 {
 	return svc.provisioningPollTime
 }
-

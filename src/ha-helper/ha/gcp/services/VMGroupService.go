@@ -144,13 +144,13 @@ func (vmGroupService *VMGroupService) AddVMToVMGroup(vmGroupName string, azName 
 	if isAssociationRequired == false {
 		return true
 	}
-		
+
 	addVMsToVMGroupAPIUrl = params.ManagementURL + "/compute/v1/projects/" + params.ProjectId + "/zones/" + azName + "/instanceGroups/" +
-								 vmGroupName + "/addInstances"
+		vmGroupName + "/addInstances"
 	vmListInput = VMListInput{}
-	vmListInput.Instances = []VM { 
+	vmListInput.Instances = []VM{
 		{
-			Instance:	VMURL,
+			Instance: VMURL,
 		},
 	}
 	/*

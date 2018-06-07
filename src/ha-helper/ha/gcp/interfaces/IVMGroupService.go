@@ -8,8 +8,7 @@ import (
 type IVMGroupService interface {
 	Initialize(...interface{})
 	GetVMGroup(string, string) (*gcpbeans.VMGroup, bool)
-	CreateVMGroup(string, string, string, string) (bool)
+	CreateVMGroup(string, string, string, string) bool
 	AddVMToVMGroup(string, string, string) bool
 	IsProvisioningSuccessful(gcpbeans.Operation) bool
 }
-

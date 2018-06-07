@@ -1,8 +1,6 @@
 package beans
 
-import (
-
-)
+import ()
 
 type SubNetwork struct {
 	Kind                  string `json:"kind"`

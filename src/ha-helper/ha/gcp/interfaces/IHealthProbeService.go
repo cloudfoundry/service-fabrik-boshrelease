@@ -11,4 +11,3 @@ type IHealthProbeService interface {
 	CreateHealthProbe(gcpbeans.ProbeInput) bool
 	IsProvisioningSuccessful(gcpbeans.Operation) bool
 }
-

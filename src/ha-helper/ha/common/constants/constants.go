@@ -14,4 +14,3 @@ const TRANSPORT_PROTOCOL_UDP string = "Udp"
 const PROBE_PROTOCOL_HTTP string = "Http"
 const PROBE_PROTOCOL_TCP string = "Tcp"
 const GCP_LANDSCAPE string = "GCP"
-

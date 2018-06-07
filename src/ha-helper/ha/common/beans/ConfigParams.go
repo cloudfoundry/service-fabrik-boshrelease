@@ -5,22 +5,22 @@ import ()
 type ConfigParams struct {
 
 	// Authorization related configurations
-	AuthorizationBaseURL string
-	ClientId             string
-	ClientSecret         string
-	TenantId             string
-	ClientEmailId string
-	PrivateKeyId string
-	PrivateKey string
-	SubnetName                string	
+	AuthorizationBaseURL      string
+	ClientId                  string
+	ClientSecret              string
+	TenantId                  string
+	ClientEmailId             string
+	PrivateKeyId              string
+	PrivateKey                string
+	SubnetName                string
 	VirtualPrivateNetworkName string
 	// GCP IaaS related configurations
-	GCPBaseURL	string
-	ProjectId 	string
+	GCPBaseURL string
+	ProjectId  string
 	//Zone      	string
-	Scopes		string
-	Region		string
-	
+	Scopes string
+	Region string
+
 	// 	deployment related imports.
 	DeploymentGuid         string
 	FloatingIP             string
@@ -32,7 +32,6 @@ type ConfigParams struct {
 	ProbePort              int
 	ProbeRequestPath       string
 	Landscape              string
-	Action 				   string
-	ExecutionMode		   string
-
+	Action                 string
+	ExecutionMode          string
 }

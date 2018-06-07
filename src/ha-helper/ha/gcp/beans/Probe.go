@@ -21,9 +21,8 @@ type HTTPHC struct {
 	Port        int    `json:"port"`
 	Host        string `json:"host"`
 	RequestPath string `json:"requestPath"`
-//	ProxyHeader string `json:"proxyHeader"`
+	//	ProxyHeader string `json:"proxyHeader"`
 }
-
 
 type ProbeInput struct {
 	Name               string `json:"name"`

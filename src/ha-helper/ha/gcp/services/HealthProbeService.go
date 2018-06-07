@@ -55,7 +55,7 @@ func (hpService *HealthProbeService) GetHealthProbe(probeName string) (*gcpbeans
 }
 
 func (hpService *HealthProbeService) CreateHealthProbe(probe gcpbeans.ProbeInput) bool {
-		
+
 	var createHealthcheckAPIUrl, responseStr, responseCode string
 	var returnValue bool
 	var currentOperation *gcpbeans.Operation = &gcpbeans.Operation{}
@@ -81,7 +81,7 @@ func (hpService *HealthProbeService) CreateHealthProbe(probe gcpbeans.ProbeInput
 		log.Println("Error occurred during health check creation call : HTTP Status: ", responseCode, " error: ", responseStr)
 		return false
 	}
-	
+
 }
 
 func (hpService *HealthProbeService) IsProvisioningSuccessful(operation gcpbeans.Operation) bool {

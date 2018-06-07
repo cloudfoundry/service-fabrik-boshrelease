@@ -10,6 +10,6 @@ type IaaSDescriptors struct {
 	ResourceGroupName         string
 	APIVersion                string
 	Location                  string
-//	Zone 					  string
-	ProjectId				  string
+	//	Zone 					  string
+	ProjectId string
 }

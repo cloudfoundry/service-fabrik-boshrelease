@@ -3,14 +3,13 @@ package services
 import (
 	"encoding/json"
 	"ha-helper/ha/common/beans"
+	"ha-helper/ha/common/constants"
 	commoninterfaces "ha-helper/ha/common/interfaces"
 	gcpbeans "ha-helper/ha/gcp/beans"
 	gcputils "ha-helper/ha/gcp/utils"
-	"ha-helper/ha/common/constants"	
 	"log"
 	"strings"
 )
-
 
 type LoadBalancerService struct {
 	svc commoninterfaces.IServiceClient
@@ -23,7 +22,7 @@ func (lbService *LoadBalancerService) Initialize(params ...interface{}) {
 }
 
 func (lbService *LoadBalancerService) GetLoadBalancer(lbName string, regionName string) (*gcpbeans.LoadBalancer, bool) {
-	
+
 	var loadBalancerAPIUrl, responseStr, responseCode string
 	var returnValue bool
 	var loadBalancer *gcpbeans.LoadBalancer = &gcpbeans.LoadBalancer{}
@@ -87,7 +86,6 @@ func (lbService *LoadBalancerService) CreateLoadBalancer(createLBInput gcpbeans.
 
 }
 
-
 func (lbService *LoadBalancerService) UpdateLoadBalancer(modifyLBInput gcpbeans.CreateLBInput, regionName string) bool {
 
 	var modifyLBAPIUrl, responseStr, responseCode string
@@ -120,4 +118,3 @@ func (lbService *LoadBalancerService) UpdateLoadBalancer(modifyLBInput gcpbeans.
 func (lbService *LoadBalancerService) IsProvisioningSuccessful(operation gcpbeans.Operation) bool {
 	return gcputils.IsResourceProvisioningSuccessful(operation, lbService.svc)
 }
-

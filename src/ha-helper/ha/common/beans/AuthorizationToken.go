@@ -10,5 +10,4 @@ type AuthorizationToken struct {
 	NotBefore    string `json:"not_before"`
 	Resource     string `json:"resource"`
 	AccessKey    string `json:"access_token"`
-	
 }

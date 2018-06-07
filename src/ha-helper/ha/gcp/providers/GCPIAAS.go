@@ -34,7 +34,7 @@ func (iaasProvider *GCPIAAS) Initialize(configParams beans.ConfigParams) int {
 
 	iaasDescriptors = beans.IaaSDescriptors{
 		ManagementURL: iaasProvider.Config.GCPBaseURL,
-		ProjectId: iaasProvider.Config.ProjectId,
+		ProjectId:     iaasProvider.Config.ProjectId,
 	}
 
 	authorizationRequest = beans.AuthorizationRequest{
@@ -249,7 +249,7 @@ func (iaasProvider *GCPIAAS) ManageResources() int {
 		var backend gcpbeans.Backend = gcpbeans.Backend{}
 		backend.BalancingMode = "CONNECTION"
 		backend.Group = vmGroup.SelfLink
-		
+
 		createLBInput.Name = loadBalancerName
 		createLBInput.LoadBalancingScheme = "INTERNAL"
 		createLBInput.Protocol = "TCP"
@@ -344,8 +344,8 @@ func (iaasProvider *GCPIAAS) createHealthProbe(healthProbeName string) bool {
 		CheckIntervalSec:   iaasProvider.Config.ProbeIntervalInSeconds,
 		TimeoutSec:         iaasProvider.Config.ProbeIntervalInSeconds,
 		HTTPHealthCheck: gcpbeans.HTTPHC{
-			Host: "",
-			Port: iaasProvider.Config.ProbePort,
+			Host:        "",
+			Port:        iaasProvider.Config.ProbePort,
 			RequestPath: iaasProvider.Config.ProbeRequestPath,
 		},
 	}

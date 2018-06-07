@@ -1,13 +1,13 @@
 package main
 
 import (
+	"flag"
 	"ha-helper/ha/common/beans"
 	IAASProviderFactory "ha-helper/ha/common/iaasproviderfactory"
 	"ha-helper/ha/common/interfaces"
-	"flag"
 	"log"
-	"time"
 	"os"
+	"time"
 )
 
 func main() {
@@ -22,7 +22,7 @@ func mainWithReturnCode() int {
 
 	startTime = time.Now()
 	log.Println("Starting Post-start activities for service-fabrik at ", startTime)
- 
+
 	config := ReadConfigurationParameters()
 	log.Println(config)
 	provider = IAASProviderFactory.GetProvider(config)
@@ -32,7 +32,7 @@ func mainWithReturnCode() int {
 		return 0
 	}
 	if provider.IsHAEnabled() == false {
-		// post-start should not fail as this could be due to configuration.		
+		// post-start should not fail as this could be due to configuration.
 		log.Println("HA is not enabled for this IAAS provider.")
 		return 0
 	}
@@ -66,11 +66,11 @@ func ReadConfigurationParameters() beans.ConfigParams {
 	flag.StringVar(&config.PrivateKey, "privatekey", "", "private key")
 	flag.StringVar(&config.Scopes, "scopes", "", "scopes to be used")
 	flag.StringVar(&config.VirtualPrivateNetworkName, "network", "", "network name")
-	flag.StringVar(&config.SubnetName, "subnetwork", "", "subnetwork name to which floating ip belongs to")		
-	
+	flag.StringVar(&config.SubnetName, "subnetwork", "", "subnetwork name to which floating ip belongs to")
+
 	flag.StringVar(&config.GCPBaseURL, "gcpbaseurl", "", "base url to be used for gcp api calls")
 	flag.StringVar(&config.ProjectId, "projectid", "", "gcp project id")
-				
+
 	flag.StringVar(&config.DeploymentGuid, "deploymentguid", "", "guid of the deployment")
 	flag.StringVar(&config.FloatingIP, "floatingip", "", "floating ip used for this deployment")
 	flag.StringVar(&config.CurrentInstanceIP, "instanceip", "", "ip address of the current instance")
@@ -87,4 +87,3 @@ func ReadConfigurationParameters() beans.ConfigParams {
 	return config
 
 }
-

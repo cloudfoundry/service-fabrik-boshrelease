@@ -49,4 +49,3 @@ func IsResourceProvisioningSuccessful(operation gcpbeans.Operation, svc commonin
 	return false
 
 }
-

@@ -29,5 +29,5 @@ type CreateLBRuleInput struct {
 	Subnetwork          string   `json:"subnetwork"`
 	Network             string   `json:"network"`
 	BackendService      string   `json:"backendService"`
-//	Target 				string	 `json:"target"`	
+	//	Target 				string	 `json:"target"`
 }

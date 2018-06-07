@@ -31,11 +31,11 @@ type Backend struct {
 }
 
 type CreateLBInput struct {
-	Backends            []Backend `json:"backends"`
-	HealthChecks        []string  `json:"healthChecks"`
-	Name                string    `json:"name"`
-	LoadBalancingScheme string    `json:"loadBalancingScheme"`
-	Protocol            string    `json:"protocol"`
-	Fingerprint         string    `json:"fingerprint"`
-	ConnectionDraining  ConnectionDrainInfo `json:"connectionDraining"`	
+	Backends            []Backend           `json:"backends"`
+	HealthChecks        []string            `json:"healthChecks"`
+	Name                string              `json:"name"`
+	LoadBalancingScheme string              `json:"loadBalancingScheme"`
+	Protocol            string              `json:"protocol"`
+	Fingerprint         string              `json:"fingerprint"`
+	ConnectionDraining  ConnectionDrainInfo `json:"connectionDraining"`
 }

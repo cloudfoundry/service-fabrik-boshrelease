@@ -2,10 +2,10 @@ package apiutils
 
 import (
 	"bytes"
-	"ha-helper/ha/common/constants"
 	"encoding/json"
-	"log"
+	"ha-helper/ha/common/constants"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"net/url"
 	"regexp"
