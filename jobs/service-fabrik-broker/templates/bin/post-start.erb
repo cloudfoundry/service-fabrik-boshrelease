@@ -5,10 +5,9 @@ set -u # report the usage of uninitialized variables
 # source properties file here.
 export IS_HA=<%= p("ha_enabled") %>
 iaas_name='<%= p('iaas_config.name', nil) %>'
-	
+
 if [[ "$iaas_name" == "gcp" && "$IS_HA" == "true" ]]; then
-  echo "gcp post-start script execution has started"
-	
+  echo "gcp post-start script execution has started"	
 	
   export AUTHBASEURL="-authbaseurl=https://accounts.google.com/o/oauth2/token"
   export PRIVATEKEYID="-privatekeyid=<%= p("ha_user_credentials.private_key_id") %>"
@@ -56,8 +55,7 @@ if [[ "$iaas_name" == "gcp" && "$IS_HA" == "true" ]]; then
   echo "$LANDSCAPE"
   echo "$PRIVATEKEY"
   echo "$SCOPES"
-	
-	
+  
   echo "GCP Post-start script execution completed"
   exit $RETURN_CODE
 fi

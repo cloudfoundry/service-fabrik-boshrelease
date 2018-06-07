@@ -17,7 +17,7 @@ case $1 in
     start-stop-daemon --start --quiet -m \
       --pidfile ${PID_FILE} \
       --startas ${NODE_CMD} \
-      --chuid root:root \
+      --chuid vcap:vcap \
       --background \
       --no-close \
       --chdir ${JOB_DIR} \
