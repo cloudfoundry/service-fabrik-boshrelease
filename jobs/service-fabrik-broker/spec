@@ -40,6 +40,7 @@ provides:
   - internal.domain_socket.path
   - external.host
   - external.log_event
+  - external.ssl
   - external.api_requires_admin_scope
   - mongodb.url
   - mongodb.provision.plan_id
@@ -169,6 +170,8 @@ properties:
   external.log_event:
     description: "Determines whether event logging must be enabled or not"
     default: true
+  external.ssl:
+    description: "Private key used for external communication"
 
   internal.port:
     description: "Port used for internal endpoints such as administration or the service broker API"
