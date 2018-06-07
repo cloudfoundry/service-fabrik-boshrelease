@@ -2,9 +2,9 @@ package main
 
 import (
 	"flag"
-	"ha-helper/ha/common/models"
 	IAASProviderFactory "ha-helper/ha/common/iaasproviderfactory"
 	"ha-helper/ha/common/interfaces"
+	"ha-helper/ha/common/models"
 	"log"
 	"os"
 	"time"
@@ -70,16 +70,16 @@ func ReadConfigurationParameters() models.ConfigParams {
 
 	flag.StringVar(&config.GCPBaseURL, "gcpbaseurl", "", "base url to be used for gcp api calls")
 	flag.StringVar(&config.ProjectId, "projectid", "", "gcp project id")
-
+	flag.IntVar(&config.SFBrokerPort, "sfbrokerport", 9293, "service-fabrik-broker port")
+	flag.IntVar(&config.SFReportPort, "sfreportport", 9294, "service-fabrik-report port")
 	flag.StringVar(&config.DeploymentGuid, "deploymentguid", "", "guid of the deployment")
 	flag.StringVar(&config.FloatingIP, "floatingip", "", "floating ip used for this deployment")
 	flag.StringVar(&config.CurrentInstanceIP, "instanceip", "", "ip address of the current instance")
 
-	flag.IntVar(&config.InstancePort, "sfport", 9293, "service-fabrik port")
 	flag.IntVar(&config.ProbeIntervalInSeconds, "probeinterval", 5, "probe interval in seconds")
 	flag.IntVar(&config.ProbeHealthCheckCount, "probehealthcheck", 2, "probe health check count")
 	flag.StringVar(&config.ProbeProtocol, "probeprotocol", "Http", "protocol to be used by probe")
-	flag.IntVar(&config.ProbePort, "probeport", 9595, "port to be used by probe")
+	flag.IntVar(&config.ProbePort, "probeport", 9293, "port to be used by probe")
 	flag.StringVar(&config.ProbeRequestPath, "proberequestpath", "", "probe request path")
 	flag.StringVar(&config.Landscape, "landscape", "", "current landscape")
 

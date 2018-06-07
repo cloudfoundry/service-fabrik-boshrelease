@@ -25,7 +25,8 @@ type ConfigParams struct {
 	DeploymentGuid         string
 	FloatingIP             string
 	CurrentInstanceIP      string
-	InstancePort           int
+	SFBrokerPort           int
+	SFReportPort           int
 	ProbeIntervalInSeconds int
 	ProbeHealthCheckCount  int
 	ProbeProtocol          string

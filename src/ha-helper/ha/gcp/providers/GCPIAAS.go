@@ -34,7 +34,7 @@ func (iaasProvider *GCPIAAS) Initialize(configParams models.ConfigParams) int {
 
 	iaasDescriptors = models.IaaSDescriptors{
 		ManagementURL: iaasProvider.Config.GCPBaseURL,
-		ProjectId:     iaasProvider.Config.ProjectId,
+		ProjectId: iaasProvider.Config.ProjectId,
 	}
 
 	authorizationRequest = models.AuthorizationRequest{
@@ -249,7 +249,7 @@ func (iaasProvider *GCPIAAS) ManageResources() int {
 		var backend gcpmodels.Backend = gcpmodels.Backend{}
 		backend.BalancingMode = "CONNECTION"
 		backend.Group = vmGroup.SelfLink
-
+		
 		createLBInput.Name = loadBalancerName
 		createLBInput.LoadBalancingScheme = "INTERNAL"
 		createLBInput.Protocol = "TCP"
@@ -284,7 +284,7 @@ func (iaasProvider *GCPIAAS) ManageResources() int {
 		createLBRuleInput.Name = lbRuleName
 		createLBRuleInput.IPAddress = iaasProvider.Config.FloatingIP
 		createLBRuleInput.IPProtocol = "TCP"
-		createLBRuleInput.Ports = []string{fmt.Sprintf("%d", iaasProvider.Config.InstancePort)}
+		createLBRuleInput.Ports = []string{fmt.Sprintf("%d", iaasProvider.Config.SFBrokerPort), fmt.Sprintf("%d", iaasProvider.Config.SFReportPort)}
 		createLBRuleInput.LoadBalancingScheme = "INTERNAL"
 		createLBRuleInput.Network = floatingIPNetwork
 		createLBRuleInput.Subnetwork = floatingIPSubNetwork
@@ -344,8 +344,8 @@ func (iaasProvider *GCPIAAS) createHealthProbe(healthProbeName string) bool {
 		CheckIntervalSec:   iaasProvider.Config.ProbeIntervalInSeconds,
 		TimeoutSec:         iaasProvider.Config.ProbeIntervalInSeconds,
 		HTTPHealthCheck: gcpmodels.HTTPHC{
-			Host:        "",
-			Port:        iaasProvider.Config.ProbePort,
+			Host: "",
+			Port: iaasProvider.Config.ProbePort,
 			RequestPath: iaasProvider.Config.ProbeRequestPath,
 		},
 	}

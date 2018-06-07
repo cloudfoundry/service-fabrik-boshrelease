@@ -16,7 +16,8 @@ export PROJECTID="-projectid=<%= p("ha_user_credentials.project_id") %>"
 export DEPLOYMENTGUID="-deploymentguid=<%= spec.deployment  %>"
 export FLOATINGIP="-floatingip=<%= p("internal.ip") %>"
 export INSTANCEIP="-instanceip=<%= spec.ip %>"
-export INSTANCEPORT="-sfport=<%= p("internal.port") %>"
+export SFBROKERPORT="-sfbrokerport=<%= p("internal.port") %>"
+export SFREPORTPORT="-sfreportport=9294"
 export PROBEINTERVAL="-probeinterval=2"
 export PROBEHEALTHCHECK="-probehealthcheck=2"
 export PROBEPROTOCOL="-probeprotocol=Http"
@@ -30,7 +31,7 @@ export NETWORK="-network=<%= spec.networks.sf_service_fabrik_broker.cloud_proper
 export SUBNET="-subnetwork=<%= spec.networks.sf_service_fabrik_broker.cloud_properties.subnetwork_name %>"
 
 if [ "$IS_HA" == "true" ]; then
-    exec /var/vcap/packages/ha-helper/bin/poststarthandler ${AUTHBASEURL} ${PRIVATEKEYID} ${CLIENTEMAILID} ${GCPBASEURL} ${PROJECTID} ${NETWORK} ${SUBNET} ${DEPLOYMENTGUID} ${FLOATINGIP} ${INSTANCEIP} ${INSTANCEPORT} ${PROBEINTERVAL} ${PROBEHEALTHCHECK} ${PROBEPROTOCOL} ${PROBEPORT} ${PROBEREQUESTPATH} ${LANDSCAPE} "${PRIVATEKEY}" ${SCOPES}
+    exec /var/vcap/packages/ha-helper/bin/poststarthandler ${AUTHBASEURL} ${PRIVATEKEYID} ${CLIENTEMAILID} ${GCPBASEURL} ${PROJECTID} ${NETWORK} ${SUBNET} ${DEPLOYMENTGUID} ${FLOATINGIP} ${INSTANCEIP} ${SFBROKERPORT} ${SFREPORTPORT} ${PROBEINTERVAL} ${PROBEHEALTHCHECK} ${PROBEPROTOCOL} ${PROBEPORT} ${PROBEREQUESTPATH} ${LANDSCAPE} "${PRIVATEKEY}" ${SCOPES}
 	
   RETURN_CODE=$?
 	
@@ -48,7 +49,8 @@ echo ${SUBNET}
 echo "$DEPLOYMENTGUID"
 echo "$FLOATINGIP"
 echo "$INSTANCEIP"
-echo "$INSTANCEPORT"
+echo "$SFBROKERPORT"
+echo "$SFREPORTPORT"
 echo "$PROBEINTERVAL"
 echo "$PROBEHEALTHCHECK"
 echo "$PROBEPROTOCOL"
