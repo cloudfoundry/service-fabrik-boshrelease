@@ -49,7 +49,7 @@ production:
     protocol: 'https'
     ssl: <%= JSON.dump(ssl) %>
     <% end.else do %>  
-    protocol: 'http'
+    protocol: 'https'
     <% end %>  
     host: <%= external['host'] %>
     cookie_secret: <%= external['cookie_secret'] %>
