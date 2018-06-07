@@ -1,0 +1,63 @@
+#!/bin/bash
+	
+#set -e # exit immediately if a simple command exits with a non-zero status
+set -u # report the usage of uninitialized variables
+# source properties file here.
+export IS_HA=<%= p("ha_enabled") %>
+	
+echo "gcp post-start script execution has started"
+	
+	
+export AUTHBASEURL="-authbaseurl=https://accounts.google.com/o/oauth2/token"
+export PRIVATEKEYID="-privatekeyid=<%= p("ha_user_credentials.private_key_id") %>"
+export CLIENTEMAILID="-clientemailid=<%= p("ha_user_credentials.client_email") %>"
+export GCPBASEURL="-gcpbaseurl=https://www.googleapis.com"
+export PROJECTID="-projectid=<%= p("ha_user_credentials.project_id") %>"
+export DEPLOYMENTGUID="-deploymentguid=<%= spec.deployment  %>"
+export FLOATINGIP="-floatingip=<%= p("internal.ip") %>"
+export INSTANCEIP="-instanceip=<%= spec.ip %>"
+export INSTANCEPORT="-sfport=<%= p("internal.port") %>"
+export PROBEINTERVAL="-probeinterval=2"
+export PROBEHEALTHCHECK="-probehealthcheck=2"
+export PROBEPROTOCOL="-probeprotocol=Http"
+export PROBEPORT="-probeport=9595"
+export PROBEREQUESTPATH="-proberequestpath=/heartbeat"
+export LANDSCAPE="-landscape=gcp"
+export PRIVATEKEY="-privatekey=<%= p("ha_user_credentials.private_key").gsub(/\r?\n/, "\\n") %>"
+export SCOPES="--scopes=https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/compute"
+
+export NETWORK="-network=<%= spec.networks.sf_service_fabrik_broker.cloud_properties.network_name %>"
+export SUBNET="-subnetwork=<%= spec.networks.sf_service_fabrik_broker.cloud_properties.subnetwork_name %>"
+
+if [ "$IS_HA" == "true" ]; then
+    exec /var/vcap/packages/ha-helper/bin/poststarthandler ${AUTHBASEURL} ${PRIVATEKEYID} ${CLIENTEMAILID} ${GCPBASEURL} ${PROJECTID} ${NETWORK} ${SUBNET} ${DEPLOYMENTGUID} ${FLOATINGIP} ${INSTANCEIP} ${INSTANCEPORT} ${PROBEINTERVAL} ${PROBEHEALTHCHECK} ${PROBEPROTOCOL} ${PROBEPORT} ${PROBEREQUESTPATH} ${LANDSCAPE} "${PRIVATEKEY}" ${SCOPES}
+	
+  RETURN_CODE=$?
+	
+fi
+	
+	
+	
+echo "$AUTHBASEURL"
+echo "$PRIVATEKEYID"
+echo "$CLIENTEMAILID"
+echo "$GCPBASEURL"
+echo "$PROJECTID"
+echo ${NETWORK}
+echo ${SUBNET}
+echo "$DEPLOYMENTGUID"
+echo "$FLOATINGIP"
+echo "$INSTANCEIP"
+echo "$INSTANCEPORT"
+echo "$PROBEINTERVAL"
+echo "$PROBEHEALTHCHECK"
+echo "$PROBEPROTOCOL"
+echo "$PROBEPORT"
+echo "$PROBEREQUESTPATH"
+echo "$LANDSCAPE"
+echo "$PRIVATEKEY"
+echo "$SCOPES"
+	
+	
+echo "GCP Post-start script execution completed"
+exit $RETURN_CODE
