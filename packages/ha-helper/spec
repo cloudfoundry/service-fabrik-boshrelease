@@ -1,0 +1,6 @@
+---
+name: ha-helper
+dependencies:
+  - golang
+files:
+  - ha-helper/**/*
