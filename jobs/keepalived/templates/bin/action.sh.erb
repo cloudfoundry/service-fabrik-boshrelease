@@ -27,7 +27,6 @@ if [[ "$iaas_name" == "aws" ]]; then
     if [[ "$(sudo ip addr show | grep $virtual_ip)" != *"$virtual_ip"* ]]; then
       sudo ip addr add $virtual_ip dev eth0
     fi
-    monit restart service-fabrik-broker
   elif [[ "$STATE" == "BACKUP" ]] || [[ "$STATE" == "FAULT" ]]; then
     set +e
     sudo ip addr del $virtual_ip/32 dev eth0
