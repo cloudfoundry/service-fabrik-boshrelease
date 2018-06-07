@@ -2,7 +2,7 @@ package main
 
 import (
 	"flag"
-	"ha-helper/ha/common/beans"
+	"ha-helper/ha/common/models"
 	IAASProviderFactory "ha-helper/ha/common/iaasproviderfactory"
 	"ha-helper/ha/common/interfaces"
 	"log"
@@ -53,9 +53,9 @@ func mainWithReturnCode() int {
 
 }
 
-func ReadConfigurationParameters() beans.ConfigParams {
+func ReadConfigurationParameters() models.ConfigParams {
 
-	var config beans.ConfigParams
+	var config models.ConfigParams
 
 	flag.StringVar(&config.AuthorizationBaseURL, "authbaseurl", "", "base url to be used for authorization")
 	flag.StringVar(&config.ClientId, "clientid", "", "clientid of iaas provider")

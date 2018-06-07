@@ -1,7 +1,7 @@
 package services
 
 import (
-	"ha-helper/ha/common/beans"
+	"ha-helper/ha/common/models"
 	//	"context"
 	"golang.org/x/net/context"
 	gcpjwt "golang.org/x/oauth2/jwt"
@@ -10,16 +10,16 @@ import (
 )
 
 type AuthorizationService struct {
-	iaasDescriptors beans.IaaSDescriptors
+	iaasDescriptors models.IaaSDescriptors
 }
 
 func (authService *AuthorizationService) Initialize(initParams ...interface{}) {
-	// authService.iaasDescriptors = initParams.(beans.IaaSDescriptors)
+	// authService.iaasDescriptors = initParams.(models.IaaSDescriptors)
 }
 
-func (authService *AuthorizationService) Authorize(authorizationRequest beans.AuthorizationRequest) (*beans.AuthorizationToken, bool) {
+func (authService *AuthorizationService) Authorize(authorizationRequest models.AuthorizationRequest) (*models.AuthorizationToken, bool) {
 
-	var authorizationToken = &beans.AuthorizationToken{}
+	var authorizationToken = &models.AuthorizationToken{}
 	var privateKeyBytes []byte
 
 	authorizationRequest.PrivateKey = strings.Replace(authorizationRequest.PrivateKey, `\n`, "\n", -1)

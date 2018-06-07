@@ -2,9 +2,9 @@ package services
 
 import (
 	"encoding/json"
-	"ha-helper/ha/common/beans"
+	"ha-helper/ha/common/models"
 	commoninterfaces "ha-helper/ha/common/interfaces"
-	gcpbeans "ha-helper/ha/gcp/beans"
+	gcpmodels "ha-helper/ha/gcp/models"
 	"log"
 	"strings"
 )
@@ -19,9 +19,9 @@ func (vmService *VMService) Initialize(params ...interface{}) {
 
 }
 
-func (vmService *VMService) GetVirtualMachineByIP(instanceIP string) (*gcpbeans.VirtualMachine, bool) {
+func (vmService *VMService) GetVirtualMachineByIP(instanceIP string) (*gcpmodels.VirtualMachine, bool) {
 
-	var virtualMachineResult *gcpbeans.VirtualMachine = &gcpbeans.VirtualMachine{}
+	var virtualMachineResult *gcpmodels.VirtualMachine = &gcpmodels.VirtualMachine{}
 	var returnValue, vmInstanceFound bool
 
 	azs, returnValue := vmService.GetAvailabilityZones()
@@ -69,17 +69,17 @@ func (vmService *VMService) GetVirtualMachineByIP(instanceIP string) (*gcpbeans.
 
 }
 
-func (vmService *VMService) GetVirtualMachine(vmName string) (*gcpbeans.VirtualMachine, bool) {
+func (vmService *VMService) GetVirtualMachine(vmName string) (*gcpmodels.VirtualMachine, bool) {
 
 	return nil, false
 }
 
-func (vmService *VMService) GetAvailabilityZones() (*gcpbeans.AvailabilityZoneList, bool) {
+func (vmService *VMService) GetAvailabilityZones() (*gcpmodels.AvailabilityZoneList, bool) {
 
 	var getAZsUrl, responseStr string
-	var azList *gcpbeans.AvailabilityZoneList = &gcpbeans.AvailabilityZoneList{}
+	var azList *gcpmodels.AvailabilityZoneList = &gcpmodels.AvailabilityZoneList{}
 	var returnValue bool
-	var iaasDescriptors beans.IaaSDescriptors = vmService.svc.GetIaaSDescriptors()
+	var iaasDescriptors models.IaaSDescriptors = vmService.svc.GetIaaSDescriptors()
 
 	getAZsUrl = iaasDescriptors.ManagementURL + "/compute/v1/projects/" + iaasDescriptors.ProjectId + "/zones"
 	/*
@@ -103,12 +103,12 @@ func (vmService *VMService) GetAvailabilityZones() (*gcpbeans.AvailabilityZoneLi
 
 }
 
-func (vmService *VMService) GetVirtualMachines(availabilityZone string) (*gcpbeans.VirtualMachineList, bool) {
+func (vmService *VMService) GetVirtualMachines(availabilityZone string) (*gcpmodels.VirtualMachineList, bool) {
 
 	var getInstancesAPIUrl, responseStr, responseCode, currentPageToken string
-	var virtualMachineList *gcpbeans.VirtualMachineList = &gcpbeans.VirtualMachineList{}
+	var virtualMachineList *gcpmodels.VirtualMachineList = &gcpmodels.VirtualMachineList{}
 	var returnValue bool
-	var iaasDescriptors beans.IaaSDescriptors = vmService.svc.GetIaaSDescriptors()
+	var iaasDescriptors models.IaaSDescriptors = vmService.svc.GetIaaSDescriptors()
 
 	getInstancesAPIUrl = iaasDescriptors.ManagementURL + "/compute/v1/projects/" + iaasDescriptors.ProjectId + "/zones/" + availabilityZone + "/instances"
 
@@ -121,7 +121,7 @@ func (vmService *VMService) GetVirtualMachines(availabilityZone string) (*gcpbea
 	*/
 	currentPageToken = getInstancesAPIUrl
 	for len(strings.TrimSpace(currentPageToken)) > 0 {
-		var currvirtualMachineList gcpbeans.VirtualMachineList = gcpbeans.VirtualMachineList{}
+		var currvirtualMachineList gcpmodels.VirtualMachineList = gcpmodels.VirtualMachineList{}
 		responseStr, responseCode, returnValue = vmService.svc.InvokeAPI("GET", getInstancesAPIUrl, vmService.svc.GetCommonRequestHeaders(), nil)
 		if returnValue == true {
 			err := json.Unmarshal([]byte(responseStr), &currvirtualMachineList)

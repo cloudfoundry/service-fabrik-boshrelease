@@ -2,10 +2,10 @@ package services
 
 import (
 	"encoding/json"
-	"ha-helper/ha/common/beans"
+	"ha-helper/ha/common/models"
 	"ha-helper/ha/common/constants"
 	commoninterfaces "ha-helper/ha/common/interfaces"
-	gcpbeans "ha-helper/ha/gcp/beans"
+	gcpmodels "ha-helper/ha/gcp/models"
 	gcputils "ha-helper/ha/gcp/utils"
 	"log"
 	"strings"
@@ -19,12 +19,12 @@ func (hpService *HealthProbeService) Initialize(params ...interface{}) {
 	hpService.svc = params[0].(commoninterfaces.IServiceClient)
 }
 
-func (hpService *HealthProbeService) GetHealthProbe(probeName string) (*gcpbeans.Probe, bool) {
+func (hpService *HealthProbeService) GetHealthProbe(probeName string) (*gcpmodels.Probe, bool) {
 
 	var healthCheckAPIUrl, responseStr, responseCode string
 	var returnValue bool
-	var healthProbe *gcpbeans.Probe = &gcpbeans.Probe{}
-	var params beans.IaaSDescriptors = hpService.svc.GetIaaSDescriptors()
+	var healthProbe *gcpmodels.Probe = &gcpmodels.Probe{}
+	var params models.IaaSDescriptors = hpService.svc.GetIaaSDescriptors()
 
 	healthCheckAPIUrl = params.ManagementURL + "/compute/v1/projects/" + params.ProjectId + "/global/healthChecks/" + probeName
 	/*
@@ -54,12 +54,12 @@ func (hpService *HealthProbeService) GetHealthProbe(probeName string) (*gcpbeans
 
 }
 
-func (hpService *HealthProbeService) CreateHealthProbe(probe gcpbeans.ProbeInput) bool {
+func (hpService *HealthProbeService) CreateHealthProbe(probe gcpmodels.ProbeInput) bool {
 
 	var createHealthcheckAPIUrl, responseStr, responseCode string
 	var returnValue bool
-	var currentOperation *gcpbeans.Operation = &gcpbeans.Operation{}
-	var params beans.IaaSDescriptors = hpService.svc.GetIaaSDescriptors()
+	var currentOperation *gcpmodels.Operation = &gcpmodels.Operation{}
+	var params models.IaaSDescriptors = hpService.svc.GetIaaSDescriptors()
 
 	createHealthcheckAPIUrl = params.ManagementURL + "/compute/v1/projects/" + params.ProjectId + "/global/healthChecks"
 	log.Println(probe)
@@ -84,7 +84,7 @@ func (hpService *HealthProbeService) CreateHealthProbe(probe gcpbeans.ProbeInput
 
 }
 
-func (hpService *HealthProbeService) IsProvisioningSuccessful(operation gcpbeans.Operation) bool {
+func (hpService *HealthProbeService) IsProvisioningSuccessful(operation gcpmodels.Operation) bool {
 
 	return gcputils.IsResourceProvisioningSuccessful(operation, hpService.svc)
 

@@ -2,10 +2,10 @@ package services
 
 import (
 	"encoding/json"
-	"ha-helper/ha/common/beans"
+	"ha-helper/ha/common/models"
 	"ha-helper/ha/common/constants"
 	commoninterfaces "ha-helper/ha/common/interfaces"
-	gcpbeans "ha-helper/ha/gcp/beans"
+	gcpmodels "ha-helper/ha/gcp/models"
 	gcputils "ha-helper/ha/gcp/utils"
 	"log"
 	"strings"
@@ -21,12 +21,12 @@ func (vmGroupService *VMGroupService) Initialize(params ...interface{}) {
 
 }
 
-func (vmGroupService *VMGroupService) GetVMGroup(vmGroupName string, azName string) (*gcpbeans.VMGroup, bool) {
+func (vmGroupService *VMGroupService) GetVMGroup(vmGroupName string, azName string) (*gcpmodels.VMGroup, bool) {
 
 	var vmGroupAPIUrl, responseStr, responseCode string
 	var returnValue bool
-	var vmGroup *gcpbeans.VMGroup = &gcpbeans.VMGroup{}
-	var params beans.IaaSDescriptors = vmGroupService.svc.GetIaaSDescriptors()
+	var vmGroup *gcpmodels.VMGroup = &gcpmodels.VMGroup{}
+	var params models.IaaSDescriptors = vmGroupService.svc.GetIaaSDescriptors()
 
 	vmGroupAPIUrl = params.ManagementURL + "/compute/v1/projects/" + params.ProjectId + "/zones/" + azName + "/instanceGroups/" + vmGroupName
 	/*
@@ -67,8 +67,8 @@ func (vmGroupService *VMGroupService) CreateVMGroup(vmGroupName string, availabi
 	var createVMGroupAPIUrl, responseStr, responseCode, azName string
 	var returnValue bool
 	var vmGroupInput CreateVMGroupInput = CreateVMGroupInput{}
-	var currentOperation *gcpbeans.Operation = &gcpbeans.Operation{}
-	var params beans.IaaSDescriptors = vmGroupService.svc.GetIaaSDescriptors()
+	var currentOperation *gcpmodels.Operation = &gcpmodels.Operation{}
+	var params models.IaaSDescriptors = vmGroupService.svc.GetIaaSDescriptors()
 
 	temp := strings.Split(availabilityZone, "/")
 	azName = temp[(len(temp) - 1)]
@@ -117,10 +117,10 @@ func (vmGroupService *VMGroupService) AddVMToVMGroup(vmGroupName string, azName 
 
 	var vmList *VMList
 	var vmListInput VMListInput
-	var currentOperation *gcpbeans.Operation = &gcpbeans.Operation{}
+	var currentOperation *gcpmodels.Operation = &gcpmodels.Operation{}
 	var returnValue, isAssociationRequired bool
 	var addVMsToVMGroupAPIUrl, responseStr, responseCode string
-	var params beans.IaaSDescriptors = vmGroupService.svc.GetIaaSDescriptors()
+	var params models.IaaSDescriptors = vmGroupService.svc.GetIaaSDescriptors()
 
 	vmList, returnValue = vmGroupService.GetVMsInVMGroup(vmGroupName, azName)
 	if returnValue == false {
@@ -180,7 +180,7 @@ func (vmGroupService *VMGroupService) GetVMsInVMGroup(vmGroupName string, azName
 	var listVMsinVMGroupAPIUrl, responseStr, responseCode string
 	var returnValue bool
 	var vmList *VMList = &VMList{}
-	var params beans.IaaSDescriptors = vmGroupService.svc.GetIaaSDescriptors()
+	var params models.IaaSDescriptors = vmGroupService.svc.GetIaaSDescriptors()
 
 	listVMsinVMGroupAPIUrl = params.ManagementURL + "/compute/v1/projects/" + params.ProjectId + "/zones/" + azName + "/instanceGroups/" +
 		vmGroupName + "/listInstances"
@@ -211,7 +211,7 @@ func (vmGroupService *VMGroupService) GetVMsInVMGroup(vmGroupName string, azName
 	return nil, false
 }
 
-func (vmGroupService *VMGroupService) IsProvisioningSuccessful(operation gcpbeans.Operation) bool {
+func (vmGroupService *VMGroupService) IsProvisioningSuccessful(operation gcpmodels.Operation) bool {
 
 	return gcputils.IsResourceProvisioningSuccessful(operation, vmGroupService.svc)
 

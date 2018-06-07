@@ -1,4 +1,4 @@
-package beans
+package models
 
 type VirtualMachine struct {
 	Kind              string `json:"kind"`

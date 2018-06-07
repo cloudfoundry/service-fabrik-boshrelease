@@ -1,10 +1,10 @@
 package interfaces
 
 import (
-	"ha-helper/ha/common/beans"
+	"ha-helper/ha/common/models"
 )
 
 type IAuthorizationService interface {
 	Initialize(...interface{})
-	Authorize(authorizationRequest beans.AuthorizationRequest) (*beans.AuthorizationToken, bool)
+	Authorize(authorizationRequest models.AuthorizationRequest) (*models.AuthorizationToken, bool)
 }

@@ -3,9 +3,9 @@ package providers
 import (
 	"encoding/json"
 	"fmt"
-	"ha-helper/ha/common/beans"
+	"ha-helper/ha/common/models"
 	commoninterfaces "ha-helper/ha/common/interfaces"
-	gcpbeans "ha-helper/ha/gcp/beans"
+	gcpmodels "ha-helper/ha/gcp/models"
 	"ha-helper/ha/gcp/clients"
 	"ha-helper/ha/gcp/interfaces"
 	"ha-helper/ha/gcp/services"
@@ -14,7 +14,7 @@ import (
 )
 
 type GCPIAAS struct {
-	Config         beans.ConfigParams
+	Config         models.ConfigParams
 	serviceClient  commoninterfaces.IServiceClient
 	vmService      interfaces.IVMService
 	vmGroupService interfaces.IVMGroupService
@@ -23,21 +23,21 @@ type GCPIAAS struct {
 	lbRuleService  interfaces.ILoadBalancingRuleService
 }
 
-func (iaasProvider *GCPIAAS) Initialize(configParams beans.ConfigParams) int {
+func (iaasProvider *GCPIAAS) Initialize(configParams models.ConfigParams) int {
 
-	var iaasDescriptors beans.IaaSDescriptors
-	var authorizationRequest beans.AuthorizationRequest
+	var iaasDescriptors models.IaaSDescriptors
+	var authorizationRequest models.AuthorizationRequest
 	var returnValue int
 	//
 	// Initialize relevant configurations
 	iaasProvider.Config = configParams
 
-	iaasDescriptors = beans.IaaSDescriptors{
+	iaasDescriptors = models.IaaSDescriptors{
 		ManagementURL: iaasProvider.Config.GCPBaseURL,
 		ProjectId:     iaasProvider.Config.ProjectId,
 	}
 
-	authorizationRequest = beans.AuthorizationRequest{
+	authorizationRequest = models.AuthorizationRequest{
 		AuthBaseURL:   iaasProvider.Config.AuthorizationBaseURL,
 		PrivateKeyId:  iaasProvider.Config.PrivateKeyId,
 		PrivateKey:    iaasProvider.Config.PrivateKey,
@@ -77,11 +77,11 @@ func (iaasProvider *GCPIAAS) IsHAEnabled() bool {
 	return true
 }
 
-func (iaasProvider *GCPIAAS) GetConfig() beans.ConfigParams {
+func (iaasProvider *GCPIAAS) GetConfig() models.ConfigParams {
 	return iaasProvider.Config
 }
 
-func (iaasProvider *GCPIAAS) initializeLandscapeInfo(virtualMachine *gcpbeans.VirtualMachine) (string, string, string, string, string, string) {
+func (iaasProvider *GCPIAAS) initializeLandscapeInfo(virtualMachine *gcpmodels.VirtualMachine) (string, string, string, string, string, string) {
 
 	var region, regionName, availabilityZone, azName, network, subNetwork string
 
@@ -123,11 +123,11 @@ func (iaasProvider *GCPIAAS) getLoadBalancingRuleName() string {
 func (iaasProvider *GCPIAAS) ManageResources() int {
 
 	var loadBalancerName, vmGroupName, healthProbeName, lbRuleName, regionName, availabilityZone, azName, network, subNetwork string
-	var virtualMachine *gcpbeans.VirtualMachine
-	var vmGroup *gcpbeans.VMGroup
-	var probe *gcpbeans.Probe
-	var loadBalancer *gcpbeans.LoadBalancer
-	var lbRule *gcpbeans.LoadBalancingRule
+	var virtualMachine *gcpmodels.VirtualMachine
+	var vmGroup *gcpmodels.VMGroup
+	var probe *gcpmodels.Probe
+	var loadBalancer *gcpmodels.LoadBalancer
+	var lbRule *gcpmodels.LoadBalancingRule
 	var returnValue bool
 
 	//	MANAGE INTERNAL LOAD BALANCER
@@ -201,10 +201,10 @@ func (iaasProvider *GCPIAAS) ManageResources() int {
 	} else if returnValue == true && loadBalancer != nil {
 
 		log.Println("Load balancer with name:", loadBalancerName, "already exists in GCP.")
-		var modifyLBInput gcpbeans.CreateLBInput = gcpbeans.CreateLBInput{}
-		var connDrain gcpbeans.ConnectionDrainInfo = gcpbeans.ConnectionDrainInfo{30}
+		var modifyLBInput gcpmodels.CreateLBInput = gcpmodels.CreateLBInput{}
+		var connDrain gcpmodels.ConnectionDrainInfo = gcpmodels.ConnectionDrainInfo{30}
 		var isUpdateRequired bool = false
-		var modifyBackend gcpbeans.Backend = gcpbeans.Backend{}
+		var modifyBackend gcpmodels.Backend = gcpmodels.Backend{}
 
 		modifyBackend.BalancingMode = "CONNECTION"
 		modifyBackend.Group = vmGroup.SelfLink
@@ -244,9 +244,9 @@ func (iaasProvider *GCPIAAS) ManageResources() int {
 	if loadBalancer == nil {
 		log.Println("Load balancer with name ", loadBalancerName, "does not exist in GCP. Initiating creation of load balancer resource.")
 
-		var createLBInput gcpbeans.CreateLBInput = gcpbeans.CreateLBInput{}
-		var connDrain gcpbeans.ConnectionDrainInfo = gcpbeans.ConnectionDrainInfo{30}
-		var backend gcpbeans.Backend = gcpbeans.Backend{}
+		var createLBInput gcpmodels.CreateLBInput = gcpmodels.CreateLBInput{}
+		var connDrain gcpmodels.ConnectionDrainInfo = gcpmodels.ConnectionDrainInfo{30}
+		var backend gcpmodels.Backend = gcpmodels.Backend{}
 		backend.BalancingMode = "CONNECTION"
 		backend.Group = vmGroup.SelfLink
 
@@ -254,7 +254,7 @@ func (iaasProvider *GCPIAAS) ManageResources() int {
 		createLBInput.LoadBalancingScheme = "INTERNAL"
 		createLBInput.Protocol = "TCP"
 		createLBInput.HealthChecks = []string{probe.SelfLink}
-		createLBInput.Backends = []gcpbeans.Backend{backend}
+		createLBInput.Backends = []gcpmodels.Backend{backend}
 		createLBInput.ConnectionDraining = connDrain
 		returnValue = iaasProvider.lbService.CreateLoadBalancer(createLBInput, regionName)
 		if returnValue == false {
@@ -280,7 +280,7 @@ func (iaasProvider *GCPIAAS) ManageResources() int {
 		log.Println("Load balancing rule with name ", lbRuleName, "does not exist in GCP. Initiating creation of load balancing rule resource.")
 
 		floatingIPNetwork, floatingIPSubNetwork, returnValue := iaasProvider.getNetworkInfo(iaasProvider.Config.SubnetName, regionName)
-		var createLBRuleInput gcpbeans.CreateLBRuleInput = gcpbeans.CreateLBRuleInput{}
+		var createLBRuleInput gcpmodels.CreateLBRuleInput = gcpmodels.CreateLBRuleInput{}
 		createLBRuleInput.Name = lbRuleName
 		createLBRuleInput.IPAddress = iaasProvider.Config.FloatingIP
 		createLBRuleInput.IPProtocol = "TCP"
@@ -308,9 +308,9 @@ func (iaasProvider *GCPIAAS) ManageResources() int {
 func (iaasProvider *GCPIAAS) getNetworkInfo(subNetworkName string, regionName string) (string, string, bool) {
 
 	var subNetworkAPIUrl, responseStr string
-	var subNetworkResult *gcpbeans.SubNetwork = &gcpbeans.SubNetwork{}
+	var subNetworkResult *gcpmodels.SubNetwork = &gcpmodels.SubNetwork{}
 	var returnValue bool
-	var params beans.IaaSDescriptors = iaasProvider.serviceClient.GetIaaSDescriptors()
+	var params models.IaaSDescriptors = iaasProvider.serviceClient.GetIaaSDescriptors()
 
 	subNetworkAPIUrl = params.ManagementURL + "/compute/v1/projects/" + params.ProjectId + "/regions/" + regionName + "/subnetworks/" + subNetworkName
 	/*
@@ -334,16 +334,16 @@ func (iaasProvider *GCPIAAS) getNetworkInfo(subNetworkName string, regionName st
 func (iaasProvider *GCPIAAS) createHealthProbe(healthProbeName string) bool {
 
 	var returnValue bool
-	var inputProbe gcpbeans.ProbeInput
+	var inputProbe gcpmodels.ProbeInput
 
-	inputProbe = gcpbeans.ProbeInput{
+	inputProbe = gcpmodels.ProbeInput{
 		Name:               healthProbeName,
 		Type:               iaasProvider.Config.ProbeProtocol,
 		HealthyThreshold:   iaasProvider.Config.ProbeHealthCheckCount,
 		UnhealthyThreshold: iaasProvider.Config.ProbeHealthCheckCount,
 		CheckIntervalSec:   iaasProvider.Config.ProbeIntervalInSeconds,
 		TimeoutSec:         iaasProvider.Config.ProbeIntervalInSeconds,
-		HTTPHealthCheck: gcpbeans.HTTPHC{
+		HTTPHealthCheck: gcpmodels.HTTPHC{
 			Host:        "",
 			Port:        iaasProvider.Config.ProbePort,
 			RequestPath: iaasProvider.Config.ProbeRequestPath,

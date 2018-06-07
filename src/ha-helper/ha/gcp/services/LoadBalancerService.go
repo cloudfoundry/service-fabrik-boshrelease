@@ -2,10 +2,10 @@ package services
 
 import (
 	"encoding/json"
-	"ha-helper/ha/common/beans"
+	"ha-helper/ha/common/models"
 	"ha-helper/ha/common/constants"
 	commoninterfaces "ha-helper/ha/common/interfaces"
-	gcpbeans "ha-helper/ha/gcp/beans"
+	gcpmodels "ha-helper/ha/gcp/models"
 	gcputils "ha-helper/ha/gcp/utils"
 	"log"
 	"strings"
@@ -21,12 +21,12 @@ func (lbService *LoadBalancerService) Initialize(params ...interface{}) {
 
 }
 
-func (lbService *LoadBalancerService) GetLoadBalancer(lbName string, regionName string) (*gcpbeans.LoadBalancer, bool) {
+func (lbService *LoadBalancerService) GetLoadBalancer(lbName string, regionName string) (*gcpmodels.LoadBalancer, bool) {
 
 	var loadBalancerAPIUrl, responseStr, responseCode string
 	var returnValue bool
-	var loadBalancer *gcpbeans.LoadBalancer = &gcpbeans.LoadBalancer{}
-	var params beans.IaaSDescriptors = lbService.svc.GetIaaSDescriptors()
+	var loadBalancer *gcpmodels.LoadBalancer = &gcpmodels.LoadBalancer{}
+	var params models.IaaSDescriptors = lbService.svc.GetIaaSDescriptors()
 
 	loadBalancerAPIUrl = params.ManagementURL + "/compute/v1/projects/" + params.ProjectId + "/regions/" + regionName + "/backendServices/" + lbName
 	/*
@@ -57,12 +57,12 @@ func (lbService *LoadBalancerService) GetLoadBalancer(lbName string, regionName 
 
 }
 
-func (lbService *LoadBalancerService) CreateLoadBalancer(createLBInput gcpbeans.CreateLBInput, regionName string) bool {
+func (lbService *LoadBalancerService) CreateLoadBalancer(createLBInput gcpmodels.CreateLBInput, regionName string) bool {
 
 	var createLBAPIUrl, responseStr, responseCode string
 	var returnValue bool
-	var currentOperation *gcpbeans.Operation = &gcpbeans.Operation{}
-	var params beans.IaaSDescriptors = lbService.svc.GetIaaSDescriptors()
+	var currentOperation *gcpmodels.Operation = &gcpmodels.Operation{}
+	var params models.IaaSDescriptors = lbService.svc.GetIaaSDescriptors()
 
 	createLBAPIUrl = params.ManagementURL + "/compute/v1/projects/" + params.ProjectId + "/regions/" + regionName + "/backendServices"
 	/*
@@ -86,12 +86,12 @@ func (lbService *LoadBalancerService) CreateLoadBalancer(createLBInput gcpbeans.
 
 }
 
-func (lbService *LoadBalancerService) UpdateLoadBalancer(modifyLBInput gcpbeans.CreateLBInput, regionName string) bool {
+func (lbService *LoadBalancerService) UpdateLoadBalancer(modifyLBInput gcpmodels.CreateLBInput, regionName string) bool {
 
 	var modifyLBAPIUrl, responseStr, responseCode string
 	var returnValue bool
-	var currentOperation *gcpbeans.Operation = &gcpbeans.Operation{}
-	var params beans.IaaSDescriptors = lbService.svc.GetIaaSDescriptors()
+	var currentOperation *gcpmodels.Operation = &gcpmodels.Operation{}
+	var params models.IaaSDescriptors = lbService.svc.GetIaaSDescriptors()
 
 	modifyLBAPIUrl = params.ManagementURL + "/compute/v1/projects/" + params.ProjectId + "/regions/" + regionName + "/backendServices/" + modifyLBInput.Name
 	/*
@@ -115,6 +115,6 @@ func (lbService *LoadBalancerService) UpdateLoadBalancer(modifyLBInput gcpbeans.
 
 }
 
-func (lbService *LoadBalancerService) IsProvisioningSuccessful(operation gcpbeans.Operation) bool {
+func (lbService *LoadBalancerService) IsProvisioningSuccessful(operation gcpmodels.Operation) bool {
 	return gcputils.IsResourceProvisioningSuccessful(operation, lbService.svc)
 }

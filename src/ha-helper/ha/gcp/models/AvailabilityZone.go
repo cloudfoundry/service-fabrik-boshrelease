@@ -1,4 +1,4 @@
-package beans
+package models
 
 type AvailabilityZone struct {
 	Kind                  string   `json:"kind"`

@@ -2,10 +2,10 @@ package services
 
 import (
 	"encoding/json"
-	"ha-helper/ha/common/beans"
+	"ha-helper/ha/common/models"
 	"ha-helper/ha/common/constants"
 	commoninterfaces "ha-helper/ha/common/interfaces"
-	gcpbeans "ha-helper/ha/gcp/beans"
+	gcpmodels "ha-helper/ha/gcp/models"
 	gcputils "ha-helper/ha/gcp/utils"
 	"log"
 	"strings"
@@ -21,12 +21,12 @@ func (lbRuleService *LoadBalancingRuleService) Initialize(params ...interface{})
 
 }
 
-func (lbRuleService *LoadBalancingRuleService) GetLBRule(loadBalancingRuleName string, regionName string) (*gcpbeans.LoadBalancingRule, bool) {
+func (lbRuleService *LoadBalancingRuleService) GetLBRule(loadBalancingRuleName string, regionName string) (*gcpmodels.LoadBalancingRule, bool) {
 
 	var forwardingRuleAPIUrl, responseStr, responseCode string
-	var loadBalancingRuleResult *gcpbeans.LoadBalancingRule = &gcpbeans.LoadBalancingRule{}
+	var loadBalancingRuleResult *gcpmodels.LoadBalancingRule = &gcpmodels.LoadBalancingRule{}
 	var returnValue bool
-	var params beans.IaaSDescriptors = lbRuleService.svc.GetIaaSDescriptors()
+	var params models.IaaSDescriptors = lbRuleService.svc.GetIaaSDescriptors()
 
 	forwardingRuleAPIUrl = params.ManagementURL + "/compute/v1/projects/" + params.ProjectId + "/regions/" + regionName + "/forwardingRules/" + loadBalancingRuleName
 	/*
@@ -58,12 +58,12 @@ func (lbRuleService *LoadBalancingRuleService) GetLBRule(loadBalancingRuleName s
 
 }
 
-func (lbRuleService *LoadBalancingRuleService) CreateLBRule(createLBRuleInput gcpbeans.CreateLBRuleInput, regionName string) bool {
+func (lbRuleService *LoadBalancingRuleService) CreateLBRule(createLBRuleInput gcpmodels.CreateLBRuleInput, regionName string) bool {
 
 	var createLBRuleAPIUrl, responseStr, responseCode string
 	var returnValue bool
-	var currentOperation *gcpbeans.Operation = &gcpbeans.Operation{}
-	var params beans.IaaSDescriptors = lbRuleService.svc.GetIaaSDescriptors()
+	var currentOperation *gcpmodels.Operation = &gcpmodels.Operation{}
+	var params models.IaaSDescriptors = lbRuleService.svc.GetIaaSDescriptors()
 
 	createLBRuleAPIUrl = params.ManagementURL + "/compute/v1/projects/" + params.ProjectId + "/regions/" + regionName + "/forwardingRules"
 	/*
@@ -87,6 +87,6 @@ func (lbRuleService *LoadBalancingRuleService) CreateLBRule(createLBRuleInput gc
 
 }
 
-func (lbRuleService *LoadBalancingRuleService) IsProvisioningSuccessful(operation gcpbeans.Operation) bool {
+func (lbRuleService *LoadBalancingRuleService) IsProvisioningSuccessful(operation gcpmodels.Operation) bool {
 	return gcputils.IsResourceProvisioningSuccessful(operation, lbRuleService.svc)
 }

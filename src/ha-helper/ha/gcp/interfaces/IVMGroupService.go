@@ -1,14 +1,14 @@
 package interfaces
 
 import (
-	// shoudld be changed to common/beans after creating common bean for these classes.
-	gcpbeans "ha-helper/ha/gcp/beans"
+	// shoudld be changed to common/models after creating common bean for these classes.
+	gcpmodels "ha-helper/ha/gcp/models"
 )
 
 type IVMGroupService interface {
 	Initialize(...interface{})
-	GetVMGroup(string, string) (*gcpbeans.VMGroup, bool)
+	GetVMGroup(string, string) (*gcpmodels.VMGroup, bool)
 	CreateVMGroup(string, string, string, string) bool
 	AddVMToVMGroup(string, string, string) bool
-	IsProvisioningSuccessful(gcpbeans.Operation) bool
+	IsProvisioningSuccessful(gcpmodels.Operation) bool
 }

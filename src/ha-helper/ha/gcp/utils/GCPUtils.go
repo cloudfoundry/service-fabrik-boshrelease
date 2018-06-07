@@ -3,17 +3,17 @@ package utils
 import (
 	"encoding/json"
 	commoninterfaces "ha-helper/ha/common/interfaces"
-	gcpbeans "ha-helper/ha/gcp/beans"
+	gcpmodels "ha-helper/ha/gcp/models"
 	"log"
 	"time"
 )
 
-func IsResourceProvisioningSuccessful(operation gcpbeans.Operation, svc commoninterfaces.IServiceClient) bool {
+func IsResourceProvisioningSuccessful(operation gcpmodels.Operation, svc commoninterfaces.IServiceClient) bool {
 
 	var startTime time.Time
 	var returnValue bool
 	var responseStr string
-	var currentOperation *gcpbeans.Operation = &gcpbeans.Operation{}
+	var currentOperation *gcpmodels.Operation = &gcpmodels.Operation{}
 
 	startTime = time.Now()
 	for timeElapsed := 0.0; timeElapsed < svc.GetProvisioningWaitTime(); timeElapsed = time.Since(startTime).Seconds() {

@@ -1,14 +1,14 @@
 package iaasproviderfactory
 
 import (
-	"ha-helper/ha/common/beans"
+	"ha-helper/ha/common/models"
 	"ha-helper/ha/common/constants"
 	"ha-helper/ha/common/interfaces"
 	gcpproviders "ha-helper/ha/gcp/providers"
 	"strings"
 )
 
-func GetProvider(config beans.ConfigParams) interfaces.IIAASProvider {
+func GetProvider(config models.ConfigParams) interfaces.IIAASProvider {
 
 	var provider interfaces.IIAASProvider
 

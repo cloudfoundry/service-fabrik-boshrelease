@@ -1,13 +1,13 @@
 package interfaces
 
 import (
-	// shoudld be changed to common/beans after creating common bean for these classes.
-	gcpbeans "ha-helper/ha/gcp/beans"
+	// shoudld be changed to common/models after creating common bean for these classes.
+	gcpmodels "ha-helper/ha/gcp/models"
 )
 
 type IHealthProbeService interface {
 	Initialize(...interface{})
-	GetHealthProbe(string) (*gcpbeans.Probe, bool)
-	CreateHealthProbe(gcpbeans.ProbeInput) bool
-	IsProvisioningSuccessful(gcpbeans.Operation) bool
+	GetHealthProbe(string) (*gcpmodels.Probe, bool)
+	CreateHealthProbe(gcpmodels.ProbeInput) bool
+	IsProvisioningSuccessful(gcpmodels.Operation) bool
 }

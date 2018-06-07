@@ -1,7 +1,7 @@
 package clients
 
 import (
-	"ha-helper/ha/common/beans"
+	"ha-helper/ha/common/models"
 	"ha-helper/ha/common/interfaces"
 	"ha-helper/ha/common/utils/apiutils"
 	"ha-helper/ha/gcp/services"
@@ -9,9 +9,9 @@ import (
 )
 
 type GCPServiceClient struct {
-	iaasDescriptors      beans.IaaSDescriptors
-	authorizationRequest beans.AuthorizationRequest
-	authorizationToken   *beans.AuthorizationToken
+	iaasDescriptors      models.IaaSDescriptors
+	authorizationRequest models.AuthorizationRequest
+	authorizationToken   *models.AuthorizationToken
 	authorizationService interfaces.IAuthorizationService
 	provisioningWaitTime float64
 	provisioningPollTime float64
@@ -22,8 +22,8 @@ func (svc *GCPServiceClient) Initialize(params ...interface{}) int {
 	svc.provisioningWaitTime = 300
 	svc.provisioningPollTime = 2
 
-	svc.iaasDescriptors = params[0].(beans.IaaSDescriptors)
-	svc.authorizationRequest = params[1].(beans.AuthorizationRequest)
+	svc.iaasDescriptors = params[0].(models.IaaSDescriptors)
+	svc.authorizationRequest = params[1].(models.AuthorizationRequest)
 	// lets intialize auth service to be used for this client.
 	svc.authorizationService = &services.AuthorizationService{}
 	svc.authorizationService.Initialize()
@@ -32,7 +32,7 @@ func (svc *GCPServiceClient) Initialize(params ...interface{}) int {
 
 }
 
-func (svc *GCPServiceClient) GetIaaSDescriptors() beans.IaaSDescriptors {
+func (svc *GCPServiceClient) GetIaaSDescriptors() models.IaaSDescriptors {
 	return svc.iaasDescriptors
 }
 

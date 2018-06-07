@@ -1,14 +1,14 @@
 package interfaces
 
 import (
-	// shoudld be changed to common/beans after creating common bean for these classes.
-	gcpbeans "ha-helper/ha/gcp/beans"
+	// shoudld be changed to common/models after creating common bean for these classes.
+	gcpmodels "ha-helper/ha/gcp/models"
 )
 
 type ILoadBalancerService interface {
 	Initialize(...interface{})
-	GetLoadBalancer(string, string) (*gcpbeans.LoadBalancer, bool)
-	CreateLoadBalancer(gcpbeans.CreateLBInput, string) bool
-	UpdateLoadBalancer(gcpbeans.CreateLBInput, string) bool
-	IsProvisioningSuccessful(gcpbeans.Operation) bool
+	GetLoadBalancer(string, string) (*gcpmodels.LoadBalancer, bool)
+	CreateLoadBalancer(gcpmodels.CreateLBInput, string) bool
+	UpdateLoadBalancer(gcpmodels.CreateLBInput, string) bool
+	IsProvisioningSuccessful(gcpmodels.Operation) bool
 }

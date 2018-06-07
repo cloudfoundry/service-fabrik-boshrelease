@@ -1,12 +1,12 @@
 package interfaces
 
 import (
-	"ha-helper/ha/common/beans"
+	"ha-helper/ha/common/models"
 )
 
 type IIAASProvider interface {
-	Initialize(beans.ConfigParams) int
+	Initialize(models.ConfigParams) int
 	IsHAEnabled() bool
 	ManageResources() int
-	GetConfig() beans.ConfigParams
+	GetConfig() models.ConfigParams
 }

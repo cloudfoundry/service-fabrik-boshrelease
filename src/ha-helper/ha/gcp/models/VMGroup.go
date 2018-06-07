@@ -1,4 +1,4 @@
-package beans
+package models
 
 type VMGroup struct {
 	Kind              string `json:"kind"`

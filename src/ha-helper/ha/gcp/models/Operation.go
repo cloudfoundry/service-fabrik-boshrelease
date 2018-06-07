@@ -1,4 +1,4 @@
-package beans
+package models
 
 type Operation struct {
 	Kind          string `json:"kind"`
