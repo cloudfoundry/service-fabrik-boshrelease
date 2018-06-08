@@ -31,7 +31,7 @@ if [[ "$iaas_name" == "gcp" && "$IS_HA" == "true" ]]; then
   export NETWORK="-network=<%= spec.networks.sf_service_fabrik_broker.cloud_properties.network_name %>"
   export SUBNET="-subnetwork=<%= spec.networks.sf_service_fabrik_broker.cloud_properties.subnetwork_name %>"
 
-  exec /var/vcap/packages/ha-helper/bin/poststarthandler ${AUTHBASEURL} ${PRIVATEKEYID} ${CLIENTEMAILID} ${GCPBASEURL} ${PROJECTID} ${NETWORK} ${SUBNET} ${DEPLOYMENTGUID} ${FLOATINGIP} ${INSTANCEIP} ${SFBROKERPORT} ${SFREPORTPORT} ${PROBEINTERVAL} ${PROBEHEALTHCHECK} ${PROBEPROTOCOL} ${PROBEPORT} ${PROBEREQUESTPATH} ${LANDSCAPE} "${PRIVATEKEY}" ${SCOPES}
+  exec /var/vcap/packages/ha-utils/bin/poststarthandler ${AUTHBASEURL} ${PRIVATEKEYID} ${CLIENTEMAILID} ${GCPBASEURL} ${PROJECTID} ${NETWORK} ${SUBNET} ${DEPLOYMENTGUID} ${FLOATINGIP} ${INSTANCEIP} ${SFBROKERPORT} ${SFREPORTPORT} ${PROBEINTERVAL} ${PROBEHEALTHCHECK} ${PROBEPROTOCOL} ${PROBEPORT} ${PROBEREQUESTPATH} ${LANDSCAPE} "${PRIVATEKEY}" ${SCOPES}
 	
   RETURN_CODE=$?
 		
@@ -55,7 +55,7 @@ if [[ "$iaas_name" == "gcp" && "$IS_HA" == "true" ]]; then
   echo "$LANDSCAPE"
   echo "$PRIVATEKEY"
   echo "$SCOPES"
-  
+
   echo "GCP Post-start script execution completed"
   exit $RETURN_CODE
 fi

@@ -2,9 +2,9 @@ package main
 
 import (
 	"flag"
-	IAASProviderFactory "ha-helper/ha/common/iaasproviderfactory"
-	"ha-helper/ha/common/interfaces"
-	"ha-helper/ha/common/models"
+	IAASProviderFactory "ha-utils/ha/common/iaasproviderfactory"
+	"ha-utils/ha/common/interfaces"
+	"ha-utils/ha/common/models"
 	"log"
 	"os"
 	"time"

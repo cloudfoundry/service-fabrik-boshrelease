@@ -3,7 +3,7 @@ package apiutils
 import (
 	"bytes"
 	"encoding/json"
-	"ha-helper/ha/common/constants"
+	"ha-utils/ha/common/constants"
 	"io/ioutil"
 	"log"
 	"net/http"

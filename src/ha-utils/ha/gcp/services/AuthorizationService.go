@@ -1,7 +1,7 @@
 package services
 
 import (
-	"ha-helper/ha/common/models"
+	"ha-utils/ha/common/models"
 	//	"context"
 	"golang.org/x/net/context"
 	gcpjwt "golang.org/x/oauth2/jwt"

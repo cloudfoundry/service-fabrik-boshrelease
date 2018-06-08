@@ -1,6 +1,6 @@
 ---
-name: ha-helper
+name: ha-utils
 dependencies:
   - golang
 files:
-  - ha-helper/**/*
+  - ha-utils/**/*

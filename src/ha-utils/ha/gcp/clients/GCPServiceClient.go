@@ -1,10 +1,10 @@
 package clients
 
 import (
-	"ha-helper/ha/common/models"
-	"ha-helper/ha/common/interfaces"
-	"ha-helper/ha/common/utils/apiutils"
-	"ha-helper/ha/gcp/services"
+	"ha-utils/ha/common/models"
+	"ha-utils/ha/common/interfaces"
+	"ha-utils/ha/common/utils/apiutils"
+	"ha-utils/ha/gcp/services"
 	"log"
 )
 

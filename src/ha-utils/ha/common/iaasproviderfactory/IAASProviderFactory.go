@@ -1,10 +1,10 @@
 package iaasproviderfactory
 
 import (
-	"ha-helper/ha/common/models"
-	"ha-helper/ha/common/constants"
-	"ha-helper/ha/common/interfaces"
-	gcpproviders "ha-helper/ha/gcp/providers"
+	"ha-utils/ha/common/models"
+	"ha-utils/ha/common/constants"
+	"ha-utils/ha/common/interfaces"
+	gcpproviders "ha-utils/ha/gcp/providers"
 	"strings"
 )
 

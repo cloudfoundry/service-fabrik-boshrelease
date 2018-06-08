@@ -1,7 +1,7 @@
 package interfaces
 
 import (
-	"ha-helper/ha/common/models"
+	"ha-utils/ha/common/models"
 )
 
 type IAuthorizationService interface {

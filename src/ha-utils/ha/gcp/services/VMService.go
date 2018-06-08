@@ -2,9 +2,9 @@ package services
 
 import (
 	"encoding/json"
-	"ha-helper/ha/common/models"
-	commoninterfaces "ha-helper/ha/common/interfaces"
-	gcpmodels "ha-helper/ha/gcp/models"
+	"ha-utils/ha/common/models"
+	commoninterfaces "ha-utils/ha/common/interfaces"
+	gcpmodels "ha-utils/ha/gcp/models"
 	"log"
 	"strings"
 )

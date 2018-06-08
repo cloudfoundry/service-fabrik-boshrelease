@@ -7,7 +7,7 @@ packages:
   - service-fabrik-broker
   - jq
   - yaml2json
-  - ha-helper
+  - ha-utils
 
 templates:
   bin/drain.erb: bin/drain

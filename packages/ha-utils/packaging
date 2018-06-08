@@ -8,11 +8,11 @@ export GOROOT=$(readlink -nf /var/vcap/packages/golang)
 export PATH=${GOROOT}/bin:${PATH}
 export GOPATH=${BOSH_INSTALL_TARGET}
 
-POSTSTARTHANDLER_PACKAGE_NAME=${BOSH_INSTALL_TARGET}/src/ha-helper/common/poststarthandler
-cp -r ${BOSH_COMPILE_TARGET}/ha-helper ${BOSH_INSTALL_TARGET}/
+POSTSTARTHANDLER_PACKAGE_NAME=${BOSH_INSTALL_TARGET}/src/ha-utils/common/poststarthandler
+cp -r ${BOSH_COMPILE_TARGET}/ha-utils ${BOSH_INSTALL_TARGET}/
 mkdir -p ${BOSH_INSTALL_TARGET}/src
 mkdir -p ${BOSH_INSTALL_TARGET}/bin
-mv ${BOSH_INSTALL_TARGET}/ha-helper ${BOSH_INSTALL_TARGET}/src/
+mv ${BOSH_INSTALL_TARGET}/ha-utils ${BOSH_INSTALL_TARGET}/src/
 
 cd ${POSTSTARTHANDLER_PACKAGE_NAME}
 go build

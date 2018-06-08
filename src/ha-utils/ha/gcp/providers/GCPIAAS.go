@@ -3,12 +3,12 @@ package providers
 import (
 	"encoding/json"
 	"fmt"
-	"ha-helper/ha/common/models"
-	commoninterfaces "ha-helper/ha/common/interfaces"
-	gcpmodels "ha-helper/ha/gcp/models"
-	"ha-helper/ha/gcp/clients"
-	"ha-helper/ha/gcp/interfaces"
-	"ha-helper/ha/gcp/services"
+	"ha-utils/ha/common/models"
+	commoninterfaces "ha-utils/ha/common/interfaces"
+	gcpmodels "ha-utils/ha/gcp/models"
+	"ha-utils/ha/gcp/clients"
+	"ha-utils/ha/gcp/interfaces"
+	"ha-utils/ha/gcp/services"
 	"log"
 	"strings"
 )

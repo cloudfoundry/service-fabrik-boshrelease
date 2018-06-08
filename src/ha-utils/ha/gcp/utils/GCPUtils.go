@@ -2,8 +2,8 @@ package utils
 
 import (
 	"encoding/json"
-	commoninterfaces "ha-helper/ha/common/interfaces"
-	gcpmodels "ha-helper/ha/gcp/models"
+	commoninterfaces "ha-utils/ha/common/interfaces"
+	gcpmodels "ha-utils/ha/gcp/models"
 	"log"
 	"time"
 )
