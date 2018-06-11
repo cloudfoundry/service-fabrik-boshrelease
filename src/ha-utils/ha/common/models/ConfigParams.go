@@ -27,6 +27,8 @@ type ConfigParams struct {
 	CurrentInstanceIP      string
 	SFBrokerPort           int
 	SFReportPort           int
+	SFExternalPort         int
+	SFDephooksPort         int
 	ProbeIntervalInSeconds int
 	ProbeHealthCheckCount  int
 	ProbeProtocol          string

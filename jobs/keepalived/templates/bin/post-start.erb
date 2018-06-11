@@ -19,6 +19,8 @@ if [[ "$iaas_name" == "gcp" && "$IS_HA" == "true" ]]; then
   export INSTANCEIP="-instanceip=<%= spec.ip %>"
   export SFBROKERPORT="-sfbrokerport=<%= link("broker").p("internal.port") %>"
   export SFREPORTPORT="-sfreportport=9294"
+  export SFEXTERNALPORT="-sfexternalport=9292"
+  export SFDEPHOOKSPORT="-sfdephooksport=9295"
   export PROBEINTERVAL="-probeinterval=2"
   export PROBEHEALTHCHECK="-probehealthcheck=2"
   export PROBEPROTOCOL="-probeprotocol=Http"
@@ -31,7 +33,7 @@ if [[ "$iaas_name" == "gcp" && "$IS_HA" == "true" ]]; then
   export NETWORK="-network=<%= spec.networks.sf_service_fabrik_broker.cloud_properties.network_name %>"
   export SUBNET="-subnetwork=<%= spec.networks.sf_service_fabrik_broker.cloud_properties.subnetwork_name %>"
 
-  exec /var/vcap/packages/ha-utils/bin/ha-utils ${AUTHBASEURL} ${PRIVATEKEYID} ${CLIENTEMAILID} ${GCPBASEURL} ${PROJECTID} ${NETWORK} ${SUBNET} ${DEPLOYMENTGUID} ${FLOATINGIP} ${INSTANCEIP} ${SFBROKERPORT} ${SFREPORTPORT} ${PROBEINTERVAL} ${PROBEHEALTHCHECK} ${PROBEPROTOCOL} ${PROBEPORT} ${PROBEREQUESTPATH} ${LANDSCAPE} "${PRIVATEKEY}" ${SCOPES}
+  exec /var/vcap/packages/ha-utils/bin/ha-utils ${AUTHBASEURL} ${PRIVATEKEYID} ${CLIENTEMAILID} ${GCPBASEURL} ${PROJECTID} ${NETWORK} ${SUBNET} ${DEPLOYMENTGUID} ${FLOATINGIP} ${INSTANCEIP} ${SFBROKERPORT} ${SFREPORTPORT} ${SFEXTERNALPORT} ${SFDEPHOOKSPORT} ${PROBEINTERVAL} ${PROBEHEALTHCHECK} ${PROBEPROTOCOL} ${PROBEPORT} ${PROBEREQUESTPATH} ${LANDSCAPE} "${PRIVATEKEY}" ${SCOPES}
 	
   RETURN_CODE=$?
 		
@@ -47,6 +49,8 @@ if [[ "$iaas_name" == "gcp" && "$IS_HA" == "true" ]]; then
   echo "$INSTANCEIP"
   echo "$SFBROKERPORT"
   echo "$SFREPORTPORT"
+  echo "$SFEXTERNALPORT"
+  echo "SFDEPHOOKSPORT"
   echo "$PROBEINTERVAL"
   echo "$PROBEHEALTHCHECK"
   echo "$PROBEPROTOCOL"

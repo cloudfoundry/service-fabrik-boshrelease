@@ -72,6 +72,8 @@ func ReadConfigurationParameters() models.ConfigParams {
 	flag.StringVar(&config.ProjectId, "projectid", "", "gcp project id")
 	flag.IntVar(&config.SFBrokerPort, "sfbrokerport", 9293, "service-fabrik-broker port")
 	flag.IntVar(&config.SFReportPort, "sfreportport", 9294, "service-fabrik-report port")
+	flag.IntVar(&config.SFDephooksPort, "sfdephooksport", 9295, "service-fabrik deployment hooks port")
+	flag.IntVar(&config.SFExternalPort, "sfexternalport", 9292, "service-fabrik-broker external port")
 	flag.StringVar(&config.DeploymentGuid, "deploymentguid", "", "guid of the deployment")
 	flag.StringVar(&config.FloatingIP, "floatingip", "", "floating ip used for this deployment")
 	flag.StringVar(&config.CurrentInstanceIP, "instanceip", "", "ip address of the current instance")
