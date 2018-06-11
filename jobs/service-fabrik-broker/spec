@@ -7,12 +7,14 @@ packages:
   - service-fabrik-broker
   - jq
   - yaml2json
+  - ha-helper
 
 templates:
   bin/drain.erb: bin/drain
   bin/service-fabrik-broker_ctl.erb: bin/service-fabrik-broker_ctl
   bin/job_properties.sh.erb: bin/job_properties.sh
   bin/health_check.erb: bin/health_check
+  bin/post-start.erb: bin/post-start
   config/settings.yml.erb: config/settings.yml
   config/eventlog-config-external.yml.erb: config/eventlog-config-external.yml
   config/eventlog-config-internal.yml.erb: config/eventlog-config-internal.yml
@@ -123,6 +125,8 @@ properties:
   log_level:
     description: "Log level of the broker"
     default: "info"
+  ha_user_credentials:
+    description: "Credentials for ha user"
   sys_log_level:
     description: "Log level of the messages that are to be forwarded to ELK via syslog transport"
     default: "info"
