@@ -7,7 +7,6 @@ packages:
   - service-fabrik-broker
   - jq
   - yaml2json
-  - ha-utils
 
 templates:
   bin/drain.erb: bin/drain
@@ -123,8 +122,6 @@ properties:
   log_level:
     description: "Log level of the broker"
     default: "info"
-  ha_user_credentials:
-    description: "Credentials for ha user"
   sys_log_level:
     description: "Log level of the messages that are to be forwarded to ELK via syslog transport"
     default: "info"
