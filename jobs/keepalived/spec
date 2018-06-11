@@ -23,6 +23,10 @@ templates:
 consumes:
 - name: broker
   type: broker
+- name: report
+  type: report
+- name: deployment_hooks
+  type: deployment_hooks
 
 properties:
   iaas_config:
