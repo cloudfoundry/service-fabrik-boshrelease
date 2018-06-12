@@ -7,7 +7,7 @@ packages:
 - keepalived
 - bosh-helpers
 - aws-cli
-- iaas-utils
+- ha-utils
 
 templates:
   bin/keepalived_ctl.erb: 		bin/keepalived_ctl
