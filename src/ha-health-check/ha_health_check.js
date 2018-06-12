@@ -6,7 +6,7 @@ const {
 } = require('child_process');
 
 http.createServer(function (req, res) {
-  let ls = spawnSync('bash', ['/var/vcap/jobs/keepalived/bin/get_keepalived_state.sh']);
+  const ls = spawnSync('bash', ['/var/vcap/jobs/keepalived/bin/get_keepalived_state.sh']);
   if (ls.stdout.toString().trim() === 'up') {
     res.writeHead(200, { 'Content-Type': 'text/html' });
     res.write('Up');
@@ -17,4 +17,4 @@ http.createServer(function (req, res) {
   res.end();
 }).listen(9595);
 
-console.log('Listening on 9595');
+console.log(`${Date.now}: Listening on 9595`);
