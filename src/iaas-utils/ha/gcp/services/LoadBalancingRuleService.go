@@ -78,7 +78,6 @@ func (lbRuleService *LoadBalancingRuleService) CreateLBRule(createLBRuleInput gc
 			return false
 		}
 		log.Println("Load balancing rule creation :", createLBRuleInput.Name, " initiated successfully.")
-		// let's check if the operation status is successful.
 		return lbRuleService.IsProvisioningSuccessful(*currentOperation)
 	} else {
 		log.Println("Error occurred during load balancing rule creation call : HTTP Status: ", responseCode, " error: ", responseStr)

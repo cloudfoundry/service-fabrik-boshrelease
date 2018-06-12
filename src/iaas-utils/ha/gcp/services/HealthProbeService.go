@@ -75,7 +75,6 @@ func (hpService *HealthProbeService) CreateHealthProbe(probe gcpmodels.ProbeInpu
 			return false
 		}
 		log.Println("health check creation :", probe.Name, " initiated successfully.")
-		// let's check if the operation status is successful.
 		return hpService.IsProvisioningSuccessful(*currentOperation)
 	} else {
 		log.Println("Error occurred during health check creation call : HTTP Status: ", responseCode, " error: ", responseStr)

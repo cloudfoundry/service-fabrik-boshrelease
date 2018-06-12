@@ -77,7 +77,6 @@ func (lbService *LoadBalancerService) CreateLoadBalancer(createLBInput gcpmodels
 			return false
 		}
 		log.Println("Load balancer creation :", createLBInput.Name, " initiated successfully.")
-		// let's check if the operation status is successful.
 		return lbService.IsProvisioningSuccessful(*currentOperation)
 	} else {
 		log.Println("Error occurred during load balancer creation call : HTTP Status: ", responseCode, " error: ", responseStr)
@@ -106,7 +105,6 @@ func (lbService *LoadBalancerService) UpdateLoadBalancer(modifyLBInput gcpmodels
 			return false
 		}
 		log.Println("Load balancer update :", modifyLBInput.Name, " initiated successfully.")
-		// let's check if the operation status is successful.
 		return lbService.IsProvisioningSuccessful(*currentOperation)
 	} else {
 		log.Println("Error occurred during load balancer update call : HTTP Status: ", responseCode, " error: ", responseStr)

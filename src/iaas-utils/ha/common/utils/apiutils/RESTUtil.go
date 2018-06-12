@@ -1,4 +1,4 @@
-package apiutils
+	package apiutils
 
 import (
 	"bytes"
@@ -45,7 +45,7 @@ func InvokeRESTAPI(httpMethod string, apiURL string, reqHeader map[string]string
 	}
 
 	responseStatus = strings.TrimSpace(strings.ToUpper(response.Status))
-	log.Println("HTTP Response Status Code: ", responseStatus)
+	log.Println("HTTP Response Status Code for url: ", apiURL, "is : ", responseStatus)
 	// Check if the response is successful by mathcing for 2xx
 	responseStatusSuccessful, _ = regexp.MatchString("^2[0-9][0-9] ", responseStatus)
 	if !responseStatusSuccessful {
@@ -56,7 +56,6 @@ func InvokeRESTAPI(httpMethod string, apiURL string, reqHeader map[string]string
 		log.Println("HTTP Status : ", responseStatus, "Error occurred while reading response body ", err.Error())
 		return err.Error(), "", false
 	}
-	//	log.Println("response Body:", string(body))
 	defer response.Body.Close()
 
 	if responseStatusSuccessful {
@@ -89,10 +88,8 @@ func InvokeOAuthAPI(httpMethod string, apiURL string, requestBody map[string]str
 		log.Println("Error occured while creating new request")
 		return "Error occured while creating new HTTP Request", false
 	}
-	// set appropriate content type
 	request.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 
-	// All required params have been set - call the api.
 	response, err = httpClient.Do(request)
 	if err != nil {
 		log.Println("Error occured while caling the api: ", apiURL, "Error is ", err.Error())
@@ -110,7 +107,6 @@ func InvokeOAuthAPI(httpMethod string, apiURL string, requestBody map[string]str
 		log.Println("HTTP Status : ", responseStatus, "Error occurred while reading response body ", err.Error())
 		return err.Error(), false
 	}
-	// log.Println("response Body:", string(body))
 	defer response.Body.Close()
 
 	if response.Status == constants.HTTP_STATUS_OK {

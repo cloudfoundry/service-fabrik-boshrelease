@@ -90,7 +90,6 @@ func (vmGroupService *VMGroupService) CreateVMGroup(vmGroupName string, availabi
 			return false
 		}
 		log.Println("Instance Group creation :", vmGroupName, " initiated successfully.")
-		// let's check if the operation status is successful.
 		return vmGroupService.IsProvisioningSuccessful(*currentOperation)
 	} else {
 		log.Println("Error occurred during instance group creation call : HTTP Status: ", responseCode, " error: ", responseStr)
@@ -165,7 +164,6 @@ func (vmGroupService *VMGroupService) AddVMToVMGroup(vmGroupName string, azName 
 			return false
 		}
 		log.Println("Adding VM : ", VMURL, " to VM Group :", vmGroupName, " initiated successfully.")
-		// let's check if the operation status is successful.
 		return vmGroupService.IsProvisioningSuccessful(*currentOperation)
 	} else {
 		log.Println("Error occurred while addVMsToVMGroup API call : HTTP Status: ", responseCode, " error: ", responseStr)

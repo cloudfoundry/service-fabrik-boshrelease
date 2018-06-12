@@ -315,7 +315,6 @@ func (iaasProvider *GCPIAAS) ManageResources() int {
 		}
 	}
 
-	// Everything went fine. Lets return 0.
 	return 0
 
 }
