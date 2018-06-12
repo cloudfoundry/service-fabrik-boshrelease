@@ -21,7 +21,7 @@ func mainWithReturnCode() int {
 	var returnValue int
 
 	startTime = time.Now()
-	log.Println("Starting Post-start activities for service-fabrik at ", startTime)
+	log.Println("Starting Post-start activities for keepalived at ", startTime)
 
 	config := ReadConfigurationParameters()
 	log.Println(config)
