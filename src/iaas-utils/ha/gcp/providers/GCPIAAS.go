@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"iaas-utils/ha/common/models"
+	"iaas-utils/ha/common/constants"
 	commoninterfaces "iaas-utils/ha/common/interfaces"
 	gcpmodels "iaas-utils/ha/gcp/models"
 	"iaas-utils/ha/gcp/clients"
@@ -137,8 +138,8 @@ func (iaasProvider *GCPIAAS) ManageResources() int {
 	// Lets identify the virtual machine and its related details.
 	virtualMachine, returnValue = iaasProvider.vmService.GetVirtualMachineByIP(iaasProvider.Config.CurrentInstanceIP)
 	if returnValue == false || virtualMachine == nil {
-		log.Println("Failed to retrieve virtual machine details - ", virtualMachine.Name)
-		return 1
+		log.Error("Failed to retrieve virtual machine details - ", virtualMachine.Name)
+		return constants.GET_VM_BY_IP_ERROR_CODE
 	}
 
 	_, regionName, availabilityZone, azName, network, subNetwork = iaasProvider.initializeLandscapeInfo(virtualMachine)
@@ -147,8 +148,8 @@ func (iaasProvider *GCPIAAS) ManageResources() int {
 	vmGroupName = iaasProvider.getVMGroupName()
 	vmGroup, returnValue = iaasProvider.vmGroupService.GetVMGroup(vmGroupName, azName)
 	if returnValue == false {
-		log.Println("Failed to retrieve vm group details - ", vmGroupName)
-		return 2
+		log.Error("Failed to retrieve vm group details - ", vmGroupName)
+		return constants.GET_VM_GROUP_ERROR_CODE
 	} else if returnValue == true && vmGroup != nil {
 		log.Println("VM group with name:", vmGroupName, "already exists in GCP.")
 	}
@@ -157,26 +158,28 @@ func (iaasProvider *GCPIAAS) ManageResources() int {
 		log.Println("VM group with name ", vmGroupName, "does not exist in GCP. Initiating creation of VM group.")
 		returnValue = iaasProvider.vmGroupService.CreateVMGroup(vmGroupName, availabilityZone, network, subNetwork)
 		if returnValue == false {
-			return 3
+			log.Error("Creating VM group failed")
+			return constants.CREATE_VM_ERROR_CODE
 		}
 		vmGroup, returnValue = iaasProvider.vmGroupService.GetVMGroup(vmGroupName, azName)
 		if returnValue == false {
-			return 5
+			log.Error("Failed to retrieve vm group details - ", vmGroupName)
+			return constants.GET_VM_GROUP_ERROR_CODE
 		}
 	}
 	// Let's add this instance to vm group
 	returnValue = iaasProvider.vmGroupService.AddVMToVMGroup(vmGroupName, azName, virtualMachine.SelfLink)
 	if returnValue == false {
-		log.Println("Failed to associate instance:", iaasProvider.Config.CurrentInstanceIP, "with vm group:", vmGroupName)
-		return 6
+		log.Error("Failed to associate instance:", iaasProvider.Config.CurrentInstanceIP, "with vm group:", vmGroupName)
+		return constants.ADD_VM_TO_VM_GROUP_ERROR_CODE
 	}
 
 	// Identify whether a health check exists with the given name.
 	healthProbeName = iaasProvider.getHealhProbeName()
 	probe, returnValue = iaasProvider.hpService.GetHealthProbe(healthProbeName)
 	if returnValue == false {
-		log.Println("Failed to retrieve health check details - ", loadBalancerName)
-		return 7
+		log.Error("Failed to retrieve health check details - ", loadBalancerName)
+		return constants.GET_HEALTH_PROBE_ERROR_CODE
 	} else if returnValue == true && probe != nil {
 		log.Println("Health check with name:", healthProbeName, "already exists in GCP.")
 	}
@@ -185,19 +188,21 @@ func (iaasProvider *GCPIAAS) ManageResources() int {
 		log.Println("Health check with name ", healthProbeName, "does not exist in GCP. Initiating creation of load balancer resource.")
 		returnValue = iaasProvider.createHealthProbe(healthProbeName)
 		if returnValue == false {
-			return 8
+			log.Error("Failed to create health probe - ", healthProbeName)
+			return constants.CREATE_HEALTH_PROBE_ERROR_CODE
 		}
 		probe, returnValue = iaasProvider.hpService.GetHealthProbe(healthProbeName)
 		if returnValue == false {
-			return 9
+			log.Error("Failed to retrieve health check details - ", loadBalancerName)
+			return constants.GET_HEALTH_PROBE_ERROR_CODE
 		}
 	}
 
 	// Identify whether a load balancer exists with the given name.
 	loadBalancer, returnValue = iaasProvider.lbService.GetLoadBalancer(loadBalancerName, regionName)
 	if returnValue == false {
-		log.Println("Failed to retrieve load balancer details - ", loadBalancerName)
-		return 10
+		log.Error("Failed to retrieve load balancer details - ", loadBalancerName)
+		return constants.GET_LB_ERROR_CODE
 	} else if returnValue == true && loadBalancer != nil {
 
 		log.Println("Load balancer with name:", loadBalancerName, "already exists in GCP.")
@@ -231,12 +236,14 @@ func (iaasProvider *GCPIAAS) ManageResources() int {
 			modifyLBInput.Backends = append(loadBalancer.Backends, modifyBackend)
 			returnValue = iaasProvider.lbService.UpdateLoadBalancer(modifyLBInput, regionName)
 			if returnValue == false {
-				return 11
+				log.Error("Updating Load Balancer - ", loadBalancerName, "failed")
+				return constants.UPDATE_LB_ERROR_CODE
 			}
 			log.Println("Load balancer with name ", loadBalancerName, "updated successfully.")
 			loadBalancer, returnValue = iaasProvider.lbService.GetLoadBalancer(loadBalancerName, regionName)
 			if returnValue == false {
-				return 12
+				log.Error("Failed to retrieve load balancer details - ", loadBalancerName)
+				return constants.GET_LB_ERROR_CODE
 			}
 		}
 	}
@@ -258,11 +265,13 @@ func (iaasProvider *GCPIAAS) ManageResources() int {
 		createLBInput.ConnectionDraining = connDrain
 		returnValue = iaasProvider.lbService.CreateLoadBalancer(createLBInput, regionName)
 		if returnValue == false {
-			return 13
+			log.Error("Failed to create load balancer - ", loadBalancerName)
+			return constants.CREATE_LB_ERROR_CODE
 		}
 		loadBalancer, returnValue = iaasProvider.lbService.GetLoadBalancer(loadBalancerName, regionName)
 		if returnValue == false {
-			return 14
+			log.Error("Failed to retrieve load balancer details - ", loadBalancerName)
+			return constants.GET_LB_ERROR_CODE
 		}
 	}
 
@@ -270,8 +279,8 @@ func (iaasProvider *GCPIAAS) ManageResources() int {
 	lbRuleName = iaasProvider.getLoadBalancingRuleName()
 	lbRule, returnValue = iaasProvider.lbRuleService.GetLBRule(lbRuleName, regionName)
 	if returnValue == false {
-		log.Println("Failed to retrieve load balancing rule details - ", loadBalancerName)
-		return 15
+		log.Error("Failed to retrieve load balancing rule details - ", loadBalancerName)
+		return constants.GET_LB_RULE_ERROR_CODE
 	} else if returnValue == true && lbRule != nil {
 		log.Println("Load balancing rule with name:", lbRuleName, "already exists in GCP.")
 	}
@@ -280,6 +289,10 @@ func (iaasProvider *GCPIAAS) ManageResources() int {
 		log.Println("Load balancing rule with name ", lbRuleName, "does not exist in GCP. Initiating creation of load balancing rule resource.")
 
 		floatingIPNetwork, floatingIPSubNetwork, returnValue := iaasProvider.getNetworkInfo(iaasProvider.Config.SubnetName, regionName)
+		if returnValue == false {
+			log.Error("Network Info could not be fetched.")
+			return constants.GET_NETWORK_INFO_ERROR_CODE
+		}
 		var createLBRuleInput gcpmodels.CreateLBRuleInput = gcpmodels.CreateLBRuleInput{}
 		createLBRuleInput.Name = lbRuleName
 		createLBRuleInput.IPAddress = iaasProvider.Config.FloatingIP
@@ -292,11 +305,13 @@ func (iaasProvider *GCPIAAS) ManageResources() int {
 
 		returnValue = iaasProvider.lbRuleService.CreateLBRule(createLBRuleInput, regionName)
 		if returnValue == false {
-			return 16
+			log.Error("Failed to create load balancing rule - ", loadBalancerName)
+			return constants.CREATE_LB_RULE_ERROR_CODE
 		}
 		loadBalancer, returnValue = iaasProvider.lbService.GetLoadBalancer(loadBalancerName, regionName)
 		if returnValue == false {
-			return 17
+			log.Error("Failed to retrieve load balancer details - ", loadBalancerName)
+			return constants.GET_LB_ERROR_CODE
 		}
 	}
 

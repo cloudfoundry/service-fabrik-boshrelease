@@ -4,6 +4,7 @@ import (
 	"iaas-utils/ha/common/models"
 	"iaas-utils/ha/common/interfaces"
 	"iaas-utils/ha/common/utils/apiutils"
+	"iaas-utils/ha/common/constants"
 	"iaas-utils/ha/gcp/services"
 	"log"
 )
@@ -19,8 +20,8 @@ type GCPServiceClient struct {
 
 func (svc *GCPServiceClient) Initialize(params ...interface{}) int {
 
-	svc.provisioningWaitTime = 300
-	svc.provisioningPollTime = 2
+	svc.provisioningWaitTime = constants.PROVISIONING_WAIT_TIME
+	svc.provisioningPollTime = constants.PROVISIONING_POLL_TIME
 
 	svc.iaasDescriptors = params[0].(models.IaaSDescriptors)
 	svc.authorizationRequest = params[1].(models.AuthorizationRequest)
