@@ -7,7 +7,7 @@ export IS_HA=<%= link("broker").p("ha_enabled") %>
 iaas_name='<%= p('iaas_config.name', nil) %>'
 
 if [[ "$iaas_name" == "gcp" && "$IS_HA" == "true" ]]; then
-  echo "gcp post-start script execution has started"	
+  echo "post-start script execution for gcp in-progress"	
 	
   export AUTHBASEURL="-authbaseurl=https://accounts.google.com/o/oauth2/token"
   export PRIVATEKEYID="-privatekeyid=<%= p("iaas_config.credentials.private_key_id") %>"

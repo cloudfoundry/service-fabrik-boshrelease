@@ -34,13 +34,10 @@ func InvokeRESTAPI(httpMethod string, apiURL string, reqHeader map[string]string
 		return "Error occured while creating new HTTP Request", "", false
 	}
 
-	// TODO: set appropriate content type (may be application/json) if not set
-	// Include all required headers passed by the caller
 	for key, value := range reqHeader {
 		request.Header.Set(key, value)
 	}
 
-	// All required params have been set - call the api.
 	response, err = httpClient.Do(request)
 	if err != nil {
 		log.Println("Error occured while caling the api: ", apiURL, "Error is ", err.Error())
