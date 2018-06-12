@@ -8,14 +8,15 @@ export GOROOT=$(readlink -nf /var/vcap/packages/golang)
 export PATH=${GOROOT}/bin:${PATH}
 export GOPATH=${BOSH_INSTALL_TARGET}
 
-PACKAGE_NAME=${BOSH_INSTALL_TARGET}/src/ha-utils
+PACKAGE_NAME=${BOSH_INSTALL_TARGET}/src/iaas-utils
 cp -r ${BOSH_COMPILE_TARGET}/ha-utils ${BOSH_INSTALL_TARGET}/
+cp -r ${BOSH_COMPILE_TARGET}/ha-health-check ${BOSH_INSTALL_TARGET}/
 mkdir -p ${BOSH_INSTALL_TARGET}/src
 mkdir -p ${BOSH_INSTALL_TARGET}/bin
-mv ${BOSH_INSTALL_TARGET}/ha-utils ${BOSH_INSTALL_TARGET}/src/
+mv ${BOSH_INSTALL_TARGET}/ha-utils ${BOSH_INSTALL_TARGET}/src/iaas-utils
 
 cd ${PACKAGE_NAME}
 go build
 
 # Moving the binaries
-mv ${PACKAGE_NAME}/ha-utils ${BOSH_INSTALL_TARGET}/bin
+mv ${PACKAGE_NAME}/iaas-utils ${BOSH_INSTALL_TARGET}/bin

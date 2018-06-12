@@ -33,7 +33,7 @@ if [[ "$iaas_name" == "gcp" && "$IS_HA" == "true" ]]; then
   export NETWORK="-network=<%= spec.networks.sf_service_fabrik_broker.cloud_properties.network_name %>"
   export SUBNET="-subnetwork=<%= spec.networks.sf_service_fabrik_broker.cloud_properties.subnetwork_name %>"
 
-  exec /var/vcap/packages/ha-utils/bin/ha-utils ${AUTHBASEURL} ${PRIVATEKEYID} ${CLIENTEMAILID} ${GCPBASEURL} ${PROJECTID} ${NETWORK} ${SUBNET} ${DEPLOYMENTGUID} ${FLOATINGIP} ${INSTANCEIP} ${SFBROKERPORT} ${SFREPORTPORT} ${SFEXTERNALPORT} ${SFDEPHOOKSPORT} ${PROBEINTERVAL} ${PROBEHEALTHCHECK} ${PROBEPROTOCOL} ${PROBEPORT} ${PROBEREQUESTPATH} ${LANDSCAPE} "${PRIVATEKEY}" ${SCOPES}
+  exec /var/vcap/packages/ha-utils/bin/iaas-utils ${AUTHBASEURL} ${PRIVATEKEYID} ${CLIENTEMAILID} ${GCPBASEURL} ${PROJECTID} ${NETWORK} ${SUBNET} ${DEPLOYMENTGUID} ${FLOATINGIP} ${INSTANCEIP} ${SFBROKERPORT} ${SFREPORTPORT} ${SFEXTERNALPORT} ${SFDEPHOOKSPORT} ${PROBEINTERVAL} ${PROBEHEALTHCHECK} ${PROBEPROTOCOL} ${PROBEPORT} ${PROBEREQUESTPATH} ${LANDSCAPE} "${PRIVATEKEY}" ${SCOPES}
 	
   RETURN_CODE=$?
 		

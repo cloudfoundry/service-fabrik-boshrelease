@@ -3,4 +3,5 @@ name: ha-utils
 dependencies:
   - golang
 files:
-  - ha-utils/**/*
+  - iaas-utils/**/*
+  - ha-health-check/**/*
