@@ -16,7 +16,6 @@ templates:
   bin/notify.sh.erb: 			bin/notify.sh
   bin/get_keepalived_state.sh.erb: 	bin/get_keepalived_state.sh
   bin/get_sf_broker_status.sh.erb: 	bin/get_sf_broker_status.sh
-  bin/ha_health_check.js:               bin/ha_health_check.js
   config/keepalived.conf.erb: 		config/keepalived.conf
   bin/post-start.erb:             bin/post-start
 

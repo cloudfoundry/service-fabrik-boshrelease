@@ -6,6 +6,7 @@ set -e
 source /var/vcap/packages/bosh-helpers/ctl_setup.sh 'keepalived'
 export PID_FILE=${RUN_DIR}/ha_health_check.pid
 export NODE_CMD=/var/vcap/packages/node/bin/node
+export PACKAGE_DIR=${HOME}/packages/ha-utils
 
 case $1 in
 
@@ -20,8 +21,8 @@ case $1 in
       --chuid vcap:vcap \
       --background \
       --no-close \
-      --chdir ${JOB_DIR} \
-      -- ${JOB_DIR}/bin/ha_health_check.js \
+      --chdir ${PACKAGE_DIR} \
+      -- ${PACKAGE_DIR}/ha-health-check/ha_health_check.js \
       1>> ${LOG_DIR}/ha_health_check.stdout.log \
       2>> ${LOG_DIR}/ha_health_check.stderr.log
     ;;
