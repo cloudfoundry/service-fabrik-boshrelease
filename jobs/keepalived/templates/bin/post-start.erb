@@ -2,42 +2,17 @@
 	
 set -e # exit immediately if a simple command exits with a non-zero status
 set -u # report the usage of uninitialized variables
-# source properties file here.
-source /var/vcap/jobs/keepalived/bin/job_properties.sh
 export IS_HA=<%= link("broker").p("ha_enabled") %>
 iaas_name='<%= p('iaas_config.name', nil) %>'
 
 if [[ "$iaas_name" == "gcp" && "$IS_HA" == "true" ]]; then
   echo "post-start script execution for gcp in-progress"	
-	
+	source /var/vcap/jobs/keepalived/bin/job_properties.sh
   # All variables used here are defined and exported from job_properties.sh file.
 
   exec /var/vcap/packages/ha-utils/bin/iaas-utils ${AUTHBASEURL} ${PRIVATEKEYID} ${CLIENTEMAILID} ${GCPBASEURL} ${PROJECTID} ${NETWORK} ${SUBNET} ${DEPLOYMENTGUID} ${FLOATINGIP} ${INSTANCEIP} ${SFBROKERPORT} ${SFREPORTPORT} ${SFEXTERNALPORT} ${SFDEPHOOKSPORT} ${PROBEINTERVAL} ${PROBEHEALTHCHECK} ${PROBEPROTOCOL} ${PROBEPORT} ${PROBEREQUESTPATH} ${LANDSCAPE} "${PRIVATEKEY}" ${SCOPES}
 	
   RETURN_CODE=$?
-		
-  echo "$AUTHBASEURL"
-  echo "$PRIVATEKEYID"
-  echo "$CLIENTEMAILID"
-  echo "$GCPBASEURL"
-  echo "$PROJECTID"
-  echo ${NETWORK}
-  echo ${SUBNET}
-  echo "$DEPLOYMENTGUID"
-  echo "$FLOATINGIP"
-  echo "$INSTANCEIP"
-  echo "$SFBROKERPORT"
-  echo "$SFREPORTPORT"
-  echo "$SFEXTERNALPORT"
-  echo "SFDEPHOOKSPORT"
-  echo "$PROBEINTERVAL"
-  echo "$PROBEHEALTHCHECK"
-  echo "$PROBEPROTOCOL"
-  echo "$PROBEPORT"
-  echo "$PROBEREQUESTPATH"
-  echo "$LANDSCAPE"
-  echo "$PRIVATEKEY"
-  echo "$SCOPES"
 
   echo "GCP Post-start script execution completed"
   exit $RETURN_CODE
