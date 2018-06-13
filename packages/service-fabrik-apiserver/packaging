@@ -1,0 +1,21 @@
+#!/bin/bash
+
+set -e # exit immediately if a simple command exits with a non-zero status
+set -u # report the usage of uninitialized variables
+
+# Set Golang dependency
+export GOROOT=$(readlink -nf /var/vcap/packages/golang)
+export PATH=${GOROOT}/bin:${PATH}
+
+# Build API Server package
+echo "Building API Server..."
+PACKAGE_NAME=github.com/cloudfoundry-incubator/service-fabrik-apiserver
+mkdir -p ${BOSH_INSTALL_TARGET}/src/${PACKAGE_NAME}
+cp -a ${BOSH_COMPILE_TARGET}/${PACKAGE_NAME}/* ${BOSH_INSTALL_TARGET}/src/${PACKAGE_NAME}
+export GOPATH=${BOSH_INSTALL_TARGET}
+go build -o ${BOSH_INSTALL_TARGET}/src/${PACKAGE_NAME}/bin/apiserver ${BOSH_INSTALL_TARGET}/src/${PACKAGE_NAME}/cmd/apiserver/main.go
+go build -o ${BOSH_INSTALL_TARGET}/src/${PACKAGE_NAME}/bin/controller-manager ${BOSH_INSTALL_TARGET}/src/${PACKAGE_NAME}/cmd/controller-manager/main.go
+# go install ${PACKAGE_NAME}
+
+# Clean up src & pkg artifacts
+# rm -rf ${BOSH_INSTALL_TARGET}/pkg ${BOSH_INSTALL_TARGET}/src

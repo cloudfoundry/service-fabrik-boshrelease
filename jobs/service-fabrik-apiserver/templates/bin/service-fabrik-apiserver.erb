@@ -1,0 +1,18 @@
+#!/bin/bash
+
+set -euo pipefail
+
+ETCD_URL=<%= p('etcd.url').join(',') %>
+APISERVER_PORT=9443
+
+
+/var/vcap/packages/service-fabrik-apiserver/src/github.com/cloudfoundry-incubator/service-fabrik-apiserver/bin/apiserver \
+  --etcd-servers="${ETCD_URL}" \
+  --secure-port=${APISERVER_PORT} \
+  --delegated-auth=false \
+  --tls-cert-file="/var/vcap/jobs/service-fabrik-apiserver/config/etcd.crt" \
+  --tls-private-key-file="/var/vcap/jobs/service-fabrik-apiserver/config/etcd.key" \
+  --tls-ca-file="/var/vcap/jobs/service-fabrik-apiserver/config/etcd-ca.crt" \
+  --etcd-cafile="/var/vcap/jobs/service-fabrik-apiserver/config/etcd-ca.crt" \
+  --etcd-certfile="/var/vcap/jobs/service-fabrik-apiserver/config/etcd.crt" \
+  --etcd-keyfile="/var/vcap/jobs/service-fabrik-apiserver/config/etcd.key"

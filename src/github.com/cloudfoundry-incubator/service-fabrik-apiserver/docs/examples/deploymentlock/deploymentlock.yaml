@@ -1,0 +1,7 @@
+note: DeploymentLock Example
+sample: |
+  apiVersion: lock.servicefabrik.io/v1alpha1
+  kind: DeploymentLock
+  metadata:
+    name: deploymentlock-example
+  spec:
