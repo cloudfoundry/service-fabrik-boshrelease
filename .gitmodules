@@ -7,3 +7,6 @@
 [submodule "src/lvm-volume-driver"]
 	path = src/lvm-volume-driver
 	url = https://github.com/sap/service-fabrik-lvm-volume-driver
+[submodule "src/github.com/route-registrar"]
+	path = src/github.com/route-registrar
+	url = https://github.com/cloudfoundry/route-registrar.git
