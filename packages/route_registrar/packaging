@@ -1,0 +1,18 @@
+set -e
+
+export GOPATH=$BOSH_INSTALL_TARGET
+export GOROOT=$(readlink -nf /var/vcap/packages/golang)
+export PATH=$GOROOT/bin:$PATH
+
+mkdir -p "${BOSH_INSTALL_TARGET}/bin"
+mkdir -p "${GOPATH}/src"
+
+cp -R ./service-fabrik-boshrelease/src/* "${GOPATH}/src"
+
+pushd ${GOPATH}/src/code.cloudfoundry.org/route-registrar
+  go build -o "${BOSH_INSTALL_TARGET}/bin/route-registrar" .
+popd
+
+chmod +x "${BOSH_INSTALL_TARGET}/bin/route-registrar"
+
+rm -rf "${GOPATH}/pkg" "${GOPATH}/src"

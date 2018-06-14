@@ -1,0 +1,25 @@
+---
+name: route_registrar
+
+dependencies:
+- golang
+
+files:
+  - service-fabrik-boshrelease/src/code.cloudfoundry.org/route-registrar/*.go
+  - service-fabrik-boshrelease/src/code.cloudfoundry.org/route-registrar/commandrunner/*.go
+  - service-fabrik-boshrelease/src/code.cloudfoundry.org/route-registrar/commandrunner/fakes/*.go
+  - service-fabrik-boshrelease/src/code.cloudfoundry.org/route-registrar/config/*.go
+  - service-fabrik-boshrelease/src/code.cloudfoundry.org/route-registrar/healthchecker/*.go
+  - service-fabrik-boshrelease/src/code.cloudfoundry.org/route-registrar/healthchecker/fakes/*.go
+  - service-fabrik-boshrelease/src/code.cloudfoundry.org/route-registrar/messagebus/*.go
+  - service-fabrik-boshrelease/src/code.cloudfoundry.org/route-registrar/messagebus/fakes/*.go
+  - service-fabrik-boshrelease/src/code.cloudfoundry.org/route-registrar/registrar/*.go
+  - service-fabrik-boshrelease/src/code.cloudfoundry.org/lager/*.go
+  - service-fabrik-boshrelease/src/code.cloudfoundry.org/lager/lagerflags/*.go
+  - service-fabrik-boshrelease/src/code.cloudfoundry.org/multierror/*.go
+  - service-fabrik-boshrelease/src/github.com/nats-io/go-nats/*.go
+  - service-fabrik-boshrelease/src/github.com/nats-io/go-nats/encoders/builtin/*.go
+  - service-fabrik-boshrelease/src/github.com/nats-io/go-nats/util/*.go
+  - service-fabrik-boshrelease/src/github.com/nats-io/nuid/*.go
+  - service-fabrik-boshrelease/src/github.com/nu7hatch/gouuid/*.go
+  - service-fabrik-boshrelease/src/github.com/tedsuo/ifrit/*.go
