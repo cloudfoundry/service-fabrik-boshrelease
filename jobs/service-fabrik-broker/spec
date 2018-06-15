@@ -39,6 +39,7 @@ provides:
   - internal.log_event
   - internal.domain_socket.path
   - external.host
+  - external.port
   - external.log_event
   - external.ssl
   - external.api_requires_admin_scope
