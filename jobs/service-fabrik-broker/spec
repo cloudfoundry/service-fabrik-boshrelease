@@ -27,6 +27,7 @@ provides:
   - password
   - skip_ssl_validation
   - log_level
+  - enable_bosh_rate_limit
   - enable_circuit_breaker
   - enable_swarm_manager
   - feature.ServiceInstanceAutoUpdate
