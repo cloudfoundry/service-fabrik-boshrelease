@@ -17,6 +17,7 @@ production:
   ####################
   username: '<%= link("broker").p('username') %>'
   password: '<%= link("broker").p('password') %>'
+  enableServiceFabrikV2: '<%= link("broker").p('enableServiceFabrikV2') %>'
   skip_ssl_validation: <%= link("broker").p('skip_ssl_validation') %>
   session_store:
     path: <%= "/var/vcap/store/#{broker_name}/session" %>

@@ -22,6 +22,7 @@ production:
   release_version: '<%= spec.release.version %>'
   username: '<%= p('username') %>'
   password: '<%= p('password') %>'
+  enableServiceFabrikV2: '<%= p('enableServiceFabrikV2') %>'
   skip_ssl_validation: <%= p('skip_ssl_validation') %>
   session_store:
     path: <%= "/var/vcap/store/#{broker_name}/session" %>
