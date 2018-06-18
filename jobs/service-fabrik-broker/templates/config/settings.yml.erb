@@ -229,6 +229,13 @@ production:
     url: <%= p('cf.url') %>
     username: <%= p('cf.username') %>
     password: <%= p('cf.password') %>
+  
+  #########################
+  #    ETCD SETTINGS      #
+  #########################
+  etcd:
+    url: <%= p('etcd.url') %>
+    ssl: <%= JSON.dump(p('etcd.ssl')) %>
 
   ###################
   # DOCKER SETTINGS #
