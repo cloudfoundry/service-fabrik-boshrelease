@@ -2,11 +2,16 @@
 set -e
 STATE=$1
 iaas_name='<%= p('iaas_config.name', nil) %>'
+SOURCE_IP=<%= spec.ip %>
+<% if ( spec.ip == p('master_ip') ) %>
+PEER_IP=<%= p('slave_ip') %>
+<% else %>
+PEER_IP=<%= p('master_ip') %>
+<% end %>
+<% internal = link("broker").p('internal') %>
+virtual_ip=<%= internal['ip'] %>
 if [[ "$iaas_name" == "aws" ]]; then
   SUBNET_ID='<%= spec.networks.sf_service_fabrik_broker.cloud_properties.subnet %>'
-  SOURCE_IP=<%= spec.ip %>
-  <% internal = link("broker").p('internal') %>
-  virtual_ip=<%= internal['ip'] %>
   IAAS_CONFIG='<%= JSON.dump(p('iaas_config', nil)) %>'
   AWS_CLI_CMD=/var/vcap/packages/aws-cli/bin/aws
   JQ_CMD=/var/vcap/packages/jq/bin/jq
@@ -28,6 +33,24 @@ if [[ "$iaas_name" == "aws" ]]; then
       sudo ip addr add $virtual_ip dev eth0
     fi
   elif [[ "$STATE" == "BACKUP" ]] || [[ "$STATE" == "FAULT" ]]; then
+    set +e
+    sudo ip addr del $virtual_ip/32 dev eth0
+    set -e
+  fi
+elif [[ "$iaas_name" == "openstack"  ]]; then
+  source /var/vcap/jobs/keepalived/bin/utils/openstack/generate_token
+  this_port_id=$(get_port_id ${SOURCE_IP})
+  peer_port_id=$(get_port_id ${PEER_IP})
+  if [[ "$STATE" == "MASTER" ]]; then
+    port_update_response=$(update_port ${this_port_id})
+    port_update_response=$(update_port ${peer_port_id})
+    port_update_response=$(update_port ${this_port_id} ${virtual_ip})
+    if [[ "$(sudo ip addr show | grep $virtual_ip)" != *"$virtual_ip"* ]]; then
+      sudo ip addr add $virtual_ip dev eth0
+    fi
+  elif [[ "$STATE" == "BACKUP" ]] || [[ "$STATE" == "FAULT" ]]; then
+    port_update_response=$(update_port ${this_port_id})
+    port_update_response=$(update_port ${peer_port_id})
     set +e
     sudo ip addr del $virtual_ip/32 dev eth0
     set -e

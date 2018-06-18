@@ -1,0 +1,59 @@
+#!/bin/bash
+#sourcing job properties to bring openstack credential in env variables
+source /var/vcap/jobs/keepalived/bin/job_properties.sh
+jq=/var/vcap/packages/jq/bin/jq
+
+generat_body_for_port_update(){
+if [ -n "$1" ]; then
+cat << EOF
+{
+    "port": {
+        "allowed_address_pairs": [
+          {
+	  	"ip_address": "${1}"
+	  }
+        ]
+    }
+}
+EOF
+else
+cat << EOF
+{
+    "port": {
+        "allowed_address_pairs": []
+    }
+}
+EOF
+fi
+}
+
+get_port_id(){
+    local fixed_ip="${1}"
+    local neutron_pot_id="$(curl -sk -X GET \
+        -H "X-Auth-Token: ${OS_TOKEN}" \
+        -H "Accepts: application/json" \
+        "${NETWORK_PUBLIC_URL}v2.0/ports" | $jq \
+        -r ".ports[] | select(.fixed_ips[].ip_address==\"${fixed_ip}\") | .id")"
+    RET=$?
+    if [[ $RET -ne 0 ]] ; then
+        echo $(date) "[ERROR] - HTTP Error: ${RET}"
+        exit ${RET}
+    fi
+    echo "${neutron_pot_id}"
+}
+
+update_port(){
+    local neutron_pot_id=${1:-}
+    local virtual_ip=${2:-}
+    local response_port_update=$(curl -sk -X PUT -w "\n%{http_code}" \
+        -H "X-Auth-Token: ${OS_TOKEN}" \
+        -H "Content-Type: application/json" \
+        -H "Accepts: application/json" \
+        "${NETWORK_PUBLIC_URL}v2.0/ports/${neutron_pot_id}" \
+        -d "$(generat_body_for_port_update ${virtual_ip})")
+    RET=$?
+    if [[ $RET -ne 0 ]] ; then
+        echo $(date) "[ERROR] - HTTP Error: $(echo "${response_port_update}")"
+        exit ${RET}
+    fi
+}
