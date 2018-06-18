@@ -19,6 +19,8 @@ templates:
   bin/get_sf_broker_status.sh.erb: 	bin/get_sf_broker_status.sh
   config/keepalived.conf.erb: 		config/keepalived.conf
   bin/post-start.erb:                   bin/post-start
+  bin/utils/openstack/generate_token:   bin/utils/openstack/generate_token
+  bin/utils/openstack/port_operations:  bin/utils/openstack/port_operations
 
 consumes:
 - name: broker
