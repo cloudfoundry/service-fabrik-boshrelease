@@ -1,0 +1,7 @@
+---
+processes:
+- name: service-fabrik-apiserver
+  executable: /var/vcap/jobs/service-fabrik-apiserver/bin/service-fabrik-apiserver
+  persistent_disk: true
+  limits:
+    open_files: 100000

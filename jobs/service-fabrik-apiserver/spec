@@ -1,0 +1,32 @@
+---
+name: service-fabrik-apiserver
+
+packages:
+  - service-fabrik-apiserver
+
+templates:
+  bin/service-fabrik-apiserver.erb: bin/service-fabrik-apiserver
+  config/bpm.yml.erb: config/bpm.yml
+  config/etcd-ca.crt.erb: config/etcd-ca.crt
+  config/etcd.crt.erb: config/etcd.crt
+  config/etcd.key.erb: config/etcd.key
+
+
+provides:
+- name: service-fabrik-apiserver
+  type: service-fabrik-apiserver
+  properties:
+  - etcd.url
+  - tls.etcd.ca
+  - tls.etcd.certificate
+  - tls.etcd.private_key
+
+properties:
+  etcd.url:
+    description: ETCD host URL to connect
+  tls.etcd.ca:
+    description: CA for etcd client and server authentication
+  tls.etcd.certificate:
+    description: Certificate for etcd client and server authentication
+  tls.etcd.private_key:
+    description: Private key for etcd client and server authentication
