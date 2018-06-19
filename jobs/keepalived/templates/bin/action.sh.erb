@@ -41,9 +41,9 @@ elif [[ "$iaas_name" == "openstack"  ]]; then
   source /var/vcap/jobs/keepalived/bin/utils/openstack/generate_token
   source /var/vcap/jobs/keepalived/bin/utils/openstack/port_operations
   this_port_id=$(get_port_id ${SOURCE_IP})
-  peer_port_id=$(get_port_id ${PEER_IP})
   if [[ "$STATE" == "MASTER" ]]; then
     port_update_response=$(update_port ${this_port_id})
+    peer_port_id=$(get_port_id ${PEER_IP})
     port_update_response=$(update_port ${peer_port_id})
     port_update_response=$(update_port ${this_port_id} ${virtual_ip})
     if [[ "$(sudo ip addr show | grep $virtual_ip)" != *"$virtual_ip"* ]]; then
