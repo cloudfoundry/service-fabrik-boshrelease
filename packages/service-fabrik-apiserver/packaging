@@ -15,7 +15,3 @@ cp -a ${BOSH_COMPILE_TARGET}/${PACKAGE_NAME}/* ${BOSH_INSTALL_TARGET}/src/${PACK
 export GOPATH=${BOSH_INSTALL_TARGET}
 go build -o ${BOSH_INSTALL_TARGET}/src/${PACKAGE_NAME}/bin/apiserver ${BOSH_INSTALL_TARGET}/src/${PACKAGE_NAME}/cmd/apiserver/main.go
 go build -o ${BOSH_INSTALL_TARGET}/src/${PACKAGE_NAME}/bin/controller-manager ${BOSH_INSTALL_TARGET}/src/${PACKAGE_NAME}/cmd/controller-manager/main.go
-# go install ${PACKAGE_NAME}
-
-# Clean up src & pkg artifacts
-# rm -rf ${BOSH_INSTALL_TARGET}/pkg ${BOSH_INSTALL_TARGET}/src
