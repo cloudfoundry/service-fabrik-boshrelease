@@ -30,7 +30,7 @@ case $1 in
       --background \
       --no-close \
       --chdir ${PACKAGE_DIR} \
-      -- ${PACKAGE_DIR}/managers/operation/BackupWatcher.js \
+      -- ${PACKAGE_DIR}/managers/backup-manager/BackupWatcher.js \
       1>> ${LOG_DIR}/${OUTPUT_LABEL}.stdout.log \
       2>> ${LOG_DIR}/${OUTPUT_LABEL}.stderr.log
     ;;

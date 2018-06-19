@@ -37,6 +37,7 @@ production:
   # INTERNAL ENDPOINT SETTINGS #
   ##############################
   internal:
+    ip: <%= "#{internal['ip']}" %>
     host: <%= "#{internal['ip']}:#{internal['port']}" %>
     <% link("broker").if_p('internal.ssl') do |ssl| %>
     protocol: 'https'
