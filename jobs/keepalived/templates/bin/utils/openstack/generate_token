@@ -30,7 +30,7 @@ generate_auth_token(){
     local token_response=$(curl -sk -X POST \
         -H "Content-Type: application/json" \
         -d "$(generate_body_for_token_req)" \
-    "${OS_AUTH_URL}auth/tokens")
+    "${OS_AUTH_URL}/auth/tokens")
     RET=$?
     if [[ $RET -ne 0 ]] ; then
         echo $(date) "[ERROR] - HTTP Error: $(echo "${token_response}")"
@@ -42,7 +42,7 @@ generate_auth_token(){
     export OS_TOKEN="$(curl -ski \
         -H "Content-Type: application/json" \
         -d "$(generate_body_for_token_req)" \
-    "${OS_AUTH_URL}auth/tokens" -X POST | awk '/X-Subject-Token/ {print $2}' )"
+    "${OS_AUTH_URL}/auth/tokens" -X POST | awk '/X-Subject-Token/ {print $2}' )"
     RET=$?
     if [[ $RET -ne 0 ]] || [[ -z "${OS_TOKEN}" ]] ; then
         echo $(date) "[ERROR] - HTTP Error or token not generated."
