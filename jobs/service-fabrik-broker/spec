@@ -30,6 +30,7 @@ provides:
   - enable_circuit_breaker
   - enable_swarm_manager
   - feature.ServiceInstanceAutoUpdate
+  - feature.EnableSecurityGroupsOps
   - broker_drain_message
   - http_timeout
   - deployment_action_timeout
@@ -136,6 +137,9 @@ properties:
   feature.ServiceInstanceAutoUpdate:
     description: "Switch used to turn on/off schedule update feature"
     default: false
+  feature.EnableSecurityGroupsOps:
+    description: "Switch used to enable security groups related operations"
+    default: true
   http_timeout:
     description: "Timeout duration for any request to broker"
     default: 175000
