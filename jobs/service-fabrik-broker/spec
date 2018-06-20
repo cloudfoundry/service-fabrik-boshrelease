@@ -135,6 +135,9 @@ properties:
   enable_circuit_breaker:
     description: "Switch used to turn on/off circuit breaker"
     default: false
+  enable_bosh_rate_limit:
+    description: "Switch used to turn on/off rate limiting against BOSH director"
+    default: false
   enable_swarm_manager:
     description: "Determines whether the broker has dependency on swarm manager"
     default: true
