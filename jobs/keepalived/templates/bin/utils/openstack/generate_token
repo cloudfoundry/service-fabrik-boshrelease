@@ -1,5 +1,6 @@
 #!/bin/bash
 #sourcing job properties to bring openstack credential in env variables
+# shellcheck disable=SC1091
 source /var/vcap/jobs/keepalived/bin/job_properties.sh
 jq=/var/vcap/packages/jq/bin/jq
 generate_body_for_token_req()
@@ -27,25 +28,29 @@ generate_body_for_token_req()
 EOF
 }
 generate_auth_token(){
-    local token_response=$(curl -sk -X POST \
+    local token_response
+    token_response=$(curl --retry 2 -sk -X POST \
         -H "Content-Type: application/json" \
         -d "$(generate_body_for_token_req)" \
     "${OS_AUTH_URL}/auth/tokens")
     RET=$?
     if [[ $RET -ne 0 ]] ; then
-        echo $(date) "[ERROR] - HTTP Error: $(echo "${token_response}")"
+        echo "$(date) [ERROR] - HTTP Error:  ${token_response}"
         exit ${RET}
     fi
-    export OS_CATALOG=$(echo ${token_response} | $jq -r .token.catalog[])
-    export NETWORK_PUBLIC_URL="$(echo ${OS_CATALOG} | $jq \
-    -r '. | select(.type=="network") | .endpoints[] | select(.interface=="public") | .url')"
-    export OS_TOKEN="$(curl -ski \
+    OS_CATALOG=$(echo "${token_response}" | $jq -r .token.catalog[])
+    export OS_CATALOG
+    NETWORK_PUBLIC_URL="$(echo "${OS_CATALOG}" | $jq \
+        -r '. | select(.type=="network") | .endpoints[] | select(.interface=="public") | .url')"
+    export NETWORK_PUBLIC_URL
+    OS_TOKEN="$(curl --retry 2 -ski \
         -H "Content-Type: application/json" \
         -d "$(generate_body_for_token_req)" \
-    "${OS_AUTH_URL}/auth/tokens" -X POST | awk '/X-Subject-Token/ {print $2}' )"
+        "${OS_AUTH_URL}/auth/tokens" -X POST | awk '/X-Subject-Token/ {print $2}' )"
+    export OS_TOKEN
     RET=$?
     if [[ $RET -ne 0 ]] || [[ -z "${OS_TOKEN}" ]] ; then
-        echo $(date) "[ERROR] - HTTP Error or token not generated."
+        echo "$(date) [ERROR] - HTTP Error or token not generated."
         exit ${RET}
     fi
 }
