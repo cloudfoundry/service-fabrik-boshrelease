@@ -25,7 +25,7 @@ provides:
   - name
   - username
   - password
-  - enableServiceFabrikV2
+  - enable_service_fabrik_v2
   - skip_ssl_validation
   - log_level
   - enable_bosh_rate_limit
@@ -125,7 +125,7 @@ properties:
   password:
     description: "Broker's basic auth password"
     default: "secret"
-  enableServiceFabrikV2:
+  enable_service_fabrik_v2:
     description: "Determines whether to enable service fabrik v20"
     default: false
   skip_ssl_validation:
