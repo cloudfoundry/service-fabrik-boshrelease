@@ -106,6 +106,16 @@ production:
   # SCHEDULER SETTINGS #
   ######################
   scheduler:
+    process_every: <%= link("scheduler").p('process_every') %> # Interval at which scheduler will query the database looking for jobs that need to be processed
+    run_with_web_process: <%= link("scheduler").p('run_with_web_process') %> # Flag which indicates if scheduler can run in the same process as that of service fabrik broker web process
+    max_concurrency: <%= link("scheduler").p('max_concurrency') %> # A number which specifies the max number of batch jobs that can be running at any given moment
+    default_concurrency: <%= link("scheduler").p('default_concurrency') %> # A number which specifies the default number of a specific job that can be running at any given moment
+    start_delay: <%= link("scheduler").p('start_delay') %>
+    default_lock_lifetime: <%= link("scheduler").p('default_lock_lifetime') %> # Specifies the default lock lifetime of a batchjob in milliseconds.
+    agenda_collection: <%= link("scheduler").p('agenda_collection') %> # Name of the collection in mongodb which is to be used by agendaJS to store the scheduled job meta info
+    maintenance_check_interval:  <%= link("scheduler").p('maintenance_check_interval') %>
+    maintenance_mode_time_out:  <%= link("scheduler").p('maintenance_mode_time_out') %>
+    downtime_maintenance_phases: <%= link("scheduler").p('downtime_maintenance_phases') %>
     system_jobs:
     - name: 'service-fabrik-mongodb'
       type: 'ScheduledOobDeploymentBackup'
