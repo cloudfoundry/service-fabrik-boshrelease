@@ -106,6 +106,9 @@ production:
   # SCHEDULER SETTINGS #
   ######################
   scheduler:
+    <% link("scheduler").if_p('job_types') do |job_types| %>
+    job_types: <%= job_types %> # Comma seperated list of batch job types that are enabled in service fabrik
+    <% end %>
     process_every: <%= link("scheduler").p('process_every') %> # Interval at which scheduler will query the database looking for jobs that need to be processed
     run_with_web_process: <%= link("scheduler").p('run_with_web_process') %> # Flag which indicates if scheduler can run in the same process as that of service fabrik broker web process
     max_concurrency: <%= link("scheduler").p('max_concurrency') %> # A number which specifies the max number of batch jobs that can be running at any given moment
