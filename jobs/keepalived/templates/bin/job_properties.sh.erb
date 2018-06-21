@@ -1,4 +1,6 @@
 #!/bin/bash
+#jq binary
+export JQ_CMD=/var/vcap/packages/jq/bin/jq
 <% 
 iaas_name = p('iaas_config.name', nil)
 IS_HA= link("broker").p("ha_enabled")
@@ -28,4 +30,16 @@ IS_HA= link("broker").p("ha_enabled")
 
     export NETWORK="-network=<%= spec.networks.sf_service_fabrik_broker.cloud_properties.network_name %>"
     export SUBNET="-subnetwork=<%= spec.networks.sf_service_fabrik_broker.cloud_properties.subnetwork_name %>"
+<% end %>
+<% if iaas_name == "openstack" && IS_HA == true %>
+  export OS_AUTH_URL="<%= p('iaas_config.auth_url') %>"
+  export OS_AUTH_VERSION="3"
+  export OS_IDENTITY_API_VERSION="3"
+  export OS_USER_DOMAIN_NAME="<%= p('iaas_config.user_domain_name') %>"
+  export OS_USERNAME="<%= p('iaas_config.username') %>"
+  export OS_PASSWORD="<%= p('iaas_config.password') %>"
+  export OS_PROJECT_ID="<%= p('iaas_config.tenant_id') %>"
+  export OS_PROJECT_NAME="<%= p('iaas_config.tenant_name') %>"
+  export OS_REGION_NAME="<%= p('iaas_config.region') %>"
+  export FLOATING_IP="<%= link('broker').p('internal.ip') %>"
 <% end %>
