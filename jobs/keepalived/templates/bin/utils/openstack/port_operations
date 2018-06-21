@@ -2,8 +2,6 @@
 #sourcing job properties to bring openstack credential in env variables
 # shellcheck disable=SC1091
 source /var/vcap/jobs/keepalived/bin/job_properties.sh
-jq=/var/vcap/packages/jq/bin/jq
-
 generate_body_for_port_update(){
 if [ -n "$1" ]; then
 cat << EOF
@@ -35,7 +33,7 @@ get_port_id(){
     neutron_port_id="$(curl --retry 2 -sk -X GET \
         -H "X-Auth-Token: ${OS_TOKEN}" \
         -H "Accepts: application/json" \
-        "${NETWORK_PUBLIC_URL}v2.0/ports" | $jq \
+        "${NETWORK_PUBLIC_URL}v2.0/ports" | ${JQ_CMD} \
         -r ".ports[] | select(.fixed_ips[].ip_address==\"${fixed_ip}\") | .id")"
     RET=$?
     if [[ $RET -ne 0 ]] ; then

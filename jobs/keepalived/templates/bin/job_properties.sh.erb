@@ -1,4 +1,6 @@
 #!/bin/bash
+#jq binary
+export JQ_CMD=/var/vcap/packages/jq/bin/jq
 <% 
 iaas_name = p('iaas_config.name', nil)
 IS_HA= link("broker").p("ha_enabled")
