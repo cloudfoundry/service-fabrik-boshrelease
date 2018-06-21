@@ -9,6 +9,7 @@
   log_path = "/var/vcap/sys/log/service-fabrik-backup-manager/service-fabrik-backup-manager.log"
   external = link("broker").p('external')
   internal = link("broker").p('internal')
+  broker_ip = spec.ip
 %>---
 production:
   ####################
@@ -16,6 +17,7 @@ production:
   ####################
   username: '<%= link("broker").p('username') %>'
   password: '<%= link("broker").p('password') %>'
+  broker_ip: <%= broker_ip %>
   skip_ssl_validation: <%= link("broker").p('skip_ssl_validation') %>
   session_store:
     path: <%= "/var/vcap/store/#{broker_name}/session" %>
