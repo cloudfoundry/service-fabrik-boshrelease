@@ -66,6 +66,12 @@ provides:
   - cf.url
   - cf.username
   - cf.password
+  - cred_provider.credhub_url
+  - cred_provider.credhub_uaa_url
+  - cred_provider.credhub_client_id
+  - cred_provider.credhub_client_secret
+  - cred_provider.credhub_username
+  - cred_provider.credhub_user_password
   - backup.retention_period_in_days
   - backup.max_num_on_demand_backup
   - backup.status_check_every
@@ -275,6 +281,19 @@ properties:
   cf.password:
     description: "Admin password for the Cloud Foundry cloud controller"
 
+  cred_provider.credhub_url:
+    description: "Credhub API endpoint"
+  cred_provider.credhub_uaa_url:
+    description: "UAA endpoint"
+  cred_provider.credhub_client_id:
+    description: "UAA client id for generating OAUTH token"
+  cred_provider.credhub_client_secret:
+    description: "UAA client secret for generating OAUTH token"
+  cred_provider.credhub_username:
+    description: "UAA user id for generating OAUTH token"
+  cred_provider.credhub_user_password:
+    description: "UAA password for generating OAUTH token"
+  
   docker.job:
     description: "Name of the swarm/docker job"
     default: "swarm_manager"
