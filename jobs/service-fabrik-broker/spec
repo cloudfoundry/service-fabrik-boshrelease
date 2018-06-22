@@ -283,16 +283,22 @@ properties:
 
   cred_provider.credhub_url:
     description: "Credhub API endpoint"
+    default: "https://{credhub-server-ip}:{port}/api/"
   cred_provider.credhub_uaa_url:
     description: "UAA endpoint"
+    default: "https://{uaa-server-ip}:{port}"
   cred_provider.credhub_client_id:
     description: "UAA client id for generating OAUTH token"
+    default: "credhub-admin"
   cred_provider.credhub_client_secret:
     description: "UAA client secret for generating OAUTH token"
+    default: ""
   cred_provider.credhub_username:
     description: "UAA user id for generating OAUTH token"
+    default: "admin"
   cred_provider.credhub_user_password:
     description: "UAA password for generating OAUTH token"
+    default: "admin"
   
   docker.job:
     description: "Name of the swarm/docker job"
