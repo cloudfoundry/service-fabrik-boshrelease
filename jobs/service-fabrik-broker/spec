@@ -283,10 +283,10 @@ properties:
 
   cred_provider.credhub_url:
     description: "Credhub API endpoint"
-    default: "https://{credhub-server-ip}:{port}/api/"
+    default: "https://localhost:8844/api/"
   cred_provider.credhub_uaa_url:
     description: "UAA endpoint"
-    default: "https://{uaa-server-ip}:{port}"
+    default: "https://localhost:8443"
   cred_provider.credhub_client_id:
     description: "UAA client id for generating OAUTH token"
     default: "credhub-admin"
