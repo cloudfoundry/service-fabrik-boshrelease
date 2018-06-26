@@ -4,7 +4,7 @@ name: service-fabrik-scheduler
 packages:
   - bosh-helpers
   - node
-  - service-fabrik-broker
+  - service-fabrik-scheduler
 
 templates:
   bin/service-fabrik-scheduler_ctl.erb: bin/service-fabrik-scheduler_ctl
