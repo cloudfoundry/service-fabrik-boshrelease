@@ -21,13 +21,6 @@ case $1 in
         ln -s /var/vcap/jobs/service-fabrik-broker/config/syslog_forwarding.conf /etc/rsyslog.d/49-fabrik_forwarding.conf
     fi
     /usr/sbin/service rsyslog restart
-
-    #Load deployment actions
-    echo "starting to load deployment action scripts"
-    ${NODE_CMD} ${PACKAGE_DIR}/broker/lib/LoadDeploymentActions.js \
-      1>> ${LOG_DIR}/${OUTPUT_LABEL}.stdout.log \
-      2>> ${LOG_DIR}/${OUTPUT_LABEL}.stderr.log
-    echo "deployment action scripts loaded successfully"
     
     # Start Service-Fabrik-Broker
     start-stop-daemon --start --quiet -m \

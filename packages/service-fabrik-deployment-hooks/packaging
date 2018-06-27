@@ -1,0 +1,22 @@
+#!/bin/bash
+set -e
+set -u
+
+PATH=/var/vcap/packages/node/bin:$PATH
+
+# Copy package
+echo "Copying service fabrik deployment hooks files..."
+cp -a ${BOSH_COMPILE_TARGET}/service-fabrik-broker/{deployment_hooks,common,node_modules} ${BOSH_INSTALL_TARGET}/
+
+#Added the below line to avoid node-gyp connect to internet and download headers during "npm rebuild"
+#which internally calls "node-gyp rebuild" of unix-dgram package based on https://github.com/nodejs/node-gyp/issues/1020
+npm config set nodedir /var/vcap/packages/node
+
+# Rebuild
+echo "Rebuild depend packages..."
+cd ${BOSH_INSTALL_TARGET}
+npm rebuild
+# compile add_seccomp_filters script
+cd ${BOSH_INSTALL_TARGET}/deployment_hooks/bin/seccomp
+LIBSECCOMP_INSTALLATION=/var/vcap/packages/libseccomp/libseccomp_installation
+gcc add_seccomp_filters.c -l seccomp -o seccomp -I ${LIBSECCOMP_INSTALLATION}/include/ -L ${LIBSECCOMP_INSTALLATION}/lib/

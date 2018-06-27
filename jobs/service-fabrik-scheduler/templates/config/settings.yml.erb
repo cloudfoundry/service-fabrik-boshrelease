@@ -69,7 +69,7 @@ production:
     <% end.else do %>
     protocol: 'http'
     <% end %>
-
+  
   ####################
   # MONGODB SETTINGS #
   ####################
@@ -230,10 +230,6 @@ production:
   # DIRECTOR SETTINGS #
   #####################
   directors: <%= JSON.dump(link("broker").p('directors')) %>
-  ######################
-  # Deployment Actions #
-  ######################
-  actions: <%= JSON.dump(link("broker").p('actions')) %>
   ####################
   # SERVICES CATALOG #
   ####################

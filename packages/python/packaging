@@ -1,0 +1,21 @@
+#!/bin/bash
+set -e
+
+PYTHON_VERSION="2.7.6"
+# Extract python package
+echo "Extracting python ${PYTHON_VERSION}..."
+tar xpvf ${BOSH_COMPILE_TARGET}/python/Python-${PYTHON_VERSION}.tar.xz
+if [[ $? != 0 ]] ; then
+  echo "Failed extracting python ${PYTHON_VERSION}"
+  exit 1
+fi
+
+# Copy python package
+echo "Copying python ${PYTHON_VERSION}..."
+cp -a ${BOSH_COMPILE_TARGET}/Python-${PYTHON_VERSION}/* ${BOSH_INSTALL_TARGET}/
+
+echo "Installing python..."
+cd ${BOSH_INSTALL_TARGET}
+./configure --prefix=$BOSH_INSTALL_TARGET
+make
+make install

@@ -1,0 +1,21 @@
+#!/bin/bash
+set -e
+
+LIBSECCOMP_VERSION="2.3.3"
+# Extract libseccomp package
+echo "Extracting libseccomp ${LIBSECCOMP_VERSION}..."
+tar xpvf ${BOSH_COMPILE_TARGET}/libseccomp/libseccomp-${LIBSECCOMP_VERSION}.tar.gz
+if [[ $? != 0 ]] ; then
+  echo "Failed extracting libseccomp ${LIBSECCOMP_VERSION}"
+  exit 1
+fi
+
+# Copy libseccomp package
+echo "Copying libseccomp ${LIBSECCOMP_VERSION}..."
+cp -a ${BOSH_COMPILE_TARGET}/libseccomp-${LIBSECCOMP_VERSION}/* ${BOSH_INSTALL_TARGET}/
+
+echo "Installing libseccomp..."
+cd ${BOSH_INSTALL_TARGET}
+./configure --prefix=$BOSH_INSTALL_TARGET/libseccomp_installation
+make
+make install

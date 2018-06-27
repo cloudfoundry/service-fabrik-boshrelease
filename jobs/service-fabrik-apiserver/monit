@@ -1,0 +1,5 @@
+check process service-fabrik-apiserver
+  with pidfile /var/vcap/sys/run/bpm/service-fabrik-apiserver/service-fabrik-apiserver.pid
+  start program "/var/vcap/jobs/bpm/bin/bpm start service-fabrik-apiserver"
+  stop program "/var/vcap/jobs/bpm/bin/bpm stop service-fabrik-apiserver"
+  group vcap

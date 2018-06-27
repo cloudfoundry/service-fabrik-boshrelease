@@ -1,13 +1,22 @@
 #!/bin/bash
 
-nc -z $(hostname -I) <%= p('external.port') %>
+# Checking if HA setup needs to be done or not.
+ha_enabled=<%= p('ha_enabled') %>
+if [[ "$ha_enabled" == "true"  ]]; then
+  vm_state=$(/var/vcap/jobs/keepalived/bin/get_keepalived_state.sh)
+  if [[ "$vm_state" != "up" ]]; then
+    exit 1
+  fi
+fi
+
+nc -z <%= spec.ip %> <%= p('external.port') %>
 
 # http://www.consul.io/docs/agent/checks.html
 if [ $? -ne 0 ]; then
   exit 2 # Exit higher than 1 to ensure service is registered as 'critical'
 fi
 
-nc -z $(hostname -I) <%= p('internal.port') %>
+nc -z <%= spec.ip %> <%= p('internal.port') %>
 
 # http://www.consul.io/docs/agent/checks.html
 if [ $? -ne 0 ]; then

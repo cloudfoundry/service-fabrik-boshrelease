@@ -1,0 +1,45 @@
+<% internal = link("broker").p('internal') %>
+vrrp_script chk_sfnode {
+    script "/var/vcap/jobs/keepalived/bin/get_sf_broker_status.sh"
+    weight 10
+    interval 2
+    fall 2
+    rise 2
+}
+vrrp_instance VI_1 {
+    debug 2
+    interface eth0 # interface to monitor
+    virtual_router_id 51 # Assign one ID for this route
+    <% if ( spec.ip == p('master_ip') ) %>
+    state MASTER
+    priority 101 # 101 on master, 100 on backup
+    unicast_src_ip <%= spec.ip %> # My IP
+    unicast_peer {
+        <%= p('slave_ip')  %> # peer IP
+    }
+    <% else %>
+    state BACKUP
+    priority 100 # 101 on master, 100 on backup
+    unicast_src_ip <%= spec.ip %> # My IP
+    unicast_peer {
+        <%= p('master_ip')  %> # peer IP
+    }
+    <% end %>     
+    track_script {
+        chk_sfnode
+    }
+    # for ANY state transition.
+    # "notify" script is called AFTER the
+    # notify_* script(s) and is executed
+    # with 3 arguments provided by keepalived
+    # (ie don’t include parameters in the notify line).
+    # arguments
+    # $1 = "GROUP"|"INSTANCE"
+    # $2 = name of group or instance
+    # $3 = target state of transition
+    #     ("MASTER"|"BACKUP"|"FAULT")
+    notify /var/vcap/jobs/keepalived/bin/notify.sh
+    notify_master "/var/vcap/jobs/keepalived/bin/action.sh MASTER"
+    notify_backup "/var/vcap/jobs/keepalived/bin/action.sh BACKUP"
+    notify_fault  "/var/vcap/jobs/keepalived/bin/action.sh FAULT"
+}

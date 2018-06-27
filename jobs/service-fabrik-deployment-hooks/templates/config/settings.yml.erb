@@ -1,0 +1,41 @@
+<%
+  broker_name = link("broker").p('name')
+  log_path = "/var/vcap/sys/log/service-fabrik-deployment-hooks/service-fabrik-deployment-hooks.log"
+  hook = p('hook')
+%>---
+production:
+  ####################
+  # GENERAL SETTINGS #
+  ####################
+  username: '<%= p('username') %>'
+  password: '<%= p('password') %>'
+  skip_ssl_validation: <%= p('skip_ssl_validation') %>
+  session_store:
+    path: <%= "/var/vcap/store/#{broker_name}/session" %>
+  log_path: <%= log_path %>
+  log_level: <%= p('log_level') %>
+  enable_circuit_breaker: <%= p('enable_circuit_breaker') %>
+  http_timeout: <%= p('http_timeout') %>
+  enable_syscall_filters: <%= p('enable_syscall_filters') %>
+  whitelisted_syscalls: <%= p('whitelisted_syscalls') %>
+  
+  ##############################
+  # HOOK ENDPOINT SETTINGS #
+  ##############################
+  hook:
+    log_event: <%= hook['log_event'] %>
+    event_type: SF.HOOKS
+    port: <%= hook['port'] %>
+    ip: <%= hook['ip'] %>
+    host: <%= "#{hook['ip']}:#{hook['port']}" %>
+    <% if_p('hook.ssl') do |ssl| %>
+    protocol: <%= hook['protocol'] %>
+    ssl: <%= JSON.dump(ssl) %>
+    <% end.else do %>
+    protocol: 'http'
+    <% end %>
+
+  ######################
+  # Deployment Actions #
+  ######################
+  actions: <%= JSON.dump(p('actions')) %>

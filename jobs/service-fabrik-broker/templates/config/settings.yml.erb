@@ -28,13 +28,16 @@ production:
   log_path: <%= log_path %>
   log_level: <%= p('log_level') %>
   sys_log_level: <%= p('sys_log_level') %>
+  enable_bosh_rate_limit: <%= p('enable_bosh_rate_limit') %>
   enable_circuit_breaker: <%= p('enable_circuit_breaker') %>
   enable_swarm_manager: <%= p('enable_swarm_manager') %>
   feature:
     ServiceInstanceAutoUpdate: <%= p('feature.ServiceInstanceAutoUpdate') %>
+    EnableSecurityGroupsOps: <%= p('feature.EnableSecurityGroupsOps') %>
   http_timeout: <%= p('http_timeout') %>
   deployment_action_timeout: <%= p('deployment_action_timeout') %>
   multi_az_enabled: <%= p('multi_az_enabled') %>
+  ha_enabled: <%= p('ha_enabled') %>
   broker_drain_message: <%= p('broker_drain_message') %>
   ##############################
   # EXTERNAL ENDPOINT SETTINGS #
@@ -44,7 +47,12 @@ production:
     event_type: SF.API_EVENT
     trust_proxy: <%= external['trust_proxy'] %>
     port: <%= external['port'] %>
+    <% if_p('external.ssl') do |ssl| %>
     protocol: 'https'
+    ssl: <%= JSON.dump(ssl) %>
+    <% end.else do %>  
+    protocol: 'https'
+    <% end %>  
     host: <%= external['host'] %>
     cookie_secret: <%= external['cookie_secret'] %>
     cookie_secure: true
@@ -69,6 +77,15 @@ production:
     <% end.else do %>
     protocol: 'http'
     <% end %>
+
+  #############################
+  # DEPLOYMENT HOOKS SETTINGS #
+  #############################
+  deployment_hooks:
+    username: '<%= link("deployment_hooks").p('username') %>'
+    password: '<%= link("deployment_hooks").p('password') %>'
+    host: <%= "#{link("deployment_hooks").p('hook.ip')}:#{link("deployment_hooks").p('hook.port')}"%>
+    protocol: '<%= link("deployment_hooks").p('hook.protocol')%>'
 
   ####################
   # MONGODB SETTINGS #
@@ -213,6 +230,24 @@ production:
     url: <%= p('cf.url') %>
     username: <%= p('cf.username') %>
     password: <%= p('cf.password') %>
+  
+  #########################
+  #    ETCD SETTINGS      #
+  #########################
+  etcd:
+    url: <%= p('etcd.url') %>
+    ssl: <%= JSON.dump(p('etcd.ssl')) %>
+
+  #############################
+  # CREDHUB SETTINGS #
+  #############################
+  cred_provider:
+    credhub_url: <%= p('cred_provider.credhub_url') %>
+    credhub_uaa_url: <%= p('cred_provider.credhub_uaa_url') %>
+    credhub_client_id: <%= p('cred_provider.credhub_client_id') %>
+    credhub_client_secret: <%= p('cred_provider.credhub_client_secret') %>
+    credhub_username: <%= p('cred_provider.credhub_username') %>
+    credhub_user_password: <%= p('cred_provider.credhub_user_password') %>
 
   ###################
   # DOCKER SETTINGS #
@@ -232,10 +267,7 @@ production:
   # DIRECTOR SETTINGS #
   #####################
   directors: <%= JSON.dump(p('directors')) %>
-  ######################
-  # Deployment Actions #
-  ######################
-  actions: <%= JSON.dump(p('actions')) %>
+  
   ####################
   # SERVICES CATALOG #
   ####################
