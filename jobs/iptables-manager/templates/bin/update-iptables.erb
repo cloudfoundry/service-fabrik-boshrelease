@@ -1,7 +1,11 @@
 #!/bin/bash
 set -e
 
+iptables -A INPUT -p ICMP --icmp-type 8 -s  "<%= p('allow_ips_list') %>" -j ACCEPT
+iptables -A INPUT -p udp -s "<%= p('allow_ips_list') %>" -j ACCEPT
 iptables -A INPUT -p tcp -s  "<%= p('allow_ips_list') %>" -j ACCEPT
 <% if_p('block_ips_list') do |block_ips_list| %>
+iptables -A INPUT -p ICMP --icmp-type 8 -s "<%= block_ips_list %>" -j  DROP
+iptables -A INPUT -p udp -s "<%= block_ips_list %>" -j DROP
 iptables -A INPUT -p tcp -s  "<%= block_ips_list %>" -j DROP
 <% end %>

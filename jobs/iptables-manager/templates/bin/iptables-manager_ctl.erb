@@ -20,29 +20,19 @@ export PID_FILE=${RUN_DIR}/iptables-manager.pid
 exec 1>> $LOG_DIR/$JOB_NAME.stdout.log
 exec 2>> $LOG_DIR/$JOB_NAME.stderr.log
 
-export SF_USER=sf_user
-if ! grep -q "^${SF_USER}:" /etc/passwd
-then
-  /usr/sbin/adduser \
-   --system \
-   --group \
-   --shell /bin/bash \
-   --disabled-password \
-   --home /home/${SF_USER} ${SF_USER} \
-   --gecos "SF user to manage iptables"
-fi
+export RUN_AS_USER=vcap
 
 case $1 in
   start)
     setcap CAP_NET_RAW,CAP_NET_ADMIN=ei /sbin/xtables-multi
-    capsh --keep=1 --user=${SF_USER} --caps="cap_net_admin,cap_net_raw+eip" -- -c '$JOB_DIR/bin/clear-iptables' #Flush all existing rules
-    capsh --keep=1 --user=${SF_USER} --caps="cap_net_admin,cap_net_raw+eip" -- -c '$JOB_DIR/bin/update-iptables'
+    capsh --keep=1 --user=${RUN_AS_USER} --caps="cap_net_admin,cap_net_raw+eip" -- -c '$JOB_DIR/bin/clear-iptables' #Flush all existing rules
+    capsh --keep=1 --user=${RUN_AS_USER} --caps="cap_net_admin,cap_net_raw+eip" -- -c '$JOB_DIR/bin/update-iptables'
     setcap -r /sbin/xtables-multi
     echo 1 >> $PID_FILE
     ;;
   stop)
     setcap CAP_NET_RAW,CAP_NET_ADMIN=ei /sbin/xtables-multi
-    capsh --keep=1 --user=${SF_USER} --caps="cap_net_admin,cap_net_raw+eip" -- -c '$JOB_DIR/bin/clear-iptables'
+    capsh --keep=1 --user=${RUN_AS_USER} --caps="cap_net_admin,cap_net_raw+eip" -- -c '$JOB_DIR/bin/clear-iptables'
     setcap -r /sbin/xtables-multi
     rm -f $PID_FILE
     ;;
