@@ -6,6 +6,7 @@ export JOB_NAME='iptables-manager'
 export HOME=/var/vcap
 export LOG_DIR=$HOME/sys/log/$JOB_NAME
 export RUN_DIR=$HOME/sys/run/$JOB_NAME
+export JOB_DIR=$HOME/jobs/$JOB_NAME
 
 for dir in $LOG_DIR $RUN_DIR
 do
@@ -19,17 +20,20 @@ export PID_FILE=${RUN_DIR}/iptables-manager.pid
 exec 1>> $LOG_DIR/$JOB_NAME.stdout.log
 exec 2>> $LOG_DIR/$JOB_NAME.stderr.log
 
+export RUN_AS_USER=vcap
+
 case $1 in
   start)
-    iptables -F #Flush all existing rules
-    iptables -A INPUT -p tcp -s  "<%= p('allow_ips_list') %>" -j ACCEPT
-    <% if_p('block_ips_list') do |block_ips_list| %>
-    iptables -A INPUT -p tcp -s  "<%= block_ips_list %>" -j DROP
-    <% end %>
+    setcap CAP_NET_RAW,CAP_NET_ADMIN=ei /sbin/xtables-multi
+    capsh --keep=1 --user=${RUN_AS_USER} --caps="cap_net_admin,cap_net_raw+eip" -- -c '$JOB_DIR/bin/clear-iptables' #Flush all existing rules
+    capsh --keep=1 --user=${RUN_AS_USER} --caps="cap_net_admin,cap_net_raw+eip" -- -c '$JOB_DIR/bin/update-iptables'
+    setcap -r /sbin/xtables-multi
     echo 1 >> $PID_FILE
     ;;
   stop)
-    iptables -F
+    setcap CAP_NET_RAW,CAP_NET_ADMIN=ei /sbin/xtables-multi
+    capsh --keep=1 --user=${RUN_AS_USER} --caps="cap_net_admin,cap_net_raw+eip" -- -c '$JOB_DIR/bin/clear-iptables'
+    setcap -r /sbin/xtables-multi
     rm -f $PID_FILE
     ;;
 
