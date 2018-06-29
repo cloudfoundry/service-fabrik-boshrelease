@@ -21,6 +21,7 @@ exec 2>> $LOG_DIR/$JOB_NAME.stderr.log
 
 case $1 in
   start)
+    iptables -F #Flush all existing rules
     iptables -A INPUT -p ICMP --icmp-type 8 -s  "<%= p('allow_ips_list') %>" -j ACCEPT
     iptables -A INPUT -p udp -s "<%= p('allow_ips_list') %>" -j ACCEPT
     iptables -A INPUT -p tcp -s  "<%= p('allow_ips_list') %>" -j ACCEPT
