@@ -4,7 +4,7 @@ name: service-fabrik-backup-manager
 packages:
   - bosh-helpers
   - node
-  - service-fabrik-backup-manager
+  - service-fabrik-broker
 
 templates:
   bin/service-fabrik-backup-manager_ctl.erb: bin/service-fabrik-backup-manager_ctl
