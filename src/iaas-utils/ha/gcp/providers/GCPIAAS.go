@@ -297,7 +297,7 @@ func (iaasProvider *GCPIAAS) ManageResources() int {
 		createLBRuleInput.Name = lbRuleName
 		createLBRuleInput.IPAddress = iaasProvider.Config.FloatingIP
 		createLBRuleInput.IPProtocol = "TCP"
-		createLBRuleInput.Ports = []string{fmt.Sprintf("%d", iaasProvider.Config.SFBrokerPort), fmt.Sprintf("%d", iaasProvider.Config.SFReportPort), fmt.Sprintf("%d", iaasProvider.Config.SFExternalPort), fmt.Sprintf("%d", iaasProvider.Config.SFDephooksPort)}
+		createLBRuleInput.Ports = []string{fmt.Sprintf("%d", iaasProvider.Config.SFBrokerPort), fmt.Sprintf("%d", iaasProvider.Config.SFReportPort), fmt.Sprintf("%d", iaasProvider.Config.SFExternalPort), fmt.Sprintf("%d", iaasProvider.Config.SFDephooksPort), fmt.Sprintf("%d", iaasProvider.Config.SFApiServerPort)}
 		createLBRuleInput.LoadBalancingScheme = "INTERNAL"
 		createLBRuleInput.Network = floatingIPNetwork
 		createLBRuleInput.Subnetwork = floatingIPSubNetwork
