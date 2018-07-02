@@ -19,6 +19,7 @@ IS_HA= link("broker").p("ha_enabled")
     export SFREPORTPORT="-sfreportport=<%= link("report").p("report.port") %>"
     export SFEXTERNALPORT="-sfexternalport=<%= link("broker").p("external.port") %>"
     export SFDEPHOOKSPORT="-sfdephooksport=<%= link("deployment_hooks").p("hook.port") %>"
+    export SFAPISERVERPORT="-sfapiserverport=9443"
     export PROBEINTERVAL="-probeinterval=2"
     export PROBEHEALTHCHECK="-probehealthcheck=2"
     export PROBEPROTOCOL="-probeprotocol=Http"

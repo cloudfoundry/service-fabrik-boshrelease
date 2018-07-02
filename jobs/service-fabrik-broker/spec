@@ -25,6 +25,7 @@ provides:
   - name
   - username
   - password
+  - enable_service_fabrik_v2
   - skip_ssl_validation
   - log_level
   - enable_bosh_rate_limit
@@ -130,6 +131,9 @@ properties:
   password:
     description: "Broker's basic auth password"
     default: "secret"
+  enable_service_fabrik_v2:
+    description: "Determines whether to enable service fabrik v20"
+    default: false
   skip_ssl_validation:
     description: "Determines whether the broker should verify SSL certificates when communicating with other endpoints such as the cloud controller or the UAA"
     default: true
