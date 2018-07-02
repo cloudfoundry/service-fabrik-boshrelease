@@ -1,0 +1,66 @@
+#!/bin/bash
+#sourcing job properties to bring openstack credential in env variables
+# shellcheck disable=SC1091
+source /var/vcap/jobs/keepalived/bin/job_properties.sh
+generate_body_for_token_req()
+{
+ cat << EOF
+{ "auth": {
+    "identity": {
+      "methods": ["password"],
+      "password": {
+        "user": {
+          "name": "${OS_USERNAME}",
+          "domain": { "name": "${OS_USER_DOMAIN_NAME}" },
+          "password": "${OS_PASSWORD}"
+        }
+      }
+    },
+    "scope": {
+      "project": {
+        "name": "${OS_PROJECT_NAME}",
+        "domain": { "name": "${OS_USER_DOMAIN_NAME}" }
+      }
+    }
+  }
+}
+EOF
+}
+generate_auth_token(){
+    local token_response
+    token_response=$(curl --retry 2 -sk -X POST \
+        -H "Content-Type: application/json" \
+        -d "$(generate_body_for_token_req)" \
+    "${OS_AUTH_URL}/auth/tokens")
+    RET=$?
+    if [[ $RET -ne 0 ]] ; then
+        echo "$(date) [ERROR] - HTTP Error:  ${token_response}"
+        exit ${RET}
+    fi
+    OS_CATALOG=$(echo "${token_response}" | ${JQ_CMD} -r .token.catalog[])
+    RET=$?
+    if [[ $RET -ne 0 ]] ; then
+        echo "$(date) [ERROR] - While parsing :  ${token_response} to get catalog ${OS_CATALOG}"
+        exit ${RET}
+    fi
+    export OS_CATALOG
+    NETWORK_PUBLIC_URL="$(echo "${OS_CATALOG}" | ${JQ_CMD} \
+        -r '. | select(.type=="network") | .endpoints[] | select(.interface=="public") | .url')"
+    RET=$?
+    if [[ $RET -ne 0 ]] ; then
+        echo "$(date) [ERROR] - While parsing : ${OS_CATALOG} to get network public url ${NETWORK_PUBLIC_URL}"
+        exit ${RET}
+    fi
+    export NETWORK_PUBLIC_URL
+    OS_TOKEN="$(curl --retry 2 -ski \
+        -H "Content-Type: application/json" \
+        -d "$(generate_body_for_token_req)" \
+        "${OS_AUTH_URL}/auth/tokens" -X POST | awk '/X-Subject-Token/ {print $2}' )"
+    RET=$?
+    if [[ $RET -ne 0 ]] || [[ -z "${OS_TOKEN}" ]] ; then
+        echo "$(date) [ERROR] - HTTP Error or token not generated: ${OS_TOKEN}"
+        exit ${RET}
+    fi
+    export OS_TOKEN
+}
+generate_auth_token
