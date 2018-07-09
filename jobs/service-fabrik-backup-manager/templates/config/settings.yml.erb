@@ -6,10 +6,9 @@
   end
 
   broker_name = link("broker").p('name')
-  log_path = "/var/vcap/sys/log/service-fabrik-report/service-fabrik-report.log"
+  log_path = "/var/vcap/sys/log/service-fabrik-backup-manager/service-fabrik-backup-manager.log"
   external = link("broker").p('external')
   internal = link("broker").p('internal')
-  report = p('report')
 %>---
 production:
   ####################
@@ -17,11 +16,13 @@ production:
   ####################
   username: '<%= link("broker").p('username') %>'
   password: '<%= link("broker").p('password') %>'
+  broker_ip: <%= spec.ip %>
   enable_service_fabrik_v2: <%= link("broker").p('enable_service_fabrik_v2') %>
   skip_ssl_validation: <%= link("broker").p('skip_ssl_validation') %>
   session_store:
     path: <%= "/var/vcap/store/#{broker_name}/session" %>
   log_path: <%= log_path %>
+  log_level: <%= link("broker").p('log_level') %>
   enable_circuit_breaker: <%= link("broker").p('enable_circuit_breaker') %>
   http_timeout: <%= link("broker").p('http_timeout') %>
   broker_drain_message: <%= link("broker").p('broker_drain_message') %>
@@ -38,6 +39,7 @@ production:
   # INTERNAL ENDPOINT SETTINGS #
   ##############################
   internal:
+    ip: <%= "#{internal['ip']}" %>
     host: <%= "#{internal['ip']}:#{internal['port']}" %>
     <% link("broker").if_p('internal.ssl') do |ssl| %>
     protocol: 'https'
@@ -45,22 +47,6 @@ production:
     <% end.else do %>
     protocol: 'http'
     <% end %>
-  ##############################
-  # REPORT ENDPOINT SETTINGS #
-  ##############################
-  report:
-    log_event: <%= p('report.log_event') %>
-    event_type: SF.REPORT
-    port: <%= report['port'] %>
-    ip: <%= report['ip'] %>
-    host: <%= "#{report['ip']}:#{report['port']}" %>
-    <% if_p('report.ssl') do |ssl| %>
-    protocol: 'https'
-    ssl: <%= JSON.dump(ssl) %>
-    <% end.else do %>
-    protocol: 'http'
-    <% end %>
-
   ###################
   # QUOTA MANAGEMENT SETTINGS #
   ###################
@@ -119,6 +105,19 @@ production:
   # SCHEDULER SETTINGS #
   ######################
   scheduler:
+    <% link("scheduler").if_p('job_types') do |job_types| %>
+    job_types: <%= job_types %> # Comma seperated list of batch job types that are enabled in service fabrik
+    <% end %>
+    process_every: <%= link("scheduler").p('process_every') %> # Interval at which scheduler will query the database looking for jobs that need to be processed
+    run_with_web_process: <%= link("scheduler").p('run_with_web_process') %> # Flag which indicates if scheduler can run in the same process as that of service fabrik broker web process
+    max_concurrency: <%= link("scheduler").p('max_concurrency') %> # A number which specifies the max number of batch jobs that can be running at any given moment
+    default_concurrency: <%= link("scheduler").p('default_concurrency') %> # A number which specifies the default number of a specific job that can be running at any given moment
+    start_delay: <%= link("scheduler").p('start_delay') %>
+    default_lock_lifetime: <%= link("scheduler").p('default_lock_lifetime') %> # Specifies the default lock lifetime of a batchjob in milliseconds.
+    agenda_collection: <%= link("scheduler").p('agenda_collection') %> # Name of the collection in mongodb which is to be used by agendaJS to store the scheduled job meta info
+    maintenance_check_interval:  <%= link("scheduler").p('maintenance_check_interval') %>
+    maintenance_mode_time_out:  <%= link("scheduler").p('maintenance_mode_time_out') %>
+    downtime_maintenance_phases: <%= link("scheduler").p('downtime_maintenance_phases') %>
     system_jobs:
     - name: 'service-fabrik-mongodb'
       type: 'ScheduledOobDeploymentBackup'
@@ -178,6 +177,7 @@ production:
   etcd:
     url: <%= link("broker").p('etcd.url') %>
     ssl: <%= JSON.dump(link("broker").p('etcd.ssl')) %>
+
   ###################
   # DOCKER SETTINGS #
   ###################

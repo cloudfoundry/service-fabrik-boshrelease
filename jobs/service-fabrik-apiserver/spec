@@ -17,16 +17,16 @@ provides:
   type: service-fabrik-apiserver
   properties:
   - etcd.url
-  - tls.etcd.ca
-  - tls.etcd.certificate
-  - tls.etcd.private_key
+  - etcd.ssl.ca
+  - etcd.ssl.crt
+  - etcd.ssl.key
 
 properties:
   etcd.url:
     description: ETCD host URL to connect
-  tls.etcd.ca:
+  etcd.ssl.ca:
     description: CA for etcd client and server authentication
-  tls.etcd.certificate:
+  etcd.ssl.crt:
     description: Certificate for etcd client and server authentication
-  tls.etcd.private_key:
+  etcd.ssl.key:
     description: Private key for etcd client and server authentication

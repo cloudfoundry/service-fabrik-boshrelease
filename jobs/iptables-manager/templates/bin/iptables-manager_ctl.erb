@@ -22,9 +22,9 @@ exec 2>> $LOG_DIR/$JOB_NAME.stderr.log
 case $1 in
   start)
     iptables -F #Flush all existing rules
-    iptables -A INPUT -p icmp --icmp-type 8 -s  "<%= p('allow_ips_list') %>" -j ACCEPT
     iptables -A INPUT -p udp  --sport 53 -j ACCEPT #Accept all DNS queries
-    iptables -A INPUT -p tcp  --sport 53 -j ACCEPT 
+    iptables -A INPUT -p tcp  --sport 53 -j ACCEPT
+    iptables -A INPUT -p icmp --icmp-type 8 -s  "<%= p('allow_ips_list') %>" -j ACCEPT
     iptables -A INPUT -p udp -s "<%= p('allow_ips_list') %>" -j ACCEPT
     iptables -A INPUT -p tcp -s  "<%= p('allow_ips_list') %>" -j ACCEPT
     <% if_p('block_ips_list') do |block_ips_list| %>

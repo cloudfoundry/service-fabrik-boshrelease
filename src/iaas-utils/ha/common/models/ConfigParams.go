@@ -29,6 +29,7 @@ type ConfigParams struct {
 	SFReportPort           int
 	SFExternalPort         int
 	SFDephooksPort         int
+	SFApiServerPort        int
 	ProbeIntervalInSeconds int
 	ProbeHealthCheckCount  int
 	ProbeProtocol          string
