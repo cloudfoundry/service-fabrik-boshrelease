@@ -2,9 +2,10 @@
 vrrp_script chk_sfnode {
     script "/var/vcap/jobs/keepalived/bin/get_sf_broker_status.sh"
     weight 10
-    interval 2
+    interval 6
     fall 2
     rise 2
+    timeout 1
 }
 vrrp_instance VI_1 {
     debug 2
