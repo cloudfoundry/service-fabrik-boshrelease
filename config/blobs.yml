@@ -42,10 +42,9 @@ jq/jq:
   size: 497799
   object_id: 61d27ef5-32cc-439d-6842-97be75dae6fb
   sha: e820e9e91c9cce6154f52949a3b2a451c4de8af4
-keepalived/keepalived-1.4.2.tar.gz:
-  size: 738096
-  object_id: 99e2305e-7847-41c2-6659-7888fabaf354
-  sha: 99312c66482f4863bf3aca84691c6d613fb5d856
+keepalived/keepalived-2.0.5.tar.gz:
+  size: 848206
+  sha: b950ff1931c1062f34d57dfef24473b4c6b60209
 libseccomp/libseccomp-2.3.3.tar.gz:
   size: 564546
   object_id: 4e749385-3bc6-45b5-7a08-906c3cf97573
