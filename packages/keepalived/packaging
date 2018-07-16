@@ -2,7 +2,7 @@
 set -e
 set -u
 
-KEEPALIVED_VERSION="1.4.2"
+KEEPALIVED_VERSION="2.0.5"
 # Extracting keepalived package
 tar zxvf keepalived/keepalived-${KEEPALIVED_VERSION}.tar.gz
 
