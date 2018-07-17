@@ -220,6 +220,17 @@ production:
   etcd:
     url: <%= link("broker").p('etcd.url') %>
     ssl: <%= JSON.dump(link("broker").p('etcd.ssl')) %>
+  
+  #############################
+  # CREDHUB SETTINGS #
+  #############################
+  cred_provider:
+    credhub_url: <%= link("broker").p('cred_provider.credhub_url') %>
+    credhub_uaa_url: <%= link("broker").p('cred_provider.credhub_uaa_url') %>
+    credhub_client_id: <%= link("broker").p('cred_provider.credhub_client_id') %>
+    credhub_client_secret: <%= link("broker").p('cred_provider.credhub_client_secret') %>
+    credhub_username: <%= link("broker").p('cred_provider.credhub_username') %>
+    credhub_user_password: <%= link("broker").p('cred_provider.credhub_user_password') %>
 
   ###################
   # DOCKER SETTINGS #
