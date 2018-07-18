@@ -112,6 +112,7 @@ func Convert_backup_DefaultBackupSpec_To_v1alpha1_DefaultBackupSpec(in *backup.D
 
 func autoConvert_v1alpha1_DefaultBackupStatus_To_backup_DefaultBackupStatus(in *DefaultBackupStatus, out *backup.DefaultBackupStatus, s conversion.Scope) error {
 	out.State = in.State
+	out.Error = in.Error
 	out.LastOperation = in.LastOperation
 	out.Response = in.Response
 	return nil
@@ -124,6 +125,7 @@ func Convert_v1alpha1_DefaultBackupStatus_To_backup_DefaultBackupStatus(in *Defa
 
 func autoConvert_backup_DefaultBackupStatus_To_v1alpha1_DefaultBackupStatus(in *backup.DefaultBackupStatus, out *DefaultBackupStatus, s conversion.Scope) error {
 	out.State = in.State
+	out.Error = in.Error
 	out.LastOperation = in.LastOperation
 	out.Response = in.Response
 	return nil

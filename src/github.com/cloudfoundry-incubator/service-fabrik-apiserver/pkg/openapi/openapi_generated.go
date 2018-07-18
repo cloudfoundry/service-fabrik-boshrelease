@@ -142,6 +142,12 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 								Format: "",
 							},
 						},
+						"error": {
+							SchemaProps: spec.SchemaProps{
+								Type:   []string{"string"},
+								Format: "",
+							},
+						},
 						"lastOperation": {
 							SchemaProps: spec.SchemaProps{
 								Type:   []string{"string"},
