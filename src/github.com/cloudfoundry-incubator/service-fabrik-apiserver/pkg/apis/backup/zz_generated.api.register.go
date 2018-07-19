@@ -84,6 +84,7 @@ type DefaultBackupSpec struct {
 
 type DefaultBackupStatus struct {
 	State         string
+	Error         string
 	LastOperation string
 	Response      string
 }

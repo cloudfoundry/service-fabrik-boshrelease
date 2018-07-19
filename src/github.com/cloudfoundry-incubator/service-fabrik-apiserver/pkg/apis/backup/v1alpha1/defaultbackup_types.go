@@ -1,6 +1,4 @@
-
 //TODO copyright header
-
 
 package v1alpha1
 
@@ -38,8 +36,9 @@ type DefaultBackupSpec struct {
 // DefaultBackupStatus defines the observed state of DefaultBackup
 type DefaultBackupStatus struct {
 	State         string `json:"state,omitempty"`
+	Error         string `json:"error,omitempty"`
 	LastOperation string `json:"lastOperation,omitempty"`
-	Response string	`json:"response,omitempty"`
+	Response      string `json:"response,omitempty"`
 }
 
 // Validate checks that an instance of DefaultBackup is well formed
