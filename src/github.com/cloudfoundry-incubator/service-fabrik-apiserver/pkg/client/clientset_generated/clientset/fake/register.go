@@ -3,6 +3,7 @@ package fake
 
 import (
 	backupv1alpha1 "github.com/cloudfoundry-incubator/service-fabrik-apiserver/pkg/apis/backup/v1alpha1"
+	bindv1alpha1 "github.com/cloudfoundry-incubator/service-fabrik-apiserver/pkg/apis/bind/v1alpha1"
 	deploymentv1alpha1 "github.com/cloudfoundry-incubator/service-fabrik-apiserver/pkg/apis/deployment/v1alpha1"
 	lockv1alpha1 "github.com/cloudfoundry-incubator/service-fabrik-apiserver/pkg/apis/lock/v1alpha1"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -36,6 +37,7 @@ func init() {
 // correctly.
 func AddToScheme(scheme *runtime.Scheme) {
 	backupv1alpha1.AddToScheme(scheme)
+	bindv1alpha1.AddToScheme(scheme)
 	deploymentv1alpha1.AddToScheme(scheme)
 	lockv1alpha1.AddToScheme(scheme)
 

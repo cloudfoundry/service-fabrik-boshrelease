@@ -15,6 +15,10 @@ func (c *FakeDeployment) Directors(namespace string) internalversion.DirectorInt
 	return &FakeDirectors{c, namespace}
 }
 
+func (c *FakeDeployment) Dockers(namespace string) internalversion.DockerInterface {
+	return &FakeDockers{c, namespace}
+}
+
 // RESTClient returns a RESTClient that is used to communicate
 // with API server by this client implementation.
 func (c *FakeDeployment) RESTClient() rest.Interface {

@@ -11,6 +11,7 @@ import (
 type DeploymentV1alpha1Interface interface {
 	RESTClient() rest.Interface
 	DirectorsGetter
+	DockersGetter
 }
 
 // DeploymentV1alpha1Client is used to interact with features provided by the deployment.servicefabrik.io group.
@@ -20,6 +21,10 @@ type DeploymentV1alpha1Client struct {
 
 func (c *DeploymentV1alpha1Client) Directors(namespace string) DirectorInterface {
 	return newDirectors(c, namespace)
+}
+
+func (c *DeploymentV1alpha1Client) Dockers(namespace string) DockerInterface {
+	return newDockers(c, namespace)
 }
 
 // NewForConfig creates a new DeploymentV1alpha1Client for the given config.

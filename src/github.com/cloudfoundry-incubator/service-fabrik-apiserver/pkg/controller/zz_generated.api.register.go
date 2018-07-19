@@ -22,6 +22,9 @@ import (
 	"github.com/cloudfoundry-incubator/service-fabrik-apiserver/pkg/controller/defaultbackup"
 	"github.com/cloudfoundry-incubator/service-fabrik-apiserver/pkg/controller/deploymentlock"
 	"github.com/cloudfoundry-incubator/service-fabrik-apiserver/pkg/controller/director"
+	"github.com/cloudfoundry-incubator/service-fabrik-apiserver/pkg/controller/directorbind"
+	"github.com/cloudfoundry-incubator/service-fabrik-apiserver/pkg/controller/docker"
+	"github.com/cloudfoundry-incubator/service-fabrik-apiserver/pkg/controller/dockerbind"
 	"github.com/cloudfoundry-incubator/service-fabrik-apiserver/pkg/controller/sharedinformers"
 	"github.com/kubernetes-incubator/apiserver-builder/pkg/controller"
 	"k8s.io/client-go/rest"
@@ -34,5 +37,8 @@ func GetAllControllers(config *rest.Config) ([]controller.Controller, chan struc
 		defaultbackup.NewDefaultBackupController(config, si),
 		deploymentlock.NewDeploymentLockController(config, si),
 		director.NewDirectorController(config, si),
+		directorbind.NewDirectorBindController(config, si),
+		docker.NewDockerController(config, si),
+		dockerbind.NewDockerBindController(config, si),
 	}, shutdown
 }

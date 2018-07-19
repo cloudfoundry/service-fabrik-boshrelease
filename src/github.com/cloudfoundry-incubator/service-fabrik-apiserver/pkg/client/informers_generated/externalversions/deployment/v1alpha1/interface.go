@@ -12,6 +12,8 @@ import (
 type Interface interface {
 	// Directors returns a DirectorInformer.
 	Directors() DirectorInformer
+	// Dockers returns a DockerInformer.
+	Dockers() DockerInformer
 }
 
 type version struct {
@@ -28,4 +30,9 @@ func New(f internalinterfaces.SharedInformerFactory, namespace string, tweakList
 // Directors returns a DirectorInformer.
 func (v *version) Directors() DirectorInformer {
 	return &directorInformer{factory: v.factory, namespace: v.namespace, tweakListOptions: v.tweakListOptions}
+}
+
+// Dockers returns a DockerInformer.
+func (v *version) Dockers() DockerInformer {
+	return &dockerInformer{factory: v.factory, namespace: v.namespace, tweakListOptions: v.tweakListOptions}
 }

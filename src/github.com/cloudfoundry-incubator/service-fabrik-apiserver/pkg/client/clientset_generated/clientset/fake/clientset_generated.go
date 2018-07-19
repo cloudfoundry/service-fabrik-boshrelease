@@ -5,6 +5,8 @@ import (
 	clientset "github.com/cloudfoundry-incubator/service-fabrik-apiserver/pkg/client/clientset_generated/clientset"
 	backupv1alpha1 "github.com/cloudfoundry-incubator/service-fabrik-apiserver/pkg/client/clientset_generated/clientset/typed/backup/v1alpha1"
 	fakebackupv1alpha1 "github.com/cloudfoundry-incubator/service-fabrik-apiserver/pkg/client/clientset_generated/clientset/typed/backup/v1alpha1/fake"
+	bindv1alpha1 "github.com/cloudfoundry-incubator/service-fabrik-apiserver/pkg/client/clientset_generated/clientset/typed/bind/v1alpha1"
+	fakebindv1alpha1 "github.com/cloudfoundry-incubator/service-fabrik-apiserver/pkg/client/clientset_generated/clientset/typed/bind/v1alpha1/fake"
 	deploymentv1alpha1 "github.com/cloudfoundry-incubator/service-fabrik-apiserver/pkg/client/clientset_generated/clientset/typed/deployment/v1alpha1"
 	fakedeploymentv1alpha1 "github.com/cloudfoundry-incubator/service-fabrik-apiserver/pkg/client/clientset_generated/clientset/typed/deployment/v1alpha1/fake"
 	lockv1alpha1 "github.com/cloudfoundry-incubator/service-fabrik-apiserver/pkg/client/clientset_generated/clientset/typed/lock/v1alpha1"
@@ -57,6 +59,16 @@ func (c *Clientset) BackupV1alpha1() backupv1alpha1.BackupV1alpha1Interface {
 // Backup retrieves the BackupV1alpha1Client
 func (c *Clientset) Backup() backupv1alpha1.BackupV1alpha1Interface {
 	return &fakebackupv1alpha1.FakeBackupV1alpha1{Fake: &c.Fake}
+}
+
+// BindV1alpha1 retrieves the BindV1alpha1Client
+func (c *Clientset) BindV1alpha1() bindv1alpha1.BindV1alpha1Interface {
+	return &fakebindv1alpha1.FakeBindV1alpha1{Fake: &c.Fake}
+}
+
+// Bind retrieves the BindV1alpha1Client
+func (c *Clientset) Bind() bindv1alpha1.BindV1alpha1Interface {
+	return &fakebindv1alpha1.FakeBindV1alpha1{Fake: &c.Fake}
 }
 
 // DeploymentV1alpha1 retrieves the DeploymentV1alpha1Client

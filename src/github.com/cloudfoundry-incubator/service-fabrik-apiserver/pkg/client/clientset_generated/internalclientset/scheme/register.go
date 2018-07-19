@@ -3,6 +3,7 @@ package scheme
 
 import (
 	backup "github.com/cloudfoundry-incubator/service-fabrik-apiserver/pkg/apis/backup/install"
+	bind "github.com/cloudfoundry-incubator/service-fabrik-apiserver/pkg/apis/bind/install"
 	deployment "github.com/cloudfoundry-incubator/service-fabrik-apiserver/pkg/apis/deployment/install"
 	lock "github.com/cloudfoundry-incubator/service-fabrik-apiserver/pkg/apis/lock/install"
 	announced "k8s.io/apimachinery/pkg/apimachinery/announced"
@@ -29,6 +30,7 @@ func init() {
 // Install registers the API group and adds types to a scheme
 func Install(groupFactoryRegistry announced.APIGroupFactoryRegistry, registry *registered.APIRegistrationManager, scheme *runtime.Scheme) {
 	backup.Install(groupFactoryRegistry, registry, scheme)
+	bind.Install(groupFactoryRegistry, registry, scheme)
 	deployment.Install(groupFactoryRegistry, registry, scheme)
 	lock.Install(groupFactoryRegistry, registry, scheme)
 

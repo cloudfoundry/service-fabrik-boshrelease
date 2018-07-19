@@ -21,6 +21,8 @@ package apis
 import (
 	"github.com/cloudfoundry-incubator/service-fabrik-apiserver/pkg/apis/backup"
 	backupv1alpha1 "github.com/cloudfoundry-incubator/service-fabrik-apiserver/pkg/apis/backup/v1alpha1"
+	"github.com/cloudfoundry-incubator/service-fabrik-apiserver/pkg/apis/bind"
+	bindv1alpha1 "github.com/cloudfoundry-incubator/service-fabrik-apiserver/pkg/apis/bind/v1alpha1"
 	"github.com/cloudfoundry-incubator/service-fabrik-apiserver/pkg/apis/deployment"
 	deploymentv1alpha1 "github.com/cloudfoundry-incubator/service-fabrik-apiserver/pkg/apis/deployment/v1alpha1"
 	"github.com/cloudfoundry-incubator/service-fabrik-apiserver/pkg/apis/lock"
@@ -33,6 +35,7 @@ import (
 func GetAllApiBuilders() []*builders.APIGroupBuilder {
 	return []*builders.APIGroupBuilder{
 		GetBackupAPIBuilder(),
+		GetBindAPIBuilder(),
 		GetDeploymentAPIBuilder(),
 		GetLockAPIBuilder(),
 	}
@@ -49,6 +52,19 @@ var backupApiGroup = builders.NewApiGroupBuilder(
 
 func GetBackupAPIBuilder() *builders.APIGroupBuilder {
 	return backupApiGroup
+}
+
+var bindApiGroup = builders.NewApiGroupBuilder(
+	"bind.servicefabrik.io",
+	"github.com/cloudfoundry-incubator/service-fabrik-apiserver/pkg/apis/bind").
+	WithUnVersionedApi(bind.ApiVersion).
+	WithVersionedApis(
+		bindv1alpha1.ApiVersion,
+	).
+	WithRootScopedKinds()
+
+func GetBindAPIBuilder() *builders.APIGroupBuilder {
+	return bindApiGroup
 }
 
 var deploymentApiGroup = builders.NewApiGroupBuilder(

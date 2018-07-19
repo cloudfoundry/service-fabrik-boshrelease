@@ -1,0 +1,7 @@
+note: Docker Example
+sample: |
+  apiVersion: deployment.servicefabrik.io/v1alpha1
+  kind: Docker
+  metadata:
+    name: docker-example
+  spec:
