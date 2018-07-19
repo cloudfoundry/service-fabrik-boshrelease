@@ -17,3 +17,5 @@ consumes:
   type: broker
 - name: scheduler
   type: scheduler
+- name: service-fabrik-apiserver
+  type: service-fabrik-apiserver

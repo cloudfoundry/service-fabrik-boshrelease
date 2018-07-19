@@ -51,6 +51,8 @@ consumes:
   type: broker
 - name: deployment_hooks
   type: deployment_hooks
+- name: service-fabrik-apiserver
+  type: service-fabrik-apiserver
 
 properties:
   scheduler.name:
