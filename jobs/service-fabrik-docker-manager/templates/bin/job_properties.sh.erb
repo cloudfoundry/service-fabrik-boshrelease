@@ -1,0 +1,15 @@
+#!/bin/bash
+#
+# Service-Fabrik-Docker-Manager properties
+#
+# Directory to store the configuration files
+export CONF_DIR=$JOB_DIR/config
+
+# Node environment
+export NODE_ENV=production
+
+# configuration file location
+export SETTINGS_PATH=$CONF_DIR/settings.yml
+
+# Node binary
+export NODE_CMD=/var/vcap/packages/node/bin/node

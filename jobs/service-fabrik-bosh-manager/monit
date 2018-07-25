@@ -1,0 +1,5 @@
+check process service-fabrik-bosh-manager with pidfile /var/vcap/sys/run/service-fabrik-bosh-manager/service-fabrik-bosh-manager.pid
+  group vcap
+  depends on service-fabrik-apiserver
+  start program "/var/vcap/packages/bosh-helpers/monit_debugger service-fabrik-bosh-manager_ctl '/var/vcap/jobs/service-fabrik-bosh-manager/bin/service-fabrik-bosh-manager_ctl start'"
+  stop program "/var/vcap/packages/bosh-helpers/monit_debugger service-fabrik-bosh-manager_ctl '/var/vcap/jobs/service-fabrik-bosh-manager/bin/service-fabrik-bosh-manager_ctl stop'"

@@ -1,0 +1,39 @@
+<%
+  def ostruct_to_hash(os)
+    os.marshal_dump.map do |key, value|
+      { key => value.is_a?(OpenStruct) ? ostruct_to_hash(value) : value }
+    end.reduce(&:merge)
+  end
+
+  broker_name = link("broker").p('name')
+  log_path = "/var/vcap/sys/log/service-fabrik-bosh-manager/service-fabrik-bosh-manager.log"
+  external = link("broker").p('external')
+  internal = link("broker").p('internal')
+%>---
+production:
+  ####################
+  # GENERAL SETTINGS #
+  ####################
+  session_store:
+    path: <%= "/var/vcap/store/#{broker_name}/session" %>
+  log_path: <%= log_path %>
+  log_level: <%= link("broker").p('log_level') %>
+  ##############################
+  # APISERVER SETTINGS #
+  ##############################
+  apiserver:
+    ip: <%= link("service-fabrik-apiserver").p('ip') %>
+    port: <%= link("service-fabrik-apiserver").p('port') %>
+
+  etcd:
+    url: <%= link("broker").p('etcd.url') %>
+    ssl: <%= JSON.dump(link("broker").p('etcd.ssl')) %>
+
+  #####################
+  # DIRECTOR SETTINGS #
+  #####################
+  directors: <%= JSON.dump(link("broker").p('directors')) %>
+  ####################
+  # SERVICES CATALOG #
+  ####################
+  services: <%= JSON.pretty_generate(link("broker").p('services')) %>

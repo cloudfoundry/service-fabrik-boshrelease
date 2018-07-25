@@ -1,0 +1,40 @@
+<%
+  def ostruct_to_hash(os)
+    os.marshal_dump.map do |key, value|
+      { key => value.is_a?(OpenStruct) ? ostruct_to_hash(value) : value }
+    end.reduce(&:merge)
+  end
+
+  broker_name = link("broker").p('name')
+  log_path = "/var/vcap/sys/log/service-fabrik-docker-manager/service-fabrik-docker-manager.log"
+  external = link("broker").p('external')
+  internal = link("broker").p('internal')
+%>---
+production:
+  ####################
+  # GENERAL SETTINGS #
+  ####################
+  log_path: <%= log_path %>
+  log_level: <%= link("broker").p('log_level') %>
+  ##############################
+  # APISERVER SETTINGS #
+  ##############################
+  apiserver:
+    ip: <%= link("service-fabrik-apiserver").p('ip') %>
+    port: <%= link("service-fabrik-apiserver").p('port') %>
+
+  ###################
+  # DOCKER SETTINGS #
+  ###################
+  docker:
+    url: <%= link("broker").p('docker.url') %>
+    allocate_docker_host_ports: <%= link("broker").p('docker.allocate_docker_host_ports') %>
+    volume_driver: <%= link("broker").p('docker.volume_driver') %>
+    ssl:
+      ca: <%= JSON.dump(link("broker").p('common.tls_cacert')) %>
+      cert: <%= JSON.dump(link("broker").p('common.tls_client_cert')) %>
+      key: <%= JSON.dump(link("broker").p('common.tls_client_key')) %>
+  ####################
+  # SERVICES CATALOG #
+  ####################
+  services: <%= JSON.pretty_generate(link("broker").p('services')) %>

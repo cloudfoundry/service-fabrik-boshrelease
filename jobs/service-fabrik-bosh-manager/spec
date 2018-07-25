@@ -1,0 +1,19 @@
+---
+name: service-fabrik-bosh-manager
+
+packages:
+  - bosh-helpers
+  - node
+  - service-fabrik-broker
+
+templates:
+  bin/service-fabrik-bosh-manager_ctl.erb: bin/service-fabrik-bosh-manager_ctl
+  bin/job_properties.sh.erb: bin/job_properties.sh
+  config/settings.yml.erb: config/settings.yml
+  config/syslog_forwarding.conf.erb: config/syslog_forwarding.conf
+
+consumes:
+- name: broker
+  type: broker
+- name: service-fabrik-apiserver
+  type: service-fabrik-apiserver
