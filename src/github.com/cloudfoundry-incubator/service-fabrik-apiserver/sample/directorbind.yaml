@@ -1,0 +1,5 @@
+apiVersion: bind.servicefabrik.io/v1alpha1
+kind: DirectorBind
+metadata:
+  name: directorbind-example
+spec:

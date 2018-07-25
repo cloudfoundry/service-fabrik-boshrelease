@@ -9,6 +9,7 @@ import (
 type DeploymentInterface interface {
 	RESTClient() rest.Interface
 	DirectorsGetter
+	DockersGetter
 }
 
 // DeploymentClient is used to interact with features provided by the deployment.servicefabrik.io group.
@@ -18,6 +19,10 @@ type DeploymentClient struct {
 
 func (c *DeploymentClient) Directors(namespace string) DirectorInterface {
 	return newDirectors(c, namespace)
+}
+
+func (c *DeploymentClient) Dockers(namespace string) DockerInterface {
+	return newDockers(c, namespace)
 }
 
 // NewForConfig creates a new DeploymentClient for the given config.

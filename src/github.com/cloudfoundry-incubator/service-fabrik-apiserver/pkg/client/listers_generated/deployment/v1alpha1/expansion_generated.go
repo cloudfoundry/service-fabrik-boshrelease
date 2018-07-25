@@ -11,3 +11,11 @@ type DirectorListerExpansion interface{}
 // DirectorNamespaceListerExpansion allows custom methods to be added to
 // DirectorNamespaceLister.
 type DirectorNamespaceListerExpansion interface{}
+
+// DockerListerExpansion allows custom methods to be added to
+// DockerLister.
+type DockerListerExpansion interface{}
+
+// DockerNamespaceListerExpansion allows custom methods to be added to
+// DockerNamespaceLister.
+type DockerNamespaceListerExpansion interface{}

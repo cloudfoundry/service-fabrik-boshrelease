@@ -7,6 +7,7 @@ package externalversions
 import (
 	"fmt"
 	v1alpha1 "github.com/cloudfoundry-incubator/service-fabrik-apiserver/pkg/apis/backup/v1alpha1"
+	bind_v1alpha1 "github.com/cloudfoundry-incubator/service-fabrik-apiserver/pkg/apis/bind/v1alpha1"
 	deployment_v1alpha1 "github.com/cloudfoundry-incubator/service-fabrik-apiserver/pkg/apis/deployment/v1alpha1"
 	lock_v1alpha1 "github.com/cloudfoundry-incubator/service-fabrik-apiserver/pkg/apis/lock/v1alpha1"
 	schema "k8s.io/apimachinery/pkg/runtime/schema"
@@ -43,9 +44,17 @@ func (f *sharedInformerFactory) ForResource(resource schema.GroupVersionResource
 	case v1alpha1.SchemeGroupVersion.WithResource("defaultbackups"):
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Backup().V1alpha1().DefaultBackups().Informer()}, nil
 
+		// Group=bind.servicefabrik.io, Version=v1alpha1
+	case bind_v1alpha1.SchemeGroupVersion.WithResource("directorbinds"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Bind().V1alpha1().DirectorBinds().Informer()}, nil
+	case bind_v1alpha1.SchemeGroupVersion.WithResource("dockerbinds"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Bind().V1alpha1().DockerBinds().Informer()}, nil
+
 		// Group=deployment.servicefabrik.io, Version=v1alpha1
 	case deployment_v1alpha1.SchemeGroupVersion.WithResource("directors"):
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Deployment().V1alpha1().Directors().Informer()}, nil
+	case deployment_v1alpha1.SchemeGroupVersion.WithResource("dockers"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Deployment().V1alpha1().Dockers().Informer()}, nil
 
 		// Group=lock.servicefabrik.io, Version=v1alpha1
 	case lock_v1alpha1.SchemeGroupVersion.WithResource("deploymentlocks"):

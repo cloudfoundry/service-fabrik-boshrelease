@@ -7,6 +7,7 @@ package externalversions
 import (
 	clientset "github.com/cloudfoundry-incubator/service-fabrik-apiserver/pkg/client/clientset_generated/clientset"
 	backup "github.com/cloudfoundry-incubator/service-fabrik-apiserver/pkg/client/informers_generated/externalversions/backup"
+	bind "github.com/cloudfoundry-incubator/service-fabrik-apiserver/pkg/client/informers_generated/externalversions/bind"
 	deployment "github.com/cloudfoundry-incubator/service-fabrik-apiserver/pkg/client/informers_generated/externalversions/deployment"
 	internalinterfaces "github.com/cloudfoundry-incubator/service-fabrik-apiserver/pkg/client/informers_generated/externalversions/internalinterfaces"
 	lock "github.com/cloudfoundry-incubator/service-fabrik-apiserver/pkg/client/informers_generated/externalversions/lock"
@@ -111,12 +112,17 @@ type SharedInformerFactory interface {
 	WaitForCacheSync(stopCh <-chan struct{}) map[reflect.Type]bool
 
 	Backup() backup.Interface
+	Bind() bind.Interface
 	Deployment() deployment.Interface
 	Lock() lock.Interface
 }
 
 func (f *sharedInformerFactory) Backup() backup.Interface {
 	return backup.New(f, f.namespace, f.tweakListOptions)
+}
+
+func (f *sharedInformerFactory) Bind() bind.Interface {
+	return bind.New(f, f.namespace, f.tweakListOptions)
 }
 
 func (f *sharedInformerFactory) Deployment() deployment.Interface {

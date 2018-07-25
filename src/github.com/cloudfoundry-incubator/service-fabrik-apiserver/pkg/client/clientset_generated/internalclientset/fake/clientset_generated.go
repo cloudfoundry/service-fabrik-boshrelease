@@ -5,6 +5,8 @@ import (
 	clientset "github.com/cloudfoundry-incubator/service-fabrik-apiserver/pkg/client/clientset_generated/internalclientset"
 	backupinternalversion "github.com/cloudfoundry-incubator/service-fabrik-apiserver/pkg/client/clientset_generated/internalclientset/typed/backup/internalversion"
 	fakebackupinternalversion "github.com/cloudfoundry-incubator/service-fabrik-apiserver/pkg/client/clientset_generated/internalclientset/typed/backup/internalversion/fake"
+	bindinternalversion "github.com/cloudfoundry-incubator/service-fabrik-apiserver/pkg/client/clientset_generated/internalclientset/typed/bind/internalversion"
+	fakebindinternalversion "github.com/cloudfoundry-incubator/service-fabrik-apiserver/pkg/client/clientset_generated/internalclientset/typed/bind/internalversion/fake"
 	deploymentinternalversion "github.com/cloudfoundry-incubator/service-fabrik-apiserver/pkg/client/clientset_generated/internalclientset/typed/deployment/internalversion"
 	fakedeploymentinternalversion "github.com/cloudfoundry-incubator/service-fabrik-apiserver/pkg/client/clientset_generated/internalclientset/typed/deployment/internalversion/fake"
 	lockinternalversion "github.com/cloudfoundry-incubator/service-fabrik-apiserver/pkg/client/clientset_generated/internalclientset/typed/lock/internalversion"
@@ -52,6 +54,11 @@ var _ clientset.Interface = &Clientset{}
 // Backup retrieves the BackupClient
 func (c *Clientset) Backup() backupinternalversion.BackupInterface {
 	return &fakebackupinternalversion.FakeBackup{Fake: &c.Fake}
+}
+
+// Bind retrieves the BindClient
+func (c *Clientset) Bind() bindinternalversion.BindInterface {
+	return &fakebindinternalversion.FakeBind{Fake: &c.Fake}
 }
 
 // Deployment retrieves the DeploymentClient

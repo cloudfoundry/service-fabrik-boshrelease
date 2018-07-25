@@ -3,6 +3,7 @@ package internalclientset
 
 import (
 	backupinternalversion "github.com/cloudfoundry-incubator/service-fabrik-apiserver/pkg/client/clientset_generated/internalclientset/typed/backup/internalversion"
+	bindinternalversion "github.com/cloudfoundry-incubator/service-fabrik-apiserver/pkg/client/clientset_generated/internalclientset/typed/bind/internalversion"
 	deploymentinternalversion "github.com/cloudfoundry-incubator/service-fabrik-apiserver/pkg/client/clientset_generated/internalclientset/typed/deployment/internalversion"
 	lockinternalversion "github.com/cloudfoundry-incubator/service-fabrik-apiserver/pkg/client/clientset_generated/internalclientset/typed/lock/internalversion"
 	glog "github.com/golang/glog"
@@ -14,6 +15,7 @@ import (
 type Interface interface {
 	Discovery() discovery.DiscoveryInterface
 	Backup() backupinternalversion.BackupInterface
+	Bind() bindinternalversion.BindInterface
 	Deployment() deploymentinternalversion.DeploymentInterface
 	Lock() lockinternalversion.LockInterface
 }
@@ -23,6 +25,7 @@ type Interface interface {
 type Clientset struct {
 	*discovery.DiscoveryClient
 	backup     *backupinternalversion.BackupClient
+	bind       *bindinternalversion.BindClient
 	deployment *deploymentinternalversion.DeploymentClient
 	lock       *lockinternalversion.LockClient
 }
@@ -30,6 +33,11 @@ type Clientset struct {
 // Backup retrieves the BackupClient
 func (c *Clientset) Backup() backupinternalversion.BackupInterface {
 	return c.backup
+}
+
+// Bind retrieves the BindClient
+func (c *Clientset) Bind() bindinternalversion.BindInterface {
+	return c.bind
 }
 
 // Deployment retrieves the DeploymentClient
@@ -62,6 +70,10 @@ func NewForConfig(c *rest.Config) (*Clientset, error) {
 	if err != nil {
 		return nil, err
 	}
+	cs.bind, err = bindinternalversion.NewForConfig(&configShallowCopy)
+	if err != nil {
+		return nil, err
+	}
 	cs.deployment, err = deploymentinternalversion.NewForConfig(&configShallowCopy)
 	if err != nil {
 		return nil, err
@@ -84,6 +96,7 @@ func NewForConfig(c *rest.Config) (*Clientset, error) {
 func NewForConfigOrDie(c *rest.Config) *Clientset {
 	var cs Clientset
 	cs.backup = backupinternalversion.NewForConfigOrDie(c)
+	cs.bind = bindinternalversion.NewForConfigOrDie(c)
 	cs.deployment = deploymentinternalversion.NewForConfigOrDie(c)
 	cs.lock = lockinternalversion.NewForConfigOrDie(c)
 
@@ -95,6 +108,7 @@ func NewForConfigOrDie(c *rest.Config) *Clientset {
 func New(c rest.Interface) *Clientset {
 	var cs Clientset
 	cs.backup = backupinternalversion.New(c)
+	cs.bind = bindinternalversion.New(c)
 	cs.deployment = deploymentinternalversion.New(c)
 	cs.lock = lockinternalversion.New(c)
 
