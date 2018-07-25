@@ -13,9 +13,7 @@ case $1 in
         --pid=${RUN_DIR}/keepalived.pid \
         --vrrp_pid=${RUN_DIR}/vrrp.pid \
         --checkers_pid=${RUN_DIR}/checkers.pid \
-        --log-file=${LOG_DIR}/${OUTPUT_LABEL}.log \
-        >> ${LOG_DIR}/${OUTPUT_LABEL}.stdout.log \
-        2>> ${LOG_DIR}/${OUTPUT_LABEL}.stderr.log
+	>> ${LOG_DIR}/keepalived.log 2>&1 &
     ;;
 
   stop)

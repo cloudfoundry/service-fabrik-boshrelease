@@ -41,10 +41,10 @@ if [[ "$iaas_name" == "aws" ]]; then
   if [[ "$STATE" == "MASTER" ]]; then
     network_metadata=$("$AWS_CLI_CMD" ec2 describe-network-interfaces --filter "Name=private-ip-address,Values=${SOURCE_IP}" | "${JQ_CMD}" -r --arg SUBNET_ID "$SUBNET_ID" '.[][] | select(.SubnetId==$SUBNET_ID)')
     export ENI_ID=$(echo "$network_metadata" | "${JQ_CMD}" -r '.NetworkInterfaceId')
-    $AWS_CLI_CMD ec2 assign-private-ip-addresses --network-interface-id $ENI_ID --allow-reassignment --private-ip-addresses $virtual_ip
-    attach_vip_to_interface
+    $AWS_CLI_CMD ec2 assign-private-ip-addresses --network-interface-id $ENI_ID --allow-reassignment --private-ip-addresses $virtual_ip >> /var/vcap/sys/log/keepalived/keepalived.log 2>&1
+    attach_vip_to_interface >> /var/vcap/sys/log/keepalived/keepalived.log 2>&1
   elif [[ "$STATE" == "BACKUP" ]] || [[ "$STATE" == "FAULT" ]]; then
-    detach_vip_from_interface
+    detach_vip_from_interface >> /var/vcap/sys/log/keepalived/keepalived.log 2>&1
   fi
 elif [[ "$iaas_name" == "openstack"  ]]; then
   # shellcheck disable=SC1091
@@ -56,10 +56,10 @@ elif [[ "$iaas_name" == "openstack"  ]]; then
     peer_port_id=$(get_port_id "${PEER_IP}")
     port_update_response=$(update_port "${peer_port_id}")
     port_update_response=$(update_port "${this_port_id}" "${virtual_ip}")
-    attach_vip_to_interface
+    attach_vip_to_interface >> /var/vcap/sys/log/keepalived/keepalived.log 2>&1
   elif [[ "$STATE" == "BACKUP" ]] || [[ "$STATE" == "FAULT" ]]; then
     port_update_response=$(update_port "${this_port_id}")
-    detach_vip_from_interface
+    detach_vip_from_interface >> /var/vcap/sys/log/keepalived/keepalived.log 2>&1
   fi
 fi
 exit 0

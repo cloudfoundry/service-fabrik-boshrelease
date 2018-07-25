@@ -34,13 +34,13 @@ generate_auth_token(){
     "${OS_AUTH_URL}/auth/tokens")
     RET=$?
     if [[ $RET -ne 0 ]] ; then
-        echo "$(date) [ERROR] - HTTP Error:  ${token_response}"
+        echo "$(date) [ERROR] - HTTP Error:  ${token_response}" >> /var/vcap/sys/log/keepalived/keepalived.log 2>&1
         exit ${RET}
     fi
     OS_CATALOG=$(echo "${token_response}" | ${JQ_CMD} -r .token.catalog[])
     RET=$?
     if [[ $RET -ne 0 ]] ; then
-        echo "$(date) [ERROR] - While parsing :  ${token_response} to get catalog ${OS_CATALOG}"
+        echo "$(date) [ERROR] - While parsing :  ${token_response} to get catalog ${OS_CATALOG}" >> /var/vcap/sys/log/keepalived/keepalived.log 2>&1
         exit ${RET}
     fi
     export OS_CATALOG
@@ -48,7 +48,7 @@ generate_auth_token(){
         -r '. | select(.type=="network") | .endpoints[] | select(.interface=="public") | .url')"
     RET=$?
     if [[ $RET -ne 0 ]] ; then
-        echo "$(date) [ERROR] - While parsing : ${OS_CATALOG} to get network public url ${NETWORK_PUBLIC_URL}"
+        echo "$(date) [ERROR] - While parsing : ${OS_CATALOG} to get network public url ${NETWORK_PUBLIC_URL}" >> /var/vcap/sys/log/keepalived/keepalived.log 2>&1
         exit ${RET}
     fi
     export NETWORK_PUBLIC_URL
@@ -58,7 +58,7 @@ generate_auth_token(){
         "${OS_AUTH_URL}/auth/tokens" -X POST | awk '/X-Subject-Token/ {print $2}' )"
     RET=$?
     if [[ $RET -ne 0 ]] || [[ -z "${OS_TOKEN}" ]] ; then
-        echo "$(date) [ERROR] - HTTP Error or token not generated: ${OS_TOKEN}"
+        echo "$(date) [ERROR] - HTTP Error or token not generated: ${OS_TOKEN}" >> /var/vcap/sys/log/keepalived/keepalived.log 2>&1
         exit ${RET}
     fi
     export OS_TOKEN
