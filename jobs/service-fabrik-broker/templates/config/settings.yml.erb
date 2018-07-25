@@ -78,6 +78,12 @@ production:
     <% end.else do %>
     protocol: 'http'
     <% end %>
+  ##############################
+  # APISERVER SETTINGS #
+  ##############################
+  apiserver:
+    ip: <%= link("service-fabrik-apiserver").p('ip') %>
+    port: <%= link("service-fabrik-apiserver").p('port') %>
 
   #############################
   # DEPLOYMENT HOOKS SETTINGS #

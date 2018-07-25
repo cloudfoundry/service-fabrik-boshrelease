@@ -16,12 +16,19 @@ provides:
 - name: service-fabrik-apiserver
   type: service-fabrik-apiserver
   properties:
+  - ip
+  - port
   - etcd.url
   - etcd.ssl.ca
   - etcd.ssl.crt
   - etcd.ssl.key
 
 properties:
+  ip:
+    description: IP address used for apiserver
+  port:
+    description: Port used for apiserver
+    default: 9443
   etcd.url:
     description: ETCD host URL to connect
   etcd.ssl.ca:
