@@ -1,0 +1,7 @@
+note: Virtualhostbind Example
+sample: |
+  apiVersion: bind.servicefabrik.io/v1alpha1
+  kind: Virtualhostbind
+  metadata:
+    name: virtualhostbind-example
+  spec:
