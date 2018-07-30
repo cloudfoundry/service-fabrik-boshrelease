@@ -1,0 +1,31 @@
+{
+        "ImportPath": "iaas-utils",
+        "GoVersion": "go1.10",
+        "GodepVersion": "v80",
+        "Deps": [
+                {
+                        "ImportPath": "golang.org/x/net/context",
+                        "Rev": "3673e40ba22529d22c3fd7c93e97b0ce50fa7bdd"
+                },
+                {
+                        "ImportPath": "golang.org/x/net/context/ctxhttp",
+                        "Rev": "3673e40ba22529d22c3fd7c93e97b0ce50fa7bdd"
+                },
+                {
+                        "ImportPath": "golang.org/x/oauth2",
+                        "Rev": "6881fee410a5daf86371371f9ad451b95e168b71"
+                },
+                {
+                        "ImportPath": "golang.org/x/oauth2/internal",
+                        "Rev": "6881fee410a5daf86371371f9ad451b95e168b71"
+                },
+                {
+                        "ImportPath": "golang.org/x/oauth2/jws",
+                        "Rev": "6881fee410a5daf86371371f9ad451b95e168b71"
+                },
+                {
+                        "ImportPath": "golang.org/x/oauth2/jwt",
+                        "Rev": "6881fee410a5daf86371371f9ad451b95e168b71"
+                }
+        ]
+}
