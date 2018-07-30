@@ -58,7 +58,7 @@ generate_auth_token(){
         "${OS_AUTH_URL}/auth/tokens" -X POST | awk '/X-Subject-Token/ {print $2}' )"
     RET=$?
     if [[ $RET -ne 0 ]] || [[ -z "${OS_TOKEN}" ]] ; then
-        echo "$(date) [ERROR] - HTTP Error or token not generated: ${OS_TOKEN}" >> /var/vcap/sys/log/keepalived/keepalived.log 2>&1
+        echo "$(date) [ERROR] - HTTP Error or token not generated: ${OS_TOKEN} from ${token_response}" >> /var/vcap/sys/log/keepalived/keepalived.log 2>&1
         exit ${RET}
     fi
     export OS_TOKEN
