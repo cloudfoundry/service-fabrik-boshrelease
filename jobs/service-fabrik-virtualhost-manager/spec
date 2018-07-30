@@ -1,0 +1,21 @@
+---
+name: service-fabrik-virtualhost-manager
+
+packages:
+  - bosh-helpers
+  - node
+  - service-fabrik-broker
+
+templates:
+  bin/service-fabrik-virtualhost-manager_ctl.erb: bin/service-fabrik-virtualhost-manager_ctl
+  bin/job_properties.sh.erb: bin/job_properties.sh
+  config/settings.yml.erb: config/settings.yml
+  config/syslog_forwarding.conf.erb: config/syslog_forwarding.conf
+
+consumes:
+- name: broker
+  type: broker
+- name: scheduler
+  type: scheduler
+- name: service-fabrik-apiserver
+  type: service-fabrik-apiserver
