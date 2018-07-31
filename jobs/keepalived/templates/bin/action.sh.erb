@@ -1,5 +1,4 @@
 #!/bin/bash
-set -e
 STATE=$1
 iaas_name='<%= p('iaas_config.name', nil) %>'
 SOURCE_IP=<%= spec.ip %>
@@ -16,7 +15,8 @@ attach_vip_to_interface(){
     attach_vip_response=$(sudo ip addr add "${virtual_ip}" dev eth0)
     RET=$?
     if [[ $RET -ne 0 ]] ; then
-      echo "$(date) [INFO] Attach vip ${virtual_ip}: ${attach_vip_response}" >> /var/vcap/sys/log/keepalived/keepalived.log 2>&1
+      echo "$(date) [ERROR] Attach vip ${virtual_ip}: ${attach_vip_response}" >> /var/vcap/sys/log/keepalived/keepalived.log 2>&1
+      exit ${RET}
     fi
   fi
 }
@@ -26,7 +26,8 @@ detach_vip_from_interface(){
   detach_vip_response=$(sudo ip addr del "${virtual_ip}"/32 dev eth0)
   RET=$?
   if [[ $RET -ne 0 ]] ; then
-    echo "$(date) [INFO] Detach vip ${virtual_ip}:  ${detach_vip_response}" >> /var/vcap/sys/log/keepalived/keepalived.log 2>&1
+    echo "$(date) [ERROR] Detach vip ${virtual_ip}:  ${detach_vip_response}" >> /var/vcap/sys/log/keepalived/keepalived.log 2>&1
+    exit ${RET}
   fi
   set -e
 }
@@ -50,17 +51,20 @@ if [[ "$iaas_name" == "aws" ]]; then
     network_metadata=$("$AWS_CLI_CMD" ec2 describe-network-interfaces --filter "Name=private-ip-address,Values=${SOURCE_IP}" | "${JQ_CMD}" -r --arg SUBNET_ID "$SUBNET_ID" '.[][] | select(.SubnetId==$SUBNET_ID)')
     RET=$?
     if [[ $RET -ne 0 ]] ; then
-      echo "$(date) [INFO] Network metadata: ${network_metadata}" >> /var/vcap/sys/log/keepalived/keepalived.log 2>&1
+      echo "$(date) [ERROR] Network metadata: ${network_metadata}" >> /var/vcap/sys/log/keepalived/keepalived.log 2>&1
+      exit ${RET}
     fi
     export ENI_ID=$(echo "$network_metadata" | "${JQ_CMD}" -r '.NetworkInterfaceId')
     RET=$?
     if [[ $RET -ne 0 ]] ; then
-      echo "$(date) [INFO] ENI Id: ${ENI_ID}" >> /var/vcap/sys/log/keepalived/keepalived.log 2>&1
+      echo "$(date) [ERROR] ENI Id: ${ENI_ID}" >> /var/vcap/sys/log/keepalived/keepalived.log 2>&1
+      exit ${RET}
     fi
     ip_attachement_response=$(${AWS_CLI_CMD} ec2 assign-private-ip-addresses --network-interface-id ${ENI_ID} --allow-reassignment --private-ip-addresses ${virtual_ip})
     RET=$?
     if [[ $RET -ne 0 ]] ; then
-      echo "$(date) [INFO] AWS secondary ip addr attachment response: ${ip_attachement_response}" >> /var/vcap/sys/log/keepalived/keepalived.log 2>&1
+      echo "$(date) [ERROR] AWS secondary ip addr attachment response: ${ip_attachement_response}" >> /var/vcap/sys/log/keepalived/keepalived.log 2>&1
+      exit ${RET}
     fi
     attach_vip_to_interface
   elif [[ "$STATE" == "BACKUP" ]] || [[ "$STATE" == "FAULT" ]]; then
