@@ -144,6 +144,9 @@ instance_groups:
         backup_restore_status_check_every: 120000
         backup_restore_status_poller_timeout: 86400000
         max_num_on_demand_backup: 2
+        num_of_allowed_restores: 10
+        restore_history_days: 30
+        reschedule_backup_delay_after_restore: 3
         provider:
           authUrl: null
           container: null

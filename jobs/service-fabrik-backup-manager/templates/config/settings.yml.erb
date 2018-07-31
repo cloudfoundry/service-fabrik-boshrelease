@@ -102,6 +102,9 @@ production:
     backup_restore_status_check_every: <%= link("broker").p('backup.backup_restore_status_check_every') %>
     abort_time_out: <%= link("broker").p('backup.abort_time_out') %>
     consecutive_backup_failure_sla_count: <%= link("broker").p('backup.consecutive_backup_failure_sla_count') %>
+    num_of_allowed_restores: <%= link("broker").p('backup.num_of_allowed_restores') %>
+    restore_history_days: <%= link("broker").p('backup.restore_history_days') %>
+    reschedule_backup_delay_after_restore: <%= link("broker").p('backup.reschedule_backup_delay_after_restore') %>
     provider: <%= JSON.dump(link("broker").p('backup.provider', nil)) %>
 
   #################################
