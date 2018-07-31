@@ -2,15 +2,22 @@
 name: service-fabrik-apiserver
 
 packages:
-  - service-fabrik-apiserver
+- kubernetes
 
 templates:
-  bin/service-fabrik-apiserver.erb: bin/service-fabrik-apiserver
+  bin/ensure_apiserver_healthy.erb: bin/ensure_apiserver_healthy
+  bin/post-start.erb: bin/post-start
+  config/audit_policy.yml: config/audit_policy.yml
   config/bpm.yml.erb: config/bpm.yml
   config/etcd-ca.crt.erb: config/etcd-ca.crt
   config/etcd.crt.erb: config/etcd.crt
   config/etcd.key.erb: config/etcd.key
-
+  config/kubernetes-key.pem.erb: config/kubernetes-key.pem
+  config/kubernetes.pem.erb: config/kubernetes.pem
+  config/kubelet-client-key.pem.erb: config/kubelet-client-key.pem
+  config/kubelet-client-cert.pem.erb: config/kubelet-client-cert.pem
+  config/tokens.csv.erb: config/tokens.csv
+  config/service-account-public-key.pem.erb: config/service-account-public-key.pem
 
 provides:
 - name: service-fabrik-apiserver
@@ -22,8 +29,59 @@ provides:
   - etcd.ssl.ca
   - etcd.ssl.crt
   - etcd.ssl.key
+  - admin-username
+  - admin-password
+  - tls.kubernetes.ca
 
 properties:
+  deny_escalating_exec:
+    description: Enable the `DenyEscalatingExec` admission controller.
+    default: true
+  allow_privileged:
+    description: Allows privileged containers for the Kubernetes cluster
+    default: false
+  anonymous_auth:
+    description: |
+      Allows anonymous authentication for the API server. This is often useful
+      to allow unauthenticated users to view discovery endpoints such as
+      `/healthz` or `/version`. This is also useful when configuring load
+      balancer health checks against the TLS port.
+    default: true
+  enable_audit_logs:
+    description: Enables audit logs
+    default: true
+  logging-level:
+    description: "V-leveled logging at the specified level. See https://github.com/golang/glog"
+    default: 2
+  admin-username:
+    description: The admin username for the Kubernetes cluster
+  admin-password:
+    description: The password for the admin account
+  kube-controller-manager-password:
+    description: The password for the system:kube-controller-manager user
+  kubelet-password:
+    description: The password for the kubelet user
+  kubelet-drain-password:
+    description: The password for the kubelet drain user
+  kube-proxy-password:
+    description: The password for the kube-proxy user
+  kube-scheduler-password:
+    description: The password for the system:kube-scheduler user
+  route-sync-password:
+    description: The password for the route-sync user
+  service-cluster-cidr:
+    description: The service cluster IP cidr for hosting cluster services
+    default: "10.100.200.0/24"
+  tls.kubernetes.ca:
+    description: "CA Certificate for the Kubernetes master"
+  tls.kubernetes.certificate:
+    description: "Certificate for the Kubernetes master"
+  tls.kubernetes.private_key:
+    description: "Private key for the Kubernetes master"
+  tls.kubelet-client:
+    description: kubelet client cert
+  service-account-public-key:
+    description: "Public key used to verify service account tokens"
   ip:
     description: IP address used for apiserver
   port:
@@ -37,3 +95,8 @@ properties:
     description: Certificate for etcd client and server authentication
   etcd.ssl.key:
     description: Private key for etcd client and server authentication
+
+
+consumes:
+- name: service-fabrik-apiserver
+  type: service-fabrik-apiserver

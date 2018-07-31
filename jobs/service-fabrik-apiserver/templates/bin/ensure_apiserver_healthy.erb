@@ -1,0 +1,13 @@
+#!/bin/bash
+
+[ -z "$DEBUG" ] || set -x
+
+apiserver="https://127.0.0.1:<%= p("port") %>"
+token="<%= p("admin-password") %>"
+cert=/var/vcap/jobs/kube-apiserver/config/kubernetes.pem
+
+interval="2"
+
+until $(curl -X GET --fail -ks -o /dev/null   ${apiserver}/healthz --header "Authorization: Bearer ${token}" --cacert ${cert}); do
+  sleep $interval
+done
