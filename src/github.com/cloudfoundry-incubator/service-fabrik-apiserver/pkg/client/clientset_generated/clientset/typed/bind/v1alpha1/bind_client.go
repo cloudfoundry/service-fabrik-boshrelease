@@ -12,7 +12,6 @@ type BindV1alpha1Interface interface {
 	RESTClient() rest.Interface
 	DirectorBindsGetter
 	DockerBindsGetter
-	VirtualhostbindsGetter
 }
 
 // BindV1alpha1Client is used to interact with features provided by the bind.servicefabrik.io group.
@@ -26,10 +25,6 @@ func (c *BindV1alpha1Client) DirectorBinds(namespace string) DirectorBindInterfa
 
 func (c *BindV1alpha1Client) DockerBinds(namespace string) DockerBindInterface {
 	return newDockerBinds(c, namespace)
-}
-
-func (c *BindV1alpha1Client) Virtualhostbinds(namespace string) VirtualhostbindInterface {
-	return newVirtualhostbinds(c, namespace)
 }
 
 // NewForConfig creates a new BindV1alpha1Client for the given config.

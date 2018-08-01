@@ -57,8 +57,6 @@ func (si *SharedInformers) startInformers(shutdown <-chan struct{}) {
 	go si.Factory.Bind().V1alpha1().DirectorBinds().Informer().Run(shutdown)
 	go si.Factory.Deployment().V1alpha1().Dockers().Informer().Run(shutdown)
 	go si.Factory.Bind().V1alpha1().DockerBinds().Informer().Run(shutdown)
-	go si.Factory.Deployment().V1alpha1().Virtualhosts().Informer().Run(shutdown)
-	go si.Factory.Bind().V1alpha1().Virtualhostbinds().Informer().Run(shutdown)
 }
 
 // ControllerInitArguments are arguments provided to the Init function for a new controller.

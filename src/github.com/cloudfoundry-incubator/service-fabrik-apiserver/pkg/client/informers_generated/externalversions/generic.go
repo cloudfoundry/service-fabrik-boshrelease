@@ -49,16 +49,12 @@ func (f *sharedInformerFactory) ForResource(resource schema.GroupVersionResource
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Bind().V1alpha1().DirectorBinds().Informer()}, nil
 	case bind_v1alpha1.SchemeGroupVersion.WithResource("dockerbinds"):
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Bind().V1alpha1().DockerBinds().Informer()}, nil
-	case bind_v1alpha1.SchemeGroupVersion.WithResource("virtualhostbinds"):
-		return &genericInformer{resource: resource.GroupResource(), informer: f.Bind().V1alpha1().Virtualhostbinds().Informer()}, nil
 
 		// Group=deployment.servicefabrik.io, Version=v1alpha1
 	case deployment_v1alpha1.SchemeGroupVersion.WithResource("directors"):
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Deployment().V1alpha1().Directors().Informer()}, nil
 	case deployment_v1alpha1.SchemeGroupVersion.WithResource("dockers"):
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Deployment().V1alpha1().Dockers().Informer()}, nil
-	case deployment_v1alpha1.SchemeGroupVersion.WithResource("virtualhosts"):
-		return &genericInformer{resource: resource.GroupResource(), informer: f.Deployment().V1alpha1().Virtualhosts().Informer()}, nil
 
 		// Group=lock.servicefabrik.io, Version=v1alpha1
 	case lock_v1alpha1.SchemeGroupVersion.WithResource("deploymentlocks"):

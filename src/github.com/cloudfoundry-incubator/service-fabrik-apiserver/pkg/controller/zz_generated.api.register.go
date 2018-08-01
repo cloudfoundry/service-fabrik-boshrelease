@@ -26,8 +26,6 @@ import (
 	"github.com/cloudfoundry-incubator/service-fabrik-apiserver/pkg/controller/docker"
 	"github.com/cloudfoundry-incubator/service-fabrik-apiserver/pkg/controller/dockerbind"
 	"github.com/cloudfoundry-incubator/service-fabrik-apiserver/pkg/controller/sharedinformers"
-	"github.com/cloudfoundry-incubator/service-fabrik-apiserver/pkg/controller/virtualhost"
-	"github.com/cloudfoundry-incubator/service-fabrik-apiserver/pkg/controller/virtualhostbind"
 	"github.com/kubernetes-incubator/apiserver-builder/pkg/controller"
 	"k8s.io/client-go/rest"
 )
@@ -42,7 +40,5 @@ func GetAllControllers(config *rest.Config) ([]controller.Controller, chan struc
 		directorbind.NewDirectorBindController(config, si),
 		docker.NewDockerController(config, si),
 		dockerbind.NewDockerBindController(config, si),
-		virtualhost.NewVirtualhostController(config, si),
-		virtualhostbind.NewVirtualhostbindController(config, si),
 	}, shutdown
 }

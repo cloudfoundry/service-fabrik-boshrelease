@@ -10,7 +10,6 @@ type DeploymentInterface interface {
 	RESTClient() rest.Interface
 	DirectorsGetter
 	DockersGetter
-	VirtualhostsGetter
 }
 
 // DeploymentClient is used to interact with features provided by the deployment.servicefabrik.io group.
@@ -24,10 +23,6 @@ func (c *DeploymentClient) Directors(namespace string) DirectorInterface {
 
 func (c *DeploymentClient) Dockers(namespace string) DockerInterface {
 	return newDockers(c, namespace)
-}
-
-func (c *DeploymentClient) Virtualhosts(namespace string) VirtualhostInterface {
-	return newVirtualhosts(c, namespace)
 }
 
 // NewForConfig creates a new DeploymentClient for the given config.

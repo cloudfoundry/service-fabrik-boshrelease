@@ -19,10 +19,6 @@ func (c *FakeBindV1alpha1) DockerBinds(namespace string) v1alpha1.DockerBindInte
 	return &FakeDockerBinds{c, namespace}
 }
 
-func (c *FakeBindV1alpha1) Virtualhostbinds(namespace string) v1alpha1.VirtualhostbindInterface {
-	return &FakeVirtualhostbinds{c, namespace}
-}
-
 // RESTClient returns a RESTClient that is used to communicate
 // with API server by this client implementation.
 func (c *FakeBindV1alpha1) RESTClient() rest.Interface {

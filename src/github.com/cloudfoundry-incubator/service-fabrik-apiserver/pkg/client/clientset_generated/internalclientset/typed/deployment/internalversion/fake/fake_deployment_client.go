@@ -19,10 +19,6 @@ func (c *FakeDeployment) Dockers(namespace string) internalversion.DockerInterfa
 	return &FakeDockers{c, namespace}
 }
 
-func (c *FakeDeployment) Virtualhosts(namespace string) internalversion.VirtualhostInterface {
-	return &FakeVirtualhosts{c, namespace}
-}
-
 // RESTClient returns a RESTClient that is used to communicate
 // with API server by this client implementation.
 func (c *FakeDeployment) RESTClient() rest.Interface {

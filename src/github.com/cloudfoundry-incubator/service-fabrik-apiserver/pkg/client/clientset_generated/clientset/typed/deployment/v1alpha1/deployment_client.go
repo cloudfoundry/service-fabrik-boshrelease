@@ -12,7 +12,6 @@ type DeploymentV1alpha1Interface interface {
 	RESTClient() rest.Interface
 	DirectorsGetter
 	DockersGetter
-	VirtualhostsGetter
 }
 
 // DeploymentV1alpha1Client is used to interact with features provided by the deployment.servicefabrik.io group.
@@ -26,10 +25,6 @@ func (c *DeploymentV1alpha1Client) Directors(namespace string) DirectorInterface
 
 func (c *DeploymentV1alpha1Client) Dockers(namespace string) DockerInterface {
 	return newDockers(c, namespace)
-}
-
-func (c *DeploymentV1alpha1Client) Virtualhosts(namespace string) VirtualhostInterface {
-	return newVirtualhosts(c, namespace)
 }
 
 // NewForConfig creates a new DeploymentV1alpha1Client for the given config.

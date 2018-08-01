@@ -14,8 +14,6 @@ type Interface interface {
 	DirectorBinds() DirectorBindInformer
 	// DockerBinds returns a DockerBindInformer.
 	DockerBinds() DockerBindInformer
-	// Virtualhostbinds returns a VirtualhostbindInformer.
-	Virtualhostbinds() VirtualhostbindInformer
 }
 
 type version struct {
@@ -37,9 +35,4 @@ func (v *version) DirectorBinds() DirectorBindInformer {
 // DockerBinds returns a DockerBindInformer.
 func (v *version) DockerBinds() DockerBindInformer {
 	return &dockerBindInformer{factory: v.factory, namespace: v.namespace, tweakListOptions: v.tweakListOptions}
-}
-
-// Virtualhostbinds returns a VirtualhostbindInformer.
-func (v *version) Virtualhostbinds() VirtualhostbindInformer {
-	return &virtualhostbindInformer{factory: v.factory, namespace: v.namespace, tweakListOptions: v.tweakListOptions}
 }

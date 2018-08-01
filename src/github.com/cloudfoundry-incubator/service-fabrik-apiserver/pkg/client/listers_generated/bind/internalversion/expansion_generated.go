@@ -19,11 +19,3 @@ type DockerBindListerExpansion interface{}
 // DockerBindNamespaceListerExpansion allows custom methods to be added to
 // DockerBindNamespaceLister.
 type DockerBindNamespaceListerExpansion interface{}
-
-// VirtualhostbindListerExpansion allows custom methods to be added to
-// VirtualhostbindLister.
-type VirtualhostbindListerExpansion interface{}
-
-// VirtualhostbindNamespaceListerExpansion allows custom methods to be added to
-// VirtualhostbindNamespaceLister.
-type VirtualhostbindNamespaceListerExpansion interface{}
