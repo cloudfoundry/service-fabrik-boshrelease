@@ -6,8 +6,8 @@ TIMEOUT=60
 
 if timeout "$TIMEOUT" /var/vcap/jobs/service-fabrik-apiserver/bin/ensure_apiserver_healthy
 then
-  echo "Kubernetes api is healthy"
+  echo "Apiserver is healthy"
 else
-  echo "Waited for ${TIMEOUT}s, but kubernetes api is still not healthy"
+  echo "Waited for ${TIMEOUT}s, but Apiserver is still not healthy"
   exit 1
 fi

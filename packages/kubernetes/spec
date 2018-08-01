@@ -1,5 +1,0 @@
----
-name: kubernetes
-
-files:
-- kubernetes-1.11.1/*

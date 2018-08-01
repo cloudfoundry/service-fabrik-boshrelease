@@ -1,0 +1,7 @@
+set -e
+
+KUBERNETES_VERSION="1.11.1"
+
+mkdir -p "${BOSH_INSTALL_TARGET:?}/bin"
+cp -a kubernetes-${KUBERNETES_VERSION}/kube-apiserver "${BOSH_INSTALL_TARGET:?}/bin"
+chmod +x "${BOSH_INSTALL_TARGET:?}/bin/kube-apiserver"

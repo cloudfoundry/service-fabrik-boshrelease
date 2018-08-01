@@ -16,7 +16,7 @@
 %>
 processes:
 - name: service-fabrik-apiserver
-  executable: /var/vcap/packages/kubernetes/bin/kube-apiserver
+  executable: /var/vcap/packages/apiserver/bin/kube-apiserver
   args:
   - --anonymous-auth=<%= p('anonymous_auth') %>
   - --allow-privileged=<%= p('allow_privileged') %>
