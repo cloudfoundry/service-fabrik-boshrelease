@@ -83,6 +83,9 @@ provides:
   - backup.abort_time_out
   - backup.consecutive_backup_failure_sla_count
   - backup.provider
+  - backup.num_of_allowed_restores
+  - backup.restore_history_days
+  - backup.reschedule_backup_delay_after_restore
   - virtual_host.provider
   - docker.url
   - docker.skip_ssl_validation
@@ -277,6 +280,15 @@ properties:
   backup.status_check_every:
     description: "Interval in milliseconds to check the status of service fabrik backup"
     default: 120000
+  backup.num_of_allowed_restores:
+    description: "Number of allowed restore in backup.restore_history_days"
+    default: 10
+  backup.restore_history_days:
+    description: "Number days to consider for restore quota check"
+    default: 30
+  backup.reschedule_backup_delay_after_restore:
+    description: "Delay to reschedule backup after restore in minutes"
+    default: 3
   virtual_host.provider:
     description: "IaaS-specific virtual host manager provider configuration"
 
