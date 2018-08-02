@@ -1,0 +1,26 @@
+---
+name: webhooks
+
+packages:
+  - service-fabrik-crds
+
+templates:
+  config/bpm.yml.erb: config/bpm.yml
+  config/client-cert.pem.erb: config/client-cert.pem
+  config/client-key.pem.erb: config/client-key.pem
+
+
+provides:
+- name: webhooks
+  type: webhooks
+  properties:
+  tls.webhooks.certificate:
+    description: "Certificate for the authentication"
+  tls.webhooks.private_key:
+    description: "Private key for the authentication"
+
+properties:
+  tls.webhooks.certificate:
+    description: "Certificate for the authentication"
+  tls.webhooks.private_key:
+    description: "Private key for the authentication"

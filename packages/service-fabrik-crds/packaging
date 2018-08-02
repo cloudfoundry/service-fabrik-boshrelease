@@ -1,0 +1,17 @@
+#!/bin/bash
+
+set -e # exit immediately if a simple command exits with a non-zero status
+set -u # report the usage of uninitialized variables
+
+# Set Golang dependency
+export GOROOT=$(readlink -nf /var/vcap/packages/golang)
+export PATH=${GOROOT}/bin:${PATH}
+
+# Build API Server package
+echo "Building API Server..."
+PACKAGE_NAME=github.com/cloudfoundry-incubator/service-fabrik-crds
+mkdir -p ${BOSH_INSTALL_TARGET}/src/${PACKAGE_NAME}
+cp -a ${BOSH_COMPILE_TARGET}/${PACKAGE_NAME}/* ${BOSH_INSTALL_TARGET}/src/${PACKAGE_NAME}
+export GOPATH=${BOSH_INSTALL_TARGET}
+cd ${BOSH_INSTALL_TARGET}
+go build -o bin/manager-webhooks ${PACKAGE_NAME}/cmd/webhooks/manager

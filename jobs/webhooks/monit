@@ -1,0 +1,5 @@
+check process webhooks
+  with pidfile /var/vcap/sys/run/bpm/webhooks/webhooks.pid
+  start program "/var/vcap/jobs/bpm/bin/bpm start webhooks"
+  stop program "/var/vcap/jobs/bpm/bin/bpm stop webhooks"
+  group vcap

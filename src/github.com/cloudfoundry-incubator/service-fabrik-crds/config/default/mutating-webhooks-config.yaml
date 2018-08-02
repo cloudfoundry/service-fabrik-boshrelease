@@ -1,0 +1,19 @@
+apiVersion: admissionregistration.k8s.io/v1beta1
+kind: MutatingWebhookConfiguration
+metadata:
+  name: manager-webhooks
+  labels:
+    app: manager-webhooks
+webhooks:
+  - name: manager-webhooks.demo.svc
+    clientConfig:
+      service:
+        name: manager-webhooks
+        namespace: ${NAMESPACE}
+        path: "/mutate"
+      caBundle: ${CA_BUNDLE}
+    rules:
+      - operations: [ "CREATE", "UPDATE" ]
+        apiGroups: ["deployment.servicefabrik.io"]
+        apiVersions: ["v1alpha1"]
+        resources: ["directors"]
