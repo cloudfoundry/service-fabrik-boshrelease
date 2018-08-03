@@ -7,7 +7,6 @@ import (
 	"io/ioutil"
 	"net/http"
 
-	"github.com/cloudfoundry-incubator/service-fabrik-crds/pkg/apis/deployment/v1alpha1"
 	"github.com/golang/glog"
 	"k8s.io/api/admission/v1beta1"
 	admissionregistrationv1beta1 "k8s.io/api/admissionregistration/v1beta1"
@@ -53,6 +52,15 @@ type patchOperation struct {
 	Value interface{} `json:"value,omitempty"`
 }
 
+type GenericStatus struct {
+	State string `json:"state,omitempty"`
+}
+
+type GenericResource struct {
+	metav1.ObjectMeta `json:"metadata,omitempty"`
+	Status            GenericStatus `json:"status,omitempty"`
+}
+
 func init() {
 	_ = corev1.AddToScheme(runtimeScheme)
 	_ = admissionregistrationv1beta1.AddToScheme(runtimeScheme)
@@ -65,17 +73,24 @@ const (
 	labelPatchTemplate string = `[
 		 {"op":"add","path":"/metadata/labels/state","value":"%s"}
 	]`
+	newLabelPatchTemplate string = `[
+		 {"op":"add","path":"/metadata/labels","value":{ "state": "%s"}}
+	]`
 )
 
 // create mutation patch for resoures
-func createPatch(director *v1alpha1.Director) []byte {
-	return []byte(fmt.Sprintf(labelPatchTemplate, director.Status.State))
+func createPatch(resource *GenericResource) []byte {
+	if resource.Labels != nil {
+		return []byte(fmt.Sprintf(labelPatchTemplate, resource.Status.State))
+	} else {
+		return []byte(fmt.Sprintf(newLabelPatchTemplate, resource.Status.State))
+	}
 }
 
 // main mutation process
 func (whsvr *WebhookServer) mutate(ar *v1beta1.AdmissionReview) *v1beta1.AdmissionResponse {
 	req := ar.Request
-	var crd v1alpha1.Director
+	var crd GenericResource
 	decoder := json.NewDecoder(bytes.NewReader(req.Object.Raw))
 	//decoder.DisallowUnknownFields()
 	if err := decoder.Decode(&crd); err != nil {

@@ -27,7 +27,7 @@ spec:
           type: object
         status:
           properties:
-            options:
+            state:
               type: string
           type: object
       type: object

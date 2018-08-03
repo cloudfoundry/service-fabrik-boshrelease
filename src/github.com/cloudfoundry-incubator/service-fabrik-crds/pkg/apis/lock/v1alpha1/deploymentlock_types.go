@@ -31,7 +31,7 @@ type DeploymentLockSpec struct {
 
 // DeploymentLockStatus defines the observed state of DeploymentLock
 type DeploymentLockStatus struct {
-	State string `json:"options,omitempty"`
+	State string `json:"state,omitempty"`
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 }

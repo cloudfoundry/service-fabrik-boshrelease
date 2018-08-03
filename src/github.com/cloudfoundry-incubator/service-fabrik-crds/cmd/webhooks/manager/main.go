@@ -18,8 +18,8 @@ func main() {
 
 	// get command line parameters
 	flag.IntVar(&parameters.port, "port", 9444, "Webhook server port.")
-	flag.StringVar(&parameters.certFile, "tlsCertFile", "/var/vcap/job/webhooks/client-cert.pem", "File containing the x509 Certificate for HTTPS.")
-	flag.StringVar(&parameters.keyFile, "tlsKeyFile", "/var/vcap/job/webhooks/client-key.pem", "File containing the x509 private key to --tlsCertFile.")
+	flag.StringVar(&parameters.certFile, "tlsCertFile", "/var/vcap/jobs/webhooks/config/client-cert.pem", "File containing the x509 Certificate for HTTPS.")
+	flag.StringVar(&parameters.keyFile, "tlsKeyFile", "/var/vcap/jobs/webhooks/config/client-key.pem", "File containing the x509 private key to --tlsCertFile.")
 	flag.Parse()
 
 	pair, err := tls.LoadX509KeyPair(parameters.certFile, parameters.keyFile)
