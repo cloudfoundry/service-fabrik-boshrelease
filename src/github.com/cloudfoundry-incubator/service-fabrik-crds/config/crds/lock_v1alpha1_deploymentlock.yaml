@@ -4,12 +4,12 @@ metadata:
   creationTimestamp: null
   labels:
     controller-tools.k8s.io: "1.0"
-  name: directors.deployment.servicefabrik.io
+  name: deploymentlocks.lock.servicefabrik.io
 spec:
-  group: deployment.servicefabrik.io
+  group: lock.servicefabrik.io
   names:
-    kind: Director
-    plural: directors
+    kind: DeploymentLock
+    plural: deploymentlocks
   scope: Namespaced
   validation:
     openAPIV3Schema:
@@ -27,11 +27,7 @@ spec:
           type: object
         status:
           properties:
-            lastOperation:
-              type: string
-            response:
-              type: string
-            state:
+            options:
               type: string
           type: object
       type: object

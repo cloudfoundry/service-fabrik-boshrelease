@@ -4,12 +4,12 @@ metadata:
   creationTimestamp: null
   labels:
     controller-tools.k8s.io: "1.0"
-  name: directors.deployment.servicefabrik.io
+  name: virtualhosts.deployment.servicefabrik.io
 spec:
   group: deployment.servicefabrik.io
   names:
-    kind: Director
-    plural: directors
+    kind: Virtualhost
+    plural: virtualhosts
   scope: Namespaced
   validation:
     openAPIV3Schema:

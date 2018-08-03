@@ -4,12 +4,12 @@ metadata:
   creationTimestamp: null
   labels:
     controller-tools.k8s.io: "1.0"
-  name: directors.deployment.servicefabrik.io
+  name: directorbinds.bind.servicefabrik.io
 spec:
-  group: deployment.servicefabrik.io
+  group: bind.servicefabrik.io
   names:
-    kind: Director
-    plural: directors
+    kind: DirectorBind
+    plural: directorbinds
   scope: Namespaced
   validation:
     openAPIV3Schema:
@@ -22,13 +22,13 @@ spec:
           type: object
         spec:
           properties:
+            instance:
+              type: string
             options:
               type: string
           type: object
         status:
           properties:
-            lastOperation:
-              type: string
             response:
               type: string
             state:

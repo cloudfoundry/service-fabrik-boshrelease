@@ -1,0 +1,9 @@
+apiVersion: bind.servicefabrik.io/v1alpha1
+kind: DirectorBind
+metadata:
+  labels:
+    controller-tools.k8s.io: "1.0"
+  name: directorbind-sample
+spec:
+  # Add fields here
+  foo: bar

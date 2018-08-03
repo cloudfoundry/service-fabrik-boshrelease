@@ -1,0 +1,9 @@
+apiVersion: backup.servicefabrik.io/v1alpha1
+kind: DefaultRestore
+metadata:
+  labels:
+    controller-tools.k8s.io: "1.0"
+  name: defaultrestore-sample
+spec:
+  # Add fields here
+  foo: bar

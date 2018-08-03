@@ -1,0 +1,9 @@
+apiVersion: bind.servicefabrik.io/v1alpha1
+kind: DockerBind
+metadata:
+  labels:
+    controller-tools.k8s.io: "1.0"
+  name: dockerbind-sample
+spec:
+  # Add fields here
+  foo: bar
