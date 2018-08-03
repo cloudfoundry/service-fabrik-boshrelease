@@ -21,13 +21,9 @@ provides:
   properties:
   - ip
   - port
-  - etcd.url
-  - etcd.ssl.ca
-  - etcd.ssl.crt
-  - etcd.ssl.key
-  - admin-username
-  - admin-password
   - tls.kubernetes.ca
+  - tls.kubernetes.certificate
+  - tls.kubernetes.private_key
 
 properties:
   logging-level:
