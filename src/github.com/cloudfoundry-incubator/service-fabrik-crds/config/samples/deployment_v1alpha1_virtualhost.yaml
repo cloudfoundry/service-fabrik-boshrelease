@@ -1,9 +1,0 @@
-apiVersion: deployment.servicefabrik.io/v1alpha1
-kind: Virtualhost
-metadata:
-  labels:
-    controller-tools.k8s.io: "1.0"
-  name: virtualhost-sample
-spec:
-  # Add fields here
-  foo: bar

@@ -1,9 +1,0 @@
-apiVersion: bind.servicefabrik.io/v1alpha1
-kind: VirtualhostBind
-metadata:
-  labels:
-    controller-tools.k8s.io: "1.0"
-  name: virtualhostbind-sample
-spec:
-  # Add fields here
-  foo: bar
