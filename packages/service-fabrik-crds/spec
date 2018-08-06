@@ -1,8 +1,0 @@
----
-name: service-fabrik-crds
-
-dependencies:
-  - golang
-
-files:
-  - github.com/cloudfoundry-incubator/service-fabrik-crds/**/*

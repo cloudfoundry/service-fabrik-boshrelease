@@ -2,7 +2,7 @@
 name: webhooks
 
 packages:
-  - service-fabrik-crds
+  - webhooks
   - jq
 
 templates:
