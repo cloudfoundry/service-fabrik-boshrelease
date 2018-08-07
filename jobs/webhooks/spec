@@ -20,6 +20,8 @@ consumes:
 provides:
 - name: webhooks
   type: webhooks
+  properties:
+  - port
 
 properties:
   port:
