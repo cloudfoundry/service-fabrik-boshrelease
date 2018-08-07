@@ -87,7 +87,7 @@ production:
     ca: <%= link("service-fabrik-apiserver").p('tls.apiserver.ca') %>
     certificate: <%= link("service-fabrik-apiserver").p('tls.apiserver.certificate') %>
     private_key: <%= link("service-fabrik-apiserver").p('tls.apiserver.private_key') %>
-    crds: <%= JSON.dump(link("service-fabrik-apiserver").p('tls.apiserver.crds')) %>
+    crds: <%= JSON.dump(link("service-fabrik-apiserver").p('crds')) %>
 
   #############################
   # DEPLOYMENT HOOKS SETTINGS #

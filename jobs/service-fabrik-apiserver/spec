@@ -24,7 +24,7 @@ provides:
   - tls.apiserver.ca
   - tls.apiserver.certificate
   - tls.apiserver.private_key
-  - tls.apiserver.crds
+  - crds
 
 properties:
   logging-level:
@@ -40,7 +40,7 @@ properties:
     description: "Certificate for the apiserver master"
   tls.apiserver.private_key:
     description: "Private key for the apiserver master"
-  tls.apiserver.crds:
+  crds:
     description: "Private key for the apiserver master"
   ip:
     description: IP address used for apiserver
