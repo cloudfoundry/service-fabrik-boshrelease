@@ -1,5 +1,5 @@
 <%
-  CA = link('service-fabrik-apiserver').p('tls.kubernetes.ca')
+  CA = link('service-fabrik-apiserver').p('tls.apiserver.ca')
   CA_BASE64 = Base64.encode64(CA)
 %>
 {

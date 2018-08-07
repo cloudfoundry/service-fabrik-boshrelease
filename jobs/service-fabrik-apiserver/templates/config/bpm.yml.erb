@@ -17,13 +17,13 @@ processes:
   - --repair-malformed-updates=false
   - --secure-port=<%=p('port') %>
   - --service-account-lookup
-  - --tls-cert-file=/var/vcap/jobs/service-fabrik-apiserver/config/kubernetes.pem
-  - --tls-private-key-file=/var/vcap/jobs/service-fabrik-apiserver/config/kubernetes-key.pem
+  - --tls-cert-file=/var/vcap/jobs/service-fabrik-apiserver/config/apiserver.pem
+  - --tls-private-key-file=/var/vcap/jobs/service-fabrik-apiserver/config/apiserver-key.pem
   - --token-auth-file=/var/vcap/jobs/service-fabrik-apiserver/config/tokens.csv
   - --storage-media-type=application/json
   - --enable-aggregator-routing
   - --v=<%=p('logging-level') %>
   - --authorization-mode=AlwaysAllow
   - --runtime-config=api/v1,rbac.authorization.k8s.io/v1alpha1
-  - --client-ca-file=/var/vcap/jobs/service-fabrik-apiserver/config/kubernetes.pem
+  - --client-ca-file=/var/vcap/jobs/service-fabrik-apiserver/config/apiserver.pem
   env:

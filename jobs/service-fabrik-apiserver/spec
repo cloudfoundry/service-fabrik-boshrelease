@@ -11,8 +11,8 @@ templates:
   config/etcd-ca.crt.erb: config/etcd-ca.crt
   config/etcd.crt.erb: config/etcd.crt
   config/etcd.key.erb: config/etcd.key
-  config/kubernetes-key.pem.erb: config/kubernetes-key.pem
-  config/kubernetes.pem.erb: config/kubernetes.pem
+  config/apiserver-key.pem.erb: config/apiserver-key.pem
+  config/apiserver.pem.erb: config/apiserver.pem
   config/tokens.csv.erb: config/tokens.csv
 
 provides:
@@ -21,24 +21,24 @@ provides:
   properties:
   - ip
   - port
-  - tls.kubernetes.ca
-  - tls.kubernetes.certificate
-  - tls.kubernetes.private_key
+  - tls.apiserver.ca
+  - tls.apiserver.certificate
+  - tls.apiserver.private_key
 
 properties:
   logging-level:
     description: "V-leveled logging at the specified level. See https://github.com/golang/glog"
     default: 2
   admin-username:
-    description: The admin username for the Kubernetes cluster
+    description: The admin username for the apiserver cluster
   admin-password:
     description: The password for the admin account
-  tls.kubernetes.ca:
-    description: "CA Certificate for the Kubernetes master"
-  tls.kubernetes.certificate:
-    description: "Certificate for the Kubernetes master"
-  tls.kubernetes.private_key:
-    description: "Private key for the Kubernetes master"
+  tls.apiserver.ca:
+    description: "CA Certificate for the apiserver master"
+  tls.apiserver.certificate:
+    description: "Certificate for the apiserver master"
+  tls.apiserver.private_key:
+    description: "Private key for the apiserver master"
   ip:
     description: IP address used for apiserver
   port:
