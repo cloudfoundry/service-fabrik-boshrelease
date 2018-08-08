@@ -1,0 +1,143 @@
+name: service-fabrik
+version: 3.63.1
+commit_hash: 6bd59b6
+uncommitted_changes: false
+jobs:
+- name: docker
+  version: d7efe7a300b5fff05c2317c0184665c1710b46b2
+  fingerprint: d7efe7a300b5fff05c2317c0184665c1710b46b2
+  sha1: ba5dc4e9366de70f682a7ad67982f5fa977f63ad
+- name: iptables-manager
+  version: 73baf415157069a2cb366c4dbe77bda8c546f40e
+  fingerprint: 73baf415157069a2cb366c4dbe77bda8c546f40e
+  sha1: aa94a2cbc840b44f54bd892c7ef2ef19146d9533
+- name: keepalived
+  version: eef0ae29e4a434c44c3a602c98768d375f29d488
+  fingerprint: eef0ae29e4a434c44c3a602c98768d375f29d488
+  sha1: 3deb7e2cc3a4d3c77be4779888401753bd4211f8
+- name: service-fabrik-apiserver
+  version: 70a434a4c900c55e5ac3b4df66345e5a53a2245a
+  fingerprint: 70a434a4c900c55e5ac3b4df66345e5a53a2245a
+  sha1: d94ba5efe62eda472b72a62ebbf256c7428ba622
+- name: service-fabrik-backup-manager
+  version: 7b0561c832a5a2e1a2d2b0d3dcb934e230172a16
+  fingerprint: 7b0561c832a5a2e1a2d2b0d3dcb934e230172a16
+  sha1: ee09762b2e4f7bc8106cc71890a0f216f4f2ac0c
+- name: service-fabrik-broker
+  version: e5403e8a4cd675407f4d0da78bfefcc7fddad072
+  fingerprint: e5403e8a4cd675407f4d0da78bfefcc7fddad072
+  sha1: 2470d6eeca00268ac7e745a8a21c12fccd51bcff
+- name: service-fabrik-deployment-hooks
+  version: a6e17524dc1e98b215a2f84e2c14cc9026fb740e
+  fingerprint: a6e17524dc1e98b215a2f84e2c14cc9026fb740e
+  sha1: 012900784036de72a558ca0783e732d1b19618b4
+- name: service-fabrik-report
+  version: 35e1cc1c954a4ae1e6bb2964d249afbb55025685
+  fingerprint: 35e1cc1c954a4ae1e6bb2964d249afbb55025685
+  sha1: f74d4e59567f52bc775a09986cda6f41b197f147
+- name: service-fabrik-scheduler
+  version: f30beb6fcf6687ccbded7767399bae638566a672
+  fingerprint: f30beb6fcf6687ccbded7767399bae638566a672
+  sha1: 2d86b1fd6791092fe001c4718307304c81b7d288
+- name: swarm_manager
+  version: 6b93937daf981982455941c12fe8de42d0f268a1
+  fingerprint: 6b93937daf981982455941c12fe8de42d0f268a1
+  sha1: decdc826c71fc08e22681cb21892fee07703a3b2
+packages:
+- name: aws-cli
+  version: 910e505d7769d01977b285e938729a63dca2423f
+  fingerprint: 910e505d7769d01977b285e938729a63dca2423f
+  sha1: 8fb0c3f9c708eeaaa6ecad70e9d35c925c157670
+  dependencies:
+  - python
+- name: bosh-helpers
+  version: 71b8b94e0852303efb0136c5b073e120cbf0b9e9
+  fingerprint: 71b8b94e0852303efb0136c5b073e120cbf0b9e9
+  sha1: b28dce8887216478e434cb64d55927e5360690c7
+  dependencies: []
+- name: docker
+  version: 6ef4feeaf01ffb4d27b5f2f7094b0380d2624019
+  fingerprint: 6ef4feeaf01ffb4d27b5f2f7094b0380d2624019
+  sha1: 280bd6d784531e14eaa680e44e81568c54cf0899
+  dependencies: []
+- name: golang
+  version: b4471eff2367da0891705297096cd4db41e19d5e
+  fingerprint: b4471eff2367da0891705297096cd4db41e19d5e
+  sha1: a91ff21d1f18281c334fe8d870482c0745041b06
+  dependencies: []
+- name: ha-utils
+  version: fe4db020583934e20395983f09b6dbd9e0b66900
+  fingerprint: fe4db020583934e20395983f09b6dbd9e0b66900
+  sha1: eac144d7b8791a6c16e9ad2fc04495f3db512cb8
+  dependencies:
+  - golang
+- name: jq
+  version: 4eb80201dd552cd4d7406197c2579f2079ca210b
+  fingerprint: 4eb80201dd552cd4d7406197c2579f2079ca210b
+  sha1: 9ea30f5797329bf09d52b3e836f37e22336f33e2
+  dependencies: []
+- name: keepalived
+  version: 84a08d9df2c7186eab4fb5806b7e665e3754e2b2
+  fingerprint: 84a08d9df2c7186eab4fb5806b7e665e3754e2b2
+  sha1: 7ddf3f980735ac00922e0f38ae444614740b4d09
+  dependencies: []
+- name: libseccomp
+  version: 472d085dbb87e29e8b0118a02eb92483d5108930
+  fingerprint: 472d085dbb87e29e8b0118a02eb92483d5108930
+  sha1: 5bfdabc9fafc6fb37ac2600f779558e5360c1ab5
+  dependencies: []
+- name: lvm2
+  version: 94234aaafde31e917248664480f650b4c2973065
+  fingerprint: 94234aaafde31e917248664480f650b4c2973065
+  sha1: d7ae3e0fc03e6188c8ee00a52f24be355401609c
+  dependencies: []
+- name: lvmvd
+  version: b34613c6cbbd78142b495d6959b5fb7d0b52b7e1
+  fingerprint: b34613c6cbbd78142b495d6959b5fb7d0b52b7e1
+  sha1: bb8347106c3ca87a1af67a8b0967fa81698c509f
+  dependencies:
+  - golang
+- name: node
+  version: 6e8abfa2343654d6a81d1816f82ead8720c986d2
+  fingerprint: 6e8abfa2343654d6a81d1816f82ead8720c986d2
+  sha1: aefa108539d140245c2c1be8e2d5e0cdfdf5243a
+  dependencies: []
+- name: python
+  version: a358b89a1d80874394fe9cca5336f6df432d9d9f
+  fingerprint: a358b89a1d80874394fe9cca5336f6df432d9d9f
+  sha1: a7d97116ba62c448d7051b21e457d7e25991e8ae
+  dependencies: []
+- name: service-fabrik-apiserver
+  version: d9345e44ea154460c6bb2b45eec8847e881e958f
+  fingerprint: d9345e44ea154460c6bb2b45eec8847e881e958f
+  sha1: cfdf4158e8239857e57ea536417d57a24cd741f4
+  dependencies:
+  - golang
+- name: service-fabrik-broker
+  version: 58df1abdeee9a887586b23c08be19b8cb85a5bb0
+  fingerprint: 58df1abdeee9a887586b23c08be19b8cb85a5bb0
+  sha1: 3e09727ddfa695e2e81b03ebbc9cf4df65b51586
+  dependencies:
+  - node
+- name: service-fabrik-deployment-hooks
+  version: ee03da8fd9d99e0eccf9da3ac739251c0c92d38b
+  fingerprint: ee03da8fd9d99e0eccf9da3ac739251c0c92d38b
+  sha1: 47f5bf0190128c2e426a72030cd072a80dc118a1
+  dependencies:
+  - node
+  - libseccomp
+- name: swarm
+  version: 4f38eed641aaa1ecefc94fd74515dd5b00a7b78b
+  fingerprint: 4f38eed641aaa1ecefc94fd74515dd5b00a7b78b
+  sha1: e84602c040b340cbe970b9578f32c66671cc0d06
+  dependencies:
+  - golang
+- name: yaml2json
+  version: 3a6b145f3a06f67da0cea0edf3b0d7f22c42fa4e
+  fingerprint: 3a6b145f3a06f67da0cea0edf3b0d7f22c42fa4e
+  sha1: 115fe5f2fef6e8df8968784e5da0f6e983c38757
+  dependencies: []
+license:
+  version: d0f36a5a78a465f71ada5c45b3db4bcd906404e0
+  fingerprint: d0f36a5a78a465f71ada5c45b3db4bcd906404e0
+  sha1: 371d981cb2d0510afaa06351a901fa0176b61003
