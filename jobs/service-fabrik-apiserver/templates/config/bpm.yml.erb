@@ -9,7 +9,7 @@ processes:
   - --bind-address=0.0.0.0
   - --enable-bootstrap-token-auth
   - --enable-swagger-ui
-  - --etcd-servers=<%= p('etcd.url').join(',') %>
+  - --etcd-servers=https://<%= p('etcd.url').join(',') %>
   - --etcd-cafile=/var/vcap/jobs/service-fabrik-apiserver/config/etcd-ca.crt
   - --etcd-certfile=/var/vcap/jobs/service-fabrik-apiserver/config/etcd.crt
   - --etcd-keyfile=/var/vcap/jobs/service-fabrik-apiserver/config/etcd.key
