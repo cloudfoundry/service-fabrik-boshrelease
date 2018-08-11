@@ -9,8 +9,6 @@ update:
   serial: true        # update docker jobs before broker job that runs swarm;
                       # see swarm discovery issue (depending on that order):
                       # https://github.com/cf-platform-eng/docker-boshrelease/issues/35
-
-
 stemcells:
 - alias: default
   os: ubuntu-trusty

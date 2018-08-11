@@ -1,0 +1,133 @@
+---
+name: apiserver
+instance_groups:
+- azs:
+  - z1
+  instances: 3
+  jobs:
+  - name: webhooks
+    release: service-fabrik
+  - name: service-fabrik-apiserver
+    release: service-fabrik
+    properties:
+      admin-username: admin
+      admin-password: admin
+      backend_port: 8443 # Bosh links hack
+      ip: 10.244.14.252
+      port: 8443
+      etcd:
+        url:
+        - 10.244.14.252:2379
+        - 10.244.14.253:2379
+        - 10.244.14.254:2379
+        ssl:
+          ca: ((tls_etcd.ca))
+          crt: ((tls_etcd.certificate))
+          key: ((tls_etcd.private_key))
+      tls: 
+        apiserver:
+          ca: ((tls_etcd.ca))
+          certificate: ((tls_apiserver.certificate))
+          private_key: ((tls_apiserver.private_key))
+  - name: etcd
+    properties:
+      tls:
+        etcd:
+          ca: ((tls_etcd.ca))
+          certificate: ((tls_etcd.certificate))
+          private_key: ((tls_etcd.private_key))
+        etcdctl:
+          ca: ((tls_etcdctl.ca))
+          certificate: ((tls_etcdctl.certificate))
+          private_key: ((tls_etcdctl.private_key))
+        peer:
+          ca: ((tls_etcd_peer.ca))
+          certificate: ((tls_etcd_peer.certificate))
+          private_key: ((tls_etcd_peer.private_key))
+    provides:
+      etcd:
+        as: etcd
+    release: cfcr-etcd
+  - name: bpm
+    release: bpm
+  name: etcd
+  networks:
+  - name: default
+    static_ips:
+    - 10.244.14.252
+    - 10.244.14.253
+    - 10.244.14.254
+  persistent_disk_type: 10GB
+  stemcell: default
+  vm_type: small
+
+releases:
+- name: bpm
+  sha1: 5a03b988c725c6b5a1aed247c8c23c2bff9d421b
+  url: https://bosh.io/d/github.com/cloudfoundry-incubator/bpm-release?v=0.4.0
+  version: latest
+- name: service-fabrik
+  version: latest
+- name: cfcr-etcd
+  version: latest
+
+stemcells:
+- alias: default
+  os: ubuntu-trusty
+  version: latest
+update:
+  canaries: 1
+  canary_watch_time: 1000-60000
+  max_in_flight: 1
+  serial: true
+  update_watch_time: 1000-60000
+
+variables:
+- name: etcd_ca
+  type: certificate
+  options:
+    is_ca: true
+    common_name: ca
+
+- name: tls_etcd
+  type: certificate
+  options:
+    ca: etcd_ca
+    common_name: etcd.default.etcd.bosh
+    alternative_names:
+    - 10.244.14.252
+    - 10.244.14.253
+    - 10.244.14.254
+    extended_key_usage:
+    - server_auth
+    - client_auth
+
+- name: tls_etcd_peer
+  type: certificate
+  options:
+    ca: etcd_ca
+    common_name: etcd.default.etcd.bosh
+    alternative_names:
+    - 10.244.14.252
+    - 10.244.14.253
+    - 10.244.14.254
+    extended_key_usage:
+    - server_auth
+    - client_auth
+
+- name: tls_etcdctl
+  type: certificate
+  options:
+    ca: etcd_ca
+    common_name: etcd_acceptance_client
+    extended_key_usage:
+    - client_auth
+
+- name: tls_apiserver
+  type: certificate
+  options:
+    ca: etcd_ca
+    common_name: apiserver_acceptance_client
+    extended_key_usage:
+    - client_auth
+    - server_auth
