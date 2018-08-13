@@ -128,6 +128,10 @@ variables:
   options:
     ca: etcd_ca
     common_name: apiserver_acceptance_client
+    alternative_names:
+    - 10.244.14.252
+    - 10.244.14.253
+    - 10.244.14.254
     extended_key_usage:
     - client_auth
     - server_auth
