@@ -86,6 +86,7 @@ provides:
   - backup.num_of_allowed_restores
   - backup.restore_history_days
   - backup.reschedule_backup_delay_after_restore
+  - backup.transaction_logs_delete_buffer_time
   - virtual_host.provider
   - docker.url
   - docker.skip_ssl_validation
@@ -289,6 +290,9 @@ properties:
   backup.reschedule_backup_delay_after_restore:
     description: "Delay to reschedule backup after restore in minutes"
     default: 3
+  backup.transaction_logs_delete_buffer_time:
+    description: "Delete transaction logs older than latest successful backup + this buffer time in minutes"
+    default: 30
   virtual_host.provider:
     description: "IaaS-specific virtual host manager provider configuration"
 

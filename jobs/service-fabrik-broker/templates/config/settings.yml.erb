@@ -225,6 +225,7 @@ production:
     num_of_allowed_restores: <%= p('backup.num_of_allowed_restores') %>
     restore_history_days: <%= p('backup.restore_history_days') %>
     reschedule_backup_delay_after_restore: <%= p('backup.reschedule_backup_delay_after_restore') %>
+    transaction_logs_delete_buffer_time: <%= p('backup.transaction_logs_delete_buffer_time') %>
     provider: <%= JSON.dump(p('backup.provider', nil)) %>
 
   #################################
