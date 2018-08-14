@@ -1,0 +1,46 @@
+<%
+  CA = link('service-fabrik-apiserver').p('tls.apiserver.ca')
+  CA_BASE64 = Base64.encode64(CA)
+%>
+{
+  "metadata": {
+    "name": "manager-webhooks",
+    "labels": {
+      "app": "manager-webhooks"
+    }
+  },
+  "webhooks": [
+    {
+      "name": "manager-webhooks.demo.svc",
+      "clientConfig": {
+        "url": "https://<%= link('service-fabrik-apiserver').p('ip') %>:<%= p('port') %>/mutate",
+        "service": null,
+        "caBundle": "<%= CA_BASE64 %>"
+      },
+      "rules": [
+        {
+          "operations": [
+            "CREATE",
+            "UPDATE"
+          ],
+          "apiGroups": [
+            "deployment.servicefabrik.io",
+            "backup.servicefabrik.io",
+            "bind.servicefabrik.io",
+            "lock.servicefabrik.io"
+          ],
+          "apiVersions": [
+            "v1alpha1"
+          ],
+          "resources": [
+            "*"
+          ]
+        }
+      ],
+      "failurePolicy": "Ignore",
+      "namespaceSelector": {
+        
+      }
+    }
+  ]
+}

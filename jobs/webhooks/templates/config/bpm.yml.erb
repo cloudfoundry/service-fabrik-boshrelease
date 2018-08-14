@@ -1,0 +1,6 @@
+---
+processes:
+- name: webhooks
+  executable: /var/vcap/packages/webhooks/bin/manager-webhooks
+  limits:
+    open_files: 100000

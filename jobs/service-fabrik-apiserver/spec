@@ -2,15 +2,18 @@
 name: service-fabrik-apiserver
 
 packages:
-  - service-fabrik-apiserver
+- apiserver
 
 templates:
-  bin/service-fabrik-apiserver.erb: bin/service-fabrik-apiserver
+  bin/ensure_apiserver_healthy.erb: bin/ensure_apiserver_healthy
+  bin/post-start.erb: bin/post-start
   config/bpm.yml.erb: config/bpm.yml
   config/etcd-ca.crt.erb: config/etcd-ca.crt
   config/etcd.crt.erb: config/etcd.crt
   config/etcd.key.erb: config/etcd.key
-
+  config/apiserver-key.pem.erb: config/apiserver-key.pem
+  config/apiserver.pem.erb: config/apiserver.pem
+  config/tokens.csv.erb: config/tokens.csv
 
 provides:
 - name: service-fabrik-apiserver
@@ -18,12 +21,27 @@ provides:
   properties:
   - ip
   - port
-  - etcd.url
-  - etcd.ssl.ca
-  - etcd.ssl.crt
-  - etcd.ssl.key
+  - tls.apiserver.ca
+  - tls.apiserver.certificate
+  - tls.apiserver.private_key
+  - crds
 
 properties:
+  logging-level:
+    description: "V-leveled logging at the specified level. See https://github.com/golang/glog"
+    default: 2
+  admin-username:
+    description: The admin username for the apiserver cluster
+  admin-password:
+    description: The password for the admin account
+  tls.apiserver.ca:
+    description: "CA Certificate for the apiserver master"
+  tls.apiserver.certificate:
+    description: "Certificate for the apiserver master"
+  tls.apiserver.private_key:
+    description: "Private key for the apiserver master"
+  crds:
+    description: "CRD list to be deployed on apiserver"
   ip:
     description: IP address used for apiserver
   port:
@@ -37,3 +55,8 @@ properties:
     description: Certificate for etcd client and server authentication
   etcd.ssl.key:
     description: Private key for etcd client and server authentication
+
+
+consumes:
+- name: service-fabrik-apiserver
+  type: service-fabrik-apiserver

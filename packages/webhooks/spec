@@ -1,0 +1,8 @@
+---
+name: webhooks
+
+dependencies:
+  - golang
+
+files:
+  - github.com/cloudfoundry-incubator/webhooks/**/*

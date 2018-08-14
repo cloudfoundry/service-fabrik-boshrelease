@@ -1,0 +1,30 @@
+---
+name: webhooks
+
+packages:
+  - webhooks
+  - jq
+
+templates:
+  config/webhooks.json.erb: config/webhooks.json
+  bin/post-start.erb: bin/post-start
+  config/bpm.yml.erb: config/bpm.yml
+  config/client-cert.pem.erb: config/client-cert.pem
+  config/client-key.pem.erb: config/client-key.pem
+
+
+consumes:
+- name: service-fabrik-apiserver
+  type: service-fabrik-apiserver
+
+provides:
+- name: webhooks
+  type: webhooks
+  properties:
+  - port
+
+properties:
+  port:
+    description: "Port used for reporting endpoints"
+    default: 9444
+

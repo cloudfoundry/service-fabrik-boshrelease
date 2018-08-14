@@ -1,0 +1,17 @@
+#!/bin/bash -e
+
+[ -z "$DEBUG" ] || set -x
+
+HOST_PATH="https://<%= link('service-fabrik-apiserver').p('ip') %>:<%= link('service-fabrik-apiserver').p("port") %>/apis/admissionregistration.k8s.io/v1beta1/mutatingwebhookconfigurations"
+
+echo "Trying to update the webhook configuration"
+
+RESPONSE=$(curl -sk --header "Content-Type: application/merge-patch+json" --cert /var/vcap/jobs/webhooks/config/client-cert.pem --key /var/vcap/jobs/webhooks/config/client-key.pem "${HOST_PATH}/manager-webhooks" -X PATCH --data "@/var/vcap/jobs/webhooks/config/webhooks.json")
+
+RESPONSE_CODE=$(echo $RESPONSE | /var/vcap/packages/jq/bin/jq -r .'code')
+echo "Response code of the patch is $RESPONSE_CODE"
+
+if [[ "$RESPONSE_CODE" == "404" ]]; then
+   echo "creating the webhook"
+   curl -sk --header "Content-Type: application/json" --cert /var/vcap/jobs/webhooks/config/client-cert.pem --key /var/vcap/jobs/webhooks/config/client-key.pem "${HOST_PATH}" -X POST --data "@/var/vcap/jobs/webhooks/config/webhooks.json"
+fi
