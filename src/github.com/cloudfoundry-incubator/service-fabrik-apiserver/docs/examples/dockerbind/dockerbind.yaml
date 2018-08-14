@@ -1,7 +1,0 @@
-note: DockerBind Example
-sample: |
-  apiVersion: bind.servicefabrik.io/v1alpha1
-  kind: DockerBind
-  metadata:
-    name: dockerbind-example
-  spec:
