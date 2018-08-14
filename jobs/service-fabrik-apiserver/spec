@@ -41,7 +41,7 @@ properties:
   tls.apiserver.private_key:
     description: "Private key for the apiserver master"
   crds:
-    description: "Private key for the apiserver master"
+    description: "CRD list to be deployed on apiserver"
   ip:
     description: IP address used for apiserver
   port:

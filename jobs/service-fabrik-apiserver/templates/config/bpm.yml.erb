@@ -1,4 +1,7 @@
 ---
+<%
+CONFIG_PATH = "/var/vcap/jobs/service-fabrik-apiserver/config/"
+%>
 processes:
 - name: service-fabrik-apiserver
   executable: /var/vcap/packages/apiserver/bin/kube-apiserver
@@ -10,20 +13,20 @@ processes:
   - --enable-bootstrap-token-auth
   - --enable-swagger-ui
   - --etcd-servers=https://<%= p('etcd.url').join(',') %>
-  - --etcd-cafile=/var/vcap/jobs/service-fabrik-apiserver/config/etcd-ca.crt
-  - --etcd-certfile=/var/vcap/jobs/service-fabrik-apiserver/config/etcd.crt
-  - --etcd-keyfile=/var/vcap/jobs/service-fabrik-apiserver/config/etcd.key
+  - --etcd-cafile=<%= CONFIG_PATH %>etcd-ca.crt
+  - --etcd-certfile=<%= CONFIG_PATH %>etcd.crt
+  - --etcd-keyfile=<%= CONFIG_PATH %>etcd.key
   - --kubelet-https
   - --repair-malformed-updates=false
   - --secure-port=<%=p('port') %>
   - --service-account-lookup
-  - --tls-cert-file=/var/vcap/jobs/service-fabrik-apiserver/config/apiserver.pem
-  - --tls-private-key-file=/var/vcap/jobs/service-fabrik-apiserver/config/apiserver-key.pem
-  - --token-auth-file=/var/vcap/jobs/service-fabrik-apiserver/config/tokens.csv
+  - --tls-cert-file=<%= CONFIG_PATH %>apiserver.pem
+  - --tls-private-key-file=<%= CONFIG_PATH %>apiserver-key.pem
+  - --token-auth-file=<%= CONFIG_PATH %>tokens.csv
   - --storage-media-type=application/json
   - --enable-aggregator-routing
   - --v=<%=p('logging-level') %>
   - --authorization-mode=AlwaysAllow
   - --runtime-config=api/v1,rbac.authorization.k8s.io/v1alpha1
-  - --client-ca-file=/var/vcap/jobs/service-fabrik-apiserver/config/apiserver.pem
+  - --client-ca-file=<%= CONFIG_PATH %>apiserver.pem
   env:
