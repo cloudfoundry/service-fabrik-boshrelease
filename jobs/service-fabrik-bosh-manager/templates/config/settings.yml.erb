@@ -54,7 +54,11 @@ production:
   apiserver:
     ip: <%= link("service-fabrik-apiserver").p('ip') %>
     port: <%= link("service-fabrik-apiserver").p('port') %>
-  
+    ca: <%= JSON.dump(link("service-fabrik-apiserver").p('tls.apiserver.ca')) %>
+    certificate: <%= JSON.dump(link("service-fabrik-apiserver").p('tls.apiserver.certificate')) %>
+    private_key: <%= JSON.dump(link("service-fabrik-apiserver").p('tls.apiserver.private_key')) %>
+    crds: <%= JSON.dump(link("service-fabrik-apiserver").p('crds')) %>
+      
   ###################
   # QUOTA MANAGEMENT SETTINGS #
   ###################
