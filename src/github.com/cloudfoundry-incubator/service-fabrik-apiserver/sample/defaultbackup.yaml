@@ -1,5 +1,0 @@
-apiVersion: backup.servicefabrik.io/v1alpha1
-kind: DefaultBackup
-metadata:
-  name: defaultbackup-example
-spec:

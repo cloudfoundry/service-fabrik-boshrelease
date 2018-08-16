@@ -1,8 +1,0 @@
----
-name: service-fabrik-apiserver
-
-dependencies:
-  - golang
-
-files:
-  - github.com/cloudfoundry-incubator/service-fabrik-apiserver/**/*
