@@ -36,8 +36,19 @@ provides:
   - broker_drain_message
   - http_timeout
   - deployment_action_timeout
-  - internal
-  - external
+  - internal.port
+  - internal.ip
+  - internal.ssl
+  - internal.log_event
+  - internal.domain_socket.path
+  - external.host
+  - external.port
+  - external.log_event
+  - external.ssl
+  - external.api_requires_admin_scope
+  - external.trust_proxy:
+  - external.cookie_secret:
+  - external.session_expiry:
   - mongodb.url
   - mongodb.provision.plan_id
   - mongodb.provision.network_index
