@@ -46,9 +46,9 @@ provides:
   - external.log_event
   - external.ssl
   - external.api_requires_admin_scope
-  - external.trust_proxy:
-  - external.cookie_secret:
-  - external.session_expiry:
+  - external.trust_proxy
+  - external.cookie_secret
+  - external.session_expiry
   - mongodb.url
   - mongodb.provision.plan_id
   - mongodb.provision.network_index
