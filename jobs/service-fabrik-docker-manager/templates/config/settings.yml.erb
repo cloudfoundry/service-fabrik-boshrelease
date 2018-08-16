@@ -101,10 +101,10 @@ production:
   # MONGODB SETTINGS #
   ####################
   mongodb:
-    <% if_p('mongodb.url') do |mongodb_url| %>
+    <% link("broker").if_p('mongodb.url') do |mongodb_url| %>
     url: <%= mongodb_url %>
     <% end %>
-    <% if_p('mongodb.provision.plan_id') do |mongodb_plan_id| %>
+    <% link("broker").if_p('mongodb.provision.plan_id') do |mongodb_plan_id| %>
     provision:
       plan_id: <%= mongodb_plan_id %>
       network_index: <%= link("broker").p('mongodb.provision.network_index') %>
