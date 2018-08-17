@@ -131,4 +131,6 @@ builds:
     version: 3.31.0
   fd8ce428-4803-4a5a-482c-125d2f59370c:
     version: 3.57.0
+  fd92d86a-0be2-4553-5987-e45369ae012d:
+    version: 3.65.0
 format-version: "2"
