@@ -35,7 +35,6 @@ case $1 in
       2>> ${LOG_DIR}/${OUTPUT_LABEL}.stderr.log
     ;;
 
-
   stop)
     # Stop Service Fabrik Monitoring Agent daemon
     kill_and_wait ${PID_FILE}
