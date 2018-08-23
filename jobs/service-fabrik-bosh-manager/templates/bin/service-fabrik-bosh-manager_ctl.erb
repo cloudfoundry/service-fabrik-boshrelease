@@ -1,0 +1,49 @@
+#!/bin/bash
+
+set -e # exit immediately if a simple command exits with a non-zero status
+
+source /var/vcap/packages/bosh-helpers/ctl_setup.sh 'service-fabrik-bosh-manager'
+
+export PID_FILE=${RUN_DIR}/service-fabrik-bosh-manager.pid
+export PACKAGE_DIR=${HOME}/packages/service-fabrik-broker
+
+case $1 in
+
+  start)
+    pid_guard ${PID_FILE} ${JOB_NAME}
+
+    # Set limitations on system resources
+    ulimit -c unlimited
+    ulimit -v unlimited
+
+    # Enable syslog forwarding to logstash
+    if [ ! -L /etc/rsyslog.d/52-fabrik_bosh-manager_forwarding.conf ]; then
+        ln -s ${CONF_DIR}/syslog_forwarding.conf /etc/rsyslog.d/52-fabrik_bosh-manager_forwarding.conf
+    fi
+    /usr/sbin/service rsyslog restart
+
+  # Start Service Fabrik bosh Manager
+    start-stop-daemon --start --quiet -m \
+      --pidfile ${PID_FILE} \
+      --startas ${NODE_CMD} \
+      --chuid vcap:vcap \
+      --background \
+      --no-close \
+      --chdir ${PACKAGE_DIR} \
+      -- ${PACKAGE_DIR}/managers/StartBoshManagers.js \
+      1>> ${LOG_DIR}/${OUTPUT_LABEL}.stdout.log \
+      2>> ${LOG_DIR}/${OUTPUT_LABEL}.stderr.log
+    ;;
+
+  stop)
+    # Stop Service Fabrik Monitoring Agent daemon
+    kill_and_wait ${PID_FILE}
+    ;;
+
+  *)
+    echo "Usage: $0 {start|stop}"
+    exit 1
+    ;;
+
+esac
+exit 0
