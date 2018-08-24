@@ -40,7 +40,14 @@ cd service-fabrik-boshrelease
 
 ### Deploying ApiServer
 Apiserver is a prerequisite for running Service-Fabrik-Broker. It can be deployed on boshlite using provided manifest [file](https://github.com/cloudfoundry-incubator/service-fabrik-boshrelease/blob/master/templates/apiserver.yml)
+Prerequisites:
+apiserver has dependency on cfcr-etcd release, which have to be first uploaded on bosh before deploying apiserver.
 ```shell
+cd ~/git
+git clone https://github.com/cloudfoundry-incubator/cfcr-etcd-release
+cd cfcr-etcd-release
+bosh -e upload-release
+cd ~/git/service-fabrik-boshrelease
 bosh –e bosh -d apiserver deploy --vars-store=templates/vars-store.yml templates/apiserver.yml
 ```
 Useful prerequisites: When working with apiserver kubectl comes in handy. To configure kubectl locally, please follow steps mentioned in this [doc](https://github.com/cloudfoundry-incubator/service-fabrik-boshrelease/wiki/Configuring-kubectl-for-local-development)
