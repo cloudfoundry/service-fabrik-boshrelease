@@ -8,7 +8,7 @@ This BOSH release is based on/forked from and therefore includes sources from th
 # Table of Contents
 1. [Local Development Setup](#local-development-setup)
 2. [Cloning the Repository](#cloning-the-repository)
-3. [Deploying ApiServer](#deploying-apiServer)
+3. [Deploying ApiServer](#deploying-apiserver)
 4. [Deploying Service-Fabrik](#deploying-service-fabrik)
 5. [Register the Broker](#register-the-broker)
 6. [Run a Service Lifecycle](#run-a-service-lifecycle)
@@ -43,11 +43,7 @@ Apiserver is a prerequisite for running Service-Fabrik-Broker. It can be deploye
 Prerequisites:
 apiserver has dependency on cfcr-etcd release, which have to be first uploaded on bosh before deploying apiserver.
 ```shell
-cd ~/git
-git clone https://github.com/cloudfoundry-incubator/cfcr-etcd-release
-cd cfcr-etcd-release
-bosh -e upload-release
-cd ~/git/service-fabrik-boshrelease
+bosh -e bosh upload-release https://github.com/cloudfoundry-incubator/cfcr-etcd-release/releases/download/v1.4.0/cfcr-etcd-release-1.4.0.tgz
 bosh –e bosh -d apiserver deploy --vars-store=templates/vars-store.yml templates/apiserver.yml
 ```
 Useful prerequisites: When working with apiserver kubectl comes in handy. To configure kubectl locally, please follow steps mentioned in this [doc](https://github.com/cloudfoundry-incubator/service-fabrik-boshrelease/wiki/Configuring-kubectl-for-local-development)
