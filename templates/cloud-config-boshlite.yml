@@ -1,74 +1,62 @@
 azs:
 - name: z1
-  cloud_properties:
-    availability_zone: z1
 - name: z2
-  cloud_properties:
-    availability_zone: z2
 - name: z3
-  cloud_properties:
-    availability_zone: z3
 compilation:
-  network: compilation_network
+  az: z1
+  network: default
   reuse_compilation_vms: true
-  vm_type: default
+  vm_type: minimal
   workers: 6
-vm_types:
-- name: default
-  cloud_properties:
-    cpu: 2
-    ram: 4096
-    disk: 30_240
 disk_types:
 - disk_size: 1024
-  name: service_fabrik_hdd_1gb
-- disk_size: 2048
-  name: service_fabrik_hdd_2gb
-- disk_size: 4096
-  name: service_fabrik_hdd_4gb
+  name: 1GB
+- disk_size: 5120
+  name: 5GB
 - disk_size: 10240
-  name: service_fabrik_hdd_10gb
-- disk_size: 20480
-  name: service_fabrik_hdd_20gb
-- disk_size: 40960
-  name: service_fabrik_hdd_40gb
-- disk_size: 61440
-  name: service_fabrik_hdd_60gb
-- disk_size: 81920
-  name: service_fabrik_hdd_80gb
-- disk_size: 102400
-  name: service_fabrik_hdd_100gb
-- disk_size: 204800
-  name: service_fabrik_hdd_200gb
-- disk_size: 409600
-  name: service_fabrik_hdd_400gb
-- disk_size: 614400
-  name: service_fabrik_hdd_600gb
-- disk_size: 819200
-  name: service_fabrik_hdd_800gb
-- disk_size: 1024000
-  name: service_fabrik_hdd_1tb
+  name: 10GB
+- disk_size: 100240
+  name: 100GB
+- disk_size: 1024
+  name: default
 networks:
-- name: compilation_network
-  type: dynamic
-- name: sf_compilation
-  type: dynamic
-- name: sf_service_fabrik_broker
-  type: manual
+- name: default
   subnets:
-  - az: z1
-    gateway: 10.244.4.1
-    cloud_properties: {}
-    range: 10.244.4.0/24
+  - azs:
+    - z1
+    - z2
+    - z3
+    cloud_properties:
+      name: random
+    gateway: 10.244.0.1
+    range: 10.244.0.0/20
     reserved:
-    - 10.244.4.1
+    - 10.244.0.1
     static:
-    - 10.244.4.2 # broker/0
-    - 10.244.4.3 # docker/0
-    - 10.244.4.4 # docker/1 (if you have configured a second node)
-- name: sf_bosh_services
-  type: manual
-  subnets:
-  - { range: 10.244.10.0/24, az: z1, cloud_properties: { name: random } }
-  - { range: 10.244.11.0/24, az: z2, cloud_properties: { name: random } }
-  - { range: 10.244.12.0/24, az: z3, cloud_properties: { name: random } }
+    - 10.244.0.2 - 10.244.14.254
+vm_extensions:
+- name: 5GB_ephemeral_disk
+- name: 10GB_ephemeral_disk
+- name: 50GB_ephemeral_disk
+- name: 100GB_ephemeral_disk
+- name: 500GB_ephemeral_disk
+- name: 1TB_ephemeral_disk
+- cloud_properties:
+    ports:
+    - host: 80
+    - host: 443
+    - host: 2222
+  name: ssh-proxy-and-router-lb
+- cloud_properties:
+    ports:
+    - host: 1024-1123
+  name: cf-tcp-router-network-properties
+- cloud_properties:
+    ports:
+    - host: 8845
+  name: credhub-lb
+vm_types:
+- name: minimal
+- name: small
+- name: small-highmem
+- name: default
