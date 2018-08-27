@@ -5,6 +5,15 @@ A bosh release to deploy Service Fabrik which provisions service instances as Do
 ## 3rd Party
 This BOSH release is based on/forked from and therefore includes sources from the following 3rd party BOSH release: https://github.com/cloudfoundry-community/docker-boshrelease, [Apache License Version 2.0](https://github.com/cloudfoundry-community/docker-boshrelease/blob/master/LICENSE).
 
+# Table of Contents
+1. [Local Development Setup](#local-development-setup)
+2. [Cloning the Repository](#cloning-the-repository)
+3. [Deploying ApiServer](#deploying-apiserver)
+4. [Deploying Service-Fabrik](#deploying-service-fabrik)
+5. [Register the Broker](#register-the-broker)
+6. [Run a Service Lifecycle](#run-a-service-lifecycle)
+7. [How to obtain Support](#how-to-obtain-support)
+
 ## Local Development Setup
 
 Please follow the instructions for the [broker](https://github.com/SAP/service-fabrik-broker)
@@ -29,6 +38,15 @@ git clone https://github.com/sap/service-fabrik-boshrelease
 cd service-fabrik-boshrelease
 ```
 
+### Deploying ApiServer
+Apiserver is a prerequisite for running Service-Fabrik-Broker. It can be deployed on boshlite using provided manifest [file](https://github.com/cloudfoundry-incubator/service-fabrik-boshrelease/blob/master/templates/apiserver.yml)
+Prerequisites:
+apiserver has dependency on cfcr-etcd release, which have to be first uploaded on bosh before deploying apiserver.
+```shell
+bosh -e bosh upload-release https://github.com/cloudfoundry-incubator/cfcr-etcd-release/releases/download/v1.4.0/cfcr-etcd-release-1.4.0.tgz
+bosh –e bosh -d apiserver deploy --vars-store=templates/vars-store.yml templates/apiserver.yml
+```
+Useful prerequisites: When working with apiserver kubectl comes in handy. To configure kubectl locally, please follow steps mentioned in this [doc](https://github.com/cloudfoundry-incubator/service-fabrik-boshrelease/wiki/Configuring-kubectl-for-local-development)
 ### Deploying Service-Fabrik
 
 #### Creating and uploading release:
