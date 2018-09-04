@@ -72,7 +72,7 @@ Then, we need to upload the cloud-config required for service-fabrik on bosh.
 For bosh-lite, you can upload cloud-config in the following manner:
 ```shell
 cd templates
-bosh –e bosh upload-cloud-config cloud-config-boshlite.yml
+bosh –e bosh update-cpi-config cloud-config-boshlite.yml
 ```
 
 For AWS, we need to update the vars-files for the cloud-config. 
@@ -80,7 +80,7 @@ The vars file to be edited is `cloud-config-aws-vars.yml`. It can be found in th
 Once the vars file is filled with proper details, the cloud-config can be uploaded:
 ```shell
 cd templates
-bosh –e bosh upload-cloud-config --vars-store=cloud-config-aws-vars.yml cloud-config-aws.yml
+bosh –e bosh update-cpi-config --vars-store=cloud-config-aws-vars.yml cloud-config-aws.yml
 ```
 
 #### Deployment:
