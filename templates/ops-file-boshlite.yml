@@ -1,14 +1,26 @@
 ---
 - type: replace
+  path: /instance_groups/name=broker/vm_type
+  value: minimal
+
+- type: replace
+  path: /instance_groups/name=docker/persistent_disk_type
+  value: 5GB
+
+- type: replace
+  path: /instance_groups/name=docker/vm_type
+  value: minimal
+
+- type: replace
   path: /instance_groups/name=broker/networks
   value:
-  - name: sf_service_fabrik_broker
+  - name: default
     static_ips: 10.244.4.2
 
 - type: replace
   path: /instance_groups/name=docker/networks
   value:
-  - name: sf_service_fabrik_broker
+  - name: default
     static_ips:
     - 10.244.4.3
     #- 10.244.4.4

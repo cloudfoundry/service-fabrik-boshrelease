@@ -23,6 +23,28 @@ instance_groups:
   vm_type: service_fabrik_vm_medium
   azs: [z1]
   jobs:
+  - name: service-fabrik-apiserver
+    release: service-fabrik
+    properties:
+      admin-username: admin
+      admin-password: admin
+      backend_port: 8443 # Bosh links hack
+      ip: 10.244.14.252
+      port: 8443
+      etcd:
+        url:
+        - 10.244.14.252:2379
+        - 10.244.14.253:2379
+        - 10.244.14.254:2379
+        ssl:
+          ca: ((tls_etcd.ca))
+          crt: ((tls_etcd.certificate))
+          key: ((tls_etcd.private_key))
+      tls: 
+        apiserver:
+          ca: ((tls_etcd.ca))
+          certificate: ((tls_apiserver.certificate))
+          private_key: ((tls_apiserver.private_key))
   - name: service-fabrik-broker
     release: service-fabrik
     properties:
