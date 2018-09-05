@@ -115,7 +115,7 @@ Once all the changes are made, service-fabrik can be deployed:
 
 for AWS:
 ```shell
-bosh –e bosh deploy -d servcie-fabrik -o services.yml -o actions.yml -o ops-file.yml -o ops-file-aws.yml --vars-store=vars-store.yml deployment.yml
+bosh –e bosh deploy -d service-fabrik -o services.yml -o actions.yml -o ops-file.yml -o ops-file-aws.yml --vars-store=vars-store.yml deployment.yml
 ```
 
 for boshlite:
