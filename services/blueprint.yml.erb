@@ -102,6 +102,15 @@ plans:
   actions: ReserveIps
   manager:
     name: 'director'
+    resource_mappings: &director_resource_mappings
+      resource_group: 'deployment.servicefabrik.io'
+      resource_type: 'directors'
+      bind:
+        resource_group: 'bind.servicefabrik.io'
+        resource_type: 'directorbinds'
+      backup:
+        resource_group: 'backup.servicefabrik.io'
+        resource_type: 'defaultbackups'
     settings:
       prefix: 'blueprint'
       agent: &agent
@@ -139,6 +148,7 @@ plans:
   free: false
   manager:
     name: 'director'
+    resource_mappings: &director_resource_mappings
     settings:
       prefix: 'blueprint'
       agent: *agent

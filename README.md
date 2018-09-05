@@ -130,7 +130,7 @@ bosh                                     \
   -e ${BOSHLITE_DIRECTOR_NAME}           \
   -d service-fabrik                      \
   deploy                                 \
-  templates/deployment-new.yml           \
+  templates/deployment.yml               \
   -o templates/services.yml              \
   -o templates/actions.yml               \
   -o templates/crds.yml                  \
