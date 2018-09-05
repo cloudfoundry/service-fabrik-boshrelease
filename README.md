@@ -123,6 +123,23 @@ for boshlite:
 bosh –e bosh deploy -o services.yml -o actions.yml -o ops-file.yml -o ops-file-boshlite.yml --vars-store=vars-store.yml deployment.yml
 ```
 
+for gcp-boshlite:
+```
+nats_password=$(credhub get -n "/bosh-${BOSHLITE_DIRECTOR_NAME}/cf/nats_password" | yaml2json | jq -r '.value')
+bosh                                     \
+  -e ${BOSHLITE_DIRECTOR_NAME}           \
+  -d service-fabrik                      \
+  deploy                                 \
+  templates/deployment-new.yml           \
+  -o templates/services.yml              \
+  -o templates/actions.yml               \
+  -o templates/crds.yml                  \
+  -o templates/ops-file.yml              \
+  -o templates/ops-file-boshlite-gcp.yml \
+  --vars-store=templates/vars-store.yml  \
+  -v nats_password=$nats_password
+```
+
 ### Register the Broker
 
 You have to do this only once or whenever you modify the catalog. Then of course, use `update-service-broker` instead of `create-service-broker`.
