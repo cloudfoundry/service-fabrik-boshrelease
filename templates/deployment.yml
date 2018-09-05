@@ -28,14 +28,11 @@ instance_groups:
     properties:
       admin-username: admin
       admin-password: admin
-      backend_port: 8443 # Bosh links hack
-      ip: 10.244.14.252
-      port: 8443
+      backend_port: default # Bosh links hack
+      ip: default
+      port: default
       etcd:
-        url:
-        - 10.244.14.252:2379
-        - 10.244.14.253:2379
-        - 10.244.14.254:2379
+        url: default
         ssl:
           ca: ((tls_etcd.ca))
           crt: ((tls_etcd.certificate))

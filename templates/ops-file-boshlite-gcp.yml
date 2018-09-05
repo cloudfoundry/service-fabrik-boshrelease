@@ -42,6 +42,25 @@
     range: 10.244.12.0/24
 
 - type: replace
+  path: /instance_groups/name=broker/jobs/name=service-fabrik-apiserver/properties/backend_port
+  value: 8443
+
+- type: replace
+  path: /instance_groups/name=broker/jobs/name=service-fabrik-apiserver/properties/port
+  value: 8443
+
+- type: replace
+  path: /instance_groups/name=broker/jobs/name=service-fabrik-apiserver/properties/ip
+  value: 10.244.14.252
+
+- type: replace
+  path: /instance_groups/name=broker/jobs/name=service-fabrik-apiserver/properties/etcd/url
+  value: 
+  - 10.244.14.252:2379
+  - 10.244.14.253:2379
+  - 10.244.14.254:2379
+
+- type: replace
   path: /instance_groups/name=broker/jobs/name=service-fabrik-broker/properties/internal/ip
   value: 10.244.4.2
 
