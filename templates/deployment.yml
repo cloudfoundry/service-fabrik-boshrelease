@@ -46,6 +46,16 @@ instance_groups:
           certificate: ((tls_apiserver.certificate))
           private_key: ((tls_apiserver.private_key))
       crds: placeholder
+  - name: bpm
+    release: bpm
+  - name: service-fabrik-backup-manager
+    release: service-fabrik
+  - name: service-fabrik-bosh-manager
+    release: service-fabrik
+  - name: service-fabrik-docker-manager
+    release: service-fabrik
+  - name: service-fabrik-virtualhost-manager
+    release: service-fabrik
   - name: service-fabrik-broker
     release: service-fabrik
     properties:
@@ -301,4 +311,6 @@ releases:
 - name: routing
   version: latest
 - name: service-fabrik
+  version: latest
+- name: bpm
   version: latest
