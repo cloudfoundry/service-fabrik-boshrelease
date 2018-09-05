@@ -45,6 +45,7 @@ instance_groups:
           ca: ((tls_etcd.ca))
           certificate: ((tls_apiserver.certificate))
           private_key: ((tls_apiserver.private_key))
+      crds: placeholder
   - name: service-fabrik-broker
     release: service-fabrik
     properties:
