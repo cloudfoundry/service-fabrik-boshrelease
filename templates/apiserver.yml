@@ -5,8 +5,6 @@ instance_groups:
   - z1
   instances: 3
   jobs:
-  - name: webhooks
-    release: service-fabrik
   - name: service-fabrik-apiserver
     release: service-fabrik
     properties:
