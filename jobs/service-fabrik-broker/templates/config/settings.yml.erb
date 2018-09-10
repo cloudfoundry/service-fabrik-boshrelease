@@ -122,7 +122,13 @@ production:
     agent:
       provider:
         container: <%= p('mongodb.agent.provider.container') %>
-
+  ######################
+  # APISERVER LOCK TTL #
+  ######################
+  lockttl:
+    lifecycle: <%= p('lockttl.lifecycle') %>
+    backup: <%= p('lockttl.backup') %>
+    restore: <%= p('lockttl.restore') %>
 
   ######################
   # SCHEDULER SETTINGS #

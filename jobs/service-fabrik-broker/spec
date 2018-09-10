@@ -230,7 +230,15 @@ properties:
   internal.domain_socket.path:
     description: "domain socket path used to communicate with broker monitoring agent"
     default: /tmp/sfevents
-
+  lockttl.lifecycle:
+    description: "LockTTL in seconds for lifecycle operations create, update, delete"
+    default: 86400
+  lockttl.backup:
+    description: "LockTTL in seconds for backup operation"
+    default: 86400
+  lockttl.restore:
+    description: "LockTTL in seconds for restore operation"
+    default: 86400
   mongodb.url:
     description: "MongoDB connection URL for service-fabrik's internal needs. ex : mongodb://user:pass@localhost:port/database"
   mongodb.record_max_fetch_count:
