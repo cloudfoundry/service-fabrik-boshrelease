@@ -29,3 +29,15 @@ File.open('actions.yml', 'a') do |f|
   f << "    "
   f.puts(actions.to_json)
 end
+File.write("crds.yml", "---\n")
+File.open('crds.yml', 'a') do |f|
+  f.puts("- type: replace")
+  f.puts("  path: /instance_groups/name=broker/jobs/name=service-fabrik-apiserver/properties/crds")
+  f.puts("  value:")
+  Dir.glob("../crds/*.yaml") do |filename|
+    name = filename.split("/").last
+    f << "    \"#{name}\": "
+    template = Base64.strict_encode64(File.read("#{filename}"))
+    f.puts(template)
+  end
+end
