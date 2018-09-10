@@ -253,17 +253,6 @@ production:
     url: <%= p('etcd.url') %>
     ssl: <%= JSON.dump(p('etcd.ssl')) %>
 
-  #############################
-  # CREDHUB SETTINGS #
-  #############################
-  cred_provider:
-    credhub_url: <%= p('cred_provider.credhub_url') %>
-    credhub_uaa_url: <%= p('cred_provider.credhub_uaa_url') %>
-    credhub_client_id: <%= p('cred_provider.credhub_client_id') %>
-    credhub_client_secret: <%= p('cred_provider.credhub_client_secret') %>
-    credhub_username: <%= p('cred_provider.credhub_username') %>
-    credhub_user_password: <%= p('cred_provider.credhub_user_password') %>
-
   ###################
   # DOCKER SETTINGS #
   ###################
