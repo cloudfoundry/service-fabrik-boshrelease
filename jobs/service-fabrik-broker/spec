@@ -36,6 +36,7 @@ provides:
   - broker_drain_message
   - http_timeout
   - deployment_action_timeout
+  - agent_operation_timeout
   - internal.port
   - internal.ip
   - internal.ssl
@@ -167,6 +168,9 @@ properties:
   deployment_action_timeout:
     description: "Timeout duration for deployment hook actions"
     default: 80000
+  agent_operation_timeout:
+    description: "(milliseconds) Timeout duration for any operation done on broker agent"
+    default: 35000
   multi_az_enabled:
     description: "Switch used to turn on/off the multi-az support"
     default: false
