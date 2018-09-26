@@ -31,10 +31,16 @@ production:
   # EXTERNAL ENDPOINT SETTINGS #
   ##############################
   external:
+    log_event: <%= link("broker").p('external.log_event') %>
+    event_type: SF.API_EVENT
+    trust_proxy: <%= external['trust_proxy'] %>
+    port: <%= external['port'] %>
     protocol: 'https'
     host: <%= external['host'] %>
+    cookie_secret: <%= external['cookie_secret'] %>
     cookie_secure: true
     session_expiry: <%= external['session_expiry'] %>
+    api_requires_admin_scope: <%= link("broker").p('external.api_requires_admin_scope', false) %>
 
   ##############################
   # INTERNAL ENDPOINT SETTINGS #
@@ -64,7 +70,12 @@ production:
   # QUOTA MANAGEMENT SETTINGS #
   ###################
   quota: <%= JSON.dump(link("broker").p('quota', nil)) %>
-
+  ######################
+  # SCHEDULER SETTINGS #
+  ######################
+  scheduler:
+    jobs:
+      reschedule_delay: <%= link("scheduler").p('jobs.reschedule_delay') %>
   #######################
   # MONITORING SETTINGS #
   #######################
@@ -118,47 +129,6 @@ production:
   #################################
   virtual_host:
     provider: <%= JSON.dump(link("broker").p('virtual_host.provider', nil)) %>
-  ######################
-  # SCHEDULER SETTINGS #
-  ######################
-  scheduler:
-    <% link("scheduler").if_p('job_types') do |job_types| %>
-    job_types: <%= job_types %> # Comma seperated list of batch job types that are enabled in service fabrik
-    <% end %>
-    process_every: <%= link("scheduler").p('process_every') %> # Interval at which scheduler will query the database looking for jobs that need to be processed
-    run_with_web_process: <%= link("scheduler").p('run_with_web_process') %> # Flag which indicates if scheduler can run in the same process as that of service fabrik broker web process
-    max_concurrency: <%= link("scheduler").p('max_concurrency') %> # A number which specifies the max number of batch jobs that can be running at any given moment
-    default_concurrency: <%= link("scheduler").p('default_concurrency') %> # A number which specifies the default number of a specific job that can be running at any given moment
-    start_delay: <%= link("scheduler").p('start_delay') %>
-    default_lock_lifetime: <%= link("scheduler").p('default_lock_lifetime') %> # Specifies the default lock lifetime of a batchjob in milliseconds.
-    agenda_collection: <%= link("scheduler").p('agenda_collection') %> # Name of the collection in mongodb which is to be used by agendaJS to store the scheduled job meta info
-    maintenance_check_interval:  <%= link("scheduler").p('maintenance_check_interval') %>
-    maintenance_mode_time_out:  <%= link("scheduler").p('maintenance_mode_time_out') %>
-    downtime_maintenance_phases: <%= link("scheduler").p('downtime_maintenance_phases') %>
-    system_jobs:
-    - name: 'service-fabrik-mongodb'
-      type: 'ScheduledOobDeploymentBackup'
-      interval: <%= link("broker").p('mongodb.backup.schedule_interval') %> #Backup schedule interval for service fabrik DB
-      job_data:
-        type: 'online'
-        trigger: 'scheduled'
-        deployment_name: <%= link("broker").p('mongodb.deployment_name') %>
-        container: <%= link("broker").p('mongodb.agent.provider.container') %>
-    - name: 'Backup_Reaper'
-      type: 'BackupReaper'
-      interval: <%= link("scheduler").p('system_jobs.backup_reaper.interval') %> #Schedule interval for backup reaper job
-      job_data:
-        delete_delay: <%= link("scheduler").p('system_jobs.backup_reaper.job_data.delete_delay') %>
-    - name: 'DbCollection_Reaper'
-      type: 'DbCollectionReaper'
-      interval:  <%= link("scheduler").p('system_jobs.dbcollection_reaper.interval') %> #Schedule interval for DB Collection reaper job
-      job_data:
-        reap_collections:
-          - name : JobRunDetail
-            retention_in_days:  <%= link("scheduler").p('system_jobs.dbcollection_reaper.jobrun_detail.retention_in_days') %>
-          - name : EventDetail
-            retention_in_days: <%= link("scheduler").p('system_jobs.dbcollection_reaper.event_detail.retention_in_days') %>
-      enabled: true
 
   ####################
   # MONGODB SETTINGS #
