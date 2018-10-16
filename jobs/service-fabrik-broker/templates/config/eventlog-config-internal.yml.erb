@@ -13,14 +13,14 @@ defaults:
   ignore_service_fabrik_operation: <%= p('event.defaults.ignore_service_fabrik_operation') %>
   # wheter HTTP response body is to be logged or not
   include_response_body: <%= p('event.defaults.include_response_body') %>
-"/:platform(cf|k8s)/v2/catalog":
+"/:platform(cf|k8s|sm)/v2/catalog":
   GET:
     enabled: true
     event_name: broker_catalog
     description: Get broker service catalog
     tags:
     - catalog
-"/:platform(cf|k8s)/v2/service_instances/:instance_id":
+"/:platform(cf|k8s|sm)/v2/service_instances/:instance_id":
   PUT:
     enabled: true
     event_name: create_instance
@@ -42,7 +42,7 @@ defaults:
     - delete
     http_success_codes:<% p('event.delete.http_success_codes').each do |code| %>
     - <%= code %><% end %>
-"/:platform(cf|k8s)/v2/service_instances/:instance_id/service_bindings/:binding_id":
+"/:platform(cf|k8s|sm)/v2/service_instances/:instance_id/service_bindings/:binding_id":
   PUT:
     enabled: true
     event_name: create_binding
@@ -58,7 +58,7 @@ defaults:
     - binding
     http_success_codes:<% p('event.delete.http_success_codes').each do |code| %>
     - <%= code %><% end %>
-"/:platform(cf|k8s)/v2/service_instances/:instance_id/last_operation":
+"/:platform(cf|k8s|sm)/v2/service_instances/:instance_id/last_operation":
   GET:
     enabled: true
     cf_last_operation: true
