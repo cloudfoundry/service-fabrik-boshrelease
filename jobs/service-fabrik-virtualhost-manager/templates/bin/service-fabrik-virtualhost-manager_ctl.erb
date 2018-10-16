@@ -30,7 +30,7 @@ case $1 in
       --background \
       --no-close \
       --chdir ${PACKAGE_DIR} \
-      -- ${PACKAGE_DIR}/managers/StartVirtualHostManagers.js \
+      -- ${PACKAGE_DIR}/operators/StartVirtualHostOperators.js \
       1>> ${LOG_DIR}/${OUTPUT_LABEL}.stdout.log \
       2>> ${LOG_DIR}/${OUTPUT_LABEL}.stderr.log
     ;;
