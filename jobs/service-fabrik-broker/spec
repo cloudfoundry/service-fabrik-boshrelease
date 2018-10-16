@@ -113,10 +113,6 @@ provides:
   - directors
   - multi_az_enabled
   - ha_enabled
-  - etcd.url
-  - etcd.ssl.ca
-  - etcd.ssl.crt
-  - etcd.ssl.key
 consumes:
 - name: scheduler
   type: scheduler
@@ -181,16 +177,6 @@ properties:
     description: "Drain message that is updated into broker maintenance state. If undefined, then during drain maintenance state is not updated"
     default: "BROKER_DRAIN_INITIATED"
   
-  etcd.url:
-    description: "URL Endpoints of ETCD"
-    default: ["10.11.122.106", "10.11.122.107", "10.11.122.108"]
-  etcd.ssl.ca:
-    description: "ETCD CA Certificate"
-  etcd.ssl.crt:
-    description: "ETCD Certificate"
-  etcd.ssl.key:
-    description: "ETCD key"
-
   external.port:
     description: "Port used for external endpoints such as dashboards or the Service Fabrik API"
     default: 9292
