@@ -14,6 +14,7 @@ templates:
   config/apiserver-key.pem.erb: config/apiserver-key.pem
   config/apiserver.pem.erb: config/apiserver.pem
   config/tokens.csv.erb: config/tokens.csv
+  config/kubeconfig.erb: config/kubeconfig
 
 provides:
 - name: service-fabrik-apiserver
