@@ -229,13 +229,6 @@ production:
     username: <%= link("broker").p('cf.username') %>
     password: <%= link("broker").p('cf.password') %>
   
-  #########################
-  #    ETCD SETTINGS      #
-  #########################
-  etcd:
-    url: <%= link("broker").p('etcd.url') %>
-    ssl: <%= JSON.dump(link("broker").p('etcd.ssl')) %>
-  
   ###################
   # DOCKER SETTINGS #
   ###################
