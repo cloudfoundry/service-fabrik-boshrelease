@@ -1,0 +1,15 @@
+<%
+network = spec.networks.methods(false).first
+ip = spec.networks.send(network).ip
+%>
+
+$ModLoad imtcp
+$InputTCPServerRun 514
+
+template(
+    name="logstash-template"
+    type="string"
+    string="<%%PRI%>%TIMESTAMP:::date-rfc3339% <%= ip %> <%= link("broker").p('name')%> [job=<%= name %> index=<%= index %>] %msg:::sp-if-no-1st-sp%%msg%"
+)
+
+:msg, contains , "[<%= link("broker").p('name')%>]"     @@<%= link("broker").p("syslog.host") %>:<%= link("broker").p("syslog.port") %>;logstash-template
