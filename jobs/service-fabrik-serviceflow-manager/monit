@@ -1,5 +1,6 @@
-check process service-fabrik-serviceflow-manager with pidfile /var/vcap/sys/run/service-fabrik-serviceflow-manager/service-fabrik-serviceflow-manager.pid
-  group vcap
+check process service-fabrik-serviceflow-manager 
+  with pidfile /var/vcap/sys/run/bpm/service-fabrik-serviceflow-manager/service-fabrik-serviceflow-manager.pid
   depends on service-fabrik-apiserver
-  start program "/var/vcap/packages/bosh-helpers/monit_debugger service-fabrik-serviceflow-manager_ctl '/var/vcap/jobs/service-fabrik-serviceflow-manager/bin/service-fabrik-serviceflow-manager_ctl start'"
-  stop program "/var/vcap/packages/bosh-helpers/monit_debugger service-fabrik-serviceflow-manager_ctl '/var/vcap/jobs/service-fabrik-serviceflow-manager/bin/service-fabrik-serviceflow-manager_ctl stop'"
+  start program "/var/vcap/jobs/bpm/bin/bpm start service-fabrik-serviceflow-manager"
+  stop program "/var/vcap/jobs/bpm/bin/bpm stop service-fabrik-serviceflow-manager"
+  group vcap

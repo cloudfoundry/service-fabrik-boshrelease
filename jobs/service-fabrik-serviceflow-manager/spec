@@ -7,17 +7,13 @@ packages:
   - service-fabrik-broker
 
 templates:
-  bin/service-fabrik-serviceflow-manager_ctl.erb: bin/service-fabrik-serviceflow-manager_ctl
-  bin/job_properties.sh.erb: bin/job_properties.sh
+  bin/pre_start.erb: bin/pre_start
+  config/bpm.yml.erb: config/bpm.yml
   config/settings.yml.erb: config/settings.yml
   config/syslog_forwarding.conf.erb: config/syslog_forwarding.conf
 
 consumes:
 - name: broker
   type: broker
-- name: scheduler
-  type: scheduler
-- name: deployment_hooks
-  type: deployment_hooks
 - name: service-fabrik-apiserver
   type: service-fabrik-apiserver
