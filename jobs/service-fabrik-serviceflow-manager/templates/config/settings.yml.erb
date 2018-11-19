@@ -1,0 +1,27 @@
+<%
+  def ostruct_to_hash(os)
+    os.marshal_dump.map do |key, value|
+      { key => value.is_a?(OpenStruct) ? ostruct_to_hash(value) : value }
+    end.reduce(&:merge)
+  end
+
+  broker_name = link("broker").p('name')
+  log_path = "/var/vcap/sys/log/service-fabrik-serviceflow-manager/service-fabrik-serviceflow-manager.log"
+%>---
+production:
+  log_path: <%= log_path %>
+  ##############################
+  # APISERVER SETTINGS #
+  ##############################
+  apiserver:
+    ip: <%= link("service-fabrik-apiserver").p('ip') %>
+    port: <%= link("service-fabrik-apiserver").p('port') %>
+    ca: <%= JSON.dump(link("service-fabrik-apiserver").p('tls.apiserver.ca')) %>
+    certificate: <%= JSON.dump(link("service-fabrik-apiserver").p('tls.apiserver.certificate')) %>
+    private_key: <%= JSON.dump(link("service-fabrik-apiserver").p('tls.apiserver.private_key')) %>
+    crds: <%= JSON.dump(link("service-fabrik-apiserver").p('crds')) %>
+
+  ####################
+  # SERVICES CATALOG #
+  ####################
+  services: <%= JSON.pretty_generate(link("broker").p('services')) %>

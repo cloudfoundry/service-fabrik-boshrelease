@@ -1,0 +1,10 @@
+#!/bin/bash
+
+set -e # exit immediately if a simple command exits with a non-zero status
+
+source /var/vcap/packages/bosh-helpers/ctl_setup.sh 'service-fabrik-serviceflow-manager'
+
+# Enable syslog forwarding to logstash
+if [ ! -L /etc/rsyslog.d/53-fabrik_serviceflow-manager_forwarding.conf ]; then
+  ln -s ${CONF_DIR}/syslog_forwarding.conf /etc/rsyslog.d/53-fabrik_serviceflow-manager_forwarding.conf
+fi

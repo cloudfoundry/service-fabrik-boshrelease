@@ -1,0 +1,6 @@
+check process service-fabrik-serviceflow-manager 
+  with pidfile /var/vcap/sys/run/bpm/service-fabrik-serviceflow-manager/service-fabrik-serviceflow-manager.pid
+  depends on service-fabrik-apiserver
+  start program "/var/vcap/jobs/bpm/bin/bpm start service-fabrik-serviceflow-manager"
+  stop program "/var/vcap/jobs/bpm/bin/bpm stop service-fabrik-serviceflow-manager"
+  group vcap
