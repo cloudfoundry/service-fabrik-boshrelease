@@ -239,12 +239,6 @@ production:
     transaction_logs_delete_buffer_time: <%= p('backup.transaction_logs_delete_buffer_time') %>
     provider: <%= JSON.dump(p('backup.provider', nil)) %>
 
-  #################################
-  # VIRTUAL HOST MANAGER SETTINGS #
-  #################################
-  virtual_host:
-    provider: <%= JSON.dump(p('virtual_host.provider', nil)) %>
-
   #########################
   # CLOUDFOUNDRY SETTINGS #
   #########################

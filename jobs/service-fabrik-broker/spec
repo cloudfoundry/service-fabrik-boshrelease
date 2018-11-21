@@ -85,7 +85,6 @@ provides:
   - backup.restore_history_days
   - backup.reschedule_backup_delay_after_restore
   - backup.transaction_logs_delete_buffer_time
-  - virtual_host.provider
   - docker.url
   - docker.skip_ssl_validation
   - docker.allocate_docker_host_ports
@@ -288,8 +287,6 @@ properties:
   backup.transaction_logs_delete_buffer_time:
     description: "Delete transaction logs older than latest successful backup + this buffer time in minutes"
     default: 30
-  virtual_host.provider:
-    description: "IaaS-specific virtual host manager provider configuration"
 
   cf.url:
     description: "URL of the Cloud Foundry cloud controller"

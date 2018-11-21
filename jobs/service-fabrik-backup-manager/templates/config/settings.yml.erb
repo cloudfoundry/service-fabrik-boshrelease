@@ -124,12 +124,6 @@ production:
     transaction_logs_delete_buffer_time: <%= link("broker").p('backup.transaction_logs_delete_buffer_time') %>
     provider: <%= JSON.dump(link("broker").p('backup.provider', nil)) %>
 
-  #################################
-  # VIRTUAL HOST MANAGER SETTINGS #
-  #################################
-  virtual_host:
-    provider: <%= JSON.dump(link("broker").p('virtual_host.provider', nil)) %>
-
   ####################
   # MONGODB SETTINGS #
   ####################
