@@ -9,7 +9,13 @@
   log_path = "/var/vcap/sys/log/service-fabrik-serviceflow-manager/service-fabrik-serviceflow-manager.log"
 %>---
 production:
+  ####################
+  # GENERAL SETTINGS #
+  ####################
+  broker_ip: <%= spec.ip %>
   log_path: <%= log_path %>
+  log_level: <%= link("broker").p('log_level') %>
+
   ##############################
   # APISERVER SETTINGS #
   ##############################
