@@ -230,12 +230,6 @@ production:
     reschedule_backup_delay_after_restore: <%= link("broker").p('backup.reschedule_backup_delay_after_restore') %>
     provider: <%= JSON.dump(link("broker").p('backup.provider', nil)) %>
 
-  #################################
-  # VIRTUAL HOST MANAGER SETTINGS #
-  #################################
-  virtual_host:
-    provider: <%= JSON.dump(link("broker").p('virtual_host.provider', nil)) %>
-
   #########################
   # CLOUDFOUNDRY SETTINGS #
   #########################

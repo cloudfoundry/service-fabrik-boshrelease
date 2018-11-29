@@ -187,18 +187,6 @@ instance_groups:
           tenantId: null
           username: null
         retention_period_in_days: 14
-      virtual_host:
-        provider:
-          authUrl: null
-          container: null
-          keystoneAuthVersion: null
-          name: openstack
-          password: null
-          projectDomainName: null
-          region: null
-          strictSSL: false
-          tenantId: null
-          username: null
       nats:
         machines: default
         password: default
