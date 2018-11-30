@@ -1,0 +1,20 @@
+---
+name: service-fabrik-postgresql-manager
+
+templates: 
+  bin/service-fabrik-postgresql-manager_ctl.erb: bin/service-fabrik-postgresql-manager_ctl
+  bin/job_properties.sh.erb: bin/job_properties.sh
+  config/settings.yml.erb: config/settings.yml
+  config/syslog_forwarding.conf.erb: config/syslog_forwarding.conf
+
+
+packages:
+  - bosh-helpers
+  - node
+  - service-fabrik-broker
+
+consumes:
+- name: broker
+  type: broker
+- name: service-fabrik-apiserver
+  type: service-fabrik-apiserver

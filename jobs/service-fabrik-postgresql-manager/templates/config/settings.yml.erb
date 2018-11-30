@@ -1,0 +1,85 @@
+<%
+  def ostruct_to_hash(os)
+    os.marshal_dump.map do |key, value|
+      { key => value.is_a?(OpenStruct) ? ostruct_to_hash(value) : value }
+    end.reduce(&:merge)
+  end
+
+  broker_name = link("broker").p('name')
+  log_path = "/var/vcap/sys/log/service-fabrik-postgresql-manager/service-fabrik-postgresql-manager.log"
+  external = link("broker").p('external')
+  internal = link("broker").p('internal')
+%>---
+production:
+  ####################
+  # GENERAL SETTINGS #
+  ####################
+  username: '<%= link("broker").p('username') %>'
+  password: '<%= link("broker").p('password') %>'
+  broker_ip: <%= spec.ip %>
+  enable_service_fabrik_v2: <%= link("broker").p('enable_service_fabrik_v2') %>
+  skip_ssl_validation: <%= link("broker").p('skip_ssl_validation') %>
+  session_store:
+    path: <%= "/var/vcap/store/#{broker_name}/session" %>
+  log_path: <%= log_path %>
+  log_level: <%= link("broker").p('log_level') %>
+  enable_circuit_breaker: <%= link("broker").p('enable_circuit_breaker') %>
+  http_timeout: <%= link("broker").p('http_timeout') %>
+  agent_operation_timeout: <%= link("broker").p('agent_operation_timeout') %>
+  broker_drain_message: <%= link("broker").p('broker_drain_message') %>
+  ##############################
+  # EXTERNAL ENDPOINT SETTINGS #
+  ##############################
+  external:
+    protocol: 'https'
+    host: <%= external['host'] %>
+    cookie_secure: true
+    session_expiry: <%= external['session_expiry'] %>
+
+  ##############################
+  # INTERNAL ENDPOINT SETTINGS #
+  ##############################
+  internal:
+    ip: <%= "#{internal['ip']}" %>
+    host: <%= "#{internal['ip']}:#{internal['port']}" %>
+    <% link("broker").if_p('internal.ssl') do |ssl| %>
+    protocol: 'https'
+    ssl: <%= JSON.dump(ssl) %>
+    <% end.else do %>
+    protocol: 'http'
+    <% end %>
+
+  ##############################
+  # APISERVER SETTINGS #
+  ##############################
+  apiserver:
+    ip: <%= link("service-fabrik-apiserver").p('ip') %>
+    port: <%= link("service-fabrik-apiserver").p('port') %>
+    ca: <%= JSON.dump(link("service-fabrik-apiserver").p('tls.apiserver.ca')) %>
+    certificate: <%= JSON.dump(link("service-fabrik-apiserver").p('tls.apiserver.certificate')) %>
+    private_key: <%= JSON.dump(link("service-fabrik-apiserver").p('tls.apiserver.private_key')) %>
+    crds: <%= JSON.dump(link("service-fabrik-apiserver").p('crds')) %>
+      
+  ###################
+  # BACKUP SETTINGS #
+  ###################
+  backup:
+    provider: <%= JSON.dump(link("broker").p('backup.provider', nil)) %>
+
+
+  #########################
+  # CLOUDFOUNDRY SETTINGS #
+  #########################
+  cf:
+    url: <%= link("broker").p('cf.url') %>
+    username: <%= link("broker").p('cf.username') %>
+    password: <%= link("broker").p('cf.password') %>
+
+  #####################
+  # DIRECTOR SETTINGS #
+  #####################
+  directors: <%= JSON.dump(link("broker").p('directors')) %>
+  ####################
+  # SERVICES CATALOG #
+  ####################
+  services: <%= JSON.pretty_generate(link("broker").p('services')) %>

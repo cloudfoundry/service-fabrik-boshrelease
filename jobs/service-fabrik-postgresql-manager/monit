@@ -1,0 +1,5 @@
+check process service-fabrik-postgresql-manager with pidfile /var/vcap/sys/run/service-fabrik-postgresql-manager/service-fabrik-postgresql-manager.pid
+  group vcap
+  depends on service-fabrik-apiserver
+  start program "/var/vcap/packages/bosh-helpers/monit_debugger service-fabrik-postgresql-manager_ctl '/var/vcap/jobs/service-fabrik-postgresql-manager/bin/service-fabrik-postgresql-manager_ctl start'"
+  stop program "/var/vcap/packages/bosh-helpers/monit_debugger service-fabrik-postgresql-manager_ctl '/var/vcap/jobs/service-fabrik-postgresql-manager/bin/service-fabrik-postgresql-manager_ctl stop'"
