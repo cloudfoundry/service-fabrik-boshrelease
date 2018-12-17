@@ -1,0 +1,6 @@
+check process service-fabrik-multitenancy-operator
+  with pidfile /var/vcap/sys/run/bpm/service-fabrik-multitenancy-operator/service-fabrik-multitenancy-operator.pid
+  depends on service-fabrik-apiserver
+  start program "/var/vcap/jobs/bpm/bin/bpm start service-fabrik-multitenancy-operator"
+  stop program "/var/vcap/jobs/bpm/bin/bpm stop service-fabrik-multitenancy-operator"
+  group vcap
