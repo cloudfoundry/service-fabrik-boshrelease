@@ -60,12 +60,6 @@ production:
     private_key: <%= JSON.dump(link("service-fabrik-apiserver").p('tls.apiserver.private_key')) %>
     crds: <%= JSON.dump(link("service-fabrik-apiserver").p('crds')) %>
       
-  ###################
-  # BACKUP SETTINGS #
-  ###################
-  backup:
-    provider: <%= JSON.dump(link("broker").p('backup.provider', nil)) %>
-
   #########################
   # CLOUDFOUNDRY SETTINGS #
   #########################
@@ -78,6 +72,7 @@ production:
   # DIRECTOR SETTINGS #
   #####################
   directors: <%= JSON.dump(link("broker").p('directors')) %>
+
   ####################
   # SERVICES CATALOG #
   ####################
