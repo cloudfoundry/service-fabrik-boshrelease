@@ -1,0 +1,15 @@
+---
+<%
+CONFIG_PATH = "/var/vcap/jobs/service-fabrik-postgresqlmt-operator/config"
+%>
+processes:
+- name: service-fabrik-postgresqlmt-operator
+  executable: /var/vcap/packages/node/bin/node
+  args:
+  - /var/vcap/packages/service-fabrik-broker/operators/StartPostgresqlMTOperators.js
+  env:
+    CONF_DIR: <%= CONFIG_PATH %>
+    NODE_ENV: production
+    SETTINGS_PATH: <%= CONFIG_PATH %>/settings.yml
+  hooks:
+    pre_start: /var/vcap/jobs/service-fabrik-postgresqlmt-operator/bin/pre_start

@@ -1,14 +1,7 @@
 <%
-  def ostruct_to_hash(os)
-    os.marshal_dump.map do |key, value|
-      { key => value.is_a?(OpenStruct) ? ostruct_to_hash(value) : value }
-    end.reduce(&:merge)
-  end
-
-  broker_name = link("broker").p('name')
-  log_path = "/var/vcap/sys/log/service-fabrik-multitenancy-operator/service-fabrik-multitenancy-operator.log"
+  log_level = "info"
+  log_path = "/var/vcap/sys/log/service-fabrik-postgresqlmt-operator/service-fabrik-postgresqlmt-operator.log"
   external = link("broker").p('external')
-  internal = link("broker").p('internal')
 %>---
 production:
   ####################
@@ -19,14 +12,13 @@ production:
   broker_ip: <%= spec.ip %>
   enable_service_fabrik_v2: <%= link("broker").p('enable_service_fabrik_v2') %>
   skip_ssl_validation: <%= link("broker").p('skip_ssl_validation') %>
-  session_store:
-    path: <%= "/var/vcap/store/#{broker_name}/session" %>
   log_path: <%= log_path %>
-  log_level: <%= link("broker").p('log_level') %>
+  log_level: <%= log_level %>
   enable_circuit_breaker: <%= link("broker").p('enable_circuit_breaker') %>
   http_timeout: <%= link("broker").p('http_timeout') %>
   agent_operation_timeout: <%= link("broker").p('agent_operation_timeout') %>
   broker_drain_message: <%= link("broker").p('broker_drain_message') %>
+  
   ##############################
   # EXTERNAL ENDPOINT SETTINGS #
   ##############################
@@ -35,19 +27,6 @@ production:
     host: <%= external['host'] %>
     cookie_secure: true
     session_expiry: <%= external['session_expiry'] %>
-
-  ##############################
-  # INTERNAL ENDPOINT SETTINGS #
-  ##############################
-  internal:
-    ip: <%= "#{internal['ip']}" %>
-    host: <%= "#{internal['ip']}:#{internal['port']}" %>
-    <% link("broker").if_p('internal.ssl') do |ssl| %>
-    protocol: 'https'
-    ssl: <%= JSON.dump(ssl) %>
-    <% end.else do %>
-    protocol: 'http'
-    <% end %>
 
   ##############################
   # APISERVER SETTINGS #

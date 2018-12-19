@@ -1,5 +1,5 @@
 ---
-name: service-fabrik-multitenancy-operator
+name: service-fabrik-postgresqlmt-operator
 
 packages:
   - bosh-helpers
