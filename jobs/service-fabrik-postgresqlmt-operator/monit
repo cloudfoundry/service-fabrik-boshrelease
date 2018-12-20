@@ -1,0 +1,6 @@
+check process service-fabrik-postgresqlmt-operator
+  with pidfile /var/vcap/sys/run/bpm/service-fabrik-postgresqlmt-operator/service-fabrik-postgresqlmt-operator.pid
+  depends on service-fabrik-apiserver
+  start program "/var/vcap/jobs/bpm/bin/bpm start service-fabrik-postgresqlmt-operator"
+  stop program "/var/vcap/jobs/bpm/bin/bpm stop service-fabrik-postgresqlmt-operator"
+  group vcap
