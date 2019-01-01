@@ -50,6 +50,10 @@ kubernetes-1.11.1/kube-apiserver:
   size: 185513080
   object_id: 03a0392c-f620-4ccb-73ca-48b0a1aeff33
   sha: 6805ea84a3fa1653219e75b3b99f47547e53380e
+kubernetes-1.12.4/kube-apiserver:
+  size: 192825094
+  object_id: 99e8f3b2-192f-4ac3-487f-18245b786565
+  sha: 265d1fd6c34785b5610b5a3ce95d6af755c9c97f
 libseccomp/libseccomp-2.3.3.tar.gz:
   size: 564546
   object_id: 4e749385-3bc6-45b5-7a08-906c3cf97573
