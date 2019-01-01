@@ -14,6 +14,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/serializer"
+	"sigs.k8s.io/controller-runtime/pkg/client/config"
 )
 
 var (
@@ -50,15 +51,6 @@ type patchOperation struct {
 	Op    string      `json:"op"`
 	Path  string      `json:"path"`
 	Value interface{} `json:"value,omitempty"`
-}
-
-type GenericStatus struct {
-	State string `json:"state,omitempty"`
-}
-
-type GenericResource struct {
-	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Status            GenericStatus `json:"status,omitempty"`
 }
 
 func init() {
@@ -114,9 +106,35 @@ func (whsvr *WebhookServer) mutate(ar *v1beta1.AdmissionReview) *v1beta1.Admissi
 		}(),
 	}
 
-	glog.Infof("AdmissionResponse:= %v", r)
-
 	return r
+}
+
+func (whsvr *WebhookServer) meter(ar *v1beta1.AdmissionReview) *v1beta1.AdmissionResponse {
+	glog.Info("Attempting to meter event")
+	evt, _ := NewEvent(ar)
+	if evt.isMeteringEvent() {
+		cfg, err := config.GetConfig()
+		if err != nil {
+			glog.Errorf("unable to set up client config", err)
+			return &v1beta1.AdmissionResponse{
+				Result: &metav1.Status{
+					Message: err.Error(),
+				},
+			}
+		}
+		err = evt.createMertering(cfg)
+		if err != nil {
+			return &v1beta1.AdmissionResponse{
+				Result: &metav1.Status{
+					Message: err.Error(),
+				},
+			}
+		}
+	}
+	return &v1beta1.AdmissionResponse{
+		Allowed: true,
+	}
+
 }
 
 // Serve method for webhook server
@@ -151,7 +169,12 @@ func (whsvr *WebhookServer) serve(w http.ResponseWriter, r *http.Request) {
 			},
 		}
 	} else {
-		admissionResponse = whsvr.mutate(&ar)
+		glog.Info("Url path:", r.URL.Path)
+		if r.URL.Path == "/mutate" {
+			admissionResponse = whsvr.mutate(&ar)
+		} else if r.URL.Path == "/meter" {
+			admissionResponse = whsvr.meter(&ar)
+		}
 	}
 
 	admissionReview := v1beta1.AdmissionReview{}
