@@ -30,11 +30,13 @@ production:
   log_level: <%= p('log_level') %>
   sys_log_level: <%= p('sys_log_level') %>
   enable_bosh_rate_limit: <%= p('enable_bosh_rate_limit') %>
+  enable_cross_organization_sharing: <%= p('enable_cross_organization_sharing') %>
   enable_circuit_breaker: <%= p('enable_circuit_breaker') %>
   enable_swarm_manager: <%= p('enable_swarm_manager') %>
   feature:
     ServiceInstanceAutoUpdate: <%= p('feature.ServiceInstanceAutoUpdate') %>
     EnableSecurityGroupsOps: <%= p('feature.EnableSecurityGroupsOps') %>
+    AllowInstanceSharing: <%= p('feature.AllowInstanceSharing') %>
   http_timeout: <%= p('http_timeout') %>
   deployment_action_timeout: <%= p('deployment_action_timeout') %>
   agent_operation_timeout: <%= p('agent_operation_timeout') %>

@@ -29,10 +29,12 @@ provides:
   - skip_ssl_validation
   - log_level
   - enable_bosh_rate_limit
+  - enable_cross_organization_sharing
   - enable_circuit_breaker
   - enable_swarm_manager
   - feature.ServiceInstanceAutoUpdate
   - feature.EnableSecurityGroupsOps
+  - feature.AllowInstanceSharing
   - broker_drain_message
   - http_timeout
   - deployment_action_timeout
@@ -148,6 +150,9 @@ properties:
   enable_bosh_rate_limit:
     description: "Switch used to turn on/off rate limiting against BOSH director"
     default: false
+  enable_cross_organization_sharing:
+    description: "Determines whether instances can be shared across CF organizations"
+    default: false
   enable_swarm_manager:
     description: "Determines whether the broker has dependency on swarm manager"
     default: true
@@ -156,6 +161,9 @@ properties:
     default: false
   feature.EnableSecurityGroupsOps:
     description: "Switch used to enable security groups related operations"
+    default: true
+  feature.AllowInstanceSharing:
+    description: "Switch used to turn on/off sharing instances on CF"
     default: true
   http_timeout:
     description: "Timeout duration for any request to broker"
