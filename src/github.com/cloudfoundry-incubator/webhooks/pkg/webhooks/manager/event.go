@@ -25,12 +25,12 @@ type Event struct {
 func NewEvent(ar *v1beta1.AdmissionReview) (*Event, error) {
 	crd, err := getGenericResource(ar.Request.Object.Raw)
 	if err != nil {
-		glog.Errorf("", err)
+		glog.Errorf("Could not get the GenericResource object", err)
 		return nil, err
 	}
 	oldCrd, err := getGenericResource(ar.Request.OldObject.Raw)
 	if err != nil {
-		glog.Errorf("", err)
+		glog.Errorf("Could not get the old GenericResource object", err)
 		return nil, err
 	}
 	return &Event{
