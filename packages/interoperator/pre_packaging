@@ -19,7 +19,7 @@ set -u
   # install dep 
   curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
   # Install production dependencies
-  dep ensure -v
+  ${GOPATH}/bin/dep ensure -v
 
   cp -R ${GOPATH}/src/github.com/cloudfoundry-incubator/service-fabrik-broker/interoperator/vendor ${BUILD_DIR}/github.com/cloudfoundry-incubator/service-fabrik-broker/interoperator
 
