@@ -123,15 +123,16 @@ func (e *Event) getDoc(opt GenericOptions, lo GenericLastOperation, crd GenericR
 
 func (e *Event) getDocs() ([]*unstructured.Unstructured, error) {
 	opt := getOptions(e.crd)
-	lo := getLastOperation(e.crd)
+	lo := e.crd.Status.lastOperation
 	oldOpt := getOptions(e.oldCrd)
-	oldLo := getLastOperation(e.oldCrd)
+	oldLo := e.oldCrd.Status.lastOperation
 	var meteringDocs []*unstructured.Unstructured
 
 	glog.Infof("Getting Metering Docs for Type %s", lo.Type)
 
 	switch lo.Type {
 	case "update":
+		glog.Info("IN UPDATE")
 		meteringDoc, err := e.getDoc(opt, lo, e.crd, "start")
 		if err != nil {
 			glog.Errorf("\nError getting: %v\n", err)
@@ -145,6 +146,7 @@ func (e *Event) getDocs() ([]*unstructured.Unstructured, error) {
 		}
 		meteringDocs = append(meteringDocs, meteringDoc)
 	case "create":
+		glog.Info("IN CREATE")
 		meteringDoc, err := e.getDoc(opt, lo, e.crd, "start")
 		if err != nil {
 			glog.Errorf("\nError getting: %v\n", err)
