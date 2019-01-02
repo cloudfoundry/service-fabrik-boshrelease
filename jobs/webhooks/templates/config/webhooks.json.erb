@@ -1,6 +1,6 @@
 <%
   CA = link('service-fabrik-apiserver').p('tls.apiserver.ca')
-  CA_BASE64 = Base64.encode64(CA)
+  CA_BASE64 = Base64.strict_encode64(CA)
 %>
 {
   "metadata": {

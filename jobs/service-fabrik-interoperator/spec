@@ -1,0 +1,15 @@
+---
+name: service-fabrik-interoperator
+
+packages:
+  - interoperator
+  - kubectl
+
+templates:
+  bin/pre_start.erb: bin/pre_start
+  config/bpm.yml.erb: config/bpm.yml
+  config/kubeconfig.yaml.erb: config/kubeconfig.yaml
+
+consumes:
+- name: service-fabrik-apiserver
+  type: service-fabrik-apiserver
