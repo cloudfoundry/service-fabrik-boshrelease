@@ -29,11 +29,13 @@ production:
   log_level: <%= link("broker").p('log_level') %>
   sys_log_level: <%= link("broker").p('sys_log_level') %>
   enable_bosh_rate_limit: <%= link("broker").p('enable_bosh_rate_limit') %>
+  enable_cross_organization_sharing: <%= link("broker").p('enable_cross_organization_sharing') %>
   enable_circuit_breaker: <%= link("broker").p('enable_circuit_breaker') %>
   enable_swarm_manager: <%= link("broker").p('enable_swarm_manager') %>
   feature:
     ServiceInstanceAutoUpdate: <%= link("broker").p('feature.ServiceInstanceAutoUpdate') %>
     EnableSecurityGroupsOps: <%= link("broker").p('feature.EnableSecurityGroupsOps') %>
+    AllowInstanceSharing: <%= link("broker").p('feature.AllowInstanceSharing') %>
   http_timeout: <%= link("broker").p('http_timeout') %>
   deployment_action_timeout: <%= link("broker").p('deployment_action_timeout') %>
   agent_operation_timeout: <%= link("broker").p('agent_operation_timeout') %>
