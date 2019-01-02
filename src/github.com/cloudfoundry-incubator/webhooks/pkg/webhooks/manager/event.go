@@ -33,6 +33,8 @@ func NewEvent(ar *v1beta1.AdmissionReview) (*Event, error) {
 		glog.Errorf("Could not get the old GenericResource object", err)
 		return nil, err
 	}
+	crd.Status.lastOperation = getLastOperation(crd)
+	oldCrd.Status.lastOperation = getLastOperation(oldCrd)
 	return &Event{
 		AdmissionReview: ar,
 		crd:             crd,
@@ -41,8 +43,8 @@ func NewEvent(ar *v1beta1.AdmissionReview) (*Event, error) {
 }
 
 func (e *Event) isMeteringEvent() bool {
-	loNew := getLastOperation(e.crd)
-	loOld := getLastOperation(e.oldCrd)
+	loNew := e.crd.Status.lastOperation
+	loOld := e.oldCrd.Status.lastOperation
 	glog.Infof("New: type: %s, state: %s\n", loNew.Type, loNew.State)
 	glog.Infof("Old: type: %s, state: %s\n", loOld.Type, loOld.State)
 

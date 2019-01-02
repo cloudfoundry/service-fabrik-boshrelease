@@ -32,18 +32,22 @@ var _ = Describe("Event", func() {
 		It("Should create a new Event object", func() {
 			evt, err := NewEvent(&ar)
 			Expect(evt).ToNot(Equal(nil))
+			Expect(evt.crd.Status.lastOperation).To(Equal(GenericLastOperation{
+				Type:  "update",
+				State: "succeeded",
+			}))
 			Expect(err).To(BeNil())
 		})
-		It("Should throw error if object cannot be parsed" , func(){
-            temp := ar.Request.Object.Raw
-		    ar.Request.Object.Raw = []byte("")
+		It("Should throw error if object cannot be parsed", func() {
+			temp := ar.Request.Object.Raw
+			ar.Request.Object.Raw = []byte("")
 			evt, err := NewEvent(&ar)
 			Expect(evt).To(BeNil())
 			Expect(err).ToNot(BeNil())
-            ar.Request.Object.Raw = temp
+			ar.Request.Object.Raw = temp
 		})
-		It("Should throw error if old object cannot be parsed" , func(){
-		    ar.Request.OldObject.Raw = []byte("")
+		It("Should throw error if old object cannot be parsed", func() {
+			ar.Request.OldObject.Raw = []byte("")
 			evt, err := NewEvent(&ar)
 			Expect(evt).To(BeNil())
 			Expect(err).ToNot(BeNil())
