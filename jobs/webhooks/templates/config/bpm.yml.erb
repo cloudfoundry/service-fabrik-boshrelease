@@ -1,6 +1,13 @@
 ---
+<%
+CONFIG_PATH = "/var/vcap/jobs/service-fabrik-interoperator/config"
+%>
 processes:
 - name: webhooks
   executable: /var/vcap/packages/webhooks/bin/manager-webhooks
+  args:
+  - -stderrthreshold=INFO
+  env:
+    KUBECONFIG: <%= CONFIG_PATH %>/kubeconfig.yaml
   limits:
     open_files: 100000
