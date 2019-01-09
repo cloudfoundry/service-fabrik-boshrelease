@@ -1,0 +1,43 @@
+<%
+  CA = link('service-fabrik-apiserver').p('tls.apiserver.ca')
+  CA_BASE64 = Base64.encode64(CA)
+%>
+{
+  "metadata": {
+    "name": "metering-webhooks",
+    "labels": {
+      "app": "metering-webhooks"
+    }
+  },
+  "webhooks": [
+    {
+      "name": "metering-webhooks.demo.svc",
+      "clientConfig": {
+        "url": "https://<%= link('service-fabrik-apiserver').p('ip') %>:<%= p('port') %>/meter",
+        "service": null,
+        "caBundle": "<%= CA_BASE64 %>"
+      },
+      "rules": [
+        {
+          "operations": [
+            "CREATE",
+            "UPDATE"
+          ],
+          "apiGroups": [
+            "deployment.servicefabrik.io"
+          ],
+          "apiVersions": [
+            "v1alpha1"
+          ],
+          "resources": [
+            "*"
+          ]
+        }
+      ],
+      "failurePolicy": "Fail",
+      "namespaceSelector": {
+        
+      }
+    }
+  ]
+}

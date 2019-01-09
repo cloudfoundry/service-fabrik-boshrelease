@@ -17,11 +17,4 @@ blobs/*
 #*
 tmp
 my*.yml
-src/github.com/cloudfoundry-incubator/webhooks/vendor/k8s.io/**
-src/github.com/cloudfoundry-incubator/webhooks/vendor/github.com/**
-src/github.com/cloudfoundry-incubator/webhooks/vendor/golang.org/**
-src/github.com/cloudfoundry-incubator/webhooks/vendor/cloud.google.com
-src/github.com/cloudfoundry-incubator/webhooks/vendor/gopkg.in
-src/github.com/cloudfoundry-incubator/webhooks/vendor/go.uber.org
-src/github.com/cloudfoundry-incubator/webhooks/vendor/google.golang.org
-src/github.com/cloudfoundry-incubator/webhooks/vendor/sigs.k8s.io
+src/github.com/cloudfoundry-incubator/webhooks/vendor

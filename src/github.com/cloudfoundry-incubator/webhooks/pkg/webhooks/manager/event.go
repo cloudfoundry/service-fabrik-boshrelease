@@ -3,15 +3,48 @@ package main
 import (
 	"context"
 	"encoding/json"
+	"errors"
 
 	"k8s.io/client-go/rest"
 
 	"github.com/golang/glog"
-	"github.com/google/uuid"
 	"k8s.io/api/admission/v1beta1"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/manager"
+)
+
+// EventType denotes the types of metering events
+type EventType string
+
+const (
+	//UpdateEvent signals the update of an instance
+	UpdateEvent EventType = "update"
+	//CreateEvent signals the create of an instance
+	CreateEvent EventType = "create"
+	//DeleteEvent signals the delete of an instance
+	DeleteEvent EventType = "delete"
+	//InvalidEvent is not yet supported
+	InvalidEvent EventType = "default"
+)
+
+//LastOperationType
+const (
+	loUpdate string = "update"
+	loCreate string = "create"
+)
+
+//State
+const (
+	Succeeded string = "succeeded"
+	Delete    string = "delete"
+)
+
+// CrdKind
+const (
+	Director string = "Director"
+	Docker   string = "Docker"
+	Sfevent  string = "Sfevent"
 )
 
 // Event stores the event details
@@ -23,18 +56,48 @@ type Event struct {
 
 // NewEvent is a constructor for Event
 func NewEvent(ar *v1beta1.AdmissionReview) (*Event, error) {
+	arjson, err := json.Marshal(ar)
+	req := ar.Request
+	glog.Infof(`
+    Creating event for
+	%v
+	Namespace=%v
+	Request Name=%v
+	UID=%v
+	patchOperation=%v
+	UserInfo=%v`,
+		req.Kind,
+		req.Namespace,
+		req.Name,
+		req.UID,
+		req.Operation,
+		req.UserInfo)
 	crd, err := getGenericResource(ar.Request.Object.Raw)
+	glog.Infof("Resource name : %v", crd.Name)
 	if err != nil {
-		glog.Errorf("Could not get the GenericResource object", err)
-		return nil, err
-	}
-	oldCrd, err := getGenericResource(ar.Request.OldObject.Raw)
-	if err != nil {
-		glog.Errorf("Could not get the old GenericResource object", err)
+		glog.Errorf("Admission review JSON: %v", string(arjson))
+		glog.Errorf("Could not get the GenericResource object %v", err)
 		return nil, err
 	}
 	crd.Status.lastOperation = getLastOperation(crd)
-	oldCrd.Status.lastOperation = getLastOperation(oldCrd)
+	crd.Spec.options = getOptions(crd)
+	crd.Status.appliedOptions = getAppliedOptions(crd)
+
+	var oldCrd GenericResource
+	if len(ar.Request.OldObject.Raw) != 0 {
+		oldCrd, err = getGenericResource(ar.Request.OldObject.Raw)
+		if err != nil {
+			glog.Errorf("Admission review JSON: %v", string(arjson))
+			glog.Errorf("Could not get the old GenericResource object %v", err)
+			return nil, err
+		}
+		oldCrd.Status.lastOperation = getLastOperation(oldCrd)
+		oldCrd.Spec.options = getOptions(oldCrd)
+		oldCrd.Status.appliedOptions = getAppliedOptions(oldCrd)
+	} else {
+		oldCrd = GenericResource{}
+	}
+
 	return &Event{
 		AdmissionReview: ar,
 		crd:             crd,
@@ -42,21 +105,54 @@ func NewEvent(ar *v1beta1.AdmissionReview) (*Event, error) {
 	}, nil
 }
 
+func (e *Event) isStateChanged() bool {
+	glog.Infof("Checking state change new state: %s\n", e.crd.Status.State)
+	glog.Infof("Checking state change old state: %s\n", e.oldCrd.Status.State)
+	return e.crd.Status.State != e.oldCrd.Status.State
+}
+
+func (e *Event) isDeleteTriggered() bool {
+	return e.crd.Status.State == Delete
+}
+
+func (e *Event) isPlanChanged() bool {
+	appliedOptionsNew := e.crd.Status.appliedOptions
+	appliedOptionsOld := e.oldCrd.Status.appliedOptions
+	return appliedOptionsNew.PlanID != appliedOptionsOld.PlanID
+}
+
+func (e *Event) isCreate() bool {
+	return e.crd.Status.lastOperation.Type == loCreate
+}
+
+func (e *Event) isUpdate() bool {
+	return e.crd.Status.lastOperation.Type == loUpdate
+}
+
+func (e *Event) isSucceeded() bool {
+	return e.crd.Status.State == Succeeded
+}
+
+func (e *Event) isDirector() bool {
+	return e.crd.Kind == Director
+}
+
+func (e *Event) isDocker() bool {
+	return e.crd.Kind == Docker
+}
+
 func (e *Event) isMeteringEvent() bool {
-	loNew := e.crd.Status.lastOperation
-	loOld := e.oldCrd.Status.lastOperation
-	glog.Infof("New: type: %s, state: %s\n", loNew.Type, loNew.State)
-	glog.Infof("Old: type: %s, state: %s\n", loOld.Type, loOld.State)
-
-	if loNew.Type == loOld.Type && loNew.State != loOld.State {
-		if loNew.Type == "update" || loNew.Type == "create" {
-			if loNew.State == "succeeded" {
-				return true
-			}
-
+	// An event is metering event if
+	// Create succeeded
+	// or Update Succeeded
+	// or Delete Triggered
+	if e.isDirector() && e.isStateChanged() {
+		if e.isSucceeded() {
+			return (e.isUpdate() && e.isPlanChanged()) || e.isCreate()
 		}
+		return e.isDeleteTriggered()
 	}
-	return false
+	return e.isDocker() && e.isStateChanged() && (e.isSucceeded() || e.isDeleteTriggered())
 }
 
 // ObjectToMapInterface converts an Object to map[string]interface{}
@@ -74,10 +170,10 @@ func ObjectToMapInterface(obj interface{}) (map[string]interface{}, error) {
 }
 
 func getClient(cfg *rest.Config) (client.Client, error) {
-	glog.Infof("setting up manager")
+	glog.Infof("Get client for Apiserver")
 	mgr, err := manager.New(cfg, manager.Options{})
 	if err != nil {
-		glog.Errorf("unable to set up overall controller manager", err)
+		glog.Errorf("unable to set up overall controller manager %v", err)
 		return nil, err
 	}
 	options := client.Options{
@@ -86,25 +182,13 @@ func getClient(cfg *rest.Config) (client.Client, error) {
 	}
 	apiserver, err := client.New(cfg, options)
 	if err != nil {
-		glog.Errorf("unable create kubernetes client %v", err)
+		glog.Errorf("Unable to create kubernetes client %v", err)
 		return nil, err
 	}
 	return apiserver, err
 }
 
-func (e *Event) getDoc(opt GenericOptions, lo GenericLastOperation, crd GenericResource, signal string) (*unstructured.Unstructured, error) {
-	m := Metering{
-		Spec: MeteringSpec{
-			Options: MeteringOptions{
-				ServiceID:  opt.ServiceId,
-				PlanID:     opt.PlanId,
-				InstanceID: e.crd.Name,
-				OrgID:      opt.Context.OrganizationGuid,
-				SpaceID:    opt.Context.SpaceGuid,
-				Type:       lo.Type,
-			},
-		},
-	}
+func meteringToUnstructured(m *Metering) (*unstructured.Unstructured, error) {
 	values, err := ObjectToMapInterface(m)
 	if err != nil {
 		glog.Errorf("unable convert to map interface %v", err)
@@ -112,47 +196,58 @@ func (e *Event) getDoc(opt GenericOptions, lo GenericLastOperation, crd GenericR
 	}
 	meteringDoc := &unstructured.Unstructured{}
 	meteringDoc.SetUnstructuredContent(values)
-	meteringDoc.SetKind("Event")
-	meteringDoc.SetAPIVersion("metering.servicefabrik.io/v1alpha1")
+	meteringDoc.SetKind(Sfevent)
+	meteringDoc.SetAPIVersion(InstanceAPIVersion)
 	meteringDoc.SetNamespace("default")
-	name := uuid.New().String()
-	meteringDoc.SetName(name)
-	glog.Infof("Creating metering doc of Type: %s Signal: %s, uuid: %s", lo.Type, signal, name)
+	meteringDoc.SetName(m.getName())
+	labels := make(map[string]string)
+	labels[MeterStateKey] = ToBeMetered
+	meteringDoc.SetLabels(labels)
 	return meteringDoc, nil
 }
 
-func (e *Event) getDocs() ([]*unstructured.Unstructured, error) {
-	opt := getOptions(e.crd)
+func (e *Event) getMeteringEvent(opt GenericOptions, signal int) *Metering {
+	return newMetering(opt, e.crd, signal)
+}
+
+func (e *Event) getEventType() (EventType, error) {
 	lo := e.crd.Status.lastOperation
-	oldOpt := getOptions(e.oldCrd)
-	oldLo := e.oldCrd.Status.lastOperation
-	var meteringDocs []*unstructured.Unstructured
+	eventType := InvalidEvent
+	if e.crd.Status.State == Delete {
+		eventType = DeleteEvent
+	} else if e.isDirector() {
+		switch lo.Type {
+		case loUpdate:
+			eventType = UpdateEvent
+		case loCreate:
+			eventType = CreateEvent
+		}
+	} else if e.isDocker() && e.crd.Status.State == Succeeded {
+		eventType = CreateEvent
+	}
+	if eventType == InvalidEvent {
+		return eventType, errors.New("No supported event found")
+	}
+	return eventType, nil
+}
 
-	glog.Infof("Getting Metering Docs for Type %s", lo.Type)
+func (e *Event) getMeteringEvents() ([]*Metering, error) {
+	options := e.crd.Spec.options
+	oldAppliedOptions := e.oldCrd.Status.appliedOptions
+	var meteringDocs []*Metering
 
-	switch lo.Type {
-	case "update":
-		glog.Info("IN UPDATE")
-		meteringDoc, err := e.getDoc(opt, lo, e.crd, "start")
-		if err != nil {
-			glog.Errorf("\nError getting: %v\n", err)
-			return nil, err
-		}
-		meteringDocs = append(meteringDocs, meteringDoc)
-		meteringDoc, err = e.getDoc(oldOpt, oldLo, e.oldCrd, "stop")
-		if err != nil {
-			glog.Errorf("\nError getting: %v\n", err)
-			return nil, err
-		}
-		meteringDocs = append(meteringDocs, meteringDoc)
-	case "create":
-		glog.Info("IN CREATE")
-		meteringDoc, err := e.getDoc(opt, lo, e.crd, "start")
-		if err != nil {
-			glog.Errorf("\nError getting: %v\n", err)
-			return nil, err
-		}
-		meteringDocs = append(meteringDocs, meteringDoc)
+	et, err := e.getEventType()
+	if err != nil {
+		return nil, err
+	}
+	switch et {
+	case UpdateEvent:
+		meteringDocs = append(meteringDocs, e.getMeteringEvent(options, MeterStart))
+		meteringDocs = append(meteringDocs, e.getMeteringEvent(oldAppliedOptions, MeterStop))
+	case CreateEvent:
+		meteringDocs = append(meteringDocs, e.getMeteringEvent(options, MeterStart))
+	case DeleteEvent:
+		meteringDocs = append(meteringDocs, e.getMeteringEvent(oldAppliedOptions, MeterStop))
 	}
 	return meteringDocs, nil
 }
@@ -162,14 +257,19 @@ func (e *Event) createMertering(cfg *rest.Config) error {
 	if err != nil {
 		return err
 	}
-	docs, err := e.getDocs()
+	events, err := e.getMeteringEvents()
 	if err != nil {
 		return err
 	}
-	for _, doc := range docs {
-		err := apiserver.Create(context.TODO(), doc)
+	for _, evt := range events {
+		unstructuredDoc, err := meteringToUnstructured(evt)
 		if err != nil {
-			glog.Errorf("\nError creating: %v\n", err)
+			glog.Errorf("Error converting event : %v", err)
+			return err
+		}
+		err = apiserver.Create(context.TODO(), unstructuredDoc)
+		if err != nil {
+			glog.Errorf("Error creating: %v", err)
 			return err
 		}
 		glog.Infof("Successfully created metering resource")

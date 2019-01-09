@@ -7,9 +7,11 @@ packages:
 
 templates:
   config/webhooks.json.erb: config/webhooks.json
+  config/metering_webhooks.json.erb: config/metering_webhooks.json
   bin/post-start.erb: bin/post-start
   config/bpm.yml.erb: config/bpm.yml
   config/client-cert.pem.erb: config/client-cert.pem
+  config/kubeconfig.yaml.erb: config/kubeconfig.yaml
   config/client-key.pem.erb: config/client-key.pem
 
 

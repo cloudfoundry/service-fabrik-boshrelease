@@ -36,11 +36,12 @@ const (
 	admissionWebhookAnnotationStatusKey = "sidecar-injector-webhook.morven.me/status"
 )
 
+// WebhookServer type holds the server details
 type WebhookServer struct {
 	server *http.Server
 }
 
-// Webhook Server parameters
+// WhSvrParameters hold webhook server parameters
 type WhSvrParameters struct {
 	port     int    // webhook server port
 	certFile string // path to the x509 certificate for https
@@ -74,9 +75,8 @@ const (
 func createPatch(resource *GenericResource) []byte {
 	if resource.Labels != nil {
 		return []byte(fmt.Sprintf(labelPatchTemplate, resource.Status.State))
-	} else {
-		return []byte(fmt.Sprintf(newLabelPatchTemplate, resource.Status.State))
 	}
+	return []byte(fmt.Sprintf(newLabelPatchTemplate, resource.Status.State))
 }
 
 // main mutation process
@@ -115,7 +115,7 @@ func (whsvr *WebhookServer) meter(ar *v1beta1.AdmissionReview) *v1beta1.Admissio
 	if evt.isMeteringEvent() {
 		cfg, err := config.GetConfig()
 		if err != nil {
-			glog.Errorf("unable to set up client config", err)
+			glog.Errorf("Unable to set up client config %v", err)
 			return &v1beta1.AdmissionResponse{
 				Result: &metav1.Status{
 					Message: err.Error(),

@@ -161,6 +161,12 @@ production:
             - name : EventDetail
               retention_in_days: <%= p('system_jobs.dbcollection_reaper.event_detail.retention_in_days') %>
         enabled: true
+      - name: 'Meter_Instance'
+        type: MeterInstance
+        interval: <%= p('system_jobs.meter_instance.interval') %>
+        job_data:
+          retry_count: 3
+        enabled: true
 
   #######################
   # MONITORING SETTINGS #
@@ -195,6 +201,16 @@ production:
   # QUOTA MANAGEMENT SETTINGS #
   ###################
   quota: <%= JSON.dump(link("broker").p('quota', nil)) %>
+  #####################
+  # METERING SETTINGS #
+  #####################
+  metering:
+    client_id: <%= link("broker").p('metering.binding.clientid') %>
+    client_secret: <%= link("broker").p('metering.binding.clientsecret') %>
+    token_url: <%= link("broker").p('metering.binding.token_url') %>
+    metering_url: <%= link("broker").p('metering.binding.metering_url') %>
+    region:  <%= link("broker").p('metering.binding.region') %>
+    excluded_service_plans:  <%= link("broker").p('metering.excluded_service_plans') %>
 
   ###################
   # BACKUP SETTINGS #
