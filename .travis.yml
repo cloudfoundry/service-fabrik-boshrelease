@@ -1,8 +1,11 @@
 matrix:
   include:
-    language: ruby
-    install:
-            - "./scripts/update"
-            - "gem install bosh_cli --no-document"
-    script:
-            - "bosh create release --force --name service-fabrik"
+    # - language: ruby
+    #   install:
+    #           - "./scripts/update"
+    #           - "gem install bosh_cli --no-document"
+    #   script:
+    #           - "bosh create release --force --name service-fabrik"
+    - language: go
+      go: "1.11"
+      go_import_path: example.org/pkg/foo
