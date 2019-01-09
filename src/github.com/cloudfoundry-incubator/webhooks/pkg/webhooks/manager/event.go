@@ -117,7 +117,7 @@ func getClient(cfg *rest.Config) (client.Client, error) {
 	return apiserver, err
 }
 
-func meteringToUnstructured(m Metering) (*unstructured.Unstructured, error) {
+func meteringToUnstructured(m *Metering) (*unstructured.Unstructured, error) {
 	values, err := ObjectToMapInterface(m)
 	if err != nil {
 		glog.Errorf("unable convert to map interface %v", err)
@@ -133,29 +133,15 @@ func meteringToUnstructured(m Metering) (*unstructured.Unstructured, error) {
 	return meteringDoc, nil
 }
 
-func (e *Event) getMeteringEvent(opt GenericOptions, lo GenericLastOperation, signal string) Metering {
-	m := Metering{
-		Spec: MeteringSpec{
-			Options: MeteringOptions{
-				ServiceID:  opt.ServiceID,
-				PlanID:     opt.PlanID,
-				InstanceID: e.crd.Name,
-				OrgID:      opt.Context.OrganizationGUID,
-				SpaceID:    opt.Context.SpaceGUID,
-				Type:       lo.Type,
-				Signal:     signal,
-			},
-		},
-	}
-	return m
-	// return meteringToUnstructured(m)
+func (e *Event) getMeteringEvent(opt GenericOptions, lo GenericLastOperation, signal string) *Metering {
+	return newMetering(opt, lo , e.crd, signal )
 }
 
-func (e *Event) getMeteringEvents() ([]Metering, error) {
+func (e *Event) getMeteringEvents() ([]*Metering, error) {
 	options := e.crd.Spec.options
 	lo := e.crd.Status.lastOperation
 	oldAppliedOptions := e.oldCrd.Status.appliedOptions
-	var meteringDocs []Metering
+	var meteringDocs []*Metering
 
 	glog.Infof("Getting Metering Docs for Type %s", lo.Type)
 

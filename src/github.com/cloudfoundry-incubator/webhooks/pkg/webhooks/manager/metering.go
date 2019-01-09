@@ -21,3 +21,19 @@ type MeteringSpec struct {
 type Metering struct {
 	Spec MeteringSpec `json:"spec"`
 }
+
+func newMetering(opt GenericOptions, lo GenericLastOperation, crd GenericResource, signal string) *Metering {
+	return &Metering{
+		Spec: MeteringSpec{
+			Options: MeteringOptions{
+				ServiceID:  opt.ServiceID,
+				PlanID:     opt.PlanID,
+				InstanceID: crd.Name,
+				OrgID:      opt.Context.OrganizationGUID,
+				SpaceID:    opt.Context.SpaceGUID,
+				Type:       lo.Type,
+				Signal:     signal,
+			},
+		},
+	}
+}

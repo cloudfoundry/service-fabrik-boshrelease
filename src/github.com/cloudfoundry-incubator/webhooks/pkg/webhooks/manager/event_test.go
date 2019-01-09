@@ -150,7 +150,7 @@ var _ = Describe("Event", func() {
 					},
 				},
 			}
-            val, err := meteringToUnstructured(m)
+            val, err := meteringToUnstructured(&m)
 			Expect(err).To(BeNil())
 			Expect(val).ToNot(BeNil())
 			Expect(val.GetKind()).To(Equal("Event"))
