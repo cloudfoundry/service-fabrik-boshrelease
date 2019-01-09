@@ -5,7 +5,6 @@ docker_name = p('docker.name')
 docker_logs_dir = p('docker.logs_dir')
 %>
 
-$ModLoad imfile
 
 #variables required for non-syslog log file forwarding – SystemErr
 $WorkDirectory <%= docker_logs_dir %>
@@ -18,7 +17,6 @@ $InputRunFileMonitor
 
 
 
-$ModLoad imtcp
 $InputTCPServerRun 514
 
 template(
