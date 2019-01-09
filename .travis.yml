@@ -17,7 +17,7 @@ matrix:
         - go vet
         - golint
         - echo script current working dir $PWD
-        - go test -cover
+        - go test -cover -- stderrthreshold=FATAL
     - language: ruby
       install:
               - "./scripts/update"
