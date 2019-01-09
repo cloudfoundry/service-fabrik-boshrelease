@@ -8,7 +8,6 @@ matrix:
        - go get sigs.k8s.io/controller-runtime/pkg/envtest
       install:
         - export GOPATH=$PWD
-        - echo installgopath $GOPATH
         - cd src/github.com/cloudfoundry-incubator/webhooks
         - dep ensure
       script:
@@ -16,8 +15,7 @@ matrix:
         - gofmt -l .
         - go vet
         - golint
-        - echo script current working dir $PWD
-        - go test -cover -- stderrthreshold=FATAL
+        - go test -cover -coverprofile=coverage.out -- stderrthreshold=FATAL
     - language: ruby
       install:
               - "./scripts/update"
