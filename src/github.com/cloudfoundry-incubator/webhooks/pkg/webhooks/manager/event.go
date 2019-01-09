@@ -55,7 +55,7 @@ func (e *Event) isStateChanged() bool {
 func (e *Event) isPlanChanged() bool {
 	appliedOptionsNew := e.crd.Status.appliedOptions
 	appliedOptionsOld := e.oldCrd.Status.appliedOptions
-	return appliedOptionsNew.PlanId != appliedOptionsOld.PlanId
+	return appliedOptionsNew.PlanID != appliedOptionsOld.PlanID
 }
 
 func (e *Event) isUpdateOrCreate() bool {
@@ -115,8 +115,8 @@ func (e *Event) getDoc(opt GenericOptions, lo GenericLastOperation, crd GenericR
 	m := Metering{
 		Spec: MeteringSpec{
 			Options: MeteringOptions{
-				ServiceID:  opt.ServiceId,
-				PlanID:     opt.PlanId,
+				ServiceID:  opt.ServiceID,
+				PlanID:     opt.PlanID,
 				InstanceID: e.crd.Name,
 				OrgID:      opt.Context.OrganizationGUID,
 				SpaceID:    opt.Context.SpaceGUID,
