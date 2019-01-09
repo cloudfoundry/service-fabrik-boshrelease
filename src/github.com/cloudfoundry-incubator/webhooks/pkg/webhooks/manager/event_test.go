@@ -135,6 +135,30 @@ var _ = Describe("Event", func() {
 		})
 	})
 
+	Describe("meteringToUnstructured", func() {
+		It("Unstructured metering instance", func() {
+			m := Metering{
+				Spec: MeteringSpec{
+					Options: MeteringOptions{
+						ServiceID:  "opt.ServiceID",
+						PlanID:     "opt.PlanID",
+						InstanceID: "e.crd.Name",
+						OrgID:      "opt.Context.OrganizationGUID",
+						SpaceID:    "opt.Context.SpaceGUID",
+						Type:       "lo.Type",
+						Signal:     "signal",
+					},
+				},
+			}
+            val, err := meteringToUnstructured(m)
+			Expect(err).To(BeNil())
+			Expect(val).ToNot(BeNil())
+			Expect(val.GetKind()).To(Equal("Event"))
+			Expect(val.GetAPIVersion()).To(Equal("metering.servicefabrik.io/v1alpha1"))
+
+		})
+	})
+
 	Describe("getMeteringEvents", func() {
 		Context("when type is update", func() {
 			It("Generates two metering docs", func() {
