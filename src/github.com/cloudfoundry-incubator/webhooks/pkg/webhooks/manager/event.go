@@ -58,22 +58,26 @@ func (e *Event) isPlanChanged() bool {
 	return appliedOptionsNew.PlanID != appliedOptionsOld.PlanID
 }
 
-func (e *Event) isUpdateOrCreate() bool {
-	loNew := e.crd.Status.lastOperation
-	return loNew.Type == "update" || loNew.Type == "create"
+func (e *Event) isCreate() bool {
+	return e.crd.Status.lastOperation.Type == "create"
+}
+
+func (e *Event) isUpdate() bool {
+	return e.crd.Status.lastOperation.Type == "update"
 }
 
 func (e *Event) isSucceeded() bool {
-	loNew := e.crd.Status.lastOperation
-	return loNew.State == "succeeded"
+	return e.crd.Status.lastOperation.State == "succeeded"
 }
 
 func (e *Event) isMeteringEvent() bool {
-	if e.isStateChanged() &&
-		e.isPlanChanged() &&
-		e.isUpdateOrCreate() &&
-		e.isSucceeded() {
-		return true
+	if e.isStateChanged() && e.isSucceeded() {
+		if e.isUpdate() && e.isPlanChanged() {
+			return true
+		}
+		if e.isCreate() {
+			return true
+		}
 	}
 	return false
 }
@@ -111,7 +115,7 @@ func getClient(cfg *rest.Config) (client.Client, error) {
 	return apiserver, err
 }
 
-func (e *Event) getDoc(opt GenericOptions, lo GenericLastOperation, crd GenericResource, signal string) (*unstructured.Unstructured, error) {
+func (e *Event) getMeteringEvent(opt GenericOptions, lo GenericLastOperation, crd GenericResource, signal string) (*unstructured.Unstructured, error) {
 	m := Metering{
 		Spec: MeteringSpec{
 			Options: MeteringOptions{
@@ -140,7 +144,7 @@ func (e *Event) getDoc(opt GenericOptions, lo GenericLastOperation, crd GenericR
 	return meteringDoc, nil
 }
 
-func (e *Event) getDocs() ([]*unstructured.Unstructured, error) {
+func (e *Event) getMeteringEvents() ([]*unstructured.Unstructured, error) {
 	opt := getOptions(e.crd)
 	lo := e.crd.Status.lastOperation
 	oldOpt := getOptions(e.oldCrd)
@@ -152,13 +156,13 @@ func (e *Event) getDocs() ([]*unstructured.Unstructured, error) {
 	switch lo.Type {
 	case "update":
 		glog.Info("IN UPDATE")
-		meteringDoc, err := e.getDoc(opt, lo, e.crd, "start")
+		meteringDoc, err := e.getMeteringEvent(opt, lo, e.crd, "start")
 		if err != nil {
 			glog.Errorf("\nError getting: %v\n", err)
 			return nil, err
 		}
 		meteringDocs = append(meteringDocs, meteringDoc)
-		meteringDoc, err = e.getDoc(oldOpt, oldLo, e.oldCrd, "stop")
+		meteringDoc, err = e.getMeteringEvent(oldOpt, oldLo, e.oldCrd, "stop")
 		if err != nil {
 			glog.Errorf("\nError getting: %v\n", err)
 			return nil, err
@@ -166,7 +170,7 @@ func (e *Event) getDocs() ([]*unstructured.Unstructured, error) {
 		meteringDocs = append(meteringDocs, meteringDoc)
 	case "create":
 		glog.Info("IN CREATE")
-		meteringDoc, err := e.getDoc(opt, lo, e.crd, "start")
+		meteringDoc, err := e.getMeteringEvent(opt, lo, e.crd, "start")
 		if err != nil {
 			glog.Errorf("\nError getting: %v\n", err)
 			return nil, err
@@ -181,12 +185,12 @@ func (e *Event) createMertering(cfg *rest.Config) error {
 	if err != nil {
 		return err
 	}
-	docs, err := e.getDocs()
+	events, err := e.getMeteringEvents()
 	if err != nil {
 		return err
 	}
-	for _, doc := range docs {
-		err := apiserver.Create(context.TODO(), doc)
+	for _, evt := range events {
+		err := apiserver.Create(context.TODO(), evt)
 		if err != nil {
 			glog.Errorf("\nError creating: %v\n", err)
 			return err
