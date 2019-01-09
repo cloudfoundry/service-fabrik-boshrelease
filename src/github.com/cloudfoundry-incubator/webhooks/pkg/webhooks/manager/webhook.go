@@ -36,11 +36,12 @@ const (
 	admissionWebhookAnnotationStatusKey = "sidecar-injector-webhook.morven.me/status"
 )
 
+// WebhookServer type holds the server details
 type WebhookServer struct {
 	server *http.Server
 }
 
-// Webhook Server parameters
+// WhSvrParameters hold webhook server parameters
 type WhSvrParameters struct {
 	port     int    // webhook server port
 	certFile string // path to the x509 certificate for https
@@ -74,9 +75,8 @@ const (
 func createPatch(resource *GenericResource) []byte {
 	if resource.Labels != nil {
 		return []byte(fmt.Sprintf(labelPatchTemplate, resource.Status.State))
-	} else {
-		return []byte(fmt.Sprintf(newLabelPatchTemplate, resource.Status.State))
 	}
+	return []byte(fmt.Sprintf(newLabelPatchTemplate, resource.Status.State))
 }
 
 // main mutation process

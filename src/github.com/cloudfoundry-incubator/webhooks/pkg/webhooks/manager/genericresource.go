@@ -8,27 +8,32 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
+// ContextOptions represents the contex information in GenericOptions
 type ContextOptions struct {
 	Platform         string `json:"platform"`
-	OrganizationGuid string `json:"organization_guid"`
-	SpaceGuid        string `json:"space_guid"`
+	OrganizationGUID string `json:"organization_guid"`
+	SpaceGUID        string `json:"space_guid"`
 }
 
+// GenericOptions represents the option information in Spec
 type GenericOptions struct {
-	ServiceId string         `json:"service_id"`
-	PlanId    string         `json:"plan_id"`
+	ServiceID string         `json:"service_id"`
+	PlanID    string         `json:"plan_id"`
 	Context   ContextOptions `json:"context"`
 }
 
+// GenericLastOperation represents the last option information in Status
 type GenericLastOperation struct {
 	Type  string `json:"type"`
 	State string `json:"state"`
 }
 
+// GenericSpec represents the Spec in GenericResource
 type GenericSpec struct {
 	Options string `json:"options,omitempty"`
 }
 
+// GenericStatus type represents the status in GenericResource
 type GenericStatus struct {
 	AppliedOptions   string `json:"appliedOptions"`
 	State            string `json:"state,omitempty"`
@@ -37,6 +42,7 @@ type GenericStatus struct {
 	appliedOptions   GenericOptions
 }
 
+// GenericResource type represents a generic resource
 type GenericResource struct {
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Status            GenericStatus `json:"status,omitempty"`

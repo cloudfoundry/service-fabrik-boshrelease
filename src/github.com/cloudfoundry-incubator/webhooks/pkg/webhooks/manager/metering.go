@@ -1,5 +1,6 @@
 package main
 
+// MeteringOptions represents the options field of Metering Resource
 type MeteringOptions struct {
 	ServiceID  string `json:"service_id"`
 	PlanID     string
@@ -9,6 +10,7 @@ type MeteringOptions struct {
 	Type       string
 }
 
+// MeteringSpec represents the spec field of metering resource
 type MeteringSpec struct {
 	Options MeteringOptions `json:"options"`
 }
