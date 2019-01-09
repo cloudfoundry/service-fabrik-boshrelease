@@ -22,7 +22,7 @@ type Metering struct {
 	Spec MeteringSpec `json:"spec"`
 }
 
-func newMetering(opt GenericOptions, lo GenericLastOperation, crd GenericResource, signal string) *Metering {
+func newMetering(opt GenericOptions, crd GenericResource, signal string) *Metering {
 	return &Metering{
 		Spec: MeteringSpec{
 			Options: MeteringOptions{
@@ -31,7 +31,7 @@ func newMetering(opt GenericOptions, lo GenericLastOperation, crd GenericResourc
 				InstanceID: crd.Name,
 				OrgID:      opt.Context.OrganizationGUID,
 				SpaceID:    opt.Context.SpaceGUID,
-				Type:       lo.Type,
+				Type:       crd.Status.lastOperation.Type,
 				Signal:     signal,
 			},
 		},

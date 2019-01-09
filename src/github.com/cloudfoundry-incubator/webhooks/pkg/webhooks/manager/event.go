@@ -133,8 +133,8 @@ func meteringToUnstructured(m *Metering) (*unstructured.Unstructured, error) {
 	return meteringDoc, nil
 }
 
-func (e *Event) getMeteringEvent(opt GenericOptions, lo GenericLastOperation, signal string) *Metering {
-	return newMetering(opt, lo , e.crd, signal )
+func (e *Event) getMeteringEvent(opt GenericOptions, signal string) *Metering {
+	return newMetering(opt, e.crd, signal )
 }
 
 func (e *Event) getMeteringEvents() ([]*Metering, error) {
@@ -147,12 +147,12 @@ func (e *Event) getMeteringEvents() ([]*Metering, error) {
 
 	switch lo.Type {
 	case "update":
-		meteringDoc := e.getMeteringEvent(options, lo, "start")
+		meteringDoc := e.getMeteringEvent(options, "start")
 		meteringDocs = append(meteringDocs, meteringDoc)
-		meteringDoc = e.getMeteringEvent(oldAppliedOptions, lo, "stop")
+		meteringDoc = e.getMeteringEvent(oldAppliedOptions, "stop")
 		meteringDocs = append(meteringDocs, meteringDoc)
 	case "create":
-		meteringDoc := e.getMeteringEvent(options, lo, "start")
+		meteringDoc := e.getMeteringEvent(options, "start")
 		meteringDocs = append(meteringDocs, meteringDoc)
 	}
 	return meteringDocs, nil
