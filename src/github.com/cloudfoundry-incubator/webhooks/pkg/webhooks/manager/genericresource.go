@@ -30,7 +30,7 @@ type GenericSpec struct {
 }
 
 type GenericStatus struct {
-	AppliedOptions   string `json::appliedOptions"`
+	AppliedOptions   string `json:"appliedOptions"`
 	State            string `json:"state,omitempty"`
 	LastOperationRaw string `json:"lastOperation,omitempty"`
 	lastOperation    GenericLastOperation
