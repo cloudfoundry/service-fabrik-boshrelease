@@ -34,7 +34,9 @@ func NewEvent(ar *v1beta1.AdmissionReview) (*Event, error) {
 		return nil, err
 	}
 	crd.Status.lastOperation = getLastOperation(crd)
+	crd.Spec.options = getOptions(crd)
 	oldCrd.Status.lastOperation = getLastOperation(oldCrd)
+	oldCrd.Spec.options = getOptions(oldCrd)
 	crd.Status.appliedOptions = getAppliedOptions(crd)
 	oldCrd.Status.appliedOptions = getAppliedOptions(oldCrd)
 	return &Event{
@@ -115,19 +117,7 @@ func getClient(cfg *rest.Config) (client.Client, error) {
 	return apiserver, err
 }
 
-func (e *Event) getMeteringEvent(opt GenericOptions, lo GenericLastOperation, crd GenericResource, signal string) (*unstructured.Unstructured, error) {
-	m := Metering{
-		Spec: MeteringSpec{
-			Options: MeteringOptions{
-				ServiceID:  opt.ServiceID,
-				PlanID:     opt.PlanID,
-				InstanceID: e.crd.Name,
-				OrgID:      opt.Context.OrganizationGUID,
-				SpaceID:    opt.Context.SpaceGUID,
-				Type:       lo.Type,
-			},
-		},
-	}
+func meteringToUnstructured(m Metering) (*unstructured.Unstructured, error) {
 	values, err := ObjectToMapInterface(m)
 	if err != nil {
 		glog.Errorf("unable convert to map interface %v", err)
@@ -140,41 +130,43 @@ func (e *Event) getMeteringEvent(opt GenericOptions, lo GenericLastOperation, cr
 	meteringDoc.SetNamespace("default")
 	name := uuid.New().String()
 	meteringDoc.SetName(name)
-	glog.Infof("Creating metering doc of Type: %s Signal: %s, uuid: %s", lo.Type, signal, name)
 	return meteringDoc, nil
 }
 
-func (e *Event) getMeteringEvents() ([]*unstructured.Unstructured, error) {
-	opt := getOptions(e.crd)
+func (e *Event) getMeteringEvent(opt GenericOptions, lo GenericLastOperation, signal string) Metering {
+	m := Metering{
+		Spec: MeteringSpec{
+			Options: MeteringOptions{
+				ServiceID:  opt.ServiceID,
+				PlanID:     opt.PlanID,
+				InstanceID: e.crd.Name,
+				OrgID:      opt.Context.OrganizationGUID,
+				SpaceID:    opt.Context.SpaceGUID,
+				Type:       lo.Type,
+				Signal:     signal,
+			},
+		},
+	}
+	return m
+	// return meteringToUnstructured(m)
+}
+
+func (e *Event) getMeteringEvents() ([]Metering, error) {
+	options := e.crd.Spec.options
 	lo := e.crd.Status.lastOperation
-	oldOpt := getOptions(e.oldCrd)
-	oldLo := e.oldCrd.Status.lastOperation
-	var meteringDocs []*unstructured.Unstructured
+	oldAppliedOptions := e.oldCrd.Status.appliedOptions
+	var meteringDocs []Metering
 
 	glog.Infof("Getting Metering Docs for Type %s", lo.Type)
 
 	switch lo.Type {
 	case "update":
-		glog.Info("IN UPDATE")
-		meteringDoc, err := e.getMeteringEvent(opt, lo, e.crd, "start")
-		if err != nil {
-			glog.Errorf("\nError getting: %v\n", err)
-			return nil, err
-		}
+		meteringDoc := e.getMeteringEvent(options, lo, "start")
 		meteringDocs = append(meteringDocs, meteringDoc)
-		meteringDoc, err = e.getMeteringEvent(oldOpt, oldLo, e.oldCrd, "stop")
-		if err != nil {
-			glog.Errorf("\nError getting: %v\n", err)
-			return nil, err
-		}
+		meteringDoc = e.getMeteringEvent(oldAppliedOptions, lo, "stop")
 		meteringDocs = append(meteringDocs, meteringDoc)
 	case "create":
-		glog.Info("IN CREATE")
-		meteringDoc, err := e.getMeteringEvent(opt, lo, e.crd, "start")
-		if err != nil {
-			glog.Errorf("\nError getting: %v\n", err)
-			return nil, err
-		}
+		meteringDoc := e.getMeteringEvent(options, lo, "start")
 		meteringDocs = append(meteringDocs, meteringDoc)
 	}
 	return meteringDocs, nil
@@ -190,7 +182,12 @@ func (e *Event) createMertering(cfg *rest.Config) error {
 		return err
 	}
 	for _, evt := range events {
-		err := apiserver.Create(context.TODO(), evt)
+		unstructuredDoc, err := meteringToUnstructured(evt)
+		if err != nil {
+			glog.Errorf("\nError converting event : %v\n", err)
+			return err
+		}
+		err = apiserver.Create(context.TODO(), unstructuredDoc)
 		if err != nil {
 			glog.Errorf("\nError creating: %v\n", err)
 			return err

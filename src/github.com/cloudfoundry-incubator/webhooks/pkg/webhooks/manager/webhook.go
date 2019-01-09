@@ -145,7 +145,6 @@ func (whsvr *WebhookServer) serve(w http.ResponseWriter, r *http.Request) {
 			body = data
 		}
 	}
-
 	if len(body) == 0 {
 		glog.Error("empty body")
 		http.Error(w, "empty body", http.StatusBadRequest)

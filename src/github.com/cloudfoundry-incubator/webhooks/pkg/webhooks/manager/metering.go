@@ -2,12 +2,13 @@ package main
 
 // MeteringOptions represents the options field of Metering Resource
 type MeteringOptions struct {
-	ServiceID  string `json:"service_id"`
+	ServiceID  string
 	PlanID     string
 	InstanceID string
 	OrgID      string
 	SpaceID    string
 	Type       string
+	Signal     string
 }
 
 // MeteringSpec represents the spec field of metering resource

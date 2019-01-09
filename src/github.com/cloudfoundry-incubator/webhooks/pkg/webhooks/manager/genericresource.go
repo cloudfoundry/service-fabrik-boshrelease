@@ -31,6 +31,7 @@ type GenericLastOperation struct {
 // GenericSpec represents the Spec in GenericResource
 type GenericSpec struct {
 	Options string `json:"options,omitempty"`
+	options GenericOptions
 }
 
 // GenericStatus type represents the status in GenericResource

@@ -140,9 +140,18 @@ var _ = Describe("Event", func() {
 			It("Generates two metering docs", func() {
 				evt, _ := NewEvent(&ar)
 				evt.crd.Status.lastOperation.Type = "update"
+
+				evt.crd.Spec.options.PlanID = "new plan in options"
+				evt.crd.Status.appliedOptions.PlanID = "newPlan"
+				evt.oldCrd.Status.appliedOptions.PlanID = "oldPlan"
+
 				docs, err := evt.getMeteringEvents()
 				Expect(err).To(BeNil())
 				Expect(len(docs)).To(Equal(2))
+				Expect(docs[0].Spec.Options.PlanID).To(Equal("new plan in options"))
+				Expect(docs[0].Spec.Options.Signal).To(Equal("start"))
+				Expect(docs[1].Spec.Options.PlanID).To(Equal("oldPlan"))
+				Expect(docs[1].Spec.Options.Signal).To(Equal("stop"))
 			})
 		})
 		Context("when type is create", func() {
