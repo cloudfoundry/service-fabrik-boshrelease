@@ -33,7 +33,7 @@ var _ = Describe("Event", func() {
 			evt, err := NewEvent(&ar)
 			Expect(evt).ToNot(Equal(nil))
 			Expect(evt.crd.Status.lastOperation).To(Equal(GenericLastOperation{
-				Type:  "update",
+				Type:  "create",
 				State: "succeeded",
 			}))
 			Expect(err).To(BeNil())
@@ -55,13 +55,35 @@ var _ = Describe("Event", func() {
 	})
 	Describe("isMeteringEvent", func() {
 		Context("When Type is Update", func() {
-			It("Should should return true if update succeeds", func() {
+			It("Should should return true if update with plan change succeeds", func() {
 				evt, _ := NewEvent(&ar)
 				evt.crd.Status.lastOperation.Type = "update"
 				evt.crd.Status.lastOperation.State = "succeeded"
 				evt.oldCrd.Status.lastOperation.Type = "update"
 				evt.oldCrd.Status.lastOperation.State = "in_progress"
+                evt.crd.Status.appliedOptions.PlanId= "newPlanUUID"
+                evt.oldCrd.Status.appliedOptions.PlanId= "oldPlanUUID"
 				Expect(evt.isMeteringEvent()).To(Equal(true))
+			})
+			It("Should should return flase if update with no plan change succeeds", func() {
+				evt, _ := NewEvent(&ar)
+				evt.crd.Status.lastOperation.Type = "update"
+				evt.crd.Status.lastOperation.State = "succeeded"
+				evt.oldCrd.Status.lastOperation.Type = "update"
+				evt.oldCrd.Status.lastOperation.State = "in_progress"
+                evt.crd.Status.appliedOptions.PlanId= "PlanUUID"
+                evt.oldCrd.Status.appliedOptions.PlanId= "PlanUUID"
+				Expect(evt.isMeteringEvent()).To(Equal(false))
+			})
+			It("Should should return flase if state does not change", func() {
+				evt, _ := NewEvent(&ar)
+				evt.crd.Status.lastOperation.Type = "update"
+				evt.crd.Status.lastOperation.State = "succeeded"
+				evt.oldCrd.Status.lastOperation.Type = "update"
+				evt.oldCrd.Status.lastOperation.State = "succeeded"
+                evt.crd.Status.appliedOptions.PlanId= "newPlanUUID"
+                evt.oldCrd.Status.appliedOptions.PlanId= "oldPlanUUID"
+				Expect(evt.isMeteringEvent()).To(Equal(false))
 			})
 			It("Should should return false if update fails", func() {
 				evt, _ := NewEvent(&ar)
@@ -69,16 +91,20 @@ var _ = Describe("Event", func() {
 				evt.crd.Status.lastOperation.State = "failed"
 				evt.oldCrd.Status.lastOperation.Type = "update"
 				evt.oldCrd.Status.lastOperation.State = "in_progress"
+                evt.crd.Status.appliedOptions.PlanId= "newPlanUUID"
+                evt.oldCrd.Status.appliedOptions.PlanId= "oldPlanUUID"
 				Expect(evt.isMeteringEvent()).To(Equal(false))
 			})
 		})
 		Context("When Type is Create", func() {
-			It("Should should return true if create succeeds", func() {
+			It("Should should return true if create with plan change succeeds", func() {
 				evt, _ := NewEvent(&ar)
 				evt.crd.Status.lastOperation.Type = "create"
 				evt.crd.Status.lastOperation.State = "succeeded"
 				evt.oldCrd.Status.lastOperation.Type = "create"
 				evt.oldCrd.Status.lastOperation.State = "in_progress"
+                evt.crd.Status.appliedOptions.PlanId= "newPlanUUID"
+                evt.oldCrd.Status.appliedOptions.PlanId= "oldPlanUUID"
 				Expect(evt.isMeteringEvent()).To(Equal(true))
 			})
 			It("Should should return true only if create state changes", func() {
@@ -87,6 +113,8 @@ var _ = Describe("Event", func() {
 				evt.crd.Status.lastOperation.State = "succeeded"
 				evt.oldCrd.Status.lastOperation.Type = "create"
 				evt.oldCrd.Status.lastOperation.State = "succeeded"
+                evt.crd.Status.appliedOptions.PlanId= "newPlanUUID"
+                evt.oldCrd.Status.appliedOptions.PlanId= "oldPlanUUID"
 				Expect(evt.isMeteringEvent()).To(Equal(false))
 			})
 			It("Should should return false if create fails", func() {

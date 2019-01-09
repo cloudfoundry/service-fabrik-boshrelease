@@ -30,9 +30,11 @@ type GenericSpec struct {
 }
 
 type GenericStatus struct {
+	AppliedOptions   string `json::appliedOptions"`
 	State            string `json:"state,omitempty"`
 	LastOperationRaw string `json:"lastOperation,omitempty"`
 	lastOperation    GenericLastOperation
+	appliedOptions   GenericOptions
 }
 
 type GenericResource struct {
@@ -63,6 +65,15 @@ func getLastOperation(crd GenericResource) GenericLastOperation {
 func getOptions(crd GenericResource) GenericOptions {
 	var op GenericOptions
 	opDecoder := json.NewDecoder(bytes.NewReader([]byte(crd.Spec.Options)))
+	if err := opDecoder.Decode(&op); err != nil {
+		glog.Errorf("Could not unmarshal raw object: %v", err)
+	}
+	return op
+}
+
+func getAppliedOptions(crd GenericResource) GenericOptions {
+	var op GenericOptions
+	opDecoder := json.NewDecoder(bytes.NewReader([]byte(crd.Status.AppliedOptions)))
 	if err := opDecoder.Decode(&op); err != nil {
 		glog.Errorf("Could not unmarshal raw object: %v", err)
 	}

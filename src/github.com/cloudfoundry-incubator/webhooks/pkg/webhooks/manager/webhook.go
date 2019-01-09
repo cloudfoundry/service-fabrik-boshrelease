@@ -115,7 +115,7 @@ func (whsvr *WebhookServer) meter(ar *v1beta1.AdmissionReview) *v1beta1.Admissio
 	if evt.isMeteringEvent() {
 		cfg, err := config.GetConfig()
 		if err != nil {
-			glog.Errorf("unable to set up client config", err)
+			glog.Errorf("unable to set up client config %v", err)
 			return &v1beta1.AdmissionResponse{
 				Result: &metav1.Status{
 					Message: err.Error(),
@@ -145,6 +145,7 @@ func (whsvr *WebhookServer) serve(w http.ResponseWriter, r *http.Request) {
 			body = data
 		}
 	}
+
 	if len(body) == 0 {
 		glog.Error("empty body")
 		http.Error(w, "empty body", http.StatusBadRequest)

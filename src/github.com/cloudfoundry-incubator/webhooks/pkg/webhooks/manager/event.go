@@ -25,16 +25,18 @@ type Event struct {
 func NewEvent(ar *v1beta1.AdmissionReview) (*Event, error) {
 	crd, err := getGenericResource(ar.Request.Object.Raw)
 	if err != nil {
-		glog.Errorf("Could not get the GenericResource object", err)
+		glog.Errorf("Could not get the GenericResource object %v", err)
 		return nil, err
 	}
 	oldCrd, err := getGenericResource(ar.Request.OldObject.Raw)
 	if err != nil {
-		glog.Errorf("Could not get the old GenericResource object", err)
+		glog.Errorf("Could not get the old GenericResource object %v", err)
 		return nil, err
 	}
 	crd.Status.lastOperation = getLastOperation(crd)
 	oldCrd.Status.lastOperation = getLastOperation(oldCrd)
+	crd.Status.appliedOptions = getAppliedOptions(crd)
+	oldCrd.Status.appliedOptions = getAppliedOptions(oldCrd)
 	return &Event{
 		AdmissionReview: ar,
 		crd:             crd,
@@ -42,19 +44,36 @@ func NewEvent(ar *v1beta1.AdmissionReview) (*Event, error) {
 	}, nil
 }
 
-func (e *Event) isMeteringEvent() bool {
+func (e *Event) isStateChanged() bool {
 	loNew := e.crd.Status.lastOperation
 	loOld := e.oldCrd.Status.lastOperation
 	glog.Infof("New: type: %s, state: %s\n", loNew.Type, loNew.State)
 	glog.Infof("Old: type: %s, state: %s\n", loOld.Type, loOld.State)
+	return loNew.Type == loOld.Type && loNew.State != loOld.State
+}
 
-	if loNew.Type == loOld.Type && loNew.State != loOld.State {
-		if loNew.Type == "update" || loNew.Type == "create" {
-			if loNew.State == "succeeded" {
-				return true
-			}
+func (e *Event) isPlanChanged() bool {
+	appliedOptionsNew := e.crd.Status.appliedOptions
+	appliedOptionsOld := e.oldCrd.Status.appliedOptions
+	return appliedOptionsNew.PlanId != appliedOptionsOld.PlanId
+}
 
-		}
+func (e *Event) isUpdateOrCreate() bool {
+	loNew := e.crd.Status.lastOperation
+	return loNew.Type == "update" || loNew.Type == "create"
+}
+
+func (e *Event) isSucceeded() bool {
+	loNew := e.crd.Status.lastOperation
+	return loNew.State == "succeeded"
+}
+
+func (e *Event) isMeteringEvent() bool {
+	if e.isStateChanged() &&
+		e.isPlanChanged() &&
+		e.isUpdateOrCreate() &&
+		e.isSucceeded() {
+		return true
 	}
 	return false
 }
@@ -77,7 +96,7 @@ func getClient(cfg *rest.Config) (client.Client, error) {
 	glog.Infof("setting up manager")
 	mgr, err := manager.New(cfg, manager.Options{})
 	if err != nil {
-		glog.Errorf("unable to set up overall controller manager", err)
+		glog.Errorf("unable to set up overall controller manager %v", err)
 		return nil, err
 	}
 	options := client.Options{

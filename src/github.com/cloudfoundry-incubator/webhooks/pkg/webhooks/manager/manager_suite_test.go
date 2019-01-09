@@ -2,6 +2,7 @@ package main
 
 import (
 	"testing"
+    "flag"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -20,6 +21,7 @@ func TestManager(t *testing.T) {
 
 var _ = BeforeSuite(func(done Done) {
 	testenv = &envtest.Environment{}
+	flag.Parse()
 
 	var err error
 	tcfg, err = testenv.Start()
