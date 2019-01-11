@@ -8,7 +8,7 @@ set -u # report the usage of uninitialized variables
 # $BOSH_INSTALL_TARGET - where you copy/install files to be included in package
 
 # We see lock issues, maybe we can check these?
-for DEB in $(ls -1 apt/lvm2/*.deb); do
+for DEB in $(ls -1 apt/xenial/lvm2/*.deb); do
   echo "Installing $(basename $DEB)"
   cp -a $DEB ${BOSH_INSTALL_TARGET}/
 done
