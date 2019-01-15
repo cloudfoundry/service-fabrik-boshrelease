@@ -80,21 +80,53 @@ case $1 in
     # prerequesits are done we do not want to reimplement in the bosh release.
     # DON'T CHANGE THE ORDER OF THE PACKAGE NAMES
     
-    set +e  
-    for package in libdevmapper-event1.02.1 watershed lvm2
-    do
+    set +e
+
+    if ! dpkg -s libdevmapper-event1.02.1 > /dev/null 2>&1 ; then
+      echo "Installing debian package libdevmapper-event1.02.1"
+      dpkg -i /var/vcap/packages/lvm2/libdevmapper-event1.02.1_2_1.02.110-1ubuntu10_amd64.deb
+    fi
+
+    if ! dpkg -s liblvm2cmd2.02 > /dev/null 2>&1 ; then
+      echo "Installing debian package liblvm2cmd2.02"
+      dpkg -i /var/vcap/packages/lvm2/liblvm2cmd2.02_2.02.133-1ubuntu10_amd64.deb
+    fi
+
+    if ! dpkg -s dmeventd > /dev/null 2>&1 ; then
+      echo "Installing debian package dmeventd"
+      dpkg -i /var/vcap/packages/lvm2/dmeventd_2_1.02.110-1ubuntu10_amd64.deb
+      sudo dpkg --configure -a 
+    fi
+
+    if ! dpkg -s liblvm2app2.2 > /dev/null 2>&1 ; then
+      echo "Installing debian package liblvm2app2.2"
+      dpkg -i /var/vcap/packages/lvm2/liblvm2app2.2_2.02.133-1ubuntu10_amd64.deb
+    fi
+
+    if ! dpkg -s lvm2 > /dev/null 2>&1 ; then
+      echo "Installing debian package lvm2"
+      dpkg -i /var/vcap/packages/lvm2/lvm2_2.02.133-1ubuntu10_amd64.deb
+    fi
+
+    systemctl enable lvm2-lvmetad.service
+    systemctl enable lvm2-lvmetad.socket
+    systemctl start lvm2-lvmetad.service
+    systemctl start lvm2-lvmetad.socket
+     
+#    for package in liblvm2cmd2 dmeventd liblvm2app2 lvm2
+#    do
     
 	  # check if package already installed else install, incase package not found
 	  # using dpkg -s for checking the installation which does not lock the /var/lib/dpkg/lock  
 	  
 	 
-      if ! dpkg -s $package > /dev/null 2>&1 ; then
-        echo "Installing debian package $package"
-		set -e
-        dpkg -i "$(ls -1 /var/vcap/packages/lvm2/${package}_*.deb | head -1)"
-		set +e 
-      fi
-    done
+#      if ! dpkg -s $package > /dev/null 2>&1 ; then
+#        echo "Installing debian package $package"
+#		set -e
+#        dpkg -i "$(ls -1 /var/vcap/packages/lvm2/${package}_*.deb | head -1)"
+#		set +e 
+#      fi
+#    done
 	set -e
 
     # To disable lvm archive
