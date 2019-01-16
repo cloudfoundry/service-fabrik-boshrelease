@@ -86,15 +86,18 @@ case $1 in
       echo "Installing debian package libdevmapper-event1.02.1"
       dpkg -i /var/vcap/packages/lvm2/libdevmapper-event1.02.1_2_1.02.110-1ubuntu10_amd64.deb
     fi
-
+    # the  package liblvm2cmd2.02 and dmeventd (package in below if) have cyclelic dependency
+    # just unpack the packages  and configure them after unpacking both packages
     if ! dpkg -s liblvm2cmd2.02 > /dev/null 2>&1 ; then
       echo "Installing debian package liblvm2cmd2.02"
-      dpkg -i /var/vcap/packages/lvm2/liblvm2cmd2.02_2.02.133-1ubuntu10_amd64.deb
+      dpkg --unpack /var/vcap/packages/lvm2/liblvm2cmd2.02_2.02.133-1ubuntu10_amd64.deb
     fi
 
     if ! dpkg -s dmeventd > /dev/null 2>&1 ; then
       echo "Installing debian package dmeventd"
-      dpkg -i /var/vcap/packages/lvm2/dmeventd_2_1.02.110-1ubuntu10_amd64.deb
+      dpkg --unpack /var/vcap/packages/lvm2/dmeventd_2_1.02.110-1ubuntu10_amd64.deb
+
+      # Now configure both liblvm2cmd2.02 and dmeventd which have cyclelic dependency
       sudo dpkg --configure -a 
     fi
 
@@ -106,6 +109,7 @@ case $1 in
     if ! dpkg -s lvm2 > /dev/null 2>&1 ; then
       echo "Installing debian package lvm2"
       dpkg -i /var/vcap/packages/lvm2/lvm2_2.02.133-1ubuntu10_amd64.deb
+
     fi
 
     systemctl enable lvm2-lvmetad.service
