@@ -43,6 +43,10 @@ case $1 in
     if [ ! -d ${DOCKER_STORE_DIR}/docker ]; then
       mkdir -p ${DOCKER_STORE_DIR}/docker
       chmod 770 ${DOCKER_STORE_DIR}/docker
+      
+      #Additional folders for ubuntu xenial to supress warning "libcontainerd: makeUpgradeProof could not open ..."
+      mkdir -p ${DOCKER_STORE_DIR}/docker/libcontainerd/containerd
+      chmod 770 ${DOCKER_STORE_DIR}/docker/libcontainerd/containerd
     fi
 
     # Set ulimits
