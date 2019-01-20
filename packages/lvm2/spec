@@ -3,3 +3,4 @@ name: lvm2
 dependencies: []
 files:
 - apt/xenial/lvm2/*.deb
+- apt/lvm2/*.deb
