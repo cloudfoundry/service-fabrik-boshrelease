@@ -143,7 +143,7 @@ case $1 in
      fi
 
     # To disable lvm archive
-    sed -i 's/ archive = 1/ archive = 0/g' /etc/lvm/lvm.conf
+    sed -i 's/archive = 1/archive = 0/g' /etc/lvm/lvm.conf
 
     create_volume
     create_loop
