@@ -123,12 +123,12 @@ case $1 in
 	      set -e
               dpkg -i /var/vcap/packages/lvm2/lvm2_2.02.133-1ubuntu10_amd64.deb
 	      set +e
-            fi
 
-            systemctl enable lvm2-lvmetad.service
-            systemctl enable lvm2-lvmetad.socket
-            systemctl start lvm2-lvmetad.service
-            systemctl start lvm2-lvmetad.socket
+              systemctl enable lvm2-lvmetad.service
+              systemctl enable lvm2-lvmetad.socket
+              systemctl start lvm2-lvmetad.service
+              systemctl start lvm2-lvmetad.socket
+            fi
 
       elif [[ `lsb_release -cs` == "trusty" ]]; then
 
