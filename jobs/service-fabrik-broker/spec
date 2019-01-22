@@ -114,7 +114,10 @@ provides:
   - directors
   - multi_az_enabled
   - ha_enabled
-  - metering.binding
+  - metering.binding.client_id
+  - metering.binding.client_secret
+  - metering.binding.token_url
+  - metering.binding.metering_url
   - metering.region
   - metering.excluded_service_plans
 consumes:
