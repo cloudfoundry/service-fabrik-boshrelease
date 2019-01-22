@@ -19,6 +19,12 @@ case $1 in
     # Enable syslog forwarding to logstash
     if [ ! -L /etc/rsyslog.d/52-fabrik_docker-manager_forwarding.conf ]; then
         ln -s ${CONF_DIR}/syslog_forwarding.conf /etc/rsyslog.d/52-fabrik_docker-manager_forwarding.conf
+        if [ ! -e  /etc/rsyslog.d/10-fabrik_modules.conf ]; then
+            mkdir -p /var/vcap/data/service-fabrik-docker-manager
+            touch /var/vcap/data/service-fabrik-docker-manager/syslog_modules.conf
+            ln -sf /var/vcap/data/service-fabrik-docker-manager/syslog_modules.conf /etc/rsyslog.d/10-fabrik_modules.conf
+        fi
+        if ! grep -Fxq "\$ModLoad imtcp" /etc/rsyslog.d/10-fabrik_modules.conf ; then echo "\$ModLoad imtcp" >> /etc/rsyslog.d/10-fabrik_modules.conf ; fi
     fi
     /usr/sbin/service rsyslog restart
 
