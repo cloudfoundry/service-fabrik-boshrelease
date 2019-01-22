@@ -7,7 +7,6 @@ import (
 	"k8s.io/client-go/rest"
 
 	"github.com/golang/glog"
-	"github.com/google/uuid"
 	"k8s.io/api/admission/v1beta1"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -125,16 +124,18 @@ func meteringToUnstructured(m *Metering) (*unstructured.Unstructured, error) {
 	}
 	meteringDoc := &unstructured.Unstructured{}
 	meteringDoc.SetUnstructuredContent(values)
-	meteringDoc.SetKind("Event")
-	meteringDoc.SetAPIVersion("metering.servicefabrik.io/v1alpha1")
+	meteringDoc.SetKind("Sfevent")
+	meteringDoc.SetAPIVersion("instance.servicefabrik.io/v1alpha1")
 	meteringDoc.SetNamespace("default")
-	name := uuid.New().String()
-	meteringDoc.SetName(name)
+	meteringDoc.SetName(m.getName())
+    labels := make(map[string]string)
+    labels["meter_state"] = DEFAULT_METER_LABEL
+	meteringDoc.SetLabels(labels);
 	return meteringDoc, nil
 }
 
-func (e *Event) getMeteringEvent(opt GenericOptions, signal string) *Metering {
-	return newMetering(opt, e.crd, signal )
+func (e *Event) getMeteringEvent(opt GenericOptions, signal int) *Metering {
+	return newMetering(opt, e.crd, signal)
 }
 
 func (e *Event) getMeteringEvents() ([]*Metering, error) {
@@ -147,13 +148,10 @@ func (e *Event) getMeteringEvents() ([]*Metering, error) {
 
 	switch lo.Type {
 	case "update":
-		meteringDoc := e.getMeteringEvent(options, "start")
-		meteringDocs = append(meteringDocs, meteringDoc)
-		meteringDoc = e.getMeteringEvent(oldAppliedOptions, "stop")
-		meteringDocs = append(meteringDocs, meteringDoc)
+		meteringDocs = append(meteringDocs, e.getMeteringEvent(options, METER_START))
+		meteringDocs = append(meteringDocs, e.getMeteringEvent(oldAppliedOptions, METER_STOP))
 	case "create":
-		meteringDoc := e.getMeteringEvent(options, "start")
-		meteringDocs = append(meteringDocs, meteringDoc)
+		meteringDocs = append(meteringDocs, e.getMeteringEvent(options, METER_START))
 	}
 	return meteringDocs, nil
 }

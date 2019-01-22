@@ -114,6 +114,9 @@ provides:
   - directors
   - multi_az_enabled
   - ha_enabled
+  - metering.binding
+  - metering.region
+  - metering.excluded_service_plans
 consumes:
 - name: scheduler
   type: scheduler

@@ -139,22 +139,15 @@ var _ = Describe("Event", func() {
 		It("Unstructured metering instance", func() {
 			m := Metering{
 				Spec: MeteringSpec{
-					Options: MeteringOptions{
-						ServiceID:  "opt.ServiceID",
-						PlanID:     "opt.PlanID",
-						InstanceID: "e.crd.Name",
-						OrgID:      "opt.Context.OrganizationGUID",
-						SpaceID:    "opt.Context.SpaceGUID",
-						Type:       "lo.Type",
-						Signal:     "signal",
-					},
+					Options: "",
 				},
 			}
-            val, err := meteringToUnstructured(&m)
+			val, err := meteringToUnstructured(&m)
 			Expect(err).To(BeNil())
 			Expect(val).ToNot(BeNil())
-			Expect(val.GetKind()).To(Equal("Event"))
-			Expect(val.GetAPIVersion()).To(Equal("metering.servicefabrik.io/v1alpha1"))
+			Expect(val.GetKind()).To(Equal("Sfevent"))
+			Expect(val.GetAPIVersion()).To(Equal("instance.servicefabrik.io/v1alpha1"))
+			Expect(val.GetLabels()["meter_state"]).To(Equal("TO_BE_METERED"))
 
 		})
 	})
@@ -172,10 +165,14 @@ var _ = Describe("Event", func() {
 				docs, err := evt.getMeteringEvents()
 				Expect(err).To(BeNil())
 				Expect(len(docs)).To(Equal(2))
-				Expect(docs[0].Spec.Options.PlanID).To(Equal("new plan in options"))
-				Expect(docs[0].Spec.Options.Signal).To(Equal("start"))
-				Expect(docs[1].Spec.Options.PlanID).To(Equal("oldPlan"))
-				Expect(docs[1].Spec.Options.Signal).To(Equal("stop"))
+                var doc_start MeteringOptions
+                var doc_stop MeteringOptions
+                json.Unmarshal([]byte(docs[0].Spec.Options), &doc_start)
+                json.Unmarshal([]byte(docs[1].Spec.Options), &doc_stop)
+				Expect(doc_start.ServiceInfo.Plan).To(Equal("new plan in options"))
+				Expect(doc_start.InstancesMeasures[0].Value).To(Equal(METER_START))
+				Expect(doc_stop.ServiceInfo.Plan).To(Equal("oldPlan"))
+				Expect(doc_stop.InstancesMeasures[0].Value).To(Equal(METER_STOP))
 			})
 		})
 		Context("when type is create", func() {
