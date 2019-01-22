@@ -418,3 +418,17 @@ properties:
 
   circuit_breaker:
     description: "Overridden circuit breaker configuration"
+
+
+  metering.binding.client_id:
+    description: "The client id provided by the metering service"
+  metering.binding.client_secret:
+    description: "The client secret provided by the metering service"
+  metering.binding.token_url:
+    description: "The token url provided by the metering service"
+  metering.binding.metering_url:
+    description: "The metering url provided by the metering service"
+  metering.region:
+    description: "The landscape region"
+  metering.excluded_service_plans:
+    description: "The excluded service plans"
