@@ -114,8 +114,8 @@ provides:
   - directors
   - multi_az_enabled
   - ha_enabled
-  - metering.binding.client_id
-  - metering.binding.client_secret
+  - metering.binding.clientid
+  - metering.binding.clientsecret
   - metering.binding.token_url
   - metering.binding.metering_url
   - metering.region
@@ -420,9 +420,9 @@ properties:
     description: "Overridden circuit breaker configuration"
 
 
-  metering.binding.client_id:
+  metering.binding.clientid:
     description: "The client id provided by the metering service"
-  metering.binding.client_secret:
+  metering.binding.clientsecret:
     description: "The client secret provided by the metering service"
   metering.binding.token_url:
     description: "The token url provided by the metering service"
