@@ -8,14 +8,8 @@ PATH=/var/vcap/packages/node/bin:$PATH
 echo "Copying service fabrik deployment hooks files..."
 cp -a ${BOSH_COMPILE_TARGET}/service-fabrik-broker/{package.json,deployment_hooks,common,node_modules} ${BOSH_INSTALL_TARGET}/
 
-#Added the below line to avoid node-gyp connect to internet and download headers during "npm rebuild"
-#which internally calls "node-gyp rebuild" of unix-dgram package based on https://github.com/nodejs/node-gyp/issues/1020
-npm config set nodedir /var/vcap/packages/node
+# skipping npm rebuild as the bosh release is always created with target stemcell and the target nodejs & right modules are installed in prepackaging.
 
-# Rebuild
-echo "Rebuild depend packages..."
-cd ${BOSH_INSTALL_TARGET}
-npm rebuild
 # compile add_seccomp_filters script
 cd ${BOSH_INSTALL_TARGET}/deployment_hooks/bin/seccomp
 LIBSECCOMP_INSTALLATION=/var/vcap/packages/libseccomp/libseccomp_installation
