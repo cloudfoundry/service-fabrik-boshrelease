@@ -161,6 +161,12 @@ production:
             - name : EventDetail
               retention_in_days: <%= p('system_jobs.dbcollection_reaper.event_detail.retention_in_days') %>
         enabled: true
+      - name: 'Meter_Instance'
+        type: MeterInstance
+        interval: '*/2 * * * *'
+        job_data:
+          retry_count: 3
+        enabled: true
 
   #######################
   # MONITORING SETTINGS #
