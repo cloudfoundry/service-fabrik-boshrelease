@@ -1,5 +1,7 @@
 package main
 
-const METER_START int = 1
-const METER_STOP int = 0
-const DEFAULT_METER_LABEL string = "TO_BE_METERED"
+const (
+	METER_START         = 1
+	METER_STOP          = 0
+	DEFAULT_METER_LABEL = "TO_BE_METERED"
+)

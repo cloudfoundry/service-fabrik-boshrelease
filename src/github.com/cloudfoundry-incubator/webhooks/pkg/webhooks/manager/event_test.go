@@ -11,7 +11,7 @@ import (
 
 var _ = Describe("Event", func() {
 	var (
-		ar       v1beta1.AdmissionReview
+		ar             v1beta1.AdmissionReview
 		arDockerCreate v1beta1.AdmissionReview
 	)
 	dat, err := ioutil.ReadFile("test_resources/admission_request.json")
@@ -249,14 +249,14 @@ var _ = Describe("Event", func() {
 				docs, err := evt.getMeteringEvents()
 				Expect(err).To(BeNil())
 				Expect(len(docs)).To(Equal(2))
-				var doc_start MeteringOptions
-				var doc_stop MeteringOptions
-				json.Unmarshal([]byte(docs[0].Spec.Options), &doc_start)
-				json.Unmarshal([]byte(docs[1].Spec.Options), &doc_stop)
-				Expect(doc_start.ServiceInfo.Plan).To(Equal("new plan in options"))
-				Expect(doc_start.InstancesMeasures[0].Value).To(Equal(METER_START))
-				Expect(doc_stop.ServiceInfo.Plan).To(Equal("oldPlan"))
-				Expect(doc_stop.InstancesMeasures[0].Value).To(Equal(METER_STOP))
+				var docStart MeteringOptions
+				var docStop MeteringOptions
+				json.Unmarshal([]byte(docs[0].Spec.Options), &docStart)
+				json.Unmarshal([]byte(docs[1].Spec.Options), &docStop)
+				Expect(docStart.ServiceInfo.Plan).To(Equal("new plan in options"))
+				Expect(docStart.InstancesMeasures[0].Value).To(Equal(METER_START))
+				Expect(docStop.ServiceInfo.Plan).To(Equal("oldPlan"))
+				Expect(docStop.InstancesMeasures[0].Value).To(Equal(METER_STOP))
 			})
 		})
 		Context("when type is create", func() {

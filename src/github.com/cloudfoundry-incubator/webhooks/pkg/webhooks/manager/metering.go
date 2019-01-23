@@ -2,11 +2,13 @@ package main
 
 import (
 	"encoding/json"
+	"github.com/golang/glog"
 	"github.com/google/uuid"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"time"
 )
 
+// ServiceInfo holds the service id and plan id
 type ServiceInfo struct {
 	// The id mentioned is the SKU name of service
 	// like redis, postgresql and not uutd
@@ -14,6 +16,7 @@ type ServiceInfo struct {
 	Plan string `json:"plan"`
 }
 
+// ConsumerInfo holds the consumer related details
 type ConsumerInfo struct {
 	Environment string `json:"environment"`
 	Region      string `json:"region"`
@@ -22,6 +25,7 @@ type ConsumerInfo struct {
 	Instance    string `json:"instance"`
 }
 
+// InstancesMeasure holds the measured values
 type InstancesMeasure struct {
 	ID    string `json:"id"`
 	Value int    `json:"value"`
@@ -70,8 +74,9 @@ func newMetering(opt GenericOptions, crd GenericResource, signal int) *Metering 
 		ID:    "instances",
 		Value: signal,
 	}
+	guid := uuid.New().String()
 	mo := MeteringOptions{
-		ID: uuid.New().String(),
+		ID: guid,
 		// Go has wierd time formating rules !!
 		// https://golang.org/src/time/format.go
 		Timestamp:         time.Now().UTC().Format(time.RFC3339Nano),
@@ -79,6 +84,7 @@ func newMetering(opt GenericOptions, crd GenericResource, signal int) *Metering 
 		ConsumerInfo:      ci,
 		InstancesMeasures: []InstancesMeasure{im},
 	}
+	glog.Infof("New metering event for CRD: %s, Metering Id: %s", crd.Name, guid)
 	meteringOptions, _ := json.Marshal(mo)
 	m := &Metering{
 		Spec: MeteringSpec{

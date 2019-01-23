@@ -135,7 +135,7 @@ func ObjectToMapInterface(obj interface{}) (map[string]interface{}, error) {
 }
 
 func getClient(cfg *rest.Config) (client.Client, error) {
-	glog.Infof("setting up manager")
+	glog.Infof("Get client for Apiserver")
 	mgr, err := manager.New(cfg, manager.Options{})
 	if err != nil {
 		glog.Errorf("unable to set up overall controller manager %v", err)
@@ -181,14 +181,25 @@ func (e *Event) getMeteringEvents() ([]*Metering, error) {
 	oldAppliedOptions := e.oldCrd.Status.appliedOptions
 	var meteringDocs []*Metering
 
-	glog.Infof("Getting Metering Docs for Type %s", lo.Type)
-
-	switch lo.Type {
-	case "update":
-		meteringDocs = append(meteringDocs, e.getMeteringEvent(options, METER_START))
-		meteringDocs = append(meteringDocs, e.getMeteringEvent(oldAppliedOptions, METER_STOP))
-	case "create":
-		meteringDocs = append(meteringDocs, e.getMeteringEvent(options, METER_START))
+	if e.isDirector() {
+		glog.Infof("Getting Metering Docs for Director: %s", lo.Type)
+		switch lo.Type {
+		case "update":
+			meteringDocs = append(meteringDocs, e.getMeteringEvent(options, METER_START))
+			meteringDocs = append(meteringDocs, e.getMeteringEvent(oldAppliedOptions, METER_STOP))
+		case "create":
+			meteringDocs = append(meteringDocs, e.getMeteringEvent(options, METER_START))
+		case "delete":
+			meteringDocs = append(meteringDocs, e.getMeteringEvent(oldAppliedOptions, METER_STOP))
+		}
+	} else if e.isDocker() {
+		glog.Infof("Getting Metering Docs for Docker : %s", e.crd.Status.State)
+		switch e.crd.Status.State {
+		case "succeeded":
+			meteringDocs = append(meteringDocs, e.getMeteringEvent(options, METER_START))
+		case "delete":
+			meteringDocs = append(meteringDocs, e.getMeteringEvent(oldAppliedOptions, METER_STOP))
+		}
 	}
 	return meteringDocs, nil
 }
