@@ -1,0 +1,8 @@
+---
+name: interoperator
+
+dependencies:
+  - golang
+
+files:
+  - github.com/cloudfoundry-incubator/service-fabrik-broker/interoperator/**/*
