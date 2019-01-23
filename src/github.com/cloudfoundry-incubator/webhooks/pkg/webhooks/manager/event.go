@@ -22,6 +22,23 @@ type Event struct {
 
 // NewEvent is a constructor for Event
 func NewEvent(ar *v1beta1.AdmissionReview) (*Event, error) {
+	arjson, err := json.Marshal(ar)
+	glog.Errorf("Admission review JSON: %v", string(arjson))
+	req := ar.Request
+	glog.Errorf(`
+    Creating event for
+	%v
+	Namespace=%v
+	Name=%v
+	UID=%v
+	patchOperation=%v
+	UserInfo=%v`,
+		req.Kind,
+		req.Namespace,
+		req.Name,
+		req.UID,
+		req.Operation,
+		req.UserInfo)
 	crd, err := getGenericResource(ar.Request.Object.Raw)
 	if err != nil {
 		glog.Errorf("Could not get the GenericResource object %v", err)
@@ -74,26 +91,26 @@ func (e *Event) isSucceeded() bool {
 }
 
 func (e *Event) isDirector() bool {
-    return e.crd.Kind == "Director"
+	return e.crd.Kind == "Director"
 }
 
 func (e *Event) isDocker() bool {
-    return e.crd.Kind == "Docker"
+	return e.crd.Kind == "Docker"
 }
 
 func (e *Event) isMeteringEvent() bool {
-    // An event is metering event if 
-    // Create succeeded
-    // or Update Succeeded
-    // or Delete Triggered
+	// An event is metering event if
+	// Create succeeded
+	// or Update Succeeded
+	// or Delete Triggered
 	if e.isDirector() && e.isStateChanged() {
-	    if e.isSucceeded() {
-            return (e.isUpdate() && e.isPlanChanged()) || e.isCreate()
-        } else {
-            return e.isDeleteTriggered()
-        }
+		if e.isSucceeded() {
+			return (e.isUpdate() && e.isPlanChanged()) || e.isCreate()
+		} else {
+			return e.isDeleteTriggered()
+		}
 	}
-	return e.isDocker() && e.isStateChanged() && ( e.isSucceeded() || e.isDeleteTriggered() )
+	return e.isDocker() && e.isStateChanged() && (e.isSucceeded() || e.isDeleteTriggered())
 }
 
 // ObjectToMapInterface converts an Object to map[string]interface{}
@@ -141,9 +158,9 @@ func meteringToUnstructured(m *Metering) (*unstructured.Unstructured, error) {
 	meteringDoc.SetAPIVersion("instance.servicefabrik.io/v1alpha1")
 	meteringDoc.SetNamespace("default")
 	meteringDoc.SetName(m.getName())
-    labels := make(map[string]string)
-    labels["meter_state"] = DEFAULT_METER_LABEL
-	meteringDoc.SetLabels(labels);
+	labels := make(map[string]string)
+	labels["meter_state"] = DEFAULT_METER_LABEL
+	meteringDoc.SetLabels(labels)
 	return meteringDoc, nil
 }
 

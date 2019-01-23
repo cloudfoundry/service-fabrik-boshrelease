@@ -45,7 +45,7 @@ type GenericStatus struct {
 
 // GenericResource type represents a generic resource
 type GenericResource struct {
-    Kind string `json:"kind"`
+	Kind              string `json:"kind"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Status            GenericStatus `json:"status,omitempty"`
 	Spec              GenericSpec   `json:"spec,omitempty"`
@@ -65,7 +65,7 @@ func getLastOperation(crd GenericResource) GenericLastOperation {
 	var lo GenericLastOperation
 	loDecoder := json.NewDecoder(bytes.NewReader([]byte(crd.Status.LastOperationRaw)))
 	if err := loDecoder.Decode(&lo); err != nil {
-		glog.Errorf("Could not unmarshal raw object: %v", err)
+		glog.Errorf("Could not unmarshal raw object of lastOperation: %v", err)
 	}
 	return lo
 }
@@ -74,7 +74,7 @@ func getOptions(crd GenericResource) GenericOptions {
 	var op GenericOptions
 	opDecoder := json.NewDecoder(bytes.NewReader([]byte(crd.Spec.Options)))
 	if err := opDecoder.Decode(&op); err != nil {
-		glog.Errorf("Could not unmarshal raw object: %v", err)
+		glog.Errorf("Could not unmarshal raw object of Options: %v", err)
 	}
 	return op
 }
@@ -83,7 +83,7 @@ func getAppliedOptions(crd GenericResource) GenericOptions {
 	var op GenericOptions
 	opDecoder := json.NewDecoder(bytes.NewReader([]byte(crd.Status.AppliedOptions)))
 	if err := opDecoder.Decode(&op); err != nil {
-		glog.Errorf("Could not unmarshal raw object: %v", err)
+		glog.Errorf("Could not unmarshal raw object of AppliedOptions: %v", err)
 	}
 	return op
 }

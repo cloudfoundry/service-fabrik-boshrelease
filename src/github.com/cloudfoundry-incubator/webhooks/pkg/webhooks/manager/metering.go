@@ -1,10 +1,10 @@
 package main
 
 import (
-    "time"
 	"encoding/json"
 	"github.com/google/uuid"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"time"
 )
 
 type ServiceInfo struct {
@@ -24,7 +24,7 @@ type ConsumerInfo struct {
 
 type InstancesMeasure struct {
 	ID    string `json:"id"`
-	Value int `json:"value"`
+	Value int    `json:"value"`
 }
 
 // MeteringOptions represents the options field of Metering Resource
@@ -39,7 +39,7 @@ type MeteringOptions struct {
 // MeteringSpec represents the spec field of metering resource
 type MeteringSpec struct {
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Options string `json:"options,omitempty"`
+	Options           string `json:"options,omitempty"`
 }
 
 // Metering structure holds all the details related to
@@ -49,9 +49,9 @@ type Metering struct {
 }
 
 func (m *Metering) getName() string {
-			var meteringOptions MeteringOptions
-			json.Unmarshal([]byte(m.Spec.Options), &meteringOptions)
-			return meteringOptions.ID
+	var meteringOptions MeteringOptions
+	json.Unmarshal([]byte(m.Spec.Options), &meteringOptions)
+	return meteringOptions.ID
 }
 
 func newMetering(opt GenericOptions, crd GenericResource, signal int) *Metering {
@@ -71,16 +71,16 @@ func newMetering(opt GenericOptions, crd GenericResource, signal int) *Metering 
 		Value: signal,
 	}
 	mo := MeteringOptions{
-		ID:                uuid.New().String(),
-		// Go has wierd time formating rules !! 
+		ID: uuid.New().String(),
+		// Go has wierd time formating rules !!
 		// https://golang.org/src/time/format.go
-        Timestamp: time.Now().UTC().Format(time.RFC3339Nano),
+		Timestamp:         time.Now().UTC().Format(time.RFC3339Nano),
 		ServiceInfo:       si,
 		ConsumerInfo:      ci,
 		InstancesMeasures: []InstancesMeasure{im},
 	}
 	meteringOptions, _ := json.Marshal(mo)
-    m := &Metering{
+	m := &Metering{
 		Spec: MeteringSpec{
 			Options: string(meteringOptions),
 		},
