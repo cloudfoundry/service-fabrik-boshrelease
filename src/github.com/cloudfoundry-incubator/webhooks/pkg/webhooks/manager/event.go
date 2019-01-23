@@ -46,22 +46,13 @@ func NewEvent(ar *v1beta1.AdmissionReview) (*Event, error) {
 }
 
 func (e *Event) isStateChanged() bool {
-    if e.isDirector() {
-        loNew := e.crd.Status.lastOperation
-        loOld := e.oldCrd.Status.lastOperation
-        glog.Infof("Checking state change new state: %s\n", loNew.State)
-        glog.Infof("Checking state change old state: %s\n", loOld.State)
-        return loNew.State != loOld.State
-    } else if e.isDocker() {
-        return e.crd.Status.State != e.oldCrd.Status.State
-    }
-    glog.Errorf("Unexpected kind: %v", e.crd.Kind)
-    return false
+	glog.Infof("Checking state change new state: %s\n", e.crd.Status.State)
+	glog.Infof("Checking state change old state: %s\n", e.oldCrd.Status.State)
+	return e.crd.Status.State != e.oldCrd.Status.State
 }
 
 func (e *Event) isDeleteTriggered() bool {
-    return e.crd.Status.State == "delete" && 
-            e.oldCrd.Status.State != "delete"
+	return e.crd.Status.State == "delete"
 }
 
 func (e *Event) isPlanChanged() bool {
@@ -79,7 +70,7 @@ func (e *Event) isUpdate() bool {
 }
 
 func (e *Event) isSucceeded() bool {
-	return e.crd.Status.lastOperation.State == "succeeded"
+	return e.crd.Status.State == "succeeded"
 }
 
 func (e *Event) isDirector() bool {
@@ -91,17 +82,18 @@ func (e *Event) isDocker() bool {
 }
 
 func (e *Event) isMeteringEvent() bool {
-    // An event is metering event if
+    // An event is metering event if 
     // Create succeeded
     // or Update Succeeded
     // or Delete Triggered
-    updateEvent := e.isUpdate() && e.isPlanChanged()
-    createEvent := e.isCreate()
-	if e.isStateChanged() {
-        updateOrCreateSuccess := e.isSucceeded() && ( updateEvent || createEvent )
-        return updateOrCreateSuccess || e.isDeleteTriggered()
+	if e.isDirector() && e.isStateChanged() {
+	    if e.isSucceeded() {
+            return (e.isUpdate() && e.isPlanChanged()) || e.isCreate()
+        } else {
+            return e.isDeleteTriggered()
+        }
 	}
-	return false
+	return e.isDocker() && e.isStateChanged() && ( e.isSucceeded() || e.isDeleteTriggered() )
 }
 
 // ObjectToMapInterface converts an Object to map[string]interface{}

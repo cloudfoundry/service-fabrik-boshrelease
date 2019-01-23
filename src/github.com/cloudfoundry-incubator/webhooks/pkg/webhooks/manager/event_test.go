@@ -12,14 +12,20 @@ import (
 var _ = Describe("Event", func() {
 	var (
 		ar v1beta1.AdmissionReview
+		arDocker v1beta1.AdmissionReview
 	)
 	dat, err := ioutil.ReadFile("test_resources/admission_request.json")
+	datDocker, err := ioutil.ReadFile("test_resources/admission_request_docker.json")
 	if err != nil {
 		panic(err)
 	}
 
 	BeforeEach(func() {
 		err = json.Unmarshal(dat, &ar)
+		if err != nil {
+			panic(err)
+		}
+		err = json.Unmarshal(datDocker, &arDocker)
 		if err != nil {
 			panic(err)
 		}
@@ -51,13 +57,15 @@ var _ = Describe("Event", func() {
 		})
 	})
 	Describe("isMeteringEvent", func() {
-		Context("When Type is Update", func() {
+		Context("When Type is Update and kind is Director", func() {
 			It("Should should return true if update with plan change succeeds", func() {
 				evt, _ := NewEvent(&ar)
 				evt.crd.Status.lastOperation.Type = "update"
 				evt.crd.Status.lastOperation.State = "succeeded"
+				evt.crd.Status.State = "succeeded"
 				evt.oldCrd.Status.lastOperation.Type = "update"
 				evt.oldCrd.Status.lastOperation.State = "in_progress"
+				evt.oldCrd.Status.State = "in_progress"
 				evt.crd.Status.appliedOptions.PlanID = "newPlanUUID"
 				evt.oldCrd.Status.appliedOptions.PlanID = "oldPlanUUID"
 				Expect(evt.isMeteringEvent()).To(Equal(true))
@@ -66,8 +74,10 @@ var _ = Describe("Event", func() {
 				evt, _ := NewEvent(&ar)
 				evt.crd.Status.lastOperation.Type = "update"
 				evt.crd.Status.lastOperation.State = "succeeded"
+				evt.crd.Status.State = "succeeded"
 				evt.oldCrd.Status.lastOperation.Type = "update"
 				evt.oldCrd.Status.lastOperation.State = "in_progress"
+				evt.oldCrd.Status.State = "in_progress"
 				evt.crd.Status.appliedOptions.PlanID = "PlanUUID"
 				evt.oldCrd.Status.appliedOptions.PlanID = "PlanUUID"
 				Expect(evt.isMeteringEvent()).To(Equal(false))
@@ -76,8 +86,10 @@ var _ = Describe("Event", func() {
 				evt, _ := NewEvent(&ar)
 				evt.crd.Status.lastOperation.Type = "update"
 				evt.crd.Status.lastOperation.State = "succeeded"
+				evt.crd.Status.State = "succeeded"
 				evt.oldCrd.Status.lastOperation.Type = "update"
 				evt.oldCrd.Status.lastOperation.State = "succeeded"
+				evt.oldCrd.Status.State = "succeeded"
 				evt.crd.Status.appliedOptions.PlanID = "newPlanUUID"
 				evt.oldCrd.Status.appliedOptions.PlanID = "oldPlanUUID"
 				Expect(evt.isMeteringEvent()).To(Equal(false))
@@ -86,20 +98,24 @@ var _ = Describe("Event", func() {
 				evt, _ := NewEvent(&ar)
 				evt.crd.Status.lastOperation.Type = "update"
 				evt.crd.Status.lastOperation.State = "failed"
+				evt.crd.Status.State = "failed"
 				evt.oldCrd.Status.lastOperation.Type = "update"
 				evt.oldCrd.Status.lastOperation.State = "in_progress"
+				evt.oldCrd.Status.State = "in_progress"
 				evt.crd.Status.appliedOptions.PlanID = "newPlanUUID"
 				evt.oldCrd.Status.appliedOptions.PlanID = "oldPlanUUID"
 				Expect(evt.isMeteringEvent()).To(Equal(false))
 			})
 		})
-		Context("When Type is Create", func() {
+		Context("When Type is Create and kind is Director", func() {
 			It("Should should return true if create succeeds", func() {
 				evt, _ := NewEvent(&ar)
 				evt.crd.Status.lastOperation.Type = "create"
 				evt.crd.Status.lastOperation.State = "succeeded"
+				evt.crd.Status.State = "succeeded"
 				evt.oldCrd.Status.lastOperation.Type = "create"
 				evt.oldCrd.Status.lastOperation.State = "in_progress"
+				evt.oldCrd.Status.State = "in_progress"
 				evt.crd.Status.appliedOptions.PlanID = "PlanUUID"
 				evt.oldCrd.Status.appliedOptions.PlanID = "PlanUUID"
 				Expect(evt.isMeteringEvent()).To(Equal(true))
@@ -108,8 +124,10 @@ var _ = Describe("Event", func() {
 				evt, _ := NewEvent(&ar)
 				evt.crd.Status.lastOperation.Type = "create"
 				evt.crd.Status.lastOperation.State = "succeeded"
+				evt.crd.Status.State = "succeeded"
 				evt.oldCrd.Status.lastOperation.Type = "create"
 				evt.oldCrd.Status.lastOperation.State = "succeeded"
+				evt.oldCrd.Status.State = "succeeded"
 				evt.crd.Status.appliedOptions.PlanID = "newPlanUUID"
 				evt.oldCrd.Status.appliedOptions.PlanID = "oldPlanUUID"
 				Expect(evt.isMeteringEvent()).To(Equal(false))
@@ -117,9 +135,75 @@ var _ = Describe("Event", func() {
 			It("Should should return false if create fails", func() {
 				evt, _ := NewEvent(&ar)
 				evt.crd.Status.lastOperation.Type = "create"
-				evt.crd.Status.lastOperation.State = "failed"
+				evt.crd.Status.State = "failed"
 				evt.oldCrd.Status.lastOperation.Type = "create"
-				evt.oldCrd.Status.lastOperation.State = "in_progress"
+				evt.oldCrd.Status.State = "in_progress"
+				Expect(evt.isMeteringEvent()).To(Equal(false))
+			})
+		})
+		Context("When Type is Create and kind is Docker", func() {
+			It("Should should return true if create succeeds", func() {
+				evt, _ := NewEvent(&arDocker)
+				evt.crd.Status.State = "succeeded"
+				evt.oldCrd.Status.State = "in_progress"
+				Expect(evt.isMeteringEvent()).To(Equal(true))
+			})
+			It("Should should return false if create state change does not change", func() {
+				evt, _ := NewEvent(&arDocker)
+				evt.crd.Status.State = "succeeded"
+				evt.oldCrd.Status.State = "succeeded"
+				Expect(evt.isMeteringEvent()).To(Equal(false))
+			})
+			It("Should should return false if create fails", func() {
+				evt, _ := NewEvent(&arDocker)
+				evt.crd.Status.State = "failed"
+				evt.oldCrd.Status.State = "in_progress"
+				Expect(evt.isMeteringEvent()).To(Equal(false))
+			})
+		})
+		Context("When Type is Delete and kind is Director", func() {
+			It("Should should return true if delete is triggered", func() {
+				evt, _ := NewEvent(&ar)
+				evt.crd.Status.State = "delete"
+				evt.oldCrd.Status.State = "succeeded"
+				Expect(evt.isMeteringEvent()).To(Equal(true))
+			})
+			It("Should should return false when delete state change does not change", func() {
+				evt, _ := NewEvent(&ar)
+				evt.crd.Status.State = "delete"
+				evt.crd.Status.lastOperation.Type = "delete"
+				evt.oldCrd.Status.State = "delete"
+				evt.oldCrd.Status.lastOperation.Type = "delete"
+				Expect(evt.isMeteringEvent()).To(Equal(false))
+			})
+			It("Should should return false if create fails", func() {
+				evt, _ := NewEvent(&ar)
+				evt.crd.Status.lastOperation.Type = "delete"
+				evt.crd.Status.State = "failed"
+				evt.oldCrd.Status.State = "delete"
+				evt.oldCrd.Status.lastOperation.Type = "delete"
+				Expect(evt.isMeteringEvent()).To(Equal(false))
+			})
+		})
+		Context("When Type is Delete and kind is Docker", func() {
+			It("Should should return true if delete is triggered", func() {
+				evt, _ := NewEvent(&arDocker)
+				evt.crd.Status.State = "delete"
+				evt.oldCrd.Status.State = "succeeded"
+				Expect(evt.isMeteringEvent()).To(Equal(true))
+			})
+			It("Should should return false when delete state change does not change", func() {
+				evt, _ := NewEvent(&arDocker)
+				evt.crd.Status.State = "delete"
+				evt.oldCrd.Status.State = "delete"
+				Expect(evt.isMeteringEvent()).To(Equal(false))
+			})
+			It("Should should return false if create fails", func() {
+				evt, _ := NewEvent(&arDocker)
+				evt.crd.Status.lastOperation.Type = "delete"
+				evt.crd.Status.State = "failed"
+				evt.oldCrd.Status.State = "delete"
+				evt.oldCrd.Status.lastOperation.Type = "delete"
 				Expect(evt.isMeteringEvent()).To(Equal(false))
 			})
 		})
