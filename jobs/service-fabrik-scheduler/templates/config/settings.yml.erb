@@ -201,6 +201,10 @@ production:
   # QUOTA MANAGEMENT SETTINGS #
   ###################
   quota: <%= JSON.dump(link("broker").p('quota', nil)) %>
+  #####################
+  # METERING SETTINGS #
+  #####################
+  metering: <%= JSON.dump(link("broker").p('metering', nil)) %>
 
   ###################
   # BACKUP SETTINGS #
