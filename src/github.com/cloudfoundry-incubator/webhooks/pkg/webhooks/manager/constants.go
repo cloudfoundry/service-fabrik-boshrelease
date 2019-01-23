@@ -1,7 +1,7 @@
 package main
 
 const (
-	METER_START         = 1
-	METER_STOP          = 0
-	DEFAULT_METER_LABEL = "TO_BE_METERED"
+	MeterStart         = 1
+	MeterStop          = 0
+	ToBeMetered = "TO_BE_METERED"
 )

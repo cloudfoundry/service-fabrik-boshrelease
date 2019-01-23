@@ -254,9 +254,9 @@ var _ = Describe("Event", func() {
 				json.Unmarshal([]byte(docs[0].Spec.Options), &docStart)
 				json.Unmarshal([]byte(docs[1].Spec.Options), &docStop)
 				Expect(docStart.ServiceInfo.Plan).To(Equal("new plan in options"))
-				Expect(docStart.InstancesMeasures[0].Value).To(Equal(METER_START))
+				Expect(docStart.InstancesMeasures[0].Value).To(Equal(MeterStart))
 				Expect(docStop.ServiceInfo.Plan).To(Equal("oldPlan"))
-				Expect(docStop.InstancesMeasures[0].Value).To(Equal(METER_STOP))
+				Expect(docStop.InstancesMeasures[0].Value).To(Equal(MeterStop))
 			})
 		})
 		Context("when type is create", func() {

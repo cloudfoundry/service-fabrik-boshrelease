@@ -166,7 +166,7 @@ func meteringToUnstructured(m *Metering) (*unstructured.Unstructured, error) {
 	meteringDoc.SetNamespace("default")
 	meteringDoc.SetName(m.getName())
 	labels := make(map[string]string)
-	labels["meter_state"] = DEFAULT_METER_LABEL
+	labels["meter_state"] = ToBeMetered
 	meteringDoc.SetLabels(labels)
 	return meteringDoc, nil
 }
@@ -185,20 +185,20 @@ func (e *Event) getMeteringEvents() ([]*Metering, error) {
 		glog.Infof("Getting Metering Docs for Director: %s", lo.Type)
 		switch lo.Type {
 		case "update":
-			meteringDocs = append(meteringDocs, e.getMeteringEvent(options, METER_START))
-			meteringDocs = append(meteringDocs, e.getMeteringEvent(oldAppliedOptions, METER_STOP))
+			meteringDocs = append(meteringDocs, e.getMeteringEvent(options, MeterStart))
+			meteringDocs = append(meteringDocs, e.getMeteringEvent(oldAppliedOptions, MeterStop))
 		case "create":
-			meteringDocs = append(meteringDocs, e.getMeteringEvent(options, METER_START))
+			meteringDocs = append(meteringDocs, e.getMeteringEvent(options, MeterStart))
 		case "delete":
-			meteringDocs = append(meteringDocs, e.getMeteringEvent(oldAppliedOptions, METER_STOP))
+			meteringDocs = append(meteringDocs, e.getMeteringEvent(oldAppliedOptions, MeterStop))
 		}
 	} else if e.isDocker() {
 		glog.Infof("Getting Metering Docs for Docker : %s", e.crd.Status.State)
 		switch e.crd.Status.State {
 		case "succeeded":
-			meteringDocs = append(meteringDocs, e.getMeteringEvent(options, METER_START))
+			meteringDocs = append(meteringDocs, e.getMeteringEvent(options, MeterStart))
 		case "delete":
-			meteringDocs = append(meteringDocs, e.getMeteringEvent(oldAppliedOptions, METER_STOP))
+			meteringDocs = append(meteringDocs, e.getMeteringEvent(oldAppliedOptions, MeterStop))
 		}
 	}
 	return meteringDocs, nil
