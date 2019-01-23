@@ -63,9 +63,14 @@ func getGenericResource(object []byte) (GenericResource, error) {
 
 func getLastOperation(crd GenericResource) GenericLastOperation {
 	var lo GenericLastOperation
-	loDecoder := json.NewDecoder(bytes.NewReader([]byte(crd.Status.LastOperationRaw)))
-	if err := loDecoder.Decode(&lo); err != nil {
-		glog.Errorf("Could not unmarshal raw object of lastOperation: %v", err)
+	// LastOperation could be null during Craete
+	if crd.Status.LastOperationRaw != "" {
+		loDecoder := json.NewDecoder(bytes.NewReader([]byte(crd.Status.LastOperationRaw)))
+		if err := loDecoder.Decode(&lo); err != nil {
+			glog.Errorf("Could not unmarshal raw object of lastOperation: %v", err)
+		}
+	} else {
+		lo = GenericLastOperation{}
 	}
 	return lo
 }
@@ -81,9 +86,14 @@ func getOptions(crd GenericResource) GenericOptions {
 
 func getAppliedOptions(crd GenericResource) GenericOptions {
 	var op GenericOptions
-	opDecoder := json.NewDecoder(bytes.NewReader([]byte(crd.Status.AppliedOptions)))
-	if err := opDecoder.Decode(&op); err != nil {
-		glog.Errorf("Could not unmarshal raw object of AppliedOptions: %v", err)
+	// LastOperation could be null during Craete
+	if crd.Status.AppliedOptions != "" {
+		opDecoder := json.NewDecoder(bytes.NewReader([]byte(crd.Status.AppliedOptions)))
+		if err := opDecoder.Decode(&op); err != nil {
+			glog.Errorf("Could not unmarshal raw object of AppliedOptions: %v", err)
+		}
+	} else {
+		op = GenericOptions{}
 	}
 	return op
 }

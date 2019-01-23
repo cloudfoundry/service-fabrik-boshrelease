@@ -12,10 +12,10 @@ import (
 var _ = Describe("Event", func() {
 	var (
 		ar       v1beta1.AdmissionReview
-		arDocker v1beta1.AdmissionReview
+		arDockerCreate v1beta1.AdmissionReview
 	)
 	dat, err := ioutil.ReadFile("test_resources/admission_request.json")
-	datDocker, err := ioutil.ReadFile("test_resources/admission_request_docker.json")
+	dockerCreateAr, err := ioutil.ReadFile("test_resources/admission_request_docker_create.json")
 	if err != nil {
 		panic(err)
 	}
@@ -25,7 +25,7 @@ var _ = Describe("Event", func() {
 		if err != nil {
 			panic(err)
 		}
-		err = json.Unmarshal(datDocker, &arDocker)
+		err = json.Unmarshal(dockerCreateAr, &arDockerCreate)
 		if err != nil {
 			panic(err)
 		}
@@ -49,11 +49,11 @@ var _ = Describe("Event", func() {
 			Expect(err).ToNot(BeNil())
 			ar.Request.Object.Raw = temp
 		})
-		It("Should throw error if old object cannot be parsed", func() {
+		It("Should set oldCrd empty if old object cannot be parsed", func() {
 			ar.Request.OldObject.Raw = []byte("")
 			evt, err := NewEvent(&ar)
-			Expect(evt).To(BeNil())
-			Expect(err).ToNot(BeNil())
+			Expect(evt.oldCrd).To(Equal(GenericResource{}))
+			Expect(err).To(BeNil())
 		})
 	})
 	Describe("isMeteringEvent", func() {
@@ -143,19 +143,19 @@ var _ = Describe("Event", func() {
 		})
 		Context("When Type is Create and kind is Docker", func() {
 			It("Should should return true if create succeeds", func() {
-				evt, _ := NewEvent(&arDocker)
+				evt, _ := NewEvent(&arDockerCreate)
 				evt.crd.Status.State = "succeeded"
 				evt.oldCrd.Status.State = "in_progress"
 				Expect(evt.isMeteringEvent()).To(Equal(true))
 			})
 			It("Should should return false if create state change does not change", func() {
-				evt, _ := NewEvent(&arDocker)
+				evt, _ := NewEvent(&arDockerCreate)
 				evt.crd.Status.State = "succeeded"
 				evt.oldCrd.Status.State = "succeeded"
 				Expect(evt.isMeteringEvent()).To(Equal(false))
 			})
 			It("Should should return false if create fails", func() {
-				evt, _ := NewEvent(&arDocker)
+				evt, _ := NewEvent(&arDockerCreate)
 				evt.crd.Status.State = "failed"
 				evt.oldCrd.Status.State = "in_progress"
 				Expect(evt.isMeteringEvent()).To(Equal(false))
@@ -187,19 +187,19 @@ var _ = Describe("Event", func() {
 		})
 		Context("When Type is Delete and kind is Docker", func() {
 			It("Should should return true if delete is triggered", func() {
-				evt, _ := NewEvent(&arDocker)
+				evt, _ := NewEvent(&arDockerCreate)
 				evt.crd.Status.State = "delete"
 				evt.oldCrd.Status.State = "succeeded"
 				Expect(evt.isMeteringEvent()).To(Equal(true))
 			})
 			It("Should should return false when delete state change does not change", func() {
-				evt, _ := NewEvent(&arDocker)
+				evt, _ := NewEvent(&arDockerCreate)
 				evt.crd.Status.State = "delete"
 				evt.oldCrd.Status.State = "delete"
 				Expect(evt.isMeteringEvent()).To(Equal(false))
 			})
 			It("Should should return false if create fails", func() {
-				evt, _ := NewEvent(&arDocker)
+				evt, _ := NewEvent(&arDockerCreate)
 				evt.crd.Status.lastOperation.Type = "delete"
 				evt.crd.Status.State = "failed"
 				evt.oldCrd.Status.State = "delete"

@@ -29,7 +29,7 @@ func NewEvent(ar *v1beta1.AdmissionReview) (*Event, error) {
     Creating event for
 	%v
 	Namespace=%v
-	Name=%v
+	Request Name=%v
 	UID=%v
 	patchOperation=%v
 	UserInfo=%v`,
@@ -40,21 +40,29 @@ func NewEvent(ar *v1beta1.AdmissionReview) (*Event, error) {
 		req.Operation,
 		req.UserInfo)
 	crd, err := getGenericResource(ar.Request.Object.Raw)
+	glog.Errorf("Resource name : %v", crd.Name)
 	if err != nil {
 		glog.Errorf("Could not get the GenericResource object %v", err)
 		return nil, err
 	}
-	oldCrd, err := getGenericResource(ar.Request.OldObject.Raw)
-	if err != nil {
-		glog.Errorf("Could not get the old GenericResource object %v", err)
-		return nil, err
-	}
 	crd.Status.lastOperation = getLastOperation(crd)
 	crd.Spec.options = getOptions(crd)
-	oldCrd.Status.lastOperation = getLastOperation(oldCrd)
-	oldCrd.Spec.options = getOptions(oldCrd)
 	crd.Status.appliedOptions = getAppliedOptions(crd)
-	oldCrd.Status.appliedOptions = getAppliedOptions(oldCrd)
+
+	var oldCrd GenericResource
+	if len(ar.Request.OldObject.Raw) != 0 {
+		oldCrd, err = getGenericResource(ar.Request.OldObject.Raw)
+		if err != nil {
+			glog.Errorf("Could not get the old GenericResource object %v", err)
+			return nil, err
+		}
+		oldCrd.Status.lastOperation = getLastOperation(oldCrd)
+		oldCrd.Spec.options = getOptions(oldCrd)
+		oldCrd.Status.appliedOptions = getAppliedOptions(oldCrd)
+	} else {
+		oldCrd = GenericResource{}
+	}
+
 	return &Event{
 		AdmissionReview: ar,
 		crd:             crd,
@@ -106,9 +114,8 @@ func (e *Event) isMeteringEvent() bool {
 	if e.isDirector() && e.isStateChanged() {
 		if e.isSucceeded() {
 			return (e.isUpdate() && e.isPlanChanged()) || e.isCreate()
-		} else {
-			return e.isDeleteTriggered()
 		}
+		return e.isDeleteTriggered()
 	}
 	return e.isDocker() && e.isStateChanged() && (e.isSucceeded() || e.isDeleteTriggered())
 }

@@ -419,7 +419,6 @@ properties:
   circuit_breaker:
     description: "Overridden circuit breaker configuration"
 
-
   metering.binding.clientid:
     description: "The client id provided by the metering service"
   metering.binding.clientsecret:
