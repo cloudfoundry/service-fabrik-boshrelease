@@ -45,6 +45,7 @@ type GenericStatus struct {
 
 // GenericResource type represents a generic resource
 type GenericResource struct {
+    Kind string `json:"kind"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Status            GenericStatus `json:"status,omitempty"`
 	Spec              GenericSpec   `json:"spec,omitempty"`

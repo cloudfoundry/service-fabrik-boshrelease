@@ -46,11 +46,22 @@ func NewEvent(ar *v1beta1.AdmissionReview) (*Event, error) {
 }
 
 func (e *Event) isStateChanged() bool {
-	loNew := e.crd.Status.lastOperation
-	loOld := e.oldCrd.Status.lastOperation
-	glog.Infof("New: type: %s, state: %s\n", loNew.Type, loNew.State)
-	glog.Infof("Old: type: %s, state: %s\n", loOld.Type, loOld.State)
-	return loNew.Type == loOld.Type && loNew.State != loOld.State
+    if e.isDirector() {
+        loNew := e.crd.Status.lastOperation
+        loOld := e.oldCrd.Status.lastOperation
+        glog.Infof("Checking state change new state: %s\n", loNew.State)
+        glog.Infof("Checking state change old state: %s\n", loOld.State)
+        return loNew.State != loOld.State
+    } else if e.isDocker() {
+        return e.crd.Status.State != e.oldCrd.Status.State
+    }
+    glog.Errorf("Unexpected kind: %v", e.crd.Kind)
+    return false
+}
+
+func (e *Event) isDeleteTriggered() bool {
+    return e.crd.Status.State == "delete" && 
+            e.oldCrd.Status.State != "delete"
 }
 
 func (e *Event) isPlanChanged() bool {
@@ -71,14 +82,24 @@ func (e *Event) isSucceeded() bool {
 	return e.crd.Status.lastOperation.State == "succeeded"
 }
 
+func (e *Event) isDirector() bool {
+    return e.crd.Kind == "Director"
+}
+
+func (e *Event) isDocker() bool {
+    return e.crd.Kind == "Docker"
+}
+
 func (e *Event) isMeteringEvent() bool {
-	if e.isStateChanged() && e.isSucceeded() {
-		if e.isUpdate() && e.isPlanChanged() {
-			return true
-		}
-		if e.isCreate() {
-			return true
-		}
+    // An event is metering event if
+    // Create succeeded
+    // or Update Succeeded
+    // or Delete Triggered
+    updateEvent := e.isUpdate() && e.isPlanChanged()
+    createEvent := e.isCreate()
+	if e.isStateChanged() {
+        updateOrCreateSuccess := e.isSucceeded() && ( updateEvent || createEvent )
+        return updateOrCreateSuccess || e.isDeleteTriggered()
 	}
 	return false
 }
