@@ -34,11 +34,11 @@ var _ = Describe("Event", func() {
 	Describe("NewEvent", func() {
 		It("Should create a new Event object", func() {
 			evt, err := NewEvent(&ar)
-			Expect(evt).ToNot(Equal(nil))
+			Expect(evt).ToNot(Equal(nil), "Should return an event object")
 			Expect(evt.crd.Status.lastOperation).To(Equal(GenericLastOperation{
 				Type:  "create",
 				State: "succeeded",
-			}))
+			}), "Should return an event object with valid LastOperation")
 			Expect(err).To(BeNil())
 		})
 		It("Should throw error if object cannot be parsed", func() {
