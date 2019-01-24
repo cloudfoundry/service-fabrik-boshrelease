@@ -89,7 +89,7 @@ func newMetering(opt GenericOptions, crd GenericResource, signal int) *Metering 
 		// Maas expects timestamp in 'yyyy-MM-dd'T'HH:mm:ss.SSS'
 		// Go has wierd time formating rules !!
 		// https://golang.org/src/time/format.go
-		Timestamp:         time.Now().UTC().Format("2006-01-02T15:04:05.999"),
+		Timestamp:         time.Now().UTC().Format("2006-01-02T15:04:05.000"),
 		ServiceInfo:       si,
 		ConsumerInfo:      ci,
 		InstancesMeasures: []InstancesMeasure{im},
