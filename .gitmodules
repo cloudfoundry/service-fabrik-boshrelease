@@ -1,5 +1,5 @@
 [submodule "src/service-fabrik-broker"]
-	path = src/service-fabrik-broker
+	path = src/github.com/cloudfoundry-incubator/service-fabrik-broker
 	url = https://github.com/sap/service-fabrik-broker.git
 [submodule "src/github.com/docker/swarm"]
 	path = src/github.com/docker/swarm

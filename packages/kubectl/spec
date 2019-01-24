@@ -1,0 +1,5 @@
+---
+name: kubectl
+
+files:
+- kubernetes-1.12.4/kubectl

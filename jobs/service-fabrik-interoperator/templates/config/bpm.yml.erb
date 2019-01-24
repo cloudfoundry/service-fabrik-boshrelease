@@ -1,0 +1,14 @@
+---
+<%
+JOB_PATH = "/var/vcap/jobs/service-fabrik-interoperator"
+CONFIG_PATH = "/var/vcap/jobs/service-fabrik-interoperator/config"
+%>
+processes:
+- name: service-fabrik-interoperator
+  executable: /var/vcap/packages/interoperator/bin/manager
+  env:
+    KUBECONFIG: <%= CONFIG_PATH %>/kubeconfig.yaml
+  limits:
+    open_files: 100000
+  hooks:
+    pre_start: <%= JOB_PATH %>/bin/pre_start

@@ -26,6 +26,8 @@ provides:
   - tls.apiserver.certificate
   - tls.apiserver.private_key
   - crds
+  - admin-username
+  - admin-password
 
 properties:
   logging-level:

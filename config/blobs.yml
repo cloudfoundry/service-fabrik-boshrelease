@@ -58,6 +58,10 @@ golang/go1.8.3.linux-amd64.tar.gz:
   size: 90029041
   object_id: 531dbe5c-f65b-4c3a-a524-c630a7762567
   sha: 838c415896ef5ecd395dfabde5e7e6f8ac943c8e
+golang/go1.11.4.linux-amd64.tar.gz:
+  size: 126643341
+  object_id: b399f06d-3af0-4e3f-7103-41c0446f6ef6
+  sha: 52bd8eb353a39138a2ddf053857a0fd13f1f176c
 jq/jq:
   size: 497799
   object_id: 61d27ef5-32cc-439d-6842-97be75dae6fb
@@ -74,6 +78,10 @@ kubernetes-1.12.4/kube-apiserver:
   size: 192825094
   object_id: 99e8f3b2-192f-4ac3-487f-18245b786565
   sha: 265d1fd6c34785b5610b5a3ce95d6af755c9c97f
+kubernetes-1.12.4/kubectl:
+  size: 57374117
+  object_id: 49cad09c-bb7b-4e37-5825-3e186b2c26f3
+  sha: c289e26cabe85ad3edd91103bbf03352ee2e50a0
 libseccomp/libseccomp-2.3.3.tar.gz:
   size: 564546
   object_id: 4e749385-3bc6-45b5-7a08-906c3cf97573
