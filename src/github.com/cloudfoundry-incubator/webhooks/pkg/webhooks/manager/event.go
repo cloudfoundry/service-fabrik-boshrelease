@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"encoding/json"
+	"errors"
 
 	"k8s.io/client-go/rest"
 
@@ -13,13 +14,37 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/manager"
 )
 
+// EventType denotes the types of metering events
 type EventType string
 
 const (
-	Update  = EventType("update")
-	Create  = EventType("create")
-	Delete  = EventType("delete")
-	Default = EventType("default")
+	//UpdateEvent signals the update of an instance
+	UpdateEvent EventType = "update"
+	//CreateEvent signals the create of an instance
+	CreateEvent EventType = "create"
+	//DeleteEvent signals the delete of an instance
+	DeleteEvent EventType = "delete"
+	//InvalidEvent is not yet supported
+	InvalidEvent EventType = "default"
+)
+
+//LastOperationType
+const (
+	loUpdate string = "update"
+	loCreate string = "create"
+)
+
+//State
+const (
+	Succeeded string = "succeeded"
+	Delete    string = "delete"
+)
+
+// CrdKind
+const (
+	Director string = "Director"
+	Docker   string = "Docker"
+	Sfevent  string = "Sfevent"
 )
 
 // Event stores the event details
@@ -32,9 +57,8 @@ type Event struct {
 // NewEvent is a constructor for Event
 func NewEvent(ar *v1beta1.AdmissionReview) (*Event, error) {
 	arjson, err := json.Marshal(ar)
-	glog.Errorf("Admission review JSON: %v", string(arjson))
 	req := ar.Request
-	glog.Errorf(`
+	glog.Infof(`
     Creating event for
 	%v
 	Namespace=%v
@@ -49,8 +73,9 @@ func NewEvent(ar *v1beta1.AdmissionReview) (*Event, error) {
 		req.Operation,
 		req.UserInfo)
 	crd, err := getGenericResource(ar.Request.Object.Raw)
-	glog.Errorf("Resource name : %v", crd.Name)
+	glog.Infof("Resource name : %v", crd.Name)
 	if err != nil {
+		glog.Errorf("Admission review JSON: %v", string(arjson))
 		glog.Errorf("Could not get the GenericResource object %v", err)
 		return nil, err
 	}
@@ -62,6 +87,7 @@ func NewEvent(ar *v1beta1.AdmissionReview) (*Event, error) {
 	if len(ar.Request.OldObject.Raw) != 0 {
 		oldCrd, err = getGenericResource(ar.Request.OldObject.Raw)
 		if err != nil {
+			glog.Errorf("Admission review JSON: %v", string(arjson))
 			glog.Errorf("Could not get the old GenericResource object %v", err)
 			return nil, err
 		}
@@ -86,7 +112,7 @@ func (e *Event) isStateChanged() bool {
 }
 
 func (e *Event) isDeleteTriggered() bool {
-	return e.crd.Status.State == "delete"
+	return e.crd.Status.State == Delete
 }
 
 func (e *Event) isPlanChanged() bool {
@@ -96,23 +122,23 @@ func (e *Event) isPlanChanged() bool {
 }
 
 func (e *Event) isCreate() bool {
-	return e.crd.Status.lastOperation.Type == "create"
+	return e.crd.Status.lastOperation.Type == loCreate
 }
 
 func (e *Event) isUpdate() bool {
-	return e.crd.Status.lastOperation.Type == "update"
+	return e.crd.Status.lastOperation.Type == loUpdate
 }
 
 func (e *Event) isSucceeded() bool {
-	return e.crd.Status.State == "succeeded"
+	return e.crd.Status.State == Succeeded
 }
 
 func (e *Event) isDirector() bool {
-	return e.crd.Kind == "Director"
+	return e.crd.Kind == Director
 }
 
 func (e *Event) isDocker() bool {
-	return e.crd.Kind == "Docker"
+	return e.crd.Kind == Docker
 }
 
 func (e *Event) isMeteringEvent() bool {
@@ -170,12 +196,12 @@ func meteringToUnstructured(m *Metering) (*unstructured.Unstructured, error) {
 	}
 	meteringDoc := &unstructured.Unstructured{}
 	meteringDoc.SetUnstructuredContent(values)
-	meteringDoc.SetKind("Sfevent")
-	meteringDoc.SetAPIVersion("instance.servicefabrik.io/v1alpha1")
+	meteringDoc.SetKind(Sfevent)
+	meteringDoc.SetAPIVersion(InstanceAPIVersion)
 	meteringDoc.SetNamespace("default")
 	meteringDoc.SetName(m.getName())
 	labels := make(map[string]string)
-	labels["meter_state"] = ToBeMetered
+	labels[MeterStateKey] = ToBeMetered
 	meteringDoc.SetLabels(labels)
 	return meteringDoc, nil
 }
@@ -184,22 +210,25 @@ func (e *Event) getMeteringEvent(opt GenericOptions, signal int) *Metering {
 	return newMetering(opt, e.crd, signal)
 }
 
-func (e *Event) getEventType() EventType {
+func (e *Event) getEventType() (EventType, error) {
 	lo := e.crd.Status.lastOperation
-	eventType := Default
-	if e.crd.Status.State == "delete" {
-		eventType = Delete
+	eventType := InvalidEvent
+	if e.crd.Status.State == Delete {
+		eventType = DeleteEvent
 	} else if e.isDirector() {
 		switch lo.Type {
-		case "update":
-			eventType = Update
-		case "create":
-			eventType = Create
+		case loUpdate:
+			eventType = UpdateEvent
+		case loCreate:
+			eventType = CreateEvent
 		}
-	} else if e.isDocker() && e.crd.Status.State == "succeeded" {
-		eventType = Create
+	} else if e.isDocker() && e.crd.Status.State == Succeeded {
+		eventType = CreateEvent
 	}
-	return eventType
+	if eventType == InvalidEvent {
+		return eventType, errors.New("No supported event found")
+	}
+	return eventType, nil
 }
 
 func (e *Event) getMeteringEvents() ([]*Metering, error) {
@@ -207,13 +236,17 @@ func (e *Event) getMeteringEvents() ([]*Metering, error) {
 	oldAppliedOptions := e.oldCrd.Status.appliedOptions
 	var meteringDocs []*Metering
 
-	switch e.getEventType() {
-	case "update":
+	et, err := e.getEventType()
+	if err != nil {
+		return nil, err
+	}
+	switch et {
+	case UpdateEvent:
 		meteringDocs = append(meteringDocs, e.getMeteringEvent(options, MeterStart))
 		meteringDocs = append(meteringDocs, e.getMeteringEvent(oldAppliedOptions, MeterStop))
-	case "create":
+	case CreateEvent:
 		meteringDocs = append(meteringDocs, e.getMeteringEvent(options, MeterStart))
-	case "delete":
+	case DeleteEvent:
 		meteringDocs = append(meteringDocs, e.getMeteringEvent(oldAppliedOptions, MeterStop))
 	}
 	return meteringDocs, nil
@@ -231,12 +264,12 @@ func (e *Event) createMertering(cfg *rest.Config) error {
 	for _, evt := range events {
 		unstructuredDoc, err := meteringToUnstructured(evt)
 		if err != nil {
-			glog.Errorf("\nError converting event : %v\n", err)
+			glog.Errorf("Error converting event : %v", err)
 			return err
 		}
 		err = apiserver.Create(context.TODO(), unstructuredDoc)
 		if err != nil {
-			glog.Errorf("\nError creating: %v\n", err)
+			glog.Errorf("Error creating: %v", err)
 			return err
 		}
 		glog.Infof("Successfully created metering resource")

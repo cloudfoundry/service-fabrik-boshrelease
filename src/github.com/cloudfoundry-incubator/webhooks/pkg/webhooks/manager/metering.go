@@ -37,7 +37,7 @@ type MeteringOptions struct {
 	Timestamp         string             `json:"timestamp"`
 	ServiceInfo       ServiceInfo        `json:"service"`
 	ConsumerInfo      ConsumerInfo       `json:"consumer"`
-	InstancesMeasures []InstancesMeasure `json:"measues"`
+	InstancesMeasures []InstancesMeasure `json:"measures"`
 }
 
 // MeteringSpec represents the spec field of metering resource
@@ -73,23 +73,20 @@ func newMetering(opt GenericOptions, crd GenericResource, signal int) *Metering 
 	}
 	//Assing the environment
 	switch opt.Context.Platform {
-	case "cloudfoundry":
-		ci.Environment = "cf"
+	case Cloudfoundry:
+		ci.Environment = Cf
 	default:
 		ci.Environment = ""
 	}
 	im := InstancesMeasure{
-		ID:    "instances",
+		ID:    MeasuresID,
 		Value: signal,
 	}
 	guid := uuid.New().String()
 
 	mo := MeteringOptions{
-		ID: guid,
-		// Maas expects timestamp in 'yyyy-MM-dd'T'HH:mm:ss.SSS'
-		// Go has wierd time formating rules !!
-		// https://golang.org/src/time/format.go
-		Timestamp:         time.Now().UTC().Format("2006-01-02T15:04:05.000"),
+		ID:                guid,
+		Timestamp:         time.Now().UTC().Format(MeteringTimestampFormat),
 		ServiceInfo:       si,
 		ConsumerInfo:      ci,
 		InstancesMeasures: []InstancesMeasure{im},
