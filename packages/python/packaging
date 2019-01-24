@@ -19,3 +19,4 @@ cd ${BOSH_INSTALL_TARGET}
 ./configure --prefix=$BOSH_INSTALL_TARGET
 make
 make install
+export PATH=/var/vcap/packages/python/bin:${PATH}
