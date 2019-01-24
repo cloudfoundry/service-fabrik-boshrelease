@@ -107,7 +107,7 @@ case $1 in
 	      set -e
               dpkg --unpack $LVM2_PACKAGE_PATH/dmeventd_2_1.02.110-1ubuntu10_amd64.deb
 
-              # Now configure both liblvm2cmd2.02 and dmeventd which have cyclelic dependency
+              # Now configure both liblvm2cmd2.02 and dmeventd which have cyclic dependency
               dpkg --configure liblvm2cmd2.02 dmeventd
 	      set +e
             fi
