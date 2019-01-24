@@ -23,7 +23,7 @@ retry_delete_loop() {
       delete_loop
       if ! losetup -a | grep -F ${LVMVD_LOOP_DEVICE} &> /dev/null; then
         # If 'delete_loop' was successful, the while-loop can be stopped
-        echo "delete_loop was successful"
+        echo "$(date) delete_loop was successful"
         break
       fi
 
@@ -46,7 +46,7 @@ retry_delete_loop() {
 delete_loop() {
     local mounted_volumes=$(mount | grep "${LVMVD_MOUNT_DIR}" | awk '{print $3}')
     for vol in $mounted_volumes; do
-        echo "Unmounting volume $vol"
+        echo "$(date) Unmounting volume $vol"
         umount $vol
     done
     vgchange -an ${LVMVD_VOLUME_GROUP_NAME}
@@ -83,43 +83,43 @@ case $1 in
     set +e
     if [[ `lsb_release -cs` == "xenial" ]]; then
 
-            echo "Installing Xenial packages for lvm2"
+            echo "$(date) Installing Xenial packages for lvm2"
 
             if ! dpkg -s libdevmapper-event1.02.1 > /dev/null 2>&1 ; then
-              echo "Installing debian package libdevmapper-event1.02.1"
+              echo "$(date) Installing debian package libdevmapper-event1.02.1"
 	      set -e
               dpkg -i /var/vcap/packages/lvm2/libdevmapper-event1.02.1_2_1.02.110-1ubuntu10_amd64.deb
 	      set +e
             fi
 
-            # the  package liblvm2cmd2.02 and dmeventd (package in below if) have cyclelic dependency
+            # the  package liblvm2cmd2.02 and dmeventd (package in below if) have cyclic dependency
             # just unpack the packages  and configure them after unpacking both packages
             if ! dpkg -s liblvm2cmd2.02 > /dev/null 2>&1 ; then
-              echo "Installing debian package liblvm2cmd2.02"
+              echo "$(date) Installing debian package liblvm2cmd2.02"
 	      set -e
               dpkg --unpack /var/vcap/packages/lvm2/liblvm2cmd2.02_2.02.133-1ubuntu10_amd64.deb
 	      set +e
             fi
 
             if ! dpkg -s dmeventd > /dev/null 2>&1 ; then
-              echo "Installing debian package dmeventd"
+              echo "$(date) Installing debian package dmeventd"
 	      set -e
               dpkg --unpack /var/vcap/packages/lvm2/dmeventd_2_1.02.110-1ubuntu10_amd64.deb
 
               # Now configure both liblvm2cmd2.02 and dmeventd which have cyclelic dependency
-              sudo dpkg --configure liblvm2cmd2.02 dmeventd
+              dpkg --configure liblvm2cmd2.02 dmeventd
 	      set +e
             fi
 
             if ! dpkg -s liblvm2app2.2 > /dev/null 2>&1 ; then
-              echo "Installing debian package liblvm2app2.2"
+              echo "$(date) Installing debian package liblvm2app2.2"
 	      set -e
               dpkg -i /var/vcap/packages/lvm2/liblvm2app2.2_2.02.133-1ubuntu10_amd64.deb
 	      set +e
             fi
 
             if ! dpkg -s lvm2 > /dev/null 2>&1 ; then
-              echo "Installing debian package lvm2"
+              echo "$(date) Installing debian package lvm2"
 	      set -e
               dpkg -i /var/vcap/packages/lvm2/lvm2_2.02.133-1ubuntu10_amd64.deb
 	      set +e
@@ -132,23 +132,23 @@ case $1 in
 
       elif [[ `lsb_release -cs` == "trusty" ]]; then
 
-           echo "Installing Trusty packages for lvm2"
+           echo "$(date) Installing Trusty packages for lvm2"
 
-           for package in libdevmapper-event1.02.1_2:1.02.77-6ubuntu2_amd64.deb watershed_7_amd64.deb lvm2_2.02.98-6ubuntu2_amd64.deb
+           for package in libdevmapper-event1.02.1 watershed lvm2
            do
 
               # check if package already installed else install, incase package not found
               # using dpkg -s for checking the installation which does not lock the /var/lib/dpkg/lock
 
               if ! dpkg -s $package > /dev/null 2>&1 ; then
-                echo "Installing debian package $package"
+                echo "$(date) Installing debian package $package"
                 set -e
-                dpkg -i /var/vcap/packages/lvm2/${package}
+                dpkg -i "$(ls -1 /var/vcap/packages/lvm2/${package}_*.deb | head -1)"
                 set +e
               fi
            done
      else
-        echo "Unsupported ubuntu release"
+        echo "$(date) Unsupported ubuntu release"
         exit 1
      fi
      set -e
@@ -190,3 +190,4 @@ case $1 in
 
 esac
 exit 0
+

@@ -10,14 +10,17 @@ set -u # report the usage of uninitialized variables
 # We see lock issues, maybe we can check these?
 
 # Packages for Xenial
-for DEB in $(ls -1 apt/xenial/lvm2/*.deb); do
-  echo "Installing $(basename $DEB)"
-  cp -a $DEB ${BOSH_INSTALL_TARGET}/
-done
+if [[ `lsb_release -cs` == "xenial" ]]; then
 
-# Packages for ubuntu Trusty
-for DEB in $(ls -1 apt/lvm2/*.deb); do
-  echo "Installing $(basename $DEB)"
-  cp -a $DEB ${BOSH_INSTALL_TARGET}/
-done
+  for DEB in $(ls -1 apt/xenial/lvm2/*.deb); do
+   echo "Installing $(basename $DEB)"
+   cp -a $DEB ${BOSH_INSTALL_TARGET}/
+  done
 
+elif [[ `lsb_release -cs` == "trusty" ]]; then
+  # Packages for ubuntu Trusty
+  for DEB in $(ls -1 apt/lvm2/*.deb); do
+   echo "Installing $(basename $DEB)"
+   cp -a $DEB ${BOSH_INSTALL_TARGET}/
+  done
+fi
