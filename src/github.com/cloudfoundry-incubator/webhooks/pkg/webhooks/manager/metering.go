@@ -47,7 +47,8 @@ type MeteringSpec struct {
 }
 
 // Metering structure holds all the details related to
-// Metering event
+// Metering event,  models schema here:
+// https://wiki.wdf.sap.corp/wiki/display/CPC15N/Usage+Document+Detailed+Schema
 type Metering struct {
 	Spec MeteringSpec `json:"spec"`
 }
@@ -70,16 +71,25 @@ func newMetering(opt GenericOptions, crd GenericResource, signal int) *Metering 
 		Space:       opt.Context.SpaceGUID,
 		Instance:    crd.Name,
 	}
+	//Assing the environment
+	switch opt.Context.Platform {
+	case "cloudfoundry":
+		ci.Environment = "cf"
+	default:
+		ci.Environment = ""
+	}
 	im := InstancesMeasure{
 		ID:    "instances",
 		Value: signal,
 	}
 	guid := uuid.New().String()
+
 	mo := MeteringOptions{
 		ID: guid,
+		// Maas expects timestamp in 'yyyy-MM-dd'T'HH:mm:ss.SSS'
 		// Go has wierd time formating rules !!
 		// https://golang.org/src/time/format.go
-		Timestamp:         time.Now().UTC().Format(time.RFC3339Nano),
+		Timestamp:         time.Now().UTC().Format("2006-01-02T15:04:05.999"),
 		ServiceInfo:       si,
 		ConsumerInfo:      ci,
 		InstancesMeasures: []InstancesMeasure{im},
