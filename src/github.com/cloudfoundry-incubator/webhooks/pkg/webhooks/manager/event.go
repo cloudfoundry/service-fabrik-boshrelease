@@ -13,6 +13,15 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/manager"
 )
 
+type EventType string
+
+const (
+	Update  = EventType("update")
+	Create  = EventType("create")
+	Delete  = EventType("delete")
+	Default = EventType("default")
+)
+
 // Event stores the event details
 type Event struct {
 	AdmissionReview *v1beta1.AdmissionReview
@@ -175,31 +184,37 @@ func (e *Event) getMeteringEvent(opt GenericOptions, signal int) *Metering {
 	return newMetering(opt, e.crd, signal)
 }
 
+func (e *Event) getEventType() EventType {
+	lo := e.crd.Status.lastOperation
+	eventType := Default
+	if e.crd.Status.State == "delete" {
+		eventType = Delete
+	} else if e.isDirector() {
+		switch lo.Type {
+		case "update":
+			eventType = Update
+		case "create":
+			eventType = Create
+		}
+	} else if e.isDocker() && e.crd.Status.State == "succeeded" {
+		eventType = Create
+	}
+	return eventType
+}
+
 func (e *Event) getMeteringEvents() ([]*Metering, error) {
 	options := e.crd.Spec.options
-	lo := e.crd.Status.lastOperation
 	oldAppliedOptions := e.oldCrd.Status.appliedOptions
 	var meteringDocs []*Metering
 
-	if e.isDirector() {
-		glog.Infof("Getting Metering Docs for Director: %s", lo.Type)
-		switch lo.Type {
-		case "update":
-			meteringDocs = append(meteringDocs, e.getMeteringEvent(options, MeterStart))
-			meteringDocs = append(meteringDocs, e.getMeteringEvent(oldAppliedOptions, MeterStop))
-		case "create":
-			meteringDocs = append(meteringDocs, e.getMeteringEvent(options, MeterStart))
-		case "delete":
-			meteringDocs = append(meteringDocs, e.getMeteringEvent(oldAppliedOptions, MeterStop))
-		}
-	} else if e.isDocker() {
-		glog.Infof("Getting Metering Docs for Docker : %s", e.crd.Status.State)
-		switch e.crd.Status.State {
-		case "succeeded":
-			meteringDocs = append(meteringDocs, e.getMeteringEvent(options, MeterStart))
-		case "delete":
-			meteringDocs = append(meteringDocs, e.getMeteringEvent(oldAppliedOptions, MeterStop))
-		}
+	switch e.getEventType() {
+	case "update":
+		meteringDocs = append(meteringDocs, e.getMeteringEvent(options, MeterStart))
+		meteringDocs = append(meteringDocs, e.getMeteringEvent(oldAppliedOptions, MeterStop))
+	case "create":
+		meteringDocs = append(meteringDocs, e.getMeteringEvent(options, MeterStart))
+	case "delete":
+		meteringDocs = append(meteringDocs, e.getMeteringEvent(oldAppliedOptions, MeterStop))
 	}
 	return meteringDocs, nil
 }
