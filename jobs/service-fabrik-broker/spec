@@ -427,7 +427,7 @@ properties:
     description: "The token url provided by the metering service"
   metering.binding.metering_url:
     description: "The metering url provided by the metering service"
-  metering.region:
-    description: "The landscape region"
+  metering.binding.region:
+    description: "The region provided by the metering binding"
   metering.excluded_service_plans:
     description: "The excluded service plans"
