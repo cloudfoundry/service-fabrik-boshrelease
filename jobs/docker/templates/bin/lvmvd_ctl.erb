@@ -1,3 +1,4 @@
+
 #!/bin/bash
 
 set -e # exit immediately if a simple command exits with a non-zero status
@@ -125,11 +126,28 @@ case $1 in
               dpkg -i $LVM2_PACKAGE_PATH/lvm2_2.02.133-1ubuntu10_amd64.deb
 	      set +e
 
-              systemctl enable lvm2-lvmetad.service
-              systemctl enable lvm2-lvmetad.socket
-              systemctl start lvm2-lvmetad.service
-              systemctl start lvm2-lvmetad.socket
             fi
+
+
+	    if [[ `systemctl is-enabled lvm2-lvmetad.service` == "disabled" ]]; then
+              echo "$(date) enabling lvm2-lvmetad.service"
+              systemctl enable lvm2-lvmetad.service
+            fi
+
+	    if [[ `systemctl is-enabled lvm2-lvmetad.socket` == "disabled" ]]; then
+              echo "$(date) enabling lvm2-lvmetad.socket"
+	      systemctl enable lvm2-lvmetad.socket
+	    fi
+
+	    if [[ `systemctl is-active lvm2-lvmetad.service` == "inactive" ]]; then
+              echo "$(date) starting lvm2-lvmetad.service"
+	      systemctl start lvm2-lvmetad.service
+	    fi
+
+	    if [[ `systemctl is-active lvm2-lvmetad.socket` == "inactive" ]]; then
+              echo "$(date) starting lvm2-lvmetad.socket"
+	      systemctl start lvm2-lvmetad.socket
+	    fi
 
       elif [[ `lsb_release -cs` == "trusty" ]]; then
 
@@ -177,10 +195,25 @@ case $1 in
     kill_and_wait ${LVMVD_PID_FILE}
     #delete_loop
     retry_delete_loop
-   
+
     #kill any process using the mounted volume
     kill -9 $(lsof -t $DOCKER_VOLUME_MOUNTDIR)
     sleep 2s
+
+    if [[ `lsb_release -cs` == "xenial" ]]; then
+
+       echo "$(date) checking lvm2 services active status and stopping them"
+
+       if [[ `systemctl is-active lvm2-lvmetad.socket` == "active" ]]; then
+         echo "$(date) stopping lvm2-lvmetad.socket"
+         systemctl stop lvm2-lvmetad.socket
+       fi
+       if [[ `systemctl is-active lvm2-lvmetad.service` == "active" ]]; then
+         echo "$(date) stopping lvm2-lvmetad.service"
+         systemctl stop lvm2-lvmetad.service
+       fi
+
+    fi
     set -e
     ;;
 
