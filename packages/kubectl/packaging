@@ -1,0 +1,7 @@
+set -e
+
+KUBERENETES_RELEASE_VERSION="1.12.4"
+
+mkdir -p "${BOSH_INSTALL_TARGET:?}/bin"
+cp -a kubernetes-${KUBERENETES_RELEASE_VERSION}/kubectl "${BOSH_INSTALL_TARGET:?}/bin"
+chmod +x "${BOSH_INSTALL_TARGET:?}/bin/kubectl"
