@@ -118,7 +118,7 @@ provides:
   - metering.binding.clientsecret
   - metering.binding.token_url
   - metering.binding.metering_url
-  - metering.region
+  - metering.binding.region
   - metering.excluded_service_plans
 consumes:
 - name: scheduler
