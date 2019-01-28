@@ -20,7 +20,7 @@ const (
 	// https://golang.org/src/time/format.go
 	MeteringTimestampFormat = "2006-01-02T15:04:05.000"
 	// MeterStateKey : key used to store meter state
-	MeterStateKey = "meter_state"
+	MeterStateKey = "state"
 	// InstanceAPIVersion : Api version of instance CRD
 	InstanceAPIVersion = "instance.servicefabrik.io/v1alpha1"
 )

@@ -231,7 +231,7 @@ var _ = Describe("Event", func() {
 			Expect(val).ToNot(BeNil())
 			Expect(val.GetKind()).To(Equal("Sfevent"))
 			Expect(val.GetAPIVersion()).To(Equal("instance.servicefabrik.io/v1alpha1"))
-			Expect(val.GetLabels()["meter_state"]).To(Equal("TO_BE_METERED"))
+			Expect(val.GetLabels()[MeterStateKey]).To(Equal(ToBeMetered))
 
 		})
 	})
