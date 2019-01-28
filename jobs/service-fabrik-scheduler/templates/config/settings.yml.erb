@@ -204,7 +204,13 @@ production:
   #####################
   # METERING SETTINGS #
   #####################
-  metering: <%= JSON.dump(link("broker").p('metering', nil)) %>
+  metering:
+    client_id: <%= link("broker").p('metering.binding.clientid') %>
+    client_secret: <%= link("broker").p('metering.binding.clientsecret') %>
+    token_url: <%= link("broker").p('metering.binding.token_url') %>
+    metering_url: <%= link("broker").p('metering.binding.metering_url') %>
+    region:  <%= link("broker").p('metering.binding.region') %>
+    excluded_service_plans:  <%= link("broker").p('metering.excluded_service_plans') %>
 
   ###################
   # BACKUP SETTINGS #
