@@ -1,6 +1,6 @@
 ---
 <%
-KUBECONFIG_PATH = "/var/vcap/jobs/service-fabrik-apiserver/config/"
+KUBECONFIG_PATH = "/var/vcap/jobs/service-fabrik-apiserver/config"
 %>
 processes:
 - name: webhooks
@@ -8,6 +8,6 @@ processes:
   args:
   - -stderrthreshold=INFO
   env:
-    KUBECONFIG: <%= KUBECONFIG_PATH %>/kubeconfig.yaml
+    KUBECONFIG: <%= KUBECONFIG_PATH %>/kubeconfig
   limits:
     open_files: 100000
