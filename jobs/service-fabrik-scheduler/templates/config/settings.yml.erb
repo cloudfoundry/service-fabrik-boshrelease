@@ -164,6 +164,8 @@ production:
       - name: 'Meter_Instance'
         type: MeterInstance
         interval: <%= p('system_jobs.meter_instance.interval') %>
+        job_data:
+          retry_count: 3
         enabled: true
 
   #######################
