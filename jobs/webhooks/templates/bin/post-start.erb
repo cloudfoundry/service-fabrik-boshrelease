@@ -21,12 +21,12 @@ fi
 
 echo "Trying to update the metering webhook configuration"
 
-RESPONSE=$(curl \
-    -sk \
-    --header "Content-Type: application/merge-patch+json" \
-    --cert $CONFIG_PATH/client-cert.pem \
+RESPONSE=$(curl                                                     \
+    -sk                                                             \
+    --header "Content-Type: application/merge-patch+json"           \
+    --cert $CONFIG_PATH/client-cert.pem                             \
     --key $CONFIG_PATH/client-key.pem "${HOST_PATH}/meter-webhooks" \
-    -X PATCH \
+    -X PATCH                                                        \
     --data "@$CONFIG_PATH/metering_webhooks.json")
 
 RESPONSE_CODE=$(echo $RESPONSE | /var/vcap/packages/jq/bin/jq -r .'code')
@@ -34,8 +34,11 @@ echo "Response code of the patch is $RESPONSE_CODE"
 
 if [[ "$RESPONSE_CODE" == "404" ]]; then
    echo "creating the metering webhook"
-   curl -sk --header "Content-Type: application/json" \
-   --cert $CONFIG_PATH/client-cert.pem \
+   curl                                             \
+   -sk                                              \
+   --header "Content-Type: application/json"        \
+   --cert $CONFIG_PATH/client-cert.pem              \
    --key $CONFIG_PATH/client-key.pem "${HOST_PATH}" \
-   -X POST --data "@$CONFIG_PATH/metering_webhooks.json"
+   -X POST                                          \
+   --data "@$CONFIG_PATH/metering_webhooks.json"
 fi
