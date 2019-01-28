@@ -182,7 +182,7 @@ func getClient(cfg *rest.Config) (client.Client, error) {
 	}
 	apiserver, err := client.New(cfg, options)
 	if err != nil {
-		glog.Errorf("unable create kubernetes client %v", err)
+		glog.Errorf("Unable to create kubernetes client %v", err)
 		return nil, err
 	}
 	return apiserver, err
