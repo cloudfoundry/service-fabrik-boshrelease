@@ -220,10 +220,10 @@ var _ = Describe("Event", func() {
 	})
 
 	Describe("meteringToUnstructured", func() {
-		It("Unstructured metering instance", func() {
+		It("Creates unstructured metering instance", func() {
 			m := Metering{
 				Spec: MeteringSpec{
-					Options: "",
+					Options: MeteringOptions{},
 				},
 			}
 			val, err := meteringToUnstructured(&m)
@@ -251,8 +251,8 @@ var _ = Describe("Event", func() {
 				Expect(len(docs)).To(Equal(2))
 				var docStart MeteringOptions
 				var docStop MeteringOptions
-				json.Unmarshal([]byte(docs[0].Spec.Options), &docStart)
-				json.Unmarshal([]byte(docs[1].Spec.Options), &docStop)
+				docStart = docs[0].Spec.Options
+				docStop = docs[1].Spec.Options
 				Expect(docStart.ServiceInfo.Plan).To(Equal("new plan in options"))
 				Expect(docStart.InstancesMeasures[0].Value).To(Equal(MeterStart))
 				Expect(docStop.ServiceInfo.Plan).To(Equal("oldPlan"))

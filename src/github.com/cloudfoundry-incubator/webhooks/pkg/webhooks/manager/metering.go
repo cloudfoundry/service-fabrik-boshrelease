@@ -1,7 +1,7 @@
 package main
 
 import (
-	"encoding/json"
+	// "encoding/json"
 	"github.com/golang/glog"
 	"github.com/google/uuid"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -43,7 +43,7 @@ type MeteringOptions struct {
 // MeteringSpec represents the spec field of metering resource
 type MeteringSpec struct {
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Options           string `json:"options,omitempty"`
+	Options           MeteringOptions `json:"options,omitempty"`
 }
 
 // Metering structure holds all the details related to
@@ -54,9 +54,9 @@ type Metering struct {
 }
 
 func (m *Metering) getName() string {
-	var meteringOptions MeteringOptions
-	json.Unmarshal([]byte(m.Spec.Options), &meteringOptions)
-	return meteringOptions.ID
+	// var meteringOptions MeteringOptions
+	// json.Unmarshal([]byte(m.Spec.Options), &meteringOptions)
+	return m.Spec.Options.ID
 }
 
 func newMetering(opt GenericOptions, crd GenericResource, signal int) *Metering {
@@ -92,10 +92,10 @@ func newMetering(opt GenericOptions, crd GenericResource, signal int) *Metering 
 		InstancesMeasures: []InstancesMeasure{im},
 	}
 	glog.Infof("New metering event for CRD: %s, Metering Id: %s", crd.Name, guid)
-	meteringOptions, _ := json.Marshal(mo)
+	// meteringOptions, _ := json.Marshal(mo)
 	m := &Metering{
 		Spec: MeteringSpec{
-			Options: string(meteringOptions),
+			Options: mo,
 		},
 	}
 	return m
