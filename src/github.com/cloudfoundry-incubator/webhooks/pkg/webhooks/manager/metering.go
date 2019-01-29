@@ -3,6 +3,7 @@ package main
 import (
 	// "encoding/json"
 	"github.com/golang/glog"
+	c "github.com/cloudfoundry-incubator/webhooks/pkg/webhooks/manager/constants"
 	"github.com/google/uuid"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"time"
@@ -73,20 +74,20 @@ func newMetering(opt GenericOptions, crd GenericResource, signal int) *Metering 
 	}
 	//Assing the environment
 	switch opt.Context.Platform {
-	case Cloudfoundry:
-		ci.Environment = Cf
+	case c.Cloudfoundry:
+		ci.Environment = c.Cf
 	default:
 		ci.Environment = ""
 	}
 	im := InstancesMeasure{
-		ID:    MeasuresID,
+		ID:    c.MeasuresID,
 		Value: signal,
 	}
 	guid := uuid.New().String()
 
 	mo := MeteringOptions{
 		ID:                guid,
-		Timestamp:         time.Now().UTC().Format(MeteringTimestampFormat),
+		Timestamp:         time.Now().UTC().Format(c.MeteringTimestampFormat),
 		ServiceInfo:       si,
 		ConsumerInfo:      ci,
 		InstancesMeasures: []InstancesMeasure{im},

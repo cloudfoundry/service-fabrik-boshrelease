@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	c "github.com/cloudfoundry-incubator/webhooks/pkg/webhooks/manager/constants"
 
 	"k8s.io/client-go/rest"
 
@@ -197,11 +198,11 @@ func meteringToUnstructured(m *Metering) (*unstructured.Unstructured, error) {
 	meteringDoc := &unstructured.Unstructured{}
 	meteringDoc.SetUnstructuredContent(values)
 	meteringDoc.SetKind(Sfevent)
-	meteringDoc.SetAPIVersion(InstanceAPIVersion)
-	meteringDoc.SetNamespace(DefaultNamespace)
+	meteringDoc.SetAPIVersion(c.InstanceAPIVersion)
+	meteringDoc.SetNamespace(c.DefaultNamespace)
 	meteringDoc.SetName(m.getName())
 	labels := make(map[string]string)
-	labels[MeterStateKey] = ToBeMetered
+	labels[c.MeterStateKey] = c.ToBeMetered
 	meteringDoc.SetLabels(labels)
 	return meteringDoc, nil
 }
@@ -242,12 +243,12 @@ func (e *Event) getMeteringEvents() ([]*Metering, error) {
 	}
 	switch et {
 	case UpdateEvent:
-		meteringDocs = append(meteringDocs, e.getMeteringEvent(options, MeterStart))
-		meteringDocs = append(meteringDocs, e.getMeteringEvent(oldAppliedOptions, MeterStop))
+		meteringDocs = append(meteringDocs, e.getMeteringEvent(options, c.MeterStart))
+		meteringDocs = append(meteringDocs, e.getMeteringEvent(oldAppliedOptions, c.MeterStop))
 	case CreateEvent:
-		meteringDocs = append(meteringDocs, e.getMeteringEvent(options, MeterStart))
+		meteringDocs = append(meteringDocs, e.getMeteringEvent(options, c.MeterStart))
 	case DeleteEvent:
-		meteringDocs = append(meteringDocs, e.getMeteringEvent(oldAppliedOptions, MeterStop))
+		meteringDocs = append(meteringDocs, e.getMeteringEvent(oldAppliedOptions, c.MeterStop))
 	}
 	return meteringDocs, nil
 }

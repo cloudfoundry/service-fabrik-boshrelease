@@ -5,6 +5,7 @@ import (
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
+	c "github.com/cloudfoundry-incubator/webhooks/pkg/webhooks/manager/constants"
 )
 
 var _ = Describe("Metering", func() {
@@ -22,7 +23,7 @@ var _ = Describe("Metering", func() {
 				Context:   co,
 			}
 			crd := GenericResource{}
-			signal := MeterStop
+			signal := c.MeterStop
 			// Test creating metering object
 			m := newMetering(opt, crd, signal)
 			var unmarsheledMeteringOptions MeteringOptions
@@ -37,7 +38,7 @@ var _ = Describe("Metering", func() {
 			Expect(unmarsheledMeteringOptions.ConsumerInfo.Space).To(Equal(opt.Context.SpaceGUID))
 			Expect(unmarsheledMeteringOptions.ConsumerInfo.Instance).To(Equal(crd.Name))
 			Expect(unmarsheledMeteringOptions.InstancesMeasures[0].ID).To(Equal("instances"))
-			Expect(unmarsheledMeteringOptions.InstancesMeasures[0].Value).To(Equal(MeterStop))
+			Expect(unmarsheledMeteringOptions.InstancesMeasures[0].Value).To(Equal(c.MeterStop))
 		})
 	})
 })

@@ -1,4 +1,4 @@
-package main
+package constants
 
 const (
 	// MeterStart signals the creation of an instance

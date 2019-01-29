@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"io/ioutil"
+	c "github.com/cloudfoundry-incubator/webhooks/pkg/webhooks/manager/constants"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -231,7 +232,7 @@ var _ = Describe("Event", func() {
 			Expect(val).ToNot(BeNil())
 			Expect(val.GetKind()).To(Equal("Sfevent"))
 			Expect(val.GetAPIVersion()).To(Equal("instance.servicefabrik.io/v1alpha1"))
-			Expect(val.GetLabels()[MeterStateKey]).To(Equal(ToBeMetered))
+			Expect(val.GetLabels()[c.MeterStateKey]).To(Equal(c.ToBeMetered))
 
 		})
 	})
@@ -254,9 +255,9 @@ var _ = Describe("Event", func() {
 				docStart = docs[0].Spec.Options
 				docStop = docs[1].Spec.Options
 				Expect(docStart.ServiceInfo.Plan).To(Equal("new plan in options"))
-				Expect(docStart.InstancesMeasures[0].Value).To(Equal(MeterStart))
+				Expect(docStart.InstancesMeasures[0].Value).To(Equal(c.MeterStart))
 				Expect(docStop.ServiceInfo.Plan).To(Equal("oldPlan"))
-				Expect(docStop.InstancesMeasures[0].Value).To(Equal(MeterStop))
+				Expect(docStop.InstancesMeasures[0].Value).To(Equal(c.MeterStop))
 			})
 		})
 		Context("when type is create", func() {
