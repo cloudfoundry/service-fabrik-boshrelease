@@ -3,13 +3,14 @@
 [ -z "$DEBUG" ] || set -x
 
 CONFIG_PATH=/var/vcap/jobs/webhooks/config
+JQ=/var/vcap/packages/jq/bin/jq
 HOST_PATH="https://<%= link('service-fabrik-apiserver').p('ip') %>:<%= link('service-fabrik-apiserver').p("port") %>/apis/admissionregistration.k8s.io/v1beta1/mutatingwebhookconfigurations"
 
 echo "Trying to update the webhook configuration"
 
 RESPONSE=$(curl -sk --header "Content-Type: application/merge-patch+json" --cert $CONFIG_PATH/client-cert.pem --key $CONFIG_PATH/client-key.pem "${HOST_PATH}/manager-webhooks" -X PATCH --data "@$CONFIG_PATH/webhooks.json")
 
-RESPONSE_CODE=$(echo $RESPONSE | /var/vcap/packages/jq/bin/jq -r .'code')
+RESPONSE_CODE=$(echo $RESPONSE | $JQ -r .'code')
 echo "Response code of the patch is $RESPONSE_CODE"
 
 if [[ "$RESPONSE_CODE" == "404" ]]; then
@@ -20,17 +21,17 @@ fi
 
 
 echo "Trying to update the metering webhook configuration"
-METERING_ENABLED=<%= link('service-fabrik-broker').p('metering.enabled') %>
+METERING_ENABLED=<%= link('broker').p('metering.enabled') %>
 
 if [[ $METERING_ENABLED == true ]] ; then
   RESPONSE=$(curl                                                     \
       -sk                                                             \
       --header "Content-Type: application/merge-patch+json"           \
       --cert $CONFIG_PATH/client-cert.pem                             \
-      --key $CONFIG_PATH/client-key.pem "${HOST_PATH}/meter-webhooks" \
+      --key $CONFIG_PATH/client-key.pem "${HOST_PATH}/metering-webhooks" \
       -X PATCH                                                        \
       --data "@$CONFIG_PATH/metering_webhooks.json")
-  RESPONSE_CODE=$(echo $RESPONSE | /var/vcap/packages/jq/bin/jq -r .'code')
+  RESPONSE_CODE=$(echo $RESPONSE | $JQ -r .'code')
   echo "Response code of the patch is $RESPONSE_CODE"
   if [[ "$RESPONSE_CODE" == "404" ]]; then
      echo "creating the metering webhook"
@@ -46,11 +47,11 @@ else
   echo "Metering is disabled, removing webhook configuration"
   RESPONSE=$(curl                                                     \
       -sk                                                             \
-      --header "Content-Type: application/merge-patch+json"           \
+      --header "Content-Type: application/json"           \
       --cert $CONFIG_PATH/client-cert.pem                             \
-      --key $CONFIG_PATH/client-key.pem "${HOST_PATH}/meter-webhooks" \
-      -X DELETE
+      --key $CONFIG_PATH/client-key.pem "${HOST_PATH}/metering-webhooks" \
+      -X DELETE                                                       \
       --data "@$CONFIG_PATH/metering_webhooks.json")
-  RESPONSE_CODE=$(echo $RESPONSE | /var/vcap/packages/jq/bin/jq -r .'code')
+  RESPONSE_CODE=$(echo $RESPONSE | $JQ -r .'code')
   echo "Response code of the delete is $RESPONSE_CODE"
 fi
