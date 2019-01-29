@@ -1,23 +1,6 @@
-matrix:
-  include:
-    - language: go
-      go: "1.11"
-      before_install:
-       - curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh  
-       - go get golang.org/x/lint/golint
-      install:
-        - export GOPATH=$PWD
-        - cd src/github.com/cloudfoundry-incubator/webhooks
-        - dep ensure
-      script:
-        - cd pkg/webhooks/manager
-        - gofmt -l .
-        - go vet
-        - golint
-        - go test -cover -coverprofile=coverage.out -- stderrthreshold=FATAL
-    - language: ruby
-      install:
-              - "./scripts/update"
-              - "gem install bosh_cli --no-document"
-      script:
-              - "bosh create release --force --name service-fabrik"
+language: ruby
+install:
+        - "./scripts/update"
+        - "gem install bosh_cli --no-document"
+script:
+        - "bosh create release --force --name service-fabrik"
