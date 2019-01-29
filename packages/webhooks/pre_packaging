@@ -10,7 +10,7 @@ set -u
   export GOPATH=$(pwd)
   mkdir -p ${GOPATH}/bin
   mkdir -p ${GOPATH}/src
-  PACKAGE_NAME=github.com/cloudfoundry-incubator/webhooks
+  PACKAGE_NAME=github.com/cloudfoundry-incubator/service-fabrik-broker/webhooks
   rm -rf ${GOPATH}/src/${PACKAGE_NAME}
   cp -R ${BUILD_DIR}/github.com ${GOPATH}/src
   cd ${GOPATH}/src/${PACKAGE_NAME}

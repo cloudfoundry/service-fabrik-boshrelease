@@ -5,4 +5,4 @@ dependencies:
   - golang
 
 files:
-  - github.com/cloudfoundry-incubator/webhooks/**/*
+  - github.com/cloudfoundry-incubator/service-fabrik-broker/webhooks/**/*

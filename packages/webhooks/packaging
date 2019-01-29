@@ -9,7 +9,7 @@ export PATH=${GOROOT}/bin:${PATH}
 
 # Build API Server package
 echo "Building API Server..."
-PACKAGE_NAME=github.com/cloudfoundry-incubator/webhooks
+PACKAGE_NAME=github.com/cloudfoundry-incubator/service-fabrik-broker/webhooks
 mkdir -p ${BOSH_INSTALL_TARGET}/src/${PACKAGE_NAME}
 cp -a ${BOSH_COMPILE_TARGET}/${PACKAGE_NAME}/* ${BOSH_INSTALL_TARGET}/src/${PACKAGE_NAME}
 export GOPATH=${BOSH_INSTALL_TARGET}
