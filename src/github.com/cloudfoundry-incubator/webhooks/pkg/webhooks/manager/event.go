@@ -198,7 +198,7 @@ func meteringToUnstructured(m *Metering) (*unstructured.Unstructured, error) {
 	meteringDoc.SetUnstructuredContent(values)
 	meteringDoc.SetKind(Sfevent)
 	meteringDoc.SetAPIVersion(InstanceAPIVersion)
-	meteringDoc.SetNamespace("default")
+	meteringDoc.SetNamespace(DefaultNamespace)
 	meteringDoc.SetName(m.getName())
 	labels := make(map[string]string)
 	labels[MeterStateKey] = ToBeMetered
