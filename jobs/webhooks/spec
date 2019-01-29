@@ -18,6 +18,8 @@ templates:
 consumes:
 - name: service-fabrik-apiserver
   type: service-fabrik-apiserver
+- name: broker
+  type: broker
 
 provides:
 - name: webhooks
