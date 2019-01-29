@@ -10,7 +10,7 @@ echo "Trying to update the webhook configuration"
 
 RESPONSE=$(curl -sk --header "Content-Type: application/merge-patch+json" --cert $CONFIG_PATH/client-cert.pem --key $CONFIG_PATH/client-key.pem "${HOST_PATH}/manager-webhooks" -X PATCH --data "@$CONFIG_PATH/webhooks.json")
 
-RESPONSE_CODE=$(echo $RESPONSE | $JQ -r .'code')
+RESPONSE_CODE=$(echo "$RESPONSE" | $JQ -r .'code')
 echo "Response code of the patch is $RESPONSE_CODE"
 
 if [[ "$RESPONSE_CODE" == "404" ]]; then
@@ -24,12 +24,12 @@ echo "Trying to update the metering webhook configuration"
 METERING_ENABLED=<%= link('broker').p('metering.enabled') %>
 
 if [[ $METERING_ENABLED == true ]] ; then
-  RESPONSE=$(curl                                                     \
-      -sk                                                             \
-      --header "Content-Type: application/merge-patch+json"           \
-      --cert $CONFIG_PATH/client-cert.pem                             \
+  RESPONSE=$(curl                                                        \
+      -sk                                                                \
+      --header "Content-Type: application/merge-patch+json"              \
+      --cert $CONFIG_PATH/client-cert.pem                                \
       --key $CONFIG_PATH/client-key.pem "${HOST_PATH}/metering-webhooks" \
-      -X PATCH                                                        \
+      -X PATCH                                                           \
       --data "@$CONFIG_PATH/metering_webhooks.json")
   RESPONSE_CODE=$(echo $RESPONSE | $JQ -r .'code')
   echo "Response code of the patch is $RESPONSE_CODE"
@@ -45,12 +45,12 @@ if [[ $METERING_ENABLED == true ]] ; then
   fi
 else
   echo "Metering is disabled, removing webhook configuration"
-  RESPONSE=$(curl                                                     \
-      -sk                                                             \
-      --header "Content-Type: application/json"           \
-      --cert $CONFIG_PATH/client-cert.pem                             \
+  RESPONSE=$(curl                                                        \
+      -sk                                                                \
+      --header "Content-Type: application/json"                          \
+      --cert $CONFIG_PATH/client-cert.pem                                \
       --key $CONFIG_PATH/client-key.pem "${HOST_PATH}/metering-webhooks" \
-      -X DELETE                                                       \
+      -X DELETE                                                          \
       --data "@$CONFIG_PATH/metering_webhooks.json")
   RESPONSE_CODE=$(echo $RESPONSE | $JQ -r .'code')
   echo "Response code of the delete is $RESPONSE_CODE"
