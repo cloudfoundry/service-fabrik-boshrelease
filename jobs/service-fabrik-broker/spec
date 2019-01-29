@@ -420,7 +420,7 @@ properties:
   circuit_breaker:
     description: "Overridden circuit breaker configuration"
 
-  metering.enabled
+  metering.enabled:
     description: "True if metering in enabled"
     default: false
   metering.binding.clientid:
