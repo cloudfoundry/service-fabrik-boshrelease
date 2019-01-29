@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	c "github.com/cloudfoundry-incubator/webhooks/pkg/webhooks/manager/constants"
+	"github.com/cloudfoundry-incubator/webhooks/pkg/webhooks/manager/resources"
 
 	"k8s.io/client-go/rest"
 
@@ -51,8 +52,8 @@ const (
 // Event stores the event details
 type Event struct {
 	AdmissionReview *v1beta1.AdmissionReview
-	crd             GenericResource
-	oldCrd          GenericResource
+	crd             resources.GenericResource
+	oldCrd          resources.GenericResource
 }
 
 // NewEvent is a constructor for Event
@@ -73,30 +74,28 @@ func NewEvent(ar *v1beta1.AdmissionReview) (*Event, error) {
 		req.UID,
 		req.Operation,
 		req.UserInfo)
-	crd, err := getGenericResource(ar.Request.Object.Raw)
+	crd, err := resources.GetGenericResource(ar.Request.Object.Raw)
 	glog.Infof("Resource name : %v", crd.Name)
 	if err != nil {
 		glog.Errorf("Admission review JSON: %v", string(arjson))
 		glog.Errorf("Could not get the GenericResource object %v", err)
 		return nil, err
 	}
-	crd.Status.lastOperation = getLastOperation(crd)
-	crd.Spec.options = getOptions(crd)
-	crd.Status.appliedOptions = getAppliedOptions(crd)
+	crd.Status.LastOperationObj = resources.GetLastOperation(crd)
+	crd.Status.AppliedOptionsObj = resources.GetAppliedOptions(crd)
 
-	var oldCrd GenericResource
+	var oldCrd resources.GenericResource
 	if len(ar.Request.OldObject.Raw) != 0 {
-		oldCrd, err = getGenericResource(ar.Request.OldObject.Raw)
+		oldCrd, err = resources.GetGenericResource(ar.Request.OldObject.Raw)
 		if err != nil {
 			glog.Errorf("Admission review JSON: %v", string(arjson))
 			glog.Errorf("Could not get the old GenericResource object %v", err)
 			return nil, err
 		}
-		oldCrd.Status.lastOperation = getLastOperation(oldCrd)
-		oldCrd.Spec.options = getOptions(oldCrd)
-		oldCrd.Status.appliedOptions = getAppliedOptions(oldCrd)
+		oldCrd.Status.LastOperationObj = resources.GetLastOperation(oldCrd)
+		oldCrd.Status.AppliedOptionsObj = resources.GetAppliedOptions(oldCrd)
 	} else {
-		oldCrd = GenericResource{}
+		oldCrd = resources.GenericResource{}
 	}
 
 	return &Event{
@@ -117,17 +116,17 @@ func (e *Event) isDeleteTriggered() bool {
 }
 
 func (e *Event) isPlanChanged() bool {
-	appliedOptionsNew := e.crd.Status.appliedOptions
-	appliedOptionsOld := e.oldCrd.Status.appliedOptions
+	appliedOptionsNew := e.crd.Status.AppliedOptionsObj
+	appliedOptionsOld := e.oldCrd.Status.AppliedOptionsObj
 	return appliedOptionsNew.PlanID != appliedOptionsOld.PlanID
 }
 
 func (e *Event) isCreate() bool {
-	return e.crd.Status.lastOperation.Type == loCreate
+	return e.crd.Status.LastOperationObj.Type == loCreate
 }
 
 func (e *Event) isUpdate() bool {
-	return e.crd.Status.lastOperation.Type == loUpdate
+	return e.crd.Status.LastOperationObj.Type == loUpdate
 }
 
 func (e *Event) isSucceeded() bool {
@@ -207,12 +206,12 @@ func meteringToUnstructured(m *Metering) (*unstructured.Unstructured, error) {
 	return meteringDoc, nil
 }
 
-func (e *Event) getMeteringEvent(opt GenericOptions, signal int) *Metering {
+func (e *Event) getMeteringEvent(opt resources.GenericOptions, signal int) *Metering {
 	return newMetering(opt, e.crd, signal)
 }
 
 func (e *Event) getEventType() (EventType, error) {
-	lo := e.crd.Status.lastOperation
+	lo := e.crd.Status.LastOperationObj
 	eventType := InvalidEvent
 	if e.crd.Status.State == Delete {
 		eventType = DeleteEvent
@@ -233,8 +232,8 @@ func (e *Event) getEventType() (EventType, error) {
 }
 
 func (e *Event) getMeteringEvents() ([]*Metering, error) {
-	options := e.crd.Spec.options
-	oldAppliedOptions := e.oldCrd.Status.appliedOptions
+	options, _ := e.crd.Spec.GetOptions()
+	oldAppliedOptions := e.oldCrd.Status.AppliedOptionsObj
 	var meteringDocs []*Metering
 
 	et, err := e.getEventType()

@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	c "github.com/cloudfoundry-incubator/webhooks/pkg/webhooks/manager/constants"
+	"github.com/cloudfoundry-incubator/webhooks/pkg/webhooks/manager/resources"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -36,7 +37,7 @@ var _ = Describe("Event", func() {
 		It("Should create a new Event object", func() {
 			evt, err := NewEvent(&ar)
 			Expect(evt).ToNot(Equal(nil), "Should return an event object")
-			Expect(evt.crd.Status.lastOperation).To(Equal(GenericLastOperation{
+			Expect(evt.crd.Status.LastOperationObj).To(Equal(resources.GenericLastOperation{
 				Type:  "create",
 				State: "succeeded",
 			}), "Should return an event object with valid LastOperation")
@@ -53,7 +54,7 @@ var _ = Describe("Event", func() {
 		It("Should set oldCrd empty if old object cannot be parsed", func() {
 			ar.Request.OldObject.Raw = []byte("")
 			evt, err := NewEvent(&ar)
-			Expect(evt.oldCrd).To(Equal(GenericResource{}))
+			Expect(evt.oldCrd).To(Equal(resources.GenericResource{}))
 			Expect(err).To(BeNil())
 		})
 	})
@@ -61,83 +62,83 @@ var _ = Describe("Event", func() {
 		Context("When Type is Update and kind is Director", func() {
 			It("Should should return true if update with plan change succeeds", func() {
 				evt, _ := NewEvent(&ar)
-				evt.crd.Status.lastOperation.Type = "update"
-				evt.crd.Status.lastOperation.State = "succeeded"
+				evt.crd.Status.LastOperationObj.Type = "update"
+				evt.crd.Status.LastOperationObj.State = "succeeded"
 				evt.crd.Status.State = "succeeded"
-				evt.oldCrd.Status.lastOperation.Type = "update"
-				evt.oldCrd.Status.lastOperation.State = "in_progress"
+				evt.oldCrd.Status.LastOperationObj.Type = "update"
+				evt.oldCrd.Status.LastOperationObj.State = "in_progress"
 				evt.oldCrd.Status.State = "in_progress"
-				evt.crd.Status.appliedOptions.PlanID = "newPlanUUID"
-				evt.oldCrd.Status.appliedOptions.PlanID = "oldPlanUUID"
+				evt.crd.Status.AppliedOptionsObj.PlanID = "newPlanUUID"
+				evt.oldCrd.Status.AppliedOptionsObj.PlanID = "oldPlanUUID"
 				Expect(evt.isMeteringEvent()).To(Equal(true))
 			})
 			It("Should should return flase if update with no plan change succeeds", func() {
 				evt, _ := NewEvent(&ar)
-				evt.crd.Status.lastOperation.Type = "update"
-				evt.crd.Status.lastOperation.State = "succeeded"
+				evt.crd.Status.LastOperationObj.Type = "update"
+				evt.crd.Status.LastOperationObj.State = "succeeded"
 				evt.crd.Status.State = "succeeded"
-				evt.oldCrd.Status.lastOperation.Type = "update"
-				evt.oldCrd.Status.lastOperation.State = "in_progress"
+				evt.oldCrd.Status.LastOperationObj.Type = "update"
+				evt.oldCrd.Status.LastOperationObj.State = "in_progress"
 				evt.oldCrd.Status.State = "in_progress"
-				evt.crd.Status.appliedOptions.PlanID = "PlanUUID"
-				evt.oldCrd.Status.appliedOptions.PlanID = "PlanUUID"
+				evt.crd.Status.AppliedOptionsObj.PlanID = "PlanUUID"
+				evt.oldCrd.Status.AppliedOptionsObj.PlanID = "PlanUUID"
 				Expect(evt.isMeteringEvent()).To(Equal(false))
 			})
 			It("Should should return flase if state does not change", func() {
 				evt, _ := NewEvent(&ar)
-				evt.crd.Status.lastOperation.Type = "update"
-				evt.crd.Status.lastOperation.State = "succeeded"
+				evt.crd.Status.LastOperationObj.Type = "update"
+				evt.crd.Status.LastOperationObj.State = "succeeded"
 				evt.crd.Status.State = "succeeded"
-				evt.oldCrd.Status.lastOperation.Type = "update"
-				evt.oldCrd.Status.lastOperation.State = "succeeded"
+				evt.oldCrd.Status.LastOperationObj.Type = "update"
+				evt.oldCrd.Status.LastOperationObj.State = "succeeded"
 				evt.oldCrd.Status.State = "succeeded"
-				evt.crd.Status.appliedOptions.PlanID = "newPlanUUID"
-				evt.oldCrd.Status.appliedOptions.PlanID = "oldPlanUUID"
+				evt.crd.Status.AppliedOptionsObj.PlanID = "newPlanUUID"
+				evt.oldCrd.Status.AppliedOptionsObj.PlanID = "oldPlanUUID"
 				Expect(evt.isMeteringEvent()).To(Equal(false))
 			})
 			It("Should should return false if update fails", func() {
 				evt, _ := NewEvent(&ar)
-				evt.crd.Status.lastOperation.Type = "update"
-				evt.crd.Status.lastOperation.State = "failed"
+				evt.crd.Status.LastOperationObj.Type = "update"
+				evt.crd.Status.LastOperationObj.State = "failed"
 				evt.crd.Status.State = "failed"
-				evt.oldCrd.Status.lastOperation.Type = "update"
-				evt.oldCrd.Status.lastOperation.State = "in_progress"
+				evt.oldCrd.Status.LastOperationObj.Type = "update"
+				evt.oldCrd.Status.LastOperationObj.State = "in_progress"
 				evt.oldCrd.Status.State = "in_progress"
-				evt.crd.Status.appliedOptions.PlanID = "newPlanUUID"
-				evt.oldCrd.Status.appliedOptions.PlanID = "oldPlanUUID"
+				evt.crd.Status.AppliedOptionsObj.PlanID = "newPlanUUID"
+				evt.oldCrd.Status.AppliedOptionsObj.PlanID = "oldPlanUUID"
 				Expect(evt.isMeteringEvent()).To(Equal(false))
 			})
 		})
 		Context("When Type is Create and kind is Director", func() {
 			It("Should should return true if create succeeds", func() {
 				evt, _ := NewEvent(&ar)
-				evt.crd.Status.lastOperation.Type = "create"
-				evt.crd.Status.lastOperation.State = "succeeded"
+				evt.crd.Status.LastOperationObj.Type = "create"
+				evt.crd.Status.LastOperationObj.State = "succeeded"
 				evt.crd.Status.State = "succeeded"
-				evt.oldCrd.Status.lastOperation.Type = "create"
-				evt.oldCrd.Status.lastOperation.State = "in_progress"
+				evt.oldCrd.Status.LastOperationObj.Type = "create"
+				evt.oldCrd.Status.LastOperationObj.State = "in_progress"
 				evt.oldCrd.Status.State = "in_progress"
-				evt.crd.Status.appliedOptions.PlanID = "PlanUUID"
-				evt.oldCrd.Status.appliedOptions.PlanID = "PlanUUID"
+				evt.crd.Status.AppliedOptionsObj.PlanID = "PlanUUID"
+				evt.oldCrd.Status.AppliedOptionsObj.PlanID = "PlanUUID"
 				Expect(evt.isMeteringEvent()).To(Equal(true))
 			})
 			It("Should should return false if create state change does not change", func() {
 				evt, _ := NewEvent(&ar)
-				evt.crd.Status.lastOperation.Type = "create"
-				evt.crd.Status.lastOperation.State = "succeeded"
+				evt.crd.Status.LastOperationObj.Type = "create"
+				evt.crd.Status.LastOperationObj.State = "succeeded"
 				evt.crd.Status.State = "succeeded"
-				evt.oldCrd.Status.lastOperation.Type = "create"
-				evt.oldCrd.Status.lastOperation.State = "succeeded"
+				evt.oldCrd.Status.LastOperationObj.Type = "create"
+				evt.oldCrd.Status.LastOperationObj.State = "succeeded"
 				evt.oldCrd.Status.State = "succeeded"
-				evt.crd.Status.appliedOptions.PlanID = "newPlanUUID"
-				evt.oldCrd.Status.appliedOptions.PlanID = "oldPlanUUID"
+				evt.crd.Status.AppliedOptionsObj.PlanID = "newPlanUUID"
+				evt.oldCrd.Status.AppliedOptionsObj.PlanID = "oldPlanUUID"
 				Expect(evt.isMeteringEvent()).To(Equal(false))
 			})
 			It("Should should return false if create fails", func() {
 				evt, _ := NewEvent(&ar)
-				evt.crd.Status.lastOperation.Type = "create"
+				evt.crd.Status.LastOperationObj.Type = "create"
 				evt.crd.Status.State = "failed"
-				evt.oldCrd.Status.lastOperation.Type = "create"
+				evt.oldCrd.Status.LastOperationObj.Type = "create"
 				evt.oldCrd.Status.State = "in_progress"
 				Expect(evt.isMeteringEvent()).To(Equal(false))
 			})
@@ -172,17 +173,17 @@ var _ = Describe("Event", func() {
 			It("Should should return false when delete state change does not change", func() {
 				evt, _ := NewEvent(&ar)
 				evt.crd.Status.State = "delete"
-				evt.crd.Status.lastOperation.Type = "delete"
+				evt.crd.Status.LastOperationObj.Type = "delete"
 				evt.oldCrd.Status.State = "delete"
-				evt.oldCrd.Status.lastOperation.Type = "delete"
+				evt.oldCrd.Status.LastOperationObj.Type = "delete"
 				Expect(evt.isMeteringEvent()).To(Equal(false))
 			})
 			It("Should should return false if create fails", func() {
 				evt, _ := NewEvent(&ar)
-				evt.crd.Status.lastOperation.Type = "delete"
+				evt.crd.Status.LastOperationObj.Type = "delete"
 				evt.crd.Status.State = "failed"
 				evt.oldCrd.Status.State = "delete"
-				evt.oldCrd.Status.lastOperation.Type = "delete"
+				evt.oldCrd.Status.LastOperationObj.Type = "delete"
 				Expect(evt.isMeteringEvent()).To(Equal(false))
 			})
 		})
@@ -201,10 +202,10 @@ var _ = Describe("Event", func() {
 			})
 			It("Should should return false if create fails", func() {
 				evt, _ := NewEvent(&arDockerCreate)
-				evt.crd.Status.lastOperation.Type = "delete"
+				evt.crd.Status.LastOperationObj.Type = "delete"
 				evt.crd.Status.State = "failed"
 				evt.oldCrd.Status.State = "delete"
-				evt.oldCrd.Status.lastOperation.Type = "delete"
+				evt.oldCrd.Status.LastOperationObj.Type = "delete"
 				Expect(evt.isMeteringEvent()).To(Equal(false))
 			})
 		})
@@ -214,7 +215,7 @@ var _ = Describe("Event", func() {
 		It("Should convert object to map", func() {
 			expected := make(map[string]interface{})
 			expected["options"] = "dummyOptions"
-			Expect(ObjectToMapInterface(GenericSpec{
+			Expect(ObjectToMapInterface(resources.GenericSpec{
 				Options: "dummyOptions",
 			})).To(Equal(expected))
 		})
@@ -241,11 +242,11 @@ var _ = Describe("Event", func() {
 		Context("when type is update", func() {
 			It("Generates two metering docs", func() {
 				evt, _ := NewEvent(&ar)
-				evt.crd.Status.lastOperation.Type = "update"
+				evt.crd.Status.LastOperationObj.Type = "update"
 
-				evt.crd.Spec.options.PlanID = "new plan in options"
-				evt.crd.Status.appliedOptions.PlanID = "newPlan"
-				evt.oldCrd.Status.appliedOptions.PlanID = "oldPlan"
+                evt.crd.Spec.SetOptions( resources.GenericOptions{ PlanID: "new plan in options"} )
+				evt.crd.Status.AppliedOptionsObj.PlanID = "newPlan"
+				evt.oldCrd.Status.AppliedOptionsObj.PlanID = "oldPlan"
 
 				docs, err := evt.getMeteringEvents()
 				Expect(err).To(BeNil())
@@ -263,7 +264,7 @@ var _ = Describe("Event", func() {
 		Context("when type is create", func() {
 			It("Generates one metering doc", func() {
 				evt, _ := NewEvent(&ar)
-				evt.crd.Status.lastOperation.Type = "create"
+				evt.crd.Status.LastOperationObj.Type = "create"
 				docs, err := evt.getMeteringEvents()
 				Expect(err).To(BeNil())
 				Expect(len(docs)).To(Equal(1))

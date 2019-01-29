@@ -6,23 +6,24 @@ import (
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	c "github.com/cloudfoundry-incubator/webhooks/pkg/webhooks/manager/constants"
+	"github.com/cloudfoundry-incubator/webhooks/pkg/webhooks/manager/resources"
 )
 
 var _ = Describe("Metering", func() {
 	Describe("newMetering", func() {
 		It("it should create the metering object", func() {
 			//Create params
-			co := ContextOptions{
+			co := resources.ContextOptions{
 				Platform:         "test-platform",
 				OrganizationGUID: "test-org-guid",
 				SpaceGUID:        "test-space",
 			}
-			opt := GenericOptions{
+			opt := resources.GenericOptions{
 				ServiceID: "test-service-id",
 				PlanID:    "test-plan-id",
 				Context:   co,
 			}
-			crd := GenericResource{}
+			crd := resources.GenericResource{}
 			signal := c.MeterStop
 			// Test creating metering object
 			m := newMetering(opt, crd, signal)

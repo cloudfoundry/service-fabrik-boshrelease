@@ -1,4 +1,4 @@
-package main
+package resources
 
 import (
 	"bytes"
@@ -31,7 +31,22 @@ type GenericLastOperation struct {
 // GenericSpec represents the Spec in GenericResource
 type GenericSpec struct {
 	Options string `json:"options,omitempty"`
-	options GenericOptions
+}
+
+func (g *GenericSpec) GetOptions() (GenericOptions, error) {
+	var opts GenericOptions
+	decoder := json.NewDecoder(bytes.NewReader([]byte(g.Options)))
+	err := decoder.Decode(&opts)
+	if err != nil {
+		glog.Errorf("Could not unmarshal raw object: %v", err)
+	}
+	return opts, err
+}
+
+func (g *GenericSpec) SetOptions(options GenericOptions) error {
+    val, err := json.Marshal(options)
+    g.Options = string(val)
+    return err
 }
 
 // GenericStatus type represents the status in GenericResource
@@ -39,8 +54,8 @@ type GenericStatus struct {
 	AppliedOptions   string `json:"appliedOptions"`
 	State            string `json:"state,omitempty"`
 	LastOperationRaw string `json:"lastOperation,omitempty"`
-	lastOperation    GenericLastOperation
-	appliedOptions   GenericOptions
+	LastOperationObj    GenericLastOperation
+	AppliedOptionsObj   GenericOptions
 }
 
 // GenericResource type represents a generic resource
@@ -51,7 +66,7 @@ type GenericResource struct {
 	Spec              GenericSpec   `json:"spec,omitempty"`
 }
 
-func getGenericResource(object []byte) (GenericResource, error) {
+func GetGenericResource(object []byte) (GenericResource, error) {
 	var crd GenericResource
 	decoder := json.NewDecoder(bytes.NewReader(object))
 	err := decoder.Decode(&crd)
@@ -61,7 +76,7 @@ func getGenericResource(object []byte) (GenericResource, error) {
 	return crd, err
 }
 
-func getLastOperation(crd GenericResource) GenericLastOperation {
+func GetLastOperation(crd GenericResource) GenericLastOperation {
 	var lo GenericLastOperation
 	// LastOperation could be null during Craete
 	if crd.Status.LastOperationRaw != "" {
@@ -75,7 +90,7 @@ func getLastOperation(crd GenericResource) GenericLastOperation {
 	return lo
 }
 
-func getOptions(crd GenericResource) GenericOptions {
+func GetOptions(crd GenericResource) GenericOptions {
 	var op GenericOptions
 	opDecoder := json.NewDecoder(bytes.NewReader([]byte(crd.Spec.Options)))
 	if err := opDecoder.Decode(&op); err != nil {
@@ -84,7 +99,7 @@ func getOptions(crd GenericResource) GenericOptions {
 	return op
 }
 
-func getAppliedOptions(crd GenericResource) GenericOptions {
+func GetAppliedOptions(crd GenericResource) GenericOptions {
 	var op GenericOptions
 	// LastOperation could be null during Craete
 	if crd.Status.AppliedOptions != "" {

@@ -8,6 +8,7 @@ import (
 	"net/http"
 
 	"github.com/golang/glog"
+	"github.com/cloudfoundry-incubator/webhooks/pkg/webhooks/manager/resources"
 	"k8s.io/api/admission/v1beta1"
 	admissionregistrationv1beta1 "k8s.io/api/admissionregistration/v1beta1"
 	corev1 "k8s.io/api/core/v1"
@@ -72,7 +73,7 @@ const (
 )
 
 // create mutation patch for resoures
-func createPatch(resource *GenericResource) []byte {
+func createPatch(resource *resources.GenericResource) []byte {
 	if resource.Labels != nil {
 		return []byte(fmt.Sprintf(labelPatchTemplate, resource.Status.State))
 	}
@@ -82,7 +83,7 @@ func createPatch(resource *GenericResource) []byte {
 // main mutation process
 func (whsvr *WebhookServer) mutate(ar *v1beta1.AdmissionReview) *v1beta1.AdmissionResponse {
 	req := ar.Request
-	var crd GenericResource
+	var crd resources.GenericResource
 	decoder := json.NewDecoder(bytes.NewReader(req.Object.Raw))
 	//decoder.DisallowUnknownFields()
 	if err := decoder.Decode(&crd); err != nil {

@@ -4,6 +4,7 @@ import (
 	// "encoding/json"
 	"github.com/golang/glog"
 	c "github.com/cloudfoundry-incubator/webhooks/pkg/webhooks/manager/constants"
+	"github.com/cloudfoundry-incubator/webhooks/pkg/webhooks/manager/resources"
 	"github.com/google/uuid"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"time"
@@ -60,7 +61,7 @@ func (m *Metering) getName() string {
 	return m.Spec.Options.ID
 }
 
-func newMetering(opt GenericOptions, crd GenericResource, signal int) *Metering {
+func newMetering(opt resources.GenericOptions, crd resources.GenericResource, signal int) *Metering {
 	si := ServiceInfo{
 		ID:   opt.ServiceID,
 		Plan: opt.PlanID,
