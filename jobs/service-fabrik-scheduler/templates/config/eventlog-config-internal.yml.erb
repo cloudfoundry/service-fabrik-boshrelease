@@ -15,7 +15,7 @@ defaults:
   include_response_body: <%= link("broker").p('event.defaults.include_response_body') %>
 "/:platform(cf|k8s|sm)/v2/catalog":
   GET:
-    enabled: true
+    enabled: false
     event_name: broker_catalog
     description: Get broker service catalog
     tags:
