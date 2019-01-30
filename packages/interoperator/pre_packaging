@@ -1,0 +1,32 @@
+#!/bin/bash
+
+set -e
+set -u
+
+(
+  echo ${BUILD_DIR}
+  cd ${BUILD_DIR}
+  cd ..
+  export GOPATH=$(pwd)
+  mkdir -p ${GOPATH}/bin
+  mkdir -p ${GOPATH}/src
+
+  rm -rf ${GOPATH}/src/github.com/cloudfoundry-incubator/service-fabrik-broker/interoperator
+
+  cp -R ${BUILD_DIR}/github.com ${GOPATH}/src
+  cd ${GOPATH}/src/github.com/cloudfoundry-incubator/service-fabrik-broker/interoperator
+
+  # install dep 
+  curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
+  # Install production dependencies
+  ${GOPATH}/bin/dep ensure -v
+
+  cp -R ${GOPATH}/src/github.com/cloudfoundry-incubator/service-fabrik-broker/interoperator/vendor ${BUILD_DIR}/github.com/cloudfoundry-incubator/service-fabrik-broker/interoperator
+
+  cd ${BUILD_DIR}/github.com/cloudfoundry-incubator/service-fabrik-broker/interoperator
+  # Precompile static files if needed
+
+  # Remove unneeded files
+  rm -rf docs
+  rm -rf logs/*
+)

@@ -5,7 +5,6 @@ swarm_name= p('swarm.name')
 swarm_logs_dir=p('swarm_manager.logs_dir')
 %>
 
-$ModLoad imfile
 
 #variables required for non-syslog log file forwarding – SystemErr
 $WorkDirectory <%= swarm_logs_dir %>
@@ -16,9 +15,6 @@ $InputFileSeverity error
 $InputFileFacility local7
 $InputRunFileMonitor
 
-
-
-$ModLoad imtcp
 $InputTCPServerRun 514
 
 template(

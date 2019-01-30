@@ -3,4 +3,4 @@ name: service-fabrik-broker
 dependencies:
   - node
 files:
-  - service-fabrik-broker/**/*
+  - github.com/cloudfoundry-incubator/service-fabrik-broker/**/*

@@ -1,0 +1,6 @@
+check process service-fabrik-interoperator
+  with pidfile /var/vcap/sys/run/bpm/service-fabrik-interoperator/service-fabrik-interoperator.pid
+  depends on service-fabrik-apiserver
+  start program "/var/vcap/jobs/bpm/bin/bpm start service-fabrik-interoperator"
+  stop program "/var/vcap/jobs/bpm/bin/bpm stop service-fabrik-interoperator"
+  group vcap

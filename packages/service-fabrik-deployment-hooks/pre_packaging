@@ -4,7 +4,7 @@ set -e
 set -u
 
 (
-  cd ${BUILD_DIR}/service-fabrik-broker
+  cd ${BUILD_DIR}/github.com/cloudfoundry-incubator/service-fabrik-broker
 
   # Install production dependencies
   npm install --production

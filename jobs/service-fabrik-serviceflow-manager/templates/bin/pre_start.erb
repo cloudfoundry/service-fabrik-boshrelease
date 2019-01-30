@@ -7,4 +7,10 @@ source /var/vcap/packages/bosh-helpers/ctl_setup.sh 'service-fabrik-serviceflow-
 # Enable syslog forwarding to logstash
 if [ ! -L /etc/rsyslog.d/53-fabrik_serviceflow-manager_forwarding.conf ]; then
   ln -s ${CONF_DIR}/syslog_forwarding.conf /etc/rsyslog.d/53-fabrik_serviceflow-manager_forwarding.conf
+  if [ ! -e  /etc/rsyslog.d/10-fabrik_modules.conf ]; then
+    mkdir -p /var/vcap/data/service-fabrik-serviceflow-manager
+    touch /var/vcap/data/service-fabrik-serviceflow-manager/syslog_modules.conf
+    ln -sf /var/vcap/data/service-fabrik-serviceflow-manager/syslog_modules.conf /etc/rsyslog.d/10-fabrik_modules.conf
+  fi
+  if ! grep -Fxq "\$ModLoad imtcp" /etc/rsyslog.d/10-fabrik_modules.conf ; then echo "\$ModLoad imtcp" >> /etc/rsyslog.d/10-fabrik_modules.conf ; fi
 fi
