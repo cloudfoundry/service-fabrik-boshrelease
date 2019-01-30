@@ -1,3 +1,4 @@
+
 #!/bin/bash
 
 set -e # exit immediately if a simple command exits with a non-zero status
@@ -23,7 +24,7 @@ retry_delete_loop() {
       delete_loop
       if ! losetup -a | grep -F ${LVMVD_LOOP_DEVICE} &> /dev/null; then
         # If 'delete_loop' was successful, the while-loop can be stopped
-        echo "delete_loop was successful"
+        echo "$(date) delete_loop was successful"
         break
       fi
 
@@ -46,7 +47,7 @@ retry_delete_loop() {
 delete_loop() {
     local mounted_volumes=$(mount | grep "${LVMVD_MOUNT_DIR}" | awk '{print $3}')
     for vol in $mounted_volumes; do
-        echo "Unmounting volume $vol"
+        echo "$(date) Unmounting volume $vol"
         umount $vol
     done
     vgchange -an ${LVMVD_VOLUME_GROUP_NAME}
@@ -79,26 +80,100 @@ case $1 in
     # packaging phase because during the installation of the packages some necessary
     # prerequesits are done we do not want to reimplement in the bosh release.
     # DON'T CHANGE THE ORDER OF THE PACKAGE NAMES
-    
-    set +e  
-    for package in libdevmapper-event1.02.1 watershed lvm2
-    do
-    
-	  # check if package already installed else install, incase package not found
-	  # using dpkg -s for checking the installation which does not lock the /var/lib/dpkg/lock  
-	  
-	 
-      if ! dpkg -s $package > /dev/null 2>&1 ; then
-        echo "Installing debian package $package"
-		set -e
-        dpkg -i "$(ls -1 /var/vcap/packages/lvm2/${package}_*.deb | head -1)"
-		set +e 
-      fi
-    done
-	set -e
+
+    LVM2_PACKAGE_PATH=/var/vcap/packages/lvm2
+    set +e
+    if [[ `lsb_release -cs` == "xenial" ]]; then
+
+            echo "$(date) Installing Xenial packages for lvm2"
+
+            if ! dpkg -s libdevmapper-event1.02.1 > /dev/null 2>&1 ; then
+              echo "$(date) Installing debian package libdevmapper-event1.02.1"
+	      set -e
+              dpkg -i $LVM2_PACKAGE_PATH/libdevmapper-event1.02.1_2_1.02.110-1ubuntu10_amd64.deb
+	      set +e
+            fi
+
+            # the  package liblvm2cmd2.02 and dmeventd (package in below if) have cyclic dependency
+            # just unpack the packages  and configure them after unpacking both packages
+            if ! dpkg -s liblvm2cmd2.02 > /dev/null 2>&1 ; then
+              echo "$(date) Installing debian package liblvm2cmd2.02"
+	      set -e
+              dpkg --unpack $LVM2_PACKAGE_PATH/liblvm2cmd2.02_2.02.133-1ubuntu10_amd64.deb
+	      set +e
+            fi
+
+            if ! dpkg -s dmeventd > /dev/null 2>&1 ; then
+              echo "$(date) Installing debian package dmeventd"
+	      set -e
+              dpkg --unpack $LVM2_PACKAGE_PATH/dmeventd_2_1.02.110-1ubuntu10_amd64.deb
+
+              # Now configure both liblvm2cmd2.02 and dmeventd which have cyclic dependency
+              dpkg --configure liblvm2cmd2.02 dmeventd
+	      set +e
+            fi
+
+            if ! dpkg -s liblvm2app2.2 > /dev/null 2>&1 ; then
+              echo "$(date) Installing debian package liblvm2app2.2"
+	      set -e
+              dpkg -i $LVM2_PACKAGE_PATH/liblvm2app2.2_2.02.133-1ubuntu10_amd64.deb
+	      set +e
+            fi
+
+            if ! dpkg -s lvm2 > /dev/null 2>&1 ; then
+              echo "$(date) Installing debian package lvm2"
+	      set -e
+              dpkg -i $LVM2_PACKAGE_PATH/lvm2_2.02.133-1ubuntu10_amd64.deb
+	      set +e
+
+            fi
+
+
+	    if [[ `systemctl is-enabled lvm2-lvmetad.service` == "disabled" ]]; then
+              echo "$(date) enabling lvm2-lvmetad.service"
+              systemctl enable lvm2-lvmetad.service
+            fi
+
+	    if [[ `systemctl is-enabled lvm2-lvmetad.socket` == "disabled" ]]; then
+              echo "$(date) enabling lvm2-lvmetad.socket"
+	      systemctl enable lvm2-lvmetad.socket
+	    fi
+
+	    if [[ `systemctl is-active lvm2-lvmetad.service` == "inactive" ]]; then
+              echo "$(date) starting lvm2-lvmetad.service"
+	      systemctl start lvm2-lvmetad.service
+	    fi
+
+	    if [[ `systemctl is-active lvm2-lvmetad.socket` == "inactive" ]]; then
+              echo "$(date) starting lvm2-lvmetad.socket"
+	      systemctl start lvm2-lvmetad.socket
+	    fi
+
+      elif [[ `lsb_release -cs` == "trusty" ]]; then
+
+           echo "$(date) Installing Trusty packages for lvm2"
+
+           for package in libdevmapper-event1.02.1 watershed lvm2
+           do
+
+              # check if package already installed else install, incase package not found
+              # using dpkg -s for checking the installation which does not lock the /var/lib/dpkg/lock
+
+              if ! dpkg -s $package > /dev/null 2>&1 ; then
+                echo "$(date) Installing debian package $package"
+                set -e
+                dpkg -i "$(ls -1 $LVM2_PACKAGE_PATH/${package}_*.deb | head -1)"
+                set +e
+              fi
+           done
+     else
+        echo "$(date) Unsupported ubuntu release"
+        exit 1
+     fi
+     set -e
 
     # To disable lvm archive
-    sed -i 's/ archive = 1/ archive = 0/g' /etc/lvm/lvm.conf
+    sed -i 's/archive = 1/archive = 0/g' /etc/lvm/lvm.conf
 
     create_volume
     create_loop
@@ -120,10 +195,25 @@ case $1 in
     kill_and_wait ${LVMVD_PID_FILE}
     #delete_loop
     retry_delete_loop
-   
+
     #kill any process using the mounted volume
     kill -9 $(lsof -t $DOCKER_VOLUME_MOUNTDIR)
     sleep 2s
+
+    if [[ `lsb_release -cs` == "xenial" ]]; then
+
+       echo "$(date) checking lvm2 services active status and stopping them"
+
+       if [[ `systemctl is-active lvm2-lvmetad.socket` == "active" ]]; then
+         echo "$(date) stopping lvm2-lvmetad.socket"
+         systemctl stop lvm2-lvmetad.socket
+       fi
+       if [[ `systemctl is-active lvm2-lvmetad.service` == "active" ]]; then
+         echo "$(date) stopping lvm2-lvmetad.service"
+         systemctl stop lvm2-lvmetad.service
+       fi
+
+    fi
     set -e
     ;;
 
@@ -134,3 +224,4 @@ case $1 in
 
 esac
 exit 0
+
