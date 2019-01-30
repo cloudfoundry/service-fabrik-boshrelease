@@ -50,14 +50,6 @@ docker/docker-17.06.1.tgz:
   size: 29699281
   object_id: 128671d4-33ef-4cad-8239-0ae39d38f55d
   sha: 01c73e6548e588e6d5bdc3dea45bb90239516e4b
-golang/go1.6.2.linux-amd64.tar.gz:
-  size: 84840658
-  object_id: abc1be7b-ce69-4442-a841-cfc0a88109e4
-  sha: b8318b09de06076d5397e6ec18ebef3b45cd315d
-golang/go1.8.3.linux-amd64.tar.gz:
-  size: 90029041
-  object_id: 531dbe5c-f65b-4c3a-a524-c630a7762567
-  sha: 838c415896ef5ecd395dfabde5e7e6f8ac943c8e
 golang/go1.11.4.linux-amd64.tar.gz:
   size: 126643341
   object_id: b399f06d-3af0-4e3f-7103-41c0446f6ef6
@@ -70,10 +62,6 @@ keepalived/keepalived-2.0.5.tar.gz:
   size: 848206
   object_id: eb0cd1af-1b58-4349-7386-9b7f5685b0c2
   sha: b950ff1931c1062f34d57dfef24473b4c6b60209
-kubernetes-1.11.1/kube-apiserver:
-  size: 185513080
-  object_id: 03a0392c-f620-4ccb-73ca-48b0a1aeff33
-  sha: 6805ea84a3fa1653219e75b3b99f47547e53380e
 kubernetes-1.12.4/kube-apiserver:
   size: 192825094
   object_id: 99e8f3b2-192f-4ac3-487f-18245b786565
