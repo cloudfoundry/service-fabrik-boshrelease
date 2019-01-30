@@ -1,6 +1,10 @@
 language: ruby
-install:
-        - "./scripts/update"
-        - "gem install bosh_cli --no-document"
+os:
+  - linux
+before_install:
+  - ./scripts/update
+  - wget https://github.com/cloudfoundry/bosh-cli/releases/download/v5.4.0/bosh-cli-5.4.0-linux-amd64
+  - chmod +x ./bosh-cli-5.4.0-linux-amd64
+  - sudo mv ./bosh-cli-5.4.0-linux-amd64 /usr/local/bin/bosh
 script:
-        - "bosh create release --force --name service-fabrik"
+  - bosh create-release --force
