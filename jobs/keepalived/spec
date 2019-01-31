@@ -6,6 +6,7 @@ description: "The keepalived job can be used to add a VRRP IP address to enforce
 packages:
 - keepalived
 - bosh-helpers
+- python
 - aws-cli
 - ha-utils
 

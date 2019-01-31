@@ -14,6 +14,26 @@ apt/lvm2/watershed_7_amd64.deb:
   size: 11356
   object_id: a72d0857-ae9b-4b2f-b5b6-725bee7006d9
   sha: 5c02014b7daecff6c0a6367996d2819d9b16745e
+apt/xenial/lvm2/dmeventd_2_1.02.110-1ubuntu10_amd64.deb:
+  size: 31272
+  object_id: 2f9f1860-82ee-4f32-5c8e-e6a74bd31a06
+  sha: dc8240ec16cbbfe80dff668dc33c0608790d7248
+apt/xenial/lvm2/libdevmapper-event1.02.1_2_1.02.110-1ubuntu10_amd64.deb:
+  size: 12240
+  object_id: d18cbdc0-50b8-4e92-6fe8-9c93549530e6
+  sha: 4f56f12cb631d9bca26996712338406d9e49ee4b
+apt/xenial/lvm2/liblvm2app2.2_2.02.133-1ubuntu10_amd64.deb:
+  size: 391652
+  object_id: 8509d908-7d52-4572-5086-d68299ead366
+  sha: 5647def3e295f47c057f6a228b08b6abbf560fd3
+apt/xenial/lvm2/liblvm2cmd2.02_2.02.133-1ubuntu10_amd64.deb:
+  size: 517716
+  object_id: a9733984-7925-49a4-7193-3e299bfc1df3
+  sha: 935f81f8f6dced140808b37cf95a055144213071
+apt/xenial/lvm2/lvm2_2.02.133-1ubuntu10_amd64.deb:
+  size: 731404
+  object_id: 59ced7d6-e938-403b-63e4-b12a4a218895
+  sha: 7f2265d8c326e0713e3ccdf41823d9248aa0c9a0
 aws-cli/awscli-bundle.zip:
   size: 7500720
   object_id: 65e17a4e-644d-456c-7451-fa4de7c68ebd
@@ -30,14 +50,6 @@ docker/docker-17.06.1.tgz:
   size: 29699281
   object_id: 128671d4-33ef-4cad-8239-0ae39d38f55d
   sha: 01c73e6548e588e6d5bdc3dea45bb90239516e4b
-golang/go1.6.2.linux-amd64.tar.gz:
-  size: 84840658
-  object_id: abc1be7b-ce69-4442-a841-cfc0a88109e4
-  sha: b8318b09de06076d5397e6ec18ebef3b45cd315d
-golang/go1.8.3.linux-amd64.tar.gz:
-  size: 90029041
-  object_id: 531dbe5c-f65b-4c3a-a524-c630a7762567
-  sha: 838c415896ef5ecd395dfabde5e7e6f8ac943c8e
 golang/go1.11.4.linux-amd64.tar.gz:
   size: 126643341
   object_id: b399f06d-3af0-4e3f-7103-41c0446f6ef6
@@ -50,10 +62,6 @@ keepalived/keepalived-2.0.5.tar.gz:
   size: 848206
   object_id: eb0cd1af-1b58-4349-7386-9b7f5685b0c2
   sha: b950ff1931c1062f34d57dfef24473b4c6b60209
-kubernetes-1.11.1/kube-apiserver:
-  size: 185513080
-  object_id: 03a0392c-f620-4ccb-73ca-48b0a1aeff33
-  sha: 6805ea84a3fa1653219e75b3b99f47547e53380e
 kubernetes-1.12.4/kube-apiserver:
   size: 192825094
   object_id: 99e8f3b2-192f-4ac3-487f-18245b786565

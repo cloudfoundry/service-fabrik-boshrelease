@@ -8,11 +8,4 @@ PATH=/var/vcap/packages/node/bin:$PATH
 echo "Copying service fabrik broker files..."
 cp -a ${BOSH_COMPILE_TARGET}/github.com/cloudfoundry-incubator/service-fabrik-broker/* ${BOSH_INSTALL_TARGET}/
 
-#Added the below line to avoid node-gyp connect to internet and download headers during "npm rebuild"
-#which internally calls "node-gyp rebuild" of unix-dgram package based on https://github.com/nodejs/node-gyp/issues/1020
-npm config set nodedir /var/vcap/packages/node
-
-# Rebuild
-echo "Rebuild depend packages..."
-cd ${BOSH_INSTALL_TARGET}
-npm rebuild
+# skipping npm rebuild as the bosh release is always created with target stemcell and the target nodejs & right modules are installed in prepackaging.
