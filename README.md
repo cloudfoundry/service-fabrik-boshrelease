@@ -1,3 +1,5 @@
+[![Travis Build Status](https://travis-ci.org/cloudfoundry-incubator/service-fabrik-boshrelease.svg?branch=master)](https://travis-ci.org/cloudfoundry-incubator/service-fabrik-boshrelease.svg?branch=master)
+
 # Service Fabrik Bosh Release for Cloud Foundry
 
 A bosh release to deploy Service Fabrik which provisions service instances as Docker containers and Bosh deployments.
