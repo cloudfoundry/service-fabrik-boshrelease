@@ -28,7 +28,7 @@ case $1 in
     fi
     /usr/sbin/service rsyslog restart
 
-    if [ ${PERF_TEST_ENABLED} ]; then
+    if [ ${PERF_TEST_ENABLED} = true ]; then
         # Start Service-Fabrik-Broker with perf enabled
         start-stop-daemon --start --quiet -m \
           --pidfile ${PID_FILE} \
