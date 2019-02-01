@@ -221,16 +221,6 @@ production:
   # QUOTA MANAGEMENT SETTINGS #
   ###################
   quota: <%= JSON.dump(p('quota', nil)) %>
-  #####################
-  # METERING SETTINGS #
-  #####################
-  metering:
-    client_id: <%= p('metering.binding.clientid') %>
-    client_secret: <%= p('metering.binding.clientsecret') %>
-    token_url: <%= p('metering.binding.token_url') %>
-    metering_url: <%= p('metering.binding.metering_url') %>
-    region:  <%= p('metering.binding.region') %>
-    excluded_service_plans:  <%= p('metering.excluded_service_plans') %>
 
   ###################
   # BACKUP SETTINGS #
