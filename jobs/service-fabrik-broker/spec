@@ -412,3 +412,6 @@ properties:
 
   circuit_breaker:
     description: "Overridden circuit breaker configuration"
+  enable_perf:
+    description: "Enables perf-basic-prof flag for the node js process"
+    default: false

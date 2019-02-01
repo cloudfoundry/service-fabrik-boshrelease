@@ -27,18 +27,33 @@ case $1 in
         if ! grep -Fxq "\$ModLoad imtcp" /etc/rsyslog.d/10-fabrik_modules.conf ; then echo "\$ModLoad imtcp" >> /etc/rsyslog.d/10-fabrik_modules.conf ; fi
     fi
     /usr/sbin/service rsyslog restart
-    
-    # Start Service-Fabrik-Broker
-    start-stop-daemon --start --quiet -m \
-      --pidfile ${PID_FILE} \
-      --startas ${NODE_CMD} \
-      --chuid vcap:vcap \
-      --background \
-      --no-close \
-      --chdir ${PACKAGE_DIR} \
-      -- ${PACKAGE_DIR}/broker/server.js \
-      1>> ${LOG_DIR}/${OUTPUT_LABEL}.stdout.log \
-      2>> ${LOG_DIR}/${OUTPUT_LABEL}.stderr.log
+
+    if [ ${PERF_TEST_ENABLED} ]; then
+        # Start Service-Fabrik-Broker with perf enabled
+        start-stop-daemon --start --quiet -m \
+          --pidfile ${PID_FILE} \
+          --startas ${NODE_CMD} \
+          --chuid vcap:vcap \
+          --background \
+          --no-close \
+          --chdir ${PACKAGE_DIR} \
+          -- --perf-basic-prof \
+          -- ${PACKAGE_DIR}/broker/server.js \
+          1>> ${LOG_DIR}/${OUTPUT_LABEL}.stdout.log \
+          2>> ${LOG_DIR}/${OUTPUT_LABEL}.stderr.log
+    else
+        # Start Service-Fabrik-Broker
+        start-stop-daemon --start --quiet -m \
+          --pidfile ${PID_FILE} \
+          --startas ${NODE_CMD} \
+          --chuid vcap:vcap \
+          --background \
+          --no-close \
+          --chdir ${PACKAGE_DIR} \
+          -- ${PACKAGE_DIR}/broker/server.js \
+          1>> ${LOG_DIR}/${OUTPUT_LABEL}.stdout.log \
+          2>> ${LOG_DIR}/${OUTPUT_LABEL}.stderr.log
+    fi
     ;;
 
   stop)
