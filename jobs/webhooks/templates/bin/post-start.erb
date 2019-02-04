@@ -8,14 +8,26 @@ HOST_PATH="https://<%= link('service-fabrik-apiserver').p('ip') %>:<%= link('ser
 
 echo "Trying to update the webhook configuration"
 
-RESPONSE=$(curl -sk --header "Content-Type: application/merge-patch+json" --cert $CONFIG_PATH/client-cert.pem --key $CONFIG_PATH/client-key.pem "${HOST_PATH}/manager-webhooks" -X PATCH --data "@$CONFIG_PATH/webhooks.json")
+RESPONSE=$(curl                                                     \
+  -sk                                                               \
+  --header "Content-Type: application/merge-patch+json"             \
+  --cert $CONFIG_PATH/client-cert.pem                               \
+  --key $CONFIG_PATH/client-key.pem "${HOST_PATH}/manager-webhooks" \
+  -X PATCH                                                          \
+  --data "@$CONFIG_PATH/webhooks.json")
 
 RESPONSE_CODE=$(echo "$RESPONSE" | $JQ -r .'code')
 echo "Response code of the patch is $RESPONSE_CODE"
 
 if [[ "$RESPONSE_CODE" == "404" ]]; then
    echo "creating the webhook"
-   curl -sk --header "Content-Type: application/json" --cert $CONFIG_PATH/client-cert.pem --key $CONFIG_PATH/client-key.pem "${HOST_PATH}" -X POST --data "@$CONFIG_PATH/webhooks.json"
+   curl                                               \
+     -sk                                              \
+     --header "Content-Type: application/json"        \
+     --cert $CONFIG_PATH/client-cert.pem              \
+     --key $CONFIG_PATH/client-key.pem "${HOST_PATH}" \
+     -X POST                                          \
+     --data "@$CONFIG_PATH/webhooks.json"
 fi
 
 
