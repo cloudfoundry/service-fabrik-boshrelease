@@ -73,6 +73,7 @@ provides:
   - cf.url
   - cf.username
   - cf.password
+  - cf.identity_provider
   - backup.retention_period_in_days
   - backup.max_num_on_demand_backup
   - backup.status_check_every
@@ -302,6 +303,8 @@ properties:
     description: "Admin username for the Cloud Foundry cloud controller"
   cf.password:
     description: "Admin password for the Cloud Foundry cloud controller"
+  cf.identity_provider:
+    description: "Identity provider for the Cloud Foundry cloud controller"
 
   docker.job:
     description: "Name of the swarm/docker job"
