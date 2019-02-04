@@ -22,8 +22,6 @@ spec:
           type: object
         spec:
           properties:
-            instance:
-              type: string
             options:
               type: object
           type: object
@@ -34,8 +32,6 @@ spec:
             response:
               type: string
             state:
-              type: string
-            meter_state:
               type: string
           type: object
       type: object
