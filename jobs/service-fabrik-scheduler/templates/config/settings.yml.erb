@@ -202,7 +202,7 @@ production:
   #####################
   # METERING SETTINGS #
   #####################
-  <% link("broker").if_p('metering.enabled') do |metering_enabled| %>
+  <% if link("broker").p('metering.enabled') == true %>
   metering:
     client_id: <%= link("broker").p('metering.binding.clientid') %>
     client_secret: <%= link("broker").p('metering.binding.clientsecret') %>
