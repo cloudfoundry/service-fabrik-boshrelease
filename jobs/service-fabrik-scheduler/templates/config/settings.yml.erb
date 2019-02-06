@@ -202,6 +202,7 @@ production:
   #####################
   # METERING SETTINGS #
   #####################
+  <% link("broker").if_p('metering.enabled') do |metering_enabled| %>
   metering:
     client_id: <%= link("broker").p('metering.binding.clientid') %>
     client_secret: <%= link("broker").p('metering.binding.clientsecret') %>
@@ -209,6 +210,7 @@ production:
     metering_url: <%= link("broker").p('metering.binding.metering_url') %>
     region:  <%= link("broker").p('metering.binding.region') %>
     error_threshold_hours:  <%= link("broker").p('metering.error_threshold_hours') %>
+  <% end %>
 
   ###################
   # BACKUP SETTINGS #
