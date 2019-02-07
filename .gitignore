@@ -17,4 +17,3 @@ blobs/*
 #*
 tmp
 my*.yml
-src/github.com/cloudfoundry-incubator/webhooks/vendor
