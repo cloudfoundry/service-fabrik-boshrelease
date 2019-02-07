@@ -248,6 +248,9 @@ production:
     url: <%= p('cf.url') %>
     username: <%= p('cf.username') %>
     password: <%= p('cf.password') %>
+    <% if_p('cf.identity_provider') do |identity_provider| %>
+      identity_provider: <%= identity_provider %>
+    <% end %>
 
   ###################
   # DOCKER SETTINGS #

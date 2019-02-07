@@ -108,6 +108,7 @@ instance_groups:
         password: default
         url: ((cf_url))
         username: default
+        identity_provider: uaa
       syslog:
         host: default
         port: default

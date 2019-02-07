@@ -73,6 +73,9 @@ production:
     url: <%= link("broker").p('cf.url') %>
     username: <%= link("broker").p('cf.username') %>
     password: <%= link("broker").p('cf.password') %>
+    <% link("broker").if_p('cf.identity_provider') do |identity_provider| %>
+    identity_provider: <%= identity_provider %>
+    <% end %>
 
   #####################
   # DIRECTOR SETTINGS #
