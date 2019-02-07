@@ -3,8 +3,6 @@ network = spec.networks.methods(false).first
 ip = spec.networks.send(network).ip
 %>
 
-$InputTCPServerRun 514
-
 template(
     name="logstash-template"
     type="string"
