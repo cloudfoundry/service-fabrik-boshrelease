@@ -45,6 +45,8 @@ provides:
   - system_jobs.dbcollection_reaper.interval
   - system_jobs.dbcollection_reaper.jobrun_detail.retention_in_days
   - system_jobs.dbcollection_reaper.event_detail.retention_in_days
+  - system_jobs.meter_instance.interval
+  - system_jobs.meter_instance.enabled
 
 consumes:
 - name: broker
@@ -139,3 +141,9 @@ properties:
   system_jobs.dbcollection_reaper.event_detail.retention_in_days:
     description: "Retention period in days for the event details (create_backup/update_instance) stored in SF. Data older than this is deleted"
     default: 90
+  system_jobs.meter_instance.interval:
+    description: "Cron expression defining schedule interval for metering job"
+    default: 0 2 * * *
+  system_jobs.meter_instance.enabled:
+    description: "true if metering is enabled"
+    default: false

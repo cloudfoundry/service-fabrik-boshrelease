@@ -115,6 +115,13 @@ provides:
   - directors
   - multi_az_enabled
   - ha_enabled
+  - metering.enabled
+  - metering.binding.clientid
+  - metering.binding.clientsecret
+  - metering.binding.token_url
+  - metering.binding.metering_url
+  - metering.binding.region
+  - metering.error_threshold_hours
 consumes:
 - name: scheduler
   type: scheduler
@@ -415,3 +422,19 @@ properties:
 
   circuit_breaker:
     description: "Overridden circuit breaker configuration"
+
+  metering.enabled:
+    description: "True if metering in enabled"
+    default: false
+  metering.binding.clientid:
+    description: "The client id provided by the metering service"
+  metering.binding.clientsecret:
+    description: "The client secret provided by the metering service"
+  metering.binding.token_url:
+    description: "The token url provided by the metering service"
+  metering.binding.metering_url:
+    description: "The metering url provided by the metering service"
+  metering.binding.region:
+    description: "The region provided by the metering binding"
+  metering.error_threshold_hours:
+    description: "Time in hours after which an error in sending to MaaS is reported to Riemann"
