@@ -6,7 +6,7 @@ processes:
 - name: webhooks
   executable: /var/vcap/packages/webhooks/bin/manager-webhooks
   args:
-  - -stderrthreshold=<%= link("broker").p('webhook_log_level') %>
+  - -stderrthreshold=<%= p('log_level') %>
   env:
     KUBECONFIG: <%= CONFIG_PATH %>/kubeconfig.yaml
   limits:

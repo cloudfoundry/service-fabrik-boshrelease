@@ -26,9 +26,13 @@ provides:
   type: webhooks
   properties:
   - port
+  - log_level
 
 properties:
   port:
     description: "Port used for reporting endpoints"
     default: 9444
+  log_level:
+    description: "Log level of the webhook"
+    default: "info"
 
