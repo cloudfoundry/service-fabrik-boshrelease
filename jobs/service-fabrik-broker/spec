@@ -28,6 +28,7 @@ provides:
   - enable_service_fabrik_v2
   - skip_ssl_validation
   - log_level
+  - webhook_log_level
   - enable_bosh_rate_limit
   - enable_cross_organization_sharing
   - enable_circuit_breaker
@@ -148,6 +149,9 @@ properties:
     default: true
   log_level:
     description: "Log level of the broker"
+    default: "info"
+  webhook_log_level:
+    description: "Log level of the webhook"
     default: "info"
   sys_log_level:
     description: "Log level of the messages that are to be forwarded to ELK via syslog transport"
