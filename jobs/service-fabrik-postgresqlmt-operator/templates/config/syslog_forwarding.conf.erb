@@ -4,12 +4,10 @@ ip = spec.networks.send(network).ip
 processname = "service-fabrik-postgresqlmt-operator"
 %>
 
-$InputTCPServerRun 514
-
 template(
-    name="logstash-template"
+    name="logstash-template-postgresqlmt"
     type="string"
     string="<%%PRI%>%TIMESTAMP:::date-rfc3339% <%= ip %> <%= processname %> [job=<%= name %> index=<%= index %>] %msg:::sp-if-no-1st-sp%%msg%"
 )
 
-:msg, contains , "[<%= processname %>]"     @@<%= link("broker").p("syslog.host") %>:<%= link("broker").p("syslog.port") %>;logstash-template
+:msg, contains , "[<%= processname %>]"     @@<%= link("broker").p("syslog.host") %>:<%= link("broker").p("syslog.port") %>;logstash-template-postgresqlmt

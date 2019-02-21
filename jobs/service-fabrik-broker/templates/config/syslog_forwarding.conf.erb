@@ -3,12 +3,10 @@ network = spec.networks.methods(false).first
 ip = spec.networks.send(network).ip
 %>
 
-$InputTCPServerRun 514
-
 template(
-    name="logstash-template"
+    name="logstash-template-broker"
     type="string"
     string="<%%PRI%>%TIMESTAMP:::date-rfc3339% <%= ip %> <%= p('name')%> [job=<%= name %> index=<%= index %>] %msg:::sp-if-no-1st-sp%%msg%"
 )
 
-:msg, contains , "[<%= p('name')%>]"     @@<%= p("syslog.host") %>:<%= p("syslog.port") %>;logstash-template
+:msg, contains , "[<%= p('name')%>]"     @@<%= p("syslog.host") %>:<%= p("syslog.port") %>;logstash-template-broker

@@ -2,6 +2,7 @@
   log_level = "info"
   log_path = "/var/vcap/sys/log/service-fabrik-postgresqlmt-operator/service-fabrik-postgresqlmt-operator.log"
   external = link("broker").p('external')
+  broker_name = link("broker").p('name')
 %>---
 production:
   ####################
@@ -10,6 +11,7 @@ production:
   username: '<%= link("broker").p('username') %>'
   password: '<%= link("broker").p('password') %>'
   broker_ip: <%= spec.ip %>
+  broker_name: '<%= broker_name %>'
   enable_service_fabrik_v2: <%= link("broker").p('enable_service_fabrik_v2') %>
   skip_ssl_validation: <%= link("broker").p('skip_ssl_validation') %>
   log_path: <%= log_path %>
