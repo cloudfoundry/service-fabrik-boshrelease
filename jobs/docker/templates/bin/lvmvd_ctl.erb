@@ -12,6 +12,7 @@ create_loop() {
     if [ "X$name" = "X" ]; then
         losetup ${LVMVD_LOOP_DEVICE} ${LVMVD_PV_SPARSE_FILE}
     fi
+    vgchange -ay ${LVMVD_VOLUME_GROUP_NAME}
 }
 
 retry_delete_loop() {
@@ -128,26 +129,10 @@ case $1 in
 
             fi
 
-
-	    if [[ `systemctl is-enabled lvm2-lvmetad.service` == "disabled" ]]; then
-              echo "$(date) enabling lvm2-lvmetad.service"
-              systemctl enable lvm2-lvmetad.service
-            fi
-
-	    if [[ `systemctl is-enabled lvm2-lvmetad.socket` == "disabled" ]]; then
-              echo "$(date) enabling lvm2-lvmetad.socket"
-	      systemctl enable lvm2-lvmetad.socket
-	    fi
-
-	    if [[ `systemctl is-active lvm2-lvmetad.service` == "inactive" ]]; then
-              echo "$(date) starting lvm2-lvmetad.service"
-	      systemctl start lvm2-lvmetad.service
-	    fi
-
-	    if [[ `systemctl is-active lvm2-lvmetad.socket` == "inactive" ]]; then
-              echo "$(date) starting lvm2-lvmetad.socket"
-	      systemctl start lvm2-lvmetad.socket
-	    fi
+           #lvmetad is new caching mechanism in lvm2, observed few problems with it hence disabling 
+           /etc/init.d/lvm2 stop
+           sed -i 's/use_lvmetad = 1/use_lvmetad = 0/g' /etc/lvm/lvm.conf
+           /etc/init.d/lvm2 start
 
       elif [[ `lsb_release -cs` == "trusty" ]]; then
 
@@ -200,20 +185,6 @@ case $1 in
     kill -9 $(lsof -t $DOCKER_VOLUME_MOUNTDIR)
     sleep 2s
 
-    if [[ `lsb_release -cs` == "xenial" ]]; then
-
-       echo "$(date) checking lvm2 services active status and stopping them"
-
-       if [[ `systemctl is-active lvm2-lvmetad.socket` == "active" ]]; then
-         echo "$(date) stopping lvm2-lvmetad.socket"
-         systemctl stop lvm2-lvmetad.socket
-       fi
-       if [[ `systemctl is-active lvm2-lvmetad.service` == "active" ]]; then
-         echo "$(date) stopping lvm2-lvmetad.service"
-         systemctl stop lvm2-lvmetad.service
-       fi
-
-    fi
     set -e
     ;;
 
