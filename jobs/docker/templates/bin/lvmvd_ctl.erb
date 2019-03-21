@@ -8,11 +8,13 @@ source /var/vcap/packages/bosh-helpers/ctl_setup.sh 'docker' 'lvmvd'
 
 create_loop() {
     # test whether volume is already set up
+    set +e
     name=$(losetup -a | grep "${LVMVD_LOOP_DEVICE}" | awk '{print $3}')
     if [ "X$name" = "X" ]; then
         losetup ${LVMVD_LOOP_DEVICE} ${LVMVD_PV_SPARSE_FILE}
     fi
     vgchange -ay ${LVMVD_VOLUME_GROUP_NAME}
+    set -e
 }
 
 retry_delete_loop() {
@@ -46,6 +48,7 @@ retry_delete_loop() {
 }
 
 delete_loop() {
+    set +e
     local mounted_volumes=$(mount | grep "${LVMVD_MOUNT_DIR}" | awk '{print $3}')
     for vol in $mounted_volumes; do
         echo "$(date) Unmounting volume $vol"
@@ -53,6 +56,7 @@ delete_loop() {
     done
     vgchange -an ${LVMVD_VOLUME_GROUP_NAME}
     losetup -d ${LVMVD_LOOP_DEVICE}
+    set -e
 }
 
 # Create physical volume based on loop device (in case it does not exist)
