@@ -60,6 +60,7 @@ delete_loop() {
 create_volume() {
     # only do this if the file which holds the logcial volumes
     # does not exist
+    set +e
     if [ ! -f ${LVMVD_PV_SPARSE_FILE} ]; then
         truncate -s ${LVMVD_PV_SIZE}g ${LVMVD_PV_SPARSE_FILE}
         create_loop
@@ -68,6 +69,7 @@ create_volume() {
         #delete_loop
         retry_delete_loop
     fi
+    set -e
 }
 
 case $1 in
