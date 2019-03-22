@@ -12,7 +12,10 @@ create_loop() {
     if [ "X$name" = "X" ]; then
         losetup ${LVMVD_LOOP_DEVICE} ${LVMVD_PV_SPARSE_FILE}
     fi
-    vgchange -ay ${LVMVD_VOLUME_GROUP_NAME}
+
+    if vgdisplay | grep -q "${LVMVD_VOLUME_GROUP_NAME}"; then
+       vgchange -ay ${LVMVD_VOLUME_GROUP_NAME}
+    fi
 }
 
 retry_delete_loop() {
