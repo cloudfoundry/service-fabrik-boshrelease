@@ -225,5 +225,5 @@ defaults:
     description: Send usage data to Metering as a Service
     tags:
     - metering
-    http_success_codes:<% link("broker").p('event.defaults.http_success_codes').each do |code| %>
+    http_success_codes:<% p('event.defaults.http_success_codes').each do |code| %>
     - <%= code %><% end %>
