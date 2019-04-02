@@ -8,7 +8,7 @@
 
 ha_enabled=<%= p('ha_enabled') %>
 if [[ "$ha_enabled" == "true" ]]; then
-  vm_state="$(cat /var/vcap/sys/run/keepalived/keepalive.*.state)"
+  vm_state="$(cat /var/vcap/jobs/service-fabrik-broker/bin/keepalive.*.state)"
   if [[ "$vm_state" != "MASTER" ]]; then
     exit 1
   fi

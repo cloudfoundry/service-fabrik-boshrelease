@@ -6,3 +6,4 @@ NAME=$2
 STATE=$3
 
 echo $STATE > /var/vcap/sys/run/keepalived/keepalive.$TYPE.$NAME.state
+echo $STATE > /var/vcap/jobs/service-fabrik-broker/bin/keepalive.$TYPE.$NAME.state
