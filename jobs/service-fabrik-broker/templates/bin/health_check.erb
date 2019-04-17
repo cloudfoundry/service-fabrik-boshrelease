@@ -6,14 +6,6 @@
 # Also to avoid swamping of Nats server with route registration requests
 # we will return success from here only if the current host is MASTER
 
-ha_enabled=<%= p('ha_enabled') %>
-if [[ "$ha_enabled" == "true" ]]; then
-  vm_state="$(cat /var/vcap/jobs/service-fabrik-broker/bin/keepalive.*.state)"
-  if [[ "$vm_state" != "MASTER" ]]; then
-    exit 1
-  fi
-fi
-
 # check if internal IP is accessible
 nc -z <%= p('internal.ip') %> <%= p('external.port') %>
 
