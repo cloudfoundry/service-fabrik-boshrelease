@@ -45,7 +45,7 @@ generate_auth_token(){
     fi
     export OS_CATALOG
     NETWORK_PUBLIC_URL="$(echo "${OS_CATALOG}" | ${JQ_CMD} \
-        -r '. | select(.type=="network") | .endpoints[] | select(.interface=="public") | .url')"
+        -r '. | select(.type=="network") | .endpoints[] | select(.interface=="public") | .url')/"
     RET=$?
     if [[ $RET -ne 0 ]] ; then
         echo "$(date) [ERROR] - While parsing : ${OS_CATALOG} to get network public url ${NETWORK_PUBLIC_URL}" >> /var/vcap/sys/log/keepalived/keepalived.log 2>&1
