@@ -33,11 +33,6 @@ case $1 in
       ln -s /var/vcap/jobs/docker/config/docker-logrotate /etc/logrotate.d/docker-logrotate
     fi
 
-    # Enable syslog forwarding to logstash
-    if [ ! -L /etc/rsyslog.d/45-docker_log_forwarding.conf ]; then
-        ln -s /var/vcap/jobs/docker/config/syslog_forwarding.conf /etc/rsyslog.d/45-docker_log_forwarding.conf
-    fi
-
     if [ ! -e  /etc/rsyslog.d/10-fabrik_modules.conf ]; then
         mkdir -p /var/vcap/data/docker
         touch /var/vcap/data/docker/syslog_modules.conf

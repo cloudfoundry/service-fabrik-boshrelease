@@ -16,7 +16,6 @@ templates:
   config/docker.cert.erb: config/docker.cert
   config/docker.key.erb: config/docker.key
   config/docker-logrotate.erb: config/docker-logrotate
-  config/syslog_forwarding.conf.erb: config/syslog_forwarding.conf
 
 properties:
   docker.name:

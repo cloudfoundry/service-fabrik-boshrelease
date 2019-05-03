@@ -12,11 +12,6 @@ case $1 in
     pid_guard ${SWARM_MANAGER_PID_FILE} ${JOB_NAME}
     echo $$ > ${SWARM_MANAGER_PID_FILE}
 
-    # Enable syslog forwarding to logstash
-    if [ ! -L /etc/rsyslog.d/45-swarm_manager_forwarding.conf ]; then
-        ln -s /var/vcap/jobs/swarm_manager/config/syslog_forwarding.conf /etc/rsyslog.d/45-swarm_manager_forwarding.conf
-    fi
-
     if [ ! -e  /etc/rsyslog.d/10-fabrik_modules.conf ]; then
         mkdir -p /var/vcap/data/swarm_manager
         touch /var/vcap/data/swarm_manager/syslog_modules.conf

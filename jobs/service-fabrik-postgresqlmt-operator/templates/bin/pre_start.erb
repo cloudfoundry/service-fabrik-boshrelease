@@ -4,11 +4,6 @@ set -e # exit immediately if a simple command exits with a non-zero status
 
 source /var/vcap/packages/bosh-helpers/ctl_setup.sh 'service-fabrik-postgresqlmt-operator'
 
-# Enable syslog forwarding to logstash
-if [ ! -L /etc/rsyslog.d/52-fabrik_postgresqlmt-operator_forwarding.conf ]; then
-  ln -s ${CONF_DIR}/syslog_forwarding.conf /etc/rsyslog.d/52-fabrik_postgresqlmt-operator_forwarding.conf
-fi
-
 if [ ! -e  /etc/rsyslog.d/10-fabrik_modules.conf ]; then
   mkdir -p /var/vcap/data/service-fabrik-postgresqlmt-operator
   touch /var/vcap/data/service-fabrik-postgresqlmt-operator/syslog_modules.conf

@@ -16,11 +16,6 @@ case $1 in
     ulimit -c unlimited
     ulimit -v unlimited
 
-    # Enable syslog forwarding to logstash
-    if [ ! -L /etc/rsyslog.d/49-fabrik_forwarding.conf ]; then
-        ln -s /var/vcap/jobs/service-fabrik-broker/config/syslog_forwarding.conf /etc/rsyslog.d/49-fabrik_forwarding.conf
-    fi
-
     if [ ! -e  /etc/rsyslog.d/10-fabrik_modules.conf ]; then
         mkdir -p /var/vcap/data/service-fabrik-broker
         touch /var/vcap/data/service-fabrik-broker/syslog_modules.conf

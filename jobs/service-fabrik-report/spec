@@ -10,7 +10,6 @@ templates:
   bin/service-fabrik-report_ctl.erb: bin/service-fabrik-report_ctl
   bin/job_properties.sh.erb: bin/job_properties.sh
   config/settings.yml.erb: config/settings.yml
-  config/syslog_forwarding.conf.erb: config/syslog_forwarding.conf
   config/circuit-breaker-config.yml.erb: config/circuit-breaker-config.yml
   config/eventlog-config-report.yml.erb: config/eventlog-config-report.yml
 

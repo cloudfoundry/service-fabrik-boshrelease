@@ -10,7 +10,6 @@ templates:
   bin/service-fabrik-backup-manager_ctl.erb: bin/service-fabrik-backup-manager_ctl
   bin/job_properties.sh.erb: bin/job_properties.sh
   config/settings.yml.erb: config/settings.yml
-  config/syslog_forwarding.conf.erb: config/syslog_forwarding.conf
   config/eventlog-config-external.yml.erb: config/eventlog-config-external.yml
 
 consumes:
