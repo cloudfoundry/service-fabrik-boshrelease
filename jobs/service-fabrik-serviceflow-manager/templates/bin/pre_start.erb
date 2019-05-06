@@ -4,6 +4,11 @@ set -e # exit immediately if a simple command exits with a non-zero status
 
 source /var/vcap/packages/bosh-helpers/ctl_setup.sh 'service-fabrik-serviceflow-manager'
 
+# Enable syslog forwarding to logstash
+if [ -L /etc/rsyslog.d/45-fabrik_shared.conf ]; then
+  rm /etc/rsyslog.d/45-fabrik_shared.conf
+fi
+
 if [ ! -e  /etc/rsyslog.d/10-fabrik_modules.conf ]; then
   mkdir -p /var/vcap/data/service-fabrik-serviceflow-manager
   touch /var/vcap/data/service-fabrik-serviceflow-manager/syslog_modules.conf
