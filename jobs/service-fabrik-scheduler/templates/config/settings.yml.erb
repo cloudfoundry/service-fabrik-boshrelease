@@ -165,7 +165,7 @@ production:
         type: MeterInstance
         interval: <%= p('system_jobs.meter_instance.interval') %>
         enabled: true
-      - name: 'Archive_Metered_Instance'
+      - name: 'Archive_Metered_Events'
         type: ArchiveMeteredEvents
         interval: <%= p('system_jobs.archive_metered_events.interval') %>
         job_data:
