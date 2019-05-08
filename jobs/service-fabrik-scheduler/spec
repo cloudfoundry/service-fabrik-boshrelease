@@ -47,6 +47,8 @@ provides:
   - system_jobs.dbcollection_reaper.event_detail.retention_in_days
   - system_jobs.meter_instance.interval
   - system_jobs.meter_instance.enabled
+  - system_jobs.archive_metered_events.interval
+  - system_jobs.archive_metered_events.job_data.events_to_patch
 
 consumes:
 - name: broker
@@ -147,3 +149,9 @@ properties:
   system_jobs.meter_instance.enabled:
     description: "true if metering is enabled"
     default: false
+  system_jobs.archive_metered_events.interval:
+    description: "Cron expression defining schedule interval for archive_metered_events job"
+    default: 0 */4 * * *
+  system_jobs.archive_metered_events.job_data.events_to_patch:
+    description: "Number of events to patch in one job run"
+    default: 500
