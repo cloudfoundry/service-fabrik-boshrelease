@@ -151,7 +151,7 @@ properties:
     default: false
   system_jobs.archive_metered_events.interval:
     description: "Cron expression defining schedule interval for archive_metered_events job"
-    default: 0 */6 * * *
+    default: 0 */4 * * *
   system_jobs.archive_metered_events.job_data.events_to_patch:
     description: "Number of events to patch in one job run"
-    default: 100
+    default: 500
