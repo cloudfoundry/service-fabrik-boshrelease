@@ -7,14 +7,14 @@
 # we will return success from here only if the current host is MASTER
 
 # check if internal IP is accessible
-nc -z <%= p('internal.ip') %> <%= p('external.port') %>
+nc -z <%= spec.ip %> <%= p('external.port') %>
 
 # http://www.consul.io/docs/agent/checks.html
 if [ $? -ne 0 ]; then
   exit 2 # Exit higher than 1 to ensure service is registered as 'critical'
 fi
 
-nc -z <%= p('internal.ip') %> <%= p('internal.port') %>
+nc -z <%= spec.ip %> <%= p('internal.port') %>
 
 # http://www.consul.io/docs/agent/checks.html
 if [ $? -ne 0 ]; then
