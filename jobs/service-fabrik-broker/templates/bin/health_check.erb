@@ -1,22 +1,20 @@
 #!/bin/bash
 
-# Checking if HA setup needs to be done or not.
-ha_enabled=<%= p('ha_enabled') %>
-if [[ "$ha_enabled" == "true"  ]]; then
-  vm_state=$(/var/vcap/jobs/keepalived/bin/get_keepalived_state.sh)
-  if [[ "$vm_state" != "up" ]]; then
-    exit 1
-  fi
-fi
+# With usage of 'host' property for IP address 
+# (check this: https://github.com/cloudfoundry/routing-release/pull/111) for route-registrar, 
+# only check needed is whether internal ip is reachable on both ports.
+# Also to avoid swamping of Nats server with route registration requests
+# we will return success from here only if the current host is MASTER
 
-nc -z <%= spec.ip %> <%= p('external.port') %>
+# check if internal IP is accessible
+nc -z <%= p('internal.ip') %> <%= p('external.port') %>
 
 # http://www.consul.io/docs/agent/checks.html
 if [ $? -ne 0 ]; then
   exit 2 # Exit higher than 1 to ensure service is registered as 'critical'
 fi
 
-nc -z <%= spec.ip %> <%= p('internal.port') %>
+nc -z <%= p('internal.ip') %> <%= p('internal.port') %>
 
 # http://www.consul.io/docs/agent/checks.html
 if [ $? -ne 0 ]; then
