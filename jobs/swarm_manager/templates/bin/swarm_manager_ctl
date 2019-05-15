@@ -12,24 +12,6 @@ case $1 in
     pid_guard ${SWARM_MANAGER_PID_FILE} ${JOB_NAME}
     echo $$ > ${SWARM_MANAGER_PID_FILE}
 
-    # Enable syslog forwarding to logstash
-    if [ -L /etc/rsyslog.d/45-swarm_manager_forwarding.conf ]; then
-        rm /etc/rsyslog.d/45-swarm_manager_forwarding.conf
-    fi
-
-    if [ ! -e  /etc/rsyslog.d/10-fabrik_modules.conf ]; then
-        mkdir -p /var/vcap/data/swarm_manager
-        touch /var/vcap/data/swarm_manager/syslog_modules.conf
-        ln -sf /var/vcap/data/swarm_manager/syslog_modules.conf /etc/rsyslog.d/10-fabrik_modules.conf
-    fi
-    if ! grep -Fxq "\$ModLoad imtcp" /etc/rsyslog.d/10-fabrik_modules.conf ; then echo "\$ModLoad imtcp" >> /etc/rsyslog.d/10-fabrik_modules.conf ; fi
-    if ! grep -Fxq "\$ModLoad imfile" /etc/rsyslog.d/10-fabrik_modules.conf ; then echo "\$ModLoad imfile" >> /etc/rsyslog.d/10-fabrik_modules.conf ; fi
-    if ! grep -Fxq "\$InputTCPServerRun 1514" /etc/rsyslog.d/10-fabrik_modules.conf ; then echo "\$InputTCPServerRun 1514" >> /etc/rsyslog.d/10-fabrik_modules.conf ; fi
-
-    set +e
-    /usr/sbin/service rsyslog restart
-    set -e
-
     # Start Swarm Manager daemon
     exec chpst -u vcap:vcap /var/vcap/packages/swarm/bin/swarm \
         ${SWARM_MANAGER_DEBUG} \

@@ -7,7 +7,6 @@ packages:
   - service-fabrik-broker
 
 templates:
-  bin/pre_start.erb: bin/pre_start
   config/bpm.yml.erb: config/bpm.yml
   config/settings.yml.erb: config/settings.yml
 

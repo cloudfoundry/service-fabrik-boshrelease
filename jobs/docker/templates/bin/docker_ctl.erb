@@ -33,22 +33,6 @@ case $1 in
       ln -s /var/vcap/jobs/docker/config/docker-logrotate /etc/logrotate.d/docker-logrotate
     fi
 
-    # Enable syslog forwarding to logstash
-    if [ -L /etc/rsyslog.d/45-docker_log_forwarding.conf ]; then
-       rm /etc/rsyslog.d/45-docker_log_forwarding.conf
-    fi
-
-    if [ ! -e  /etc/rsyslog.d/10-fabrik_modules.conf ]; then
-        mkdir -p /var/vcap/data/docker
-        touch /var/vcap/data/docker/syslog_modules.conf
-        ln -sf /var/vcap/data/docker/syslog_modules.conf /etc/rsyslog.d/10-fabrik_modules.conf
-    fi
-    if ! grep -Fxq "\$ModLoad imtcp" /etc/rsyslog.d/10-fabrik_modules.conf ; then echo "\$ModLoad imtcp" >> /etc/rsyslog.d/10-fabrik_modules.conf ; fi
-    if ! grep -Fxq "\$ModLoad imfile" /etc/rsyslog.d/10-fabrik_modules.conf ; then echo "\$ModLoad imfile" >> /etc/rsyslog.d/10-fabrik_modules.conf ; fi
-    if ! grep -Fxq "\$InputTCPServerRun 1514" /etc/rsyslog.d/10-fabrik_modules.conf ; then echo "\$InputTCPServerRun 1514" >> /etc/rsyslog.d/10-fabrik_modules.conf ; fi
-
-    /usr/sbin/service rsyslog restart
-
     # Create docker data store
     if [ ! -d ${DOCKER_STORE_DIR}/docker ]; then
       mkdir -p ${DOCKER_STORE_DIR}/docker

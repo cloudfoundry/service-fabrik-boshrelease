@@ -16,21 +16,6 @@ case $1 in
     ulimit -c unlimited
     ulimit -v unlimited
 
-    # Enable syslog forwarding to logstash
-    if [ -L /etc/rsyslog.d/45-fabrik_shared.conf ]; then
-        rm /etc/rsyslog.d/45-fabrik_shared.conf
-    fi
-
-    if [ ! -e  /etc/rsyslog.d/10-fabrik_modules.conf ]; then
-        mkdir -p /var/vcap/data/service-fabrik-docker-manager
-        touch /var/vcap/data/service-fabrik-docker-manager/syslog_modules.conf
-        ln -sf /var/vcap/data/service-fabrik-docker-manager/syslog_modules.conf /etc/rsyslog.d/10-fabrik_modules.conf
-    fi
-    if ! grep -Fxq "\$ModLoad imtcp" /etc/rsyslog.d/10-fabrik_modules.conf ; then echo "\$ModLoad imtcp" >> /etc/rsyslog.d/10-fabrik_modules.conf ; fi
-    if ! grep -Fxq "\$InputTCPServerRun 1514" /etc/rsyslog.d/10-fabrik_modules.conf ; then echo "\$InputTCPServerRun 1514" >> /etc/rsyslog.d/10-fabrik_modules.conf ; fi
-
-    /usr/sbin/service rsyslog restart
-
   # Start Service Fabrik docker Manager
     start-stop-daemon --start --quiet -m \
       --pidfile ${PID_FILE} \
