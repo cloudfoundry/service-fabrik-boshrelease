@@ -10,28 +10,6 @@ PEER_IP=<%= p('master_ip') %>
 <% internal = link("broker").p('internal') %>
 virtual_ip=<%= internal['ip'] %>
 
-attach_vip_to_interface(){
-  if [[ "$(sudo ip addr show | grep $virtual_ip)" != *"$virtual_ip"* ]]; then
-    attach_vip_response=$(sudo ip addr add "${virtual_ip}" dev eth0)
-    RET=$?
-    if [[ $RET -ne 0 ]] ; then
-      echo "$(date) [ERROR] Attach vip ${virtual_ip}: ${attach_vip_response}" >> /var/vcap/sys/log/keepalived/keepalived.log 2>&1
-      exit ${RET}
-    fi
-  fi
-}
-
-detach_vip_from_interface(){
-  set +e
-  detach_vip_response=$(sudo ip addr del "${virtual_ip}"/32 dev eth0)
-  RET=$?
-  if [[ $RET -ne 0 ]] ; then
-    echo "$(date) [ERROR] Detach vip ${virtual_ip}:  ${detach_vip_response}" >> /var/vcap/sys/log/keepalived/keepalived.log 2>&1
-    exit ${RET}
-  fi
-  set -e
-}
-
 if [[ "$iaas_name" == "aws" ]]; then
   SUBNET_ID='<%= spec.networks.sf_service_fabrik_broker.cloud_properties.subnet %>'
   IAAS_CONFIG='<%= JSON.dump(p('iaas_config', nil)) %>'
@@ -66,9 +44,6 @@ if [[ "$iaas_name" == "aws" ]]; then
       echo "$(date) [ERROR] AWS secondary ip addr attachment response: ${ip_attachement_response}" >> /var/vcap/sys/log/keepalived/keepalived.log 2>&1
       exit ${RET}
     fi
-    attach_vip_to_interface
-  elif [[ "$STATE" == "BACKUP" ]] || [[ "$STATE" == "FAULT" ]]; then
-    detach_vip_from_interface
   fi
 elif [[ "$iaas_name" == "openstack"  ]]; then
   # shellcheck disable=SC1091
@@ -80,10 +55,8 @@ elif [[ "$iaas_name" == "openstack"  ]]; then
     peer_port_id=$(get_port_id "${PEER_IP}")
     port_update_response=$(update_port "${peer_port_id}")
     port_update_response=$(update_port "${this_port_id}" "${virtual_ip}")
-    attach_vip_to_interface
   elif [[ "$STATE" == "BACKUP" ]] || [[ "$STATE" == "FAULT" ]]; then
     port_update_response=$(update_port "${this_port_id}")
-    detach_vip_from_interface
   fi
 fi
 exit 0
