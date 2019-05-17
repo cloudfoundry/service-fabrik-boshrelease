@@ -11,7 +11,6 @@ templates:
   config/docker.cacert.erb: config/docker.cacert
   config/docker.cert.erb: config/docker.cert
   config/docker.key.erb: config/docker.key
-  config/syslog_forwarding.conf.erb: config/syslog_forwarding.conf
 
 properties:
   swarm.name:

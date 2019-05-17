@@ -10,7 +10,6 @@ templates:
   bin/service-fabrik-virtualhost-manager_ctl.erb: bin/service-fabrik-virtualhost-manager_ctl
   bin/job_properties.sh.erb: bin/job_properties.sh
   config/settings.yml.erb: config/settings.yml
-  config/syslog_forwarding.conf.erb: config/syslog_forwarding.conf
 
 consumes:
 - name: broker
