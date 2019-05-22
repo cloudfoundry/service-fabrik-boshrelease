@@ -28,6 +28,9 @@ vrrp_instance VI_1 {
     track_script {
         chk_sfnode
     }
+    virtual_ipaddress {
+      <%= internal['ip'] %>/32
+    }
     # for ANY state transition.
     # "notify" script is called AFTER the
     # notify_* script(s) and is executed
