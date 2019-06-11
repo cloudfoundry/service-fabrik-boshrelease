@@ -1,12 +1,5 @@
 #!/bin/bash
 
-# With usage of 'host' property for IP address 
-# (check this: https://github.com/cloudfoundry/routing-release/pull/111) for route-registrar, 
-# only check needed is whether internal ip is reachable on both ports.
-# Also to avoid swamping of Nats server with route registration requests
-# we will return success from here only if the current host is MASTER
-
-# check if internal IP is accessible
 nc -z <%= spec.ip %> <%= p('external.port') %>
 
 # http://www.consul.io/docs/agent/checks.html
