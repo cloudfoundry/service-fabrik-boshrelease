@@ -6,7 +6,7 @@
   end
 
   broker_name = p('name')
-  log_path = "/var/vcap/sys/log/#{broker_name}/#{broker_name}.log"
+  log_path = "/var/vcap/sys/log/service-fabrik-broker/service-fabrik-broker.log"
   networks = ostruct_to_hash(spec.networks)
   default_ip = networks.values.find { |net| net.has_key?(:default) }[:ip]
   external = p('external')
@@ -25,7 +25,7 @@ production:
   enable_service_fabrik_v2: <%= p('enable_service_fabrik_v2') %>
   skip_ssl_validation: <%= p('skip_ssl_validation') %>
   session_store:
-    path: <%= "/var/vcap/store/#{broker_name}/session" %>
+    path: "/var/vcap/store/service-fabrik-broker/session"
   log_path: <%= log_path %>
   log_level: <%= p('log_level') %>
   sys_log_level: <%= p('sys_log_level') %>

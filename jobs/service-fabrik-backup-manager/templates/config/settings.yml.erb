@@ -21,7 +21,7 @@ production:
   enable_service_fabrik_v2: <%= link("broker").p('enable_service_fabrik_v2') %>
   skip_ssl_validation: <%= link("broker").p('skip_ssl_validation') %>
   session_store:
-    path: <%= "/var/vcap/store/#{broker_name}/session" %>
+    path: "/var/vcap/store/service-fabrik-backup-manager/session"
   log_path: <%= log_path %>
   log_level: <%= link("broker").p('log_level') %>
   enable_circuit_breaker: <%= link("broker").p('enable_circuit_breaker') %>
