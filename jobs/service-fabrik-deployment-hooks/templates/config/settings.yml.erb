@@ -11,7 +11,7 @@ production:
   password: '<%= p('password') %>'
   skip_ssl_validation: <%= p('skip_ssl_validation') %>
   session_store:
-    path: <%= "/var/vcap/store/#{broker_name}/session" %>
+    path: "/var/vcap/store/service-fabrik-deployment-hooks/session"
   log_path: <%= log_path %>
   log_level: <%= p('log_level') %>
   enable_circuit_breaker: <%= p('enable_circuit_breaker') %>
