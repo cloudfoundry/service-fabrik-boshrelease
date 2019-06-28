@@ -99,6 +99,7 @@ production:
       tags: ['security', 'unauthorized']
       include_response_body: <%= link("broker").p('monitoring.unauthorized.include_response_body') %>
   riemann:
+    enabled: <%= link("broker").p('riemann.enabled') %>
     host: <%= link("broker").p('riemann.host') %>
     port: <%= link("broker").p('riemann.port') %>
     protocol : tcp
