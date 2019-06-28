@@ -208,6 +208,7 @@ production:
       tags: ['security', 'unauthorized']
       include_response_body: <%= p('monitoring.unauthorized.include_response_body') %>
   riemann:
+    enabled: <%= p('riemann.enabled') %>
     host: <%= p('riemann.host') %>
     port: <%= p('riemann.port') %>
     protocol : tcp
