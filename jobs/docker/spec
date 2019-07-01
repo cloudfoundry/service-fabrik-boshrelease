@@ -43,9 +43,6 @@ properties:
     description: "Container default gateway IPv6 address"
   docker.default_ulimits:
     description: "Array of default ulimits for containers"
-  docker.disable_legacy_registry:
-    description: "Do not contact legacy registries"
-    default: false
   docker.dns_servers:
     description: "Array of DNS servers to be used"
   docker.dns_options:
