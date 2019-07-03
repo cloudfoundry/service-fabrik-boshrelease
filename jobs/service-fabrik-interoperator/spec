@@ -9,6 +9,7 @@ templates:
   bin/pre_start.erb: bin/pre_start
   config/bpm.yml.erb: config/bpm.yml
   config/kubeconfig.yaml.erb: config/kubeconfig.yaml
+  config/cluster.yaml.erb: config/cluster.yaml
 
 consumes:
 - name: service-fabrik-apiserver
