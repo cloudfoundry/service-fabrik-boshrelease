@@ -116,6 +116,7 @@ provides:
   - multi_az_enabled
   - ha_enabled
   - metering.enabled
+  - metering.create_metering_events
   - metering.binding.clientid
   - metering.binding.clientsecret
   - metering.binding.token_url
@@ -429,6 +430,9 @@ properties:
   metering.enabled:
     description: "True if metering in enabled"
     default: false
+  metering.create_metering_events:
+    description: "Create sfevents crds"
+    default: true
   metering.binding.clientid:
     description: "The client id provided by the metering service"
   metering.binding.clientsecret:

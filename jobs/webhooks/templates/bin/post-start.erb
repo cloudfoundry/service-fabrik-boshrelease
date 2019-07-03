@@ -33,7 +33,7 @@ fi
 
 
 echo "Trying to update the metering webhook configuration"
-METERING_ENABLED=<%= link('broker').p('metering.enabled') %>
+METERING_ENABLED=<%= link('broker').p('metering.create_metering_events') %>
 
 if [[ $METERING_ENABLED == true ]] ; then
   RESPONSE=$(curl                                                        \
@@ -56,7 +56,7 @@ if [[ $METERING_ENABLED == true ]] ; then
      --data "@$CONFIG_PATH/metering_webhooks.json"
   fi
 else
-  echo "Metering is disabled, removing webhook configuration"
+  echo "Creation of sfevents is disabled, removing webhook configuration"
   RESPONSE=$(curl                                                        \
       -sk                                                                \
       --header "Content-Type: application/json"                          \
