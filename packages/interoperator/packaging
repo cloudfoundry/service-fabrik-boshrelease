@@ -15,4 +15,4 @@ cp -a ${BOSH_COMPILE_TARGET}/${PACKAGE_NAME}/* ${BOSH_INSTALL_TARGET}/src/${PACK
 export GOPATH=${BOSH_INSTALL_TARGET}
 cd ${BOSH_INSTALL_TARGET}
 
-go build -o bin/manager ${PACKAGE_NAME}/cmd/manager
+go build -tags default -o bin/manager ${PACKAGE_NAME}/cmd/manager
