@@ -8,6 +8,9 @@ processes:
   executable: /var/vcap/packages/interoperator/bin/manager
   env:
     KUBECONFIG: <%= CONFIG_PATH %>/kubeconfig.yaml
+    RUN_ON_BOSH: true
+    WEBHOOK_PORT: <%= p('webhook.port') %>
+    WEBHOOK_CERT_DIR: <%= p('webhook.certdir') %>
   limits:
     open_files: 100000
   hooks:

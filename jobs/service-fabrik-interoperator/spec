@@ -14,3 +14,11 @@ templates:
 consumes:
 - name: service-fabrik-apiserver
   type: service-fabrik-apiserver
+
+properties:
+  webhook.port:
+    description: "Webhook server port"
+    default: 9876
+  webhook.certdir:
+    description: "Directory where self-signed certificates will be populated"
+    default: "/tmp/cert"
