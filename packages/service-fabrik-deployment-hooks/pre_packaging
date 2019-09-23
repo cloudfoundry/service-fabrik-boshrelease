@@ -19,4 +19,6 @@ set -u
   rm -rf logs/*
   rm -rf store
   rm -rf test
+  rm -rf interoperator
+  rm -rf helm-charts
 )
