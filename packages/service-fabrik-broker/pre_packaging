@@ -21,4 +21,5 @@ set -u
   rm -rf store
   rm -rf test
   rm -rf interoperator
+  rm -rf helm-charts
 )
