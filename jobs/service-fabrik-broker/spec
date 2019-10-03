@@ -38,6 +38,7 @@ provides:
   - http_timeout
   - deployment_action_timeout
   - agent_operation_timeout
+  - internal.internal_url
   - internal.port
   - internal.ip
   - internal.ssl
@@ -215,6 +216,8 @@ properties:
   external.ssl:
     description: "Private key used for external communication"
 
+  internal.internal_url:
+    description: "Domain name used for internal endpoints such as administration or the service broker API"
   internal.port:
     description: "Port used for internal endpoints such as administration or the service broker API"
     default: 9443
