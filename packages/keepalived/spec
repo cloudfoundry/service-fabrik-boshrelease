@@ -1,4 +1,0 @@
----
-name: keepalived
-files:
-- keepalived/keepalived-2.0.5.tar.gz
