@@ -17,7 +17,6 @@ processes:
   - --etcd-certfile=<%= CONFIG_PATH %>etcd.crt
   - --etcd-keyfile=<%= CONFIG_PATH %>etcd.key
   - --kubelet-https
-  - --repair-malformed-updates=false
   - --secure-port=<%=p('port') %>
   - --service-account-lookup
   - --tls-cert-file=<%= CONFIG_PATH %>apiserver.pem
