@@ -1,6 +1,6 @@
 set -e
 
-APISERVER_VERSION="1.12.4"
+APISERVER_VERSION="1.15.4"
 
 mkdir -p "${BOSH_INSTALL_TARGET:?}/bin"
 cp -a kubernetes-${APISERVER_VERSION}/kube-apiserver "${BOSH_INSTALL_TARGET:?}/bin"

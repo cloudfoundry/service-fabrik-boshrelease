@@ -62,14 +62,14 @@ keepalived/keepalived-2.0.5.tar.gz:
   size: 848206
   object_id: eb0cd1af-1b58-4349-7386-9b7f5685b0c2
   sha: b950ff1931c1062f34d57dfef24473b4c6b60209
-kubernetes-1.12.4/kube-apiserver:
-  size: 192825094
-  object_id: 99e8f3b2-192f-4ac3-487f-18245b786565
-  sha: 265d1fd6c34785b5610b5a3ce95d6af755c9c97f
-kubernetes-1.12.4/kubectl:
-  size: 57374117
-  object_id: 49cad09c-bb7b-4e37-5825-3e186b2c26f3
-  sha: c289e26cabe85ad3edd91103bbf03352ee2e50a0
+kubernetes-1.15.4/kube-apiserver:
+  size: 164563360
+  object_id: 9a2a21d6-527e-492b-4934-ab5a0170b931
+  sha: 54365feeaa15a4ad794fff3fb2b8db4a49e93a67
+kubernetes-1.15.4/kubectl:
+  size: 42985504
+  object_id: 4130401e-a107-4a43-7e37-dd89484bb83f
+  sha: 58d162471317e9e41f819a98766dfa91048fb597
 libseccomp/libseccomp-2.3.3.tar.gz:
   size: 564546
   object_id: 4e749385-3bc6-45b5-7a08-906c3cf97573
