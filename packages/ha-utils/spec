@@ -1,7 +1,0 @@
----
-name: ha-utils
-dependencies:
-  - golang
-files:
-  - iaas-utils/**/*
-  - ha-health-check/**/*
