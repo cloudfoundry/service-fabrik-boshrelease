@@ -34,10 +34,6 @@ apt/xenial/lvm2/lvm2_2.02.133-1ubuntu10_amd64.deb:
   size: 731404
   object_id: 59ced7d6-e938-403b-63e4-b12a4a218895
   sha: 7f2265d8c326e0713e3ccdf41823d9248aa0c9a0
-aws-cli/awscli-bundle.zip:
-  size: 7500720
-  object_id: 65e17a4e-644d-456c-7451-fa4de7c68ebd
-  sha: 0ad44b243d41d788418cc86bd6179ab002224267
 docker/aufs-tools_20120411-3_amd64.deb:
   size: 91762
   object_id: b95dca91-e344-4c54-a908-68651b81264f
@@ -58,10 +54,6 @@ jq/jq:
   size: 497799
   object_id: 61d27ef5-32cc-439d-6842-97be75dae6fb
   sha: e820e9e91c9cce6154f52949a3b2a451c4de8af4
-keepalived/keepalived-2.0.5.tar.gz:
-  size: 848206
-  object_id: eb0cd1af-1b58-4349-7386-9b7f5685b0c2
-  sha: b950ff1931c1062f34d57dfef24473b4c6b60209
 kubernetes-1.15.4/kube-apiserver:
   size: 164563360
   object_id: 9a2a21d6-527e-492b-4934-ab5a0170b931
@@ -78,10 +70,6 @@ node/node-v8.14.0-linux-x64.tar.xz:
   size: 11322764
   object_id: 35d41cae-73bd-48a4-7284-79e92455ded2
   sha: b74889a4cbfda92760311826d13726939190dc60
-python/Python-2.7.6.tar.xz:
-  size: 10431288
-  object_id: 7f61b922-e0de-47ac-6eec-fb0b53a2e6ea
-  sha: 8321636af2acbeaa68fc635d7dda7369ed446a80
 yaml2json/yaml2json:
   size: 2349240
   object_id: b3d57a81-3790-43a4-69eb-c2bcb02fcc54
