@@ -8,7 +8,7 @@ if [ $? -ne 0 ]; then
   exit 2 # Exit higher than 1 to ensure service is registered as 'critical'
 fi
 
-curl -ks http://<%= spec.ip %>:<%= p('internal.port') > /dev/null
+curl -ks https://<%= spec.ip %>:<%= p('internal.port') > /dev/null
 
 # http://www.consul.io/docs/agent/checks.html
 if [ $? -ne 0 ]; then
