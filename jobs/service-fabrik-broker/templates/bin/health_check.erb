@@ -1,13 +1,14 @@
 #!/bin/bash
 
-nc -z <%= spec.ip %> <%= p('external.port') %>
+#external app does not run SSL
+curl -s http://<%= spec.ip %>:<%= p('external.port') > /dev/null
 
 # http://www.consul.io/docs/agent/checks.html
 if [ $? -ne 0 ]; then
   exit 2 # Exit higher than 1 to ensure service is registered as 'critical'
 fi
 
-nc -z <%= spec.ip %> <%= p('internal.port') %>
+curl -ks http://<%= spec.ip %>:<%= p('internal.port') > /dev/null
 
 # http://www.consul.io/docs/agent/checks.html
 if [ $? -ne 0 ]; then
