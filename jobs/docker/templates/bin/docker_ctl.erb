@@ -123,20 +123,26 @@ case $1 in
     # is allowed in-between it will keep using the lvm volume which will keep the corresponding device 
     # busy and not allowing device to be unmounted during node update.
     iptables -A INPUT -p tcp --dport ${DOCKER_TCP_PORT} -j DROP
+    export DOCKER_HOST="unix://${DOCKER_PID_DIR}/docker.sock"
 
+    # It is necessary to unset following variables due to this issue: https://github.com/moby/moby/issues/36535
+    # We are in fact not using DOCKER_TLS_VERIFY, but DOCKER_TLS is sourced for monit start, which causes below
+    # docker-cli commands to connect over TLS to docker daemon even over unix socket due to above bug in CLI.
+    export DOCKER_TLS=
+    export DOCKER_TLS_VERIFY=
+    alias docker='/var/vcap/packages/docker/bin/docker'
     echo "Stopping docker containers..."
-    containers="$(/var/vcap/packages/docker/bin/docker --host unix://${DOCKER_PID_DIR}/docker.sock ps -q)"
+    containers="$(docker ps -q)"
     if [[ ! -z $containers ]]; then
       for container in $containers
       do
         echo "Stopping docker container ${container} gracefully or kill it after grace period"
-        /var/vcap/packages/docker/bin/docker --host unix://${DOCKER_PID_DIR}/docker.sock stop -t 5 ${container}
+        docker stop -t 5 ${container}
       done
     fi
     
     sleep 10s
     # forcefully kill all the containers that did not stop for any reason
-    alias docker='/var/vcap/packages/docker/bin/docker --host unix://${DOCKER_PID_DIR}/docker.sock'
     docker kill  $(docker ps -q)
 
     # Stop Docker daemon
