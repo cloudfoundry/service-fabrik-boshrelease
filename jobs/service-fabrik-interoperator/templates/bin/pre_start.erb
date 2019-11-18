@@ -6,5 +6,5 @@ echo "Applying CRDs before creating the interoperator process"
 
 export KUBECONFIG=/var/vcap/jobs/service-fabrik-interoperator/config/kubeconfig.yaml
 
-/var/vcap/packages/kubectl/bin/kubectl apply -f /var/vcap/packages/interoperator/src/github.com/cloudfoundry-incubator/service-fabrik-broker/interoperator/config/crds
+/var/vcap/packages/kubectl/bin/kubectl apply -f /var/vcap/packages/interoperator/src/github.com/cloudfoundry-incubator/service-fabrik-broker/interoperator/config/crd/bases
 /var/vcap/packages/kubectl/bin/kubectl apply -f /var/vcap/jobs/service-fabrik-interoperator/config/cluster.yaml
