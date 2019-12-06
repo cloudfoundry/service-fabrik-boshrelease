@@ -1,0 +1,223 @@
+name: service-fabrik
+version: 3.150.0
+commit_hash: e74b1d41
+uncommitted_changes: false
+jobs:
+- name: docker
+  version: 11b7b8636befb86814c62eb532a66b8734dd96b37f52f3a78807028a5b56a108
+  fingerprint: 11b7b8636befb86814c62eb532a66b8734dd96b37f52f3a78807028a5b56a108
+  sha1: sha256:4ff7f62adc8459f950776c9df46ed0c33d40c7e8a2866a35360fcba06ed02381
+  packages:
+  - bosh-helpers
+  - docker
+  - lvm2
+  - lvmvd
+- name: iptables-manager
+  version: f23d10c0b668862d3aeb556b52586ab8b9b07e645d142fb4f1d9ef6b2ac5c885
+  fingerprint: f23d10c0b668862d3aeb556b52586ab8b9b07e645d142fb4f1d9ef6b2ac5c885
+  sha1: sha256:f4c9cb30ce237d9d7deb32408592adb612eae1dbc9cb0d6de2a332a0bb46ccae
+  packages: []
+- name: service-fabrik-apiserver
+  version: 1b5224c704f64be6f3b53ebfd2e7284b46cdca16cf1580aa937ce563d6fd1ce7
+  fingerprint: 1b5224c704f64be6f3b53ebfd2e7284b46cdca16cf1580aa937ce563d6fd1ce7
+  sha1: sha256:97d7ac6f0f901362aad6052994264a673332c874797b4b1df4ddd444ad59b7d3
+  packages:
+  - apiserver
+- name: service-fabrik-backup-manager
+  version: 4c177d795aa626b641a1b01ea9477117ffcefcae588d946e86760ff588fce144
+  fingerprint: 4c177d795aa626b641a1b01ea9477117ffcefcae588d946e86760ff588fce144
+  sha1: sha256:f2ee03388cebe5fd27aedc4d16a9f3276886894ed00c9340f987e0802938f1d4
+  packages:
+  - bosh-helpers
+  - node
+  - service-fabrik-broker
+- name: service-fabrik-bosh-manager
+  version: d1b5d071329a36b3b72e4ecdcca3141cba36a3f3ba485d926e9bebf04f261f22
+  fingerprint: d1b5d071329a36b3b72e4ecdcca3141cba36a3f3ba485d926e9bebf04f261f22
+  sha1: sha256:1418a1ae9457350484636c3063b67a77b8637c6744b9eb6736cd7064c9bf182d
+  packages:
+  - bosh-helpers
+  - node
+  - service-fabrik-broker
+- name: service-fabrik-broker
+  version: c043a6888275fd87c1629a6c3f0acfab5fcd74cd4d0d5e7a26dcec90f6e8eb6e
+  fingerprint: c043a6888275fd87c1629a6c3f0acfab5fcd74cd4d0d5e7a26dcec90f6e8eb6e
+  sha1: sha256:7a1f5c12ee0f4dfba242ce821395687f004a7f87c02931a1611618c27226d96d
+  packages:
+  - bosh-helpers
+  - node
+  - service-fabrik-broker
+  - jq
+  - yaml2json
+- name: service-fabrik-deployment-hooks
+  version: 75a5fc114245ab4f81507106af7c8660333c9439976ef4372fa033b77b64ebb4
+  fingerprint: 75a5fc114245ab4f81507106af7c8660333c9439976ef4372fa033b77b64ebb4
+  sha1: sha256:8278b3c47a30db911f4d392b628017f9f42415659d68a17f8cebd4702d5b0ee0
+  packages:
+  - bosh-helpers
+  - node
+  - service-fabrik-deployment-hooks
+  - jq
+  - yaml2json
+  - libseccomp
+- name: service-fabrik-docker-manager
+  version: 3901fe8be96a5d4c234cce15eb33ad73b5b9b19c59732764c41af07cefcf9f00
+  fingerprint: 3901fe8be96a5d4c234cce15eb33ad73b5b9b19c59732764c41af07cefcf9f00
+  sha1: sha256:e68b3bc76d278f1830d94f924def63a509d2e9a59c789105c53059d0b94e6c81
+  packages:
+  - bosh-helpers
+  - node
+  - service-fabrik-broker
+- name: service-fabrik-interoperator
+  version: fd48d5baa63100ac29c293e29038c02ffe439f281e4914ab6896b2569d88513a
+  fingerprint: fd48d5baa63100ac29c293e29038c02ffe439f281e4914ab6896b2569d88513a
+  sha1: sha256:d27f7c248fd31c3cbca5b425163a1949a015f9702966eb1081cb6d376ffa2e73
+  packages:
+  - interoperator
+  - kubectl
+- name: service-fabrik-postgresqlmt-operator
+  version: 37c1d50ce3ba664ba94b8507767b6e29ce954ef73148c04113bb08422b72d262
+  fingerprint: 37c1d50ce3ba664ba94b8507767b6e29ce954ef73148c04113bb08422b72d262
+  sha1: sha256:8c00ab7c16d70fb66848af739c010d1ecc68091008110b81e009ce720f837fb0
+  packages:
+  - bosh-helpers
+  - node
+  - service-fabrik-broker
+- name: service-fabrik-report
+  version: 07229bef7711c996888991d3556b7f262202bd7f2821fe0e8347c5c7732dbadf
+  fingerprint: 07229bef7711c996888991d3556b7f262202bd7f2821fe0e8347c5c7732dbadf
+  sha1: sha256:94036dfc789f854efe9618148ad1a74bdfb9262c8312a7adce0b9d2700523389
+  packages:
+  - bosh-helpers
+  - node
+  - service-fabrik-broker
+- name: service-fabrik-scheduler
+  version: f1c7b17e1986721fff2145ec88399a2908ae1ea6083285ac1ca62b6bd808fb5e
+  fingerprint: f1c7b17e1986721fff2145ec88399a2908ae1ea6083285ac1ca62b6bd808fb5e
+  sha1: sha256:03568391d58b78e580b15043262e694f6424f8af1bd382f2292b45f42fe33b00
+  packages:
+  - bosh-helpers
+  - node
+  - service-fabrik-broker
+- name: service-fabrik-serviceflow-manager
+  version: 72e1441918960e295c3e07ae1ff9a035b555921b791c26e539152840197b8dd9
+  fingerprint: 72e1441918960e295c3e07ae1ff9a035b555921b791c26e539152840197b8dd9
+  sha1: sha256:cac6673b42754e8ecde58aaadd76d3487e572799379f34f25fafbef8ce28fe90
+  packages:
+  - bosh-helpers
+  - node
+  - service-fabrik-broker
+- name: service-fabrik-virtualhost-manager
+  version: eaabc4fa5dc02bbd277dbd6c2998a429b7a189abfd1c79af8f35a695ea7cadcb
+  fingerprint: eaabc4fa5dc02bbd277dbd6c2998a429b7a189abfd1c79af8f35a695ea7cadcb
+  sha1: sha256:5b2ae88f53f792579d2e00c0ca156b10add5ed6ec36bce93269b5b2b2e63f107
+  packages:
+  - bosh-helpers
+  - node
+  - service-fabrik-broker
+- name: swarm_manager
+  version: 157bf430d22248e5ddfe4a466448a707cb422f862d177c700f74a1b8a3137d7d
+  fingerprint: 157bf430d22248e5ddfe4a466448a707cb422f862d177c700f74a1b8a3137d7d
+  sha1: sha256:1a77ba529161cf8f416f41c1ea5c0929d72f6b2703f6897e46fa11d3d65a6b6f
+  packages:
+  - bosh-helpers
+  - swarm
+- name: webhooks
+  version: 16621f107527cab4c1c03ddba6716d071f859ee6179d0a2dad570618739d106a
+  fingerprint: 16621f107527cab4c1c03ddba6716d071f859ee6179d0a2dad570618739d106a
+  sha1: sha256:0d121a7eb6171656d0641535b7eb9d0e0aaf7b8ec75e20bf02b84ec9f0cc8279
+  packages:
+  - webhooks
+  - jq
+packages:
+- name: apiserver
+  version: af025200c61bca6ac9d87850b737867c6d4105716275620a886de806d30a628e
+  fingerprint: af025200c61bca6ac9d87850b737867c6d4105716275620a886de806d30a628e
+  sha1: sha256:71d025f1d37e94976bc89d2fac21062ca902b9f7986f7957a9bdc54864bd1e07
+  dependencies: []
+- name: bosh-helpers
+  version: 3a6148a3e48bd0501690ff5b4e9aae1e9d0aa09a9435d19c64eed31c831b2dcc
+  fingerprint: 3a6148a3e48bd0501690ff5b4e9aae1e9d0aa09a9435d19c64eed31c831b2dcc
+  sha1: sha256:8663e41d75c62b2ab373a55022891378d8b8b45094fa3593eb282817bd752121
+  dependencies: []
+- name: docker
+  version: 1932b81da9c82c639b368d8a4370bcd1c2eff86b4b029435c61db0634851d0b0
+  fingerprint: 1932b81da9c82c639b368d8a4370bcd1c2eff86b4b029435c61db0634851d0b0
+  sha1: sha256:ccac3ebdd9ab75ffac5b9986e4a01ed4706bb4cde0a539f76ad5479b5f518227
+  dependencies: []
+- name: golang
+  version: 87454590e3d376322ea030ecec225699a1afe11dd0f5d376f279d3081da69298
+  fingerprint: 87454590e3d376322ea030ecec225699a1afe11dd0f5d376f279d3081da69298
+  sha1: sha256:904c389743c72c4f527785562960e45e5c154cfb0d3ec50ea80c47e28e23d67c
+  dependencies: []
+- name: interoperator
+  version: 2c969f3c971ca452c2b707fcdb7de805a5db9fc0a7ca76db2ba97b8920815ee4
+  fingerprint: 2c969f3c971ca452c2b707fcdb7de805a5db9fc0a7ca76db2ba97b8920815ee4
+  sha1: sha256:a1988d9ab4070c2904630d05267a156f740d20fbc063591947ecc0c51c8877d9
+  dependencies:
+  - golang
+- name: jq
+  version: 2202ceb59964aba8aecd7ebc332c40e08c176ecb8c3498620155f02ad318c929
+  fingerprint: 2202ceb59964aba8aecd7ebc332c40e08c176ecb8c3498620155f02ad318c929
+  sha1: sha256:cac0a4eeffed11e5e971c2e8697f52fccff9d912b1906876d04a7daadcbf498b
+  dependencies: []
+- name: kubectl
+  version: a66ce74609d7e15f853eeaf26963b564dd093f9cfbdcbcc4e608ff0b763df776
+  fingerprint: a66ce74609d7e15f853eeaf26963b564dd093f9cfbdcbcc4e608ff0b763df776
+  sha1: sha256:05f522e034ffd22c40f3be6a7e575429cb233dbce9b3175abf16ed5ece31d5ae
+  dependencies: []
+- name: libseccomp
+  version: a726aa261c247e46aabab136ced85a5ca0ca1046274646cbe68ddeec81ec2aa3
+  fingerprint: a726aa261c247e46aabab136ced85a5ca0ca1046274646cbe68ddeec81ec2aa3
+  sha1: sha256:4f9868ab17e551ce0e3f3f3b46e4ba6d0473d6dab8815634f42807ef1d945047
+  dependencies: []
+- name: lvm2
+  version: f39ca44554c7d6f72516dd8795dc5f9662afc7fe07efd5922f65336d9c3684a1
+  fingerprint: f39ca44554c7d6f72516dd8795dc5f9662afc7fe07efd5922f65336d9c3684a1
+  sha1: sha256:6616ba1b98fc32f99e395a8eedac13a7806dddf5c6853c2e300f7c6d8e37ea2a
+  dependencies: []
+- name: lvmvd
+  version: 388f48186039a116b1a1ffffd040371857146e740a055e759f0f0377453fdbb1
+  fingerprint: 388f48186039a116b1a1ffffd040371857146e740a055e759f0f0377453fdbb1
+  sha1: sha256:20c55c2cc86d1977c1a7456fc9fc6bf9ccd9aafb1227178bd4018e9ad19bac12
+  dependencies:
+  - golang
+- name: node
+  version: 54a4487b35a358648290a1722b8086c0965e10196f8b547ef93b6d0b2c0790fc
+  fingerprint: 54a4487b35a358648290a1722b8086c0965e10196f8b547ef93b6d0b2c0790fc
+  sha1: sha256:5fb6542cb53eb233307210367eaaa244b6116492a7c44a982ddb26fb559df6f9
+  dependencies: []
+- name: service-fabrik-broker
+  version: 2a2e5ca5f9f3cee262cafa73823adda3d536684d0bb39be1926832121b0568de
+  fingerprint: 2a2e5ca5f9f3cee262cafa73823adda3d536684d0bb39be1926832121b0568de
+  sha1: sha256:fdaf5094b0f13cac0f947fce0b6accece57eef3167b51003a5500733d6ac7a6a
+  dependencies:
+  - node
+- name: service-fabrik-deployment-hooks
+  version: 70c1ff3bfdfd309de474a5e9f0f220697c1436864a9d7c7513ada81eb4d3fbd7
+  fingerprint: 70c1ff3bfdfd309de474a5e9f0f220697c1436864a9d7c7513ada81eb4d3fbd7
+  sha1: sha256:bccd839d61e53d9719f98df890cff2abd5e722e92cd3ca99f831df95b34a53e9
+  dependencies:
+  - node
+  - libseccomp
+- name: swarm
+  version: 9cf8951781c4d5554354a9086cd8e872462d9ea254074e502a7ce7064a64d72e
+  fingerprint: 9cf8951781c4d5554354a9086cd8e872462d9ea254074e502a7ce7064a64d72e
+  sha1: sha256:35e5c1d79b7428a14425d318fb2e4a4a9b46297856bf2862c961347f1d96475f
+  dependencies:
+  - golang
+- name: webhooks
+  version: 004a4a8c97e8a9526ea241e22b0ccf98ac045df77f976ed2a1a15e93b0e1aa70
+  fingerprint: 004a4a8c97e8a9526ea241e22b0ccf98ac045df77f976ed2a1a15e93b0e1aa70
+  sha1: sha256:3544d5ac486c1a60e2bb53b3d0a1aefde429567fb91a062abbd924e399ce9cb4
+  dependencies:
+  - golang
+- name: yaml2json
+  version: 6b2da8cfa9d8f55b847d589b2e6a06178f437522abd377f8dd1e9bcfb8c42fe6
+  fingerprint: 6b2da8cfa9d8f55b847d589b2e6a06178f437522abd377f8dd1e9bcfb8c42fe6
+  sha1: sha256:201f0aff3d98c1f552a931d2b7491b0b7ba3837167ae0c528de4be6fd4287f19
+  dependencies: []
+license:
+  version: 9c14dbc6916c61d27e3da842da256a8087a450d3d25cc52f28d001cedff93538
+  fingerprint: 9c14dbc6916c61d27e3da842da256a8087a450d3d25cc52f28d001cedff93538
+  sha1: sha256:fbd74ef1dae6c2f40b2c83ae5bc5ef483c5e606fd8ae4304ab6ef94b775aac04
