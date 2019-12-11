@@ -4,15 +4,19 @@ set -e # exit immediately if a simple command exits with a non-zero status
 set -u # report the usage of uninitialized variables
 
 # Set Golang dependency
-export GOROOT=$(readlink -nf /var/vcap/packages/golang)
-export PATH=${GOROOT}/bin:${PATH}
+if [ -z "${BOSH_PACKAGES_DIR:-}" ]; then
+  export GOROOT=$(readlink -nf /var/vcap/packages/golang)
+else
+  export GOROOT=$BOSH_PACKAGES_DIR/golang
+fi
+export GOCACHE=/var/vcap/data/golang/cache
+export GOPATH="${PWD}"
+export PATH=${GOROOT}/bin:${GOPATH}/bin:${PATH}
 
 # Build Interoperator package
 echo "Building Interoperator..."
 PACKAGE_NAME=github.com/cloudfoundry-incubator/service-fabrik-broker/interoperator
-mkdir -p ${BOSH_INSTALL_TARGET}/src/${PACKAGE_NAME}
-cp -a ${BOSH_COMPILE_TARGET}/${PACKAGE_NAME}/* ${BOSH_INSTALL_TARGET}/src/${PACKAGE_NAME}
-export GOPATH=${BOSH_INSTALL_TARGET}
-cd ${BOSH_INSTALL_TARGET}
+cd ${BOSH_COMPILE_TARGET}/${PACKAGE_NAME}
+cp -a config ${BOSH_INSTALL_TARGET}
 
-CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -tags default -o bin/manager ${PACKAGE_NAME}
+CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -tags default -o ${BOSH_INSTALL_TARGET}/bin/manager ./main.go

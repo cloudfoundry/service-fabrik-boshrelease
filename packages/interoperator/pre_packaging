@@ -6,7 +6,6 @@ set -u
 (
   echo ${BUILD_DIR}
   cd ${BUILD_DIR}/github.com/cloudfoundry-incubator/service-fabrik-broker/interoperator
-  GO111MODULE=on go mod download
   GO111MODULE=on go mod vendor
 
   # Remove unneeded files

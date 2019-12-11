@@ -4,8 +4,14 @@ set -e # exit immediately if a simple command exits with a non-zero status
 set -u # report the usage of uninitialized variables
 
 # Set Golang dependency
-export GOROOT=$(readlink -nf /var/vcap/packages/golang)
-export PATH=${GOROOT}/bin:${PATH}
+if [ -z "${BOSH_PACKAGES_DIR:-}" ]; then
+  export GOROOT=$(readlink -nf /var/vcap/packages/golang)
+else
+  export GOROOT=$BOSH_PACKAGES_DIR/golang
+fi
+export GOCACHE=/var/vcap/data/golang/cache
+export GOPATH="${PWD}"
+export PATH=${GOROOT}/bin:${GOPATH}/bin:${PATH}
 
 # Build API Server package
 echo "Building API Server..."
