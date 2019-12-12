@@ -74,6 +74,10 @@ node/node-v8.14.0-linux-x64.tar.xz:
   size: 11322764
   object_id: 35d41cae-73bd-48a4-7284-79e92455ded2
   sha: b74889a4cbfda92760311826d13726939190dc60
+node/node-v12.13.1-linux-x64.tar.xz:
+  size: 14067172
+  object_id: db3df5e6-0e25-4252-7627-d8835dc71c86
+  sha: sha256:aca06db37589966829b1ef0f163a5859b156a1d8e51b415bf47590f667c30a25
 yaml2json/yaml2json:
   size: 2349240
   object_id: b3d57a81-3790-43a4-69eb-c2bcb02fcc54
