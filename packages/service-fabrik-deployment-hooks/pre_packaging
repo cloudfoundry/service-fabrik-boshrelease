@@ -4,6 +4,25 @@ set -e
 set -u
 
 (
+  cd ${BUILD_DIR}
+
+  # Install nodejs and use it for vendoring
+  TEMP_DIR=$(mktemp -d -t tmp.XXXXXXXXXX)
+
+  # We grab the latest versions that are in the directory
+  NODE_VERSION=`ls -r node/node-*.tar.xz | sed 's/node\/node-\(.*\)-linux-x64\.tar\.xz/\1/' | head -1`
+
+  # Extract Node.js package
+  echo "Extracting Node.js ${NODE_VERSION}..."
+  tar -C ${TEMP_DIR} -xJvf ${BUILD_DIR}/node/node-${NODE_VERSION}-linux-x64.tar.xz
+  if [[ $? != 0 ]] ; then
+    echo "Failed extracting Node.js ${NODE_VERSION}"
+    exit 1
+  fi
+
+  # Export path
+  export PATH=${TEMP_DIR}/node-${NODE_VERSION}-linux-x64/bin:$PATH
+
   cd ${BUILD_DIR}/github.com/cloudfoundry-incubator/service-fabrik-broker
 
   # Install production dependencies
@@ -21,4 +40,5 @@ set -u
   rm -rf test
   rm -rf interoperator
   rm -rf helm-charts
+  rm -rf ${TEMP_DIR}
 )

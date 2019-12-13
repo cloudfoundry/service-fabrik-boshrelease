@@ -5,12 +5,29 @@ set -u
 
 (
   echo ${BUILD_DIR}
+  cd ${BUILD_DIR}
+
+  # Install golang and use it for vendoring
+  TEMP_DIR=$(mktemp -d -t tmp.XXXXXXXXXX)
+
+  # We grab the latest versions that are in the directory
+  GOLANG_VERSION=`ls -r golang/go* | sed 's/golang\/go\(.*\)\.linux-amd64.tar.gz/\1/' | head -1`
+
+  # Extract Go Programming Language package
+  echo "Extracting Go Programming Language ${GOLANG_VERSION}..."
+  tar -C ${TEMP_DIR} -xzvf ${BUILD_DIR}/golang/go${GOLANG_VERSION}.linux-amd64.tar.gz
+
+  # Set Golang dependency
+  export GOROOT=${TEMP_DIR}/go
+  export GOCACHE=${TEMP_DIR}/go/cache
+  export PATH=${GOROOT}/bin:${PATH}
+
   cd ${BUILD_DIR}/github.com/cloudfoundry-incubator/service-fabrik-broker/interoperator
-  GO111MODULE=on go mod download
   GO111MODULE=on go mod vendor
 
   # Remove unneeded files
   rm -rf docs
   rm -rf logs/*
   rm -rf images
+  rm -rf ${TEMP_DIR}
 )

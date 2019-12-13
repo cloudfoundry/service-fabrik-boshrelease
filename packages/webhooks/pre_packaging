@@ -6,6 +6,22 @@ set -u
 (
   echo ${BUILD_DIR}
   cd ${BUILD_DIR}
+
+  # Install golang and use it for vendoring
+  TEMP_DIR=$(mktemp -d -t tmp.XXXXXXXXXX)
+
+  # We grab the latest versions that are in the directory
+  GOLANG_VERSION=`ls -r golang/go* | sed 's/golang\/go\(.*\)\.linux-amd64.tar.gz/\1/' | head -1`
+
+  # Extract Go Programming Language package
+  echo "Extracting Go Programming Language ${GOLANG_VERSION}..."
+  tar -C ${TEMP_DIR} -xzvf ${BUILD_DIR}/golang/go${GOLANG_VERSION}.linux-amd64.tar.gz
+
+  # Set Golang dependency
+  export GOROOT=${TEMP_DIR}/go
+  export GOCACHE=${TEMP_DIR}/go/cache
+  export PATH=${GOROOT}/bin:${PATH}
+
   cd ..
   export GOPATH=$(pwd)
   mkdir -p ${GOPATH}/bin
@@ -20,4 +36,6 @@ set -u
   ${GOPATH}/bin/dep ensure -v
   cp -R ${GOPATH}/src/${PACKAGE_NAME}/vendor ${BUILD_DIR}/${PACKAGE_NAME}
   rm -rf ${BUILD_DIR}/${PACKAGE_NAME}/{docs,logs}
+
+  rm -rf ${TEMP_DIR}
 )

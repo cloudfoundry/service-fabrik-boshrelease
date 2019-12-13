@@ -50,6 +50,10 @@ golang/go1.11.4.linux-amd64.tar.gz:
   size: 126643341
   object_id: b399f06d-3af0-4e3f-7103-41c0446f6ef6
   sha: 52bd8eb353a39138a2ddf053857a0fd13f1f176c
+golang/go1.13.5.linux-amd64.tar.gz:
+  size: 120074076
+  object_id: 59ebd918-86c7-4834-5abb-e02280f65d0d
+  sha: sha256:512103d7ad296467814a6e3f635631bd35574cab3369a97a323c9a585ccaa569
 jq/jq:
   size: 497799
   object_id: 61d27ef5-32cc-439d-6842-97be75dae6fb
@@ -70,6 +74,10 @@ node/node-v8.14.0-linux-x64.tar.xz:
   size: 11322764
   object_id: 35d41cae-73bd-48a4-7284-79e92455ded2
   sha: b74889a4cbfda92760311826d13726939190dc60
+node/node-v12.13.1-linux-x64.tar.xz:
+  size: 14067172
+  object_id: db3df5e6-0e25-4252-7627-d8835dc71c86
+  sha: sha256:aca06db37589966829b1ef0f163a5859b156a1d8e51b415bf47590f667c30a25
 yaml2json/yaml2json:
   size: 2349240
   object_id: b3d57a81-3790-43a4-69eb-c2bcb02fcc54
