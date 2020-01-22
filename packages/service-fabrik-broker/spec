@@ -4,4 +4,4 @@ dependencies:
   - node
 files:
   - github.com/cloudfoundry-incubator/service-fabrik-broker/**/*
-  - node/node-v12.13.1-linux-x64.tar.xz
+  - node/node-v12.14.1-linux-x64.tar.xz
