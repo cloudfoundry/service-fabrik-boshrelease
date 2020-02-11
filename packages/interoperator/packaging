@@ -19,4 +19,4 @@ PACKAGE_NAME=github.com/cloudfoundry-incubator/service-fabrik-broker/interoperat
 cd ${BOSH_COMPILE_TARGET}/${PACKAGE_NAME}
 cp -a config ${BOSH_INSTALL_TARGET}
 
-CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -tags default -o ${BOSH_INSTALL_TARGET}/bin/manager ./main.go
+CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -mod vendor -tags default -o ${BOSH_INSTALL_TARGET}/bin/manager ./main.go
