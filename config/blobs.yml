@@ -46,10 +46,6 @@ docker/docker-18.09.2.tgz:
   size: 48020699
   object_id: c9a25eb3-2d23-457f-714d-0c370916a687
   sha: sha256:183e10448f0c3a0dc82c9d504c5280c29527b89af0fc71cb27115d684b26c8bd
-golang/go1.11.4.linux-amd64.tar.gz:
-  size: 126643341
-  object_id: b399f06d-3af0-4e3f-7103-41c0446f6ef6
-  sha: 52bd8eb353a39138a2ddf053857a0fd13f1f176c
 golang/go1.13.5.linux-amd64.tar.gz:
   size: 120074076
   object_id: 59ebd918-86c7-4834-5abb-e02280f65d0d
@@ -70,14 +66,6 @@ libseccomp/libseccomp-2.3.3.tar.gz:
   size: 564546
   object_id: 4e749385-3bc6-45b5-7a08-906c3cf97573
   sha: 89b1f35447b1891a3051de979dc92ad9f7258b60
-node/node-v8.14.0-linux-x64.tar.xz:
-  size: 11322764
-  object_id: 35d41cae-73bd-48a4-7284-79e92455ded2
-  sha: b74889a4cbfda92760311826d13726939190dc60
-node/node-v12.13.1-linux-x64.tar.xz:
-  size: 14067172
-  object_id: db3df5e6-0e25-4252-7627-d8835dc71c86
-  sha: sha256:aca06db37589966829b1ef0f163a5859b156a1d8e51b415bf47590f667c30a25
 node/node-v12.14.1-linux-x64.tar.xz:
   size: 14453992
   object_id: 39265c72-4ea8-4ab1-68fe-be25520e75bb
