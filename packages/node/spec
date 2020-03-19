@@ -1,4 +1,4 @@
 ---
 name: node
 files:
-  - node/node-v12.14.1-linux-x64.tar.xz
+  - node/node-v12.15.0-linux-x64.tar.xz
