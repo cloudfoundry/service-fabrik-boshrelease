@@ -4,7 +4,6 @@
 
 export KUBECONFIG=/var/vcap/jobs/service-fabrik-interoperator/config/kubeconfig.yaml
 <% if spec.bootstrap == true %>
-echo "Applying CRDs before creating the interoperator process"
-/var/vcap/packages/kubectl/bin/kubectl apply -f /var/vcap/packages/interoperator/config/crd/bases
+echo "Creating SFCluster CR before creating the interoperator process"
 /var/vcap/packages/kubectl/bin/kubectl apply -f /var/vcap/jobs/service-fabrik-interoperator/config/cluster.yaml
 <% end %>

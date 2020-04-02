@@ -3,6 +3,8 @@ name: service-fabrik-apiserver
 
 packages:
 - apiserver
+- interoperator
+- kubectl
 
 templates:
   bin/ensure_apiserver_healthy.erb: bin/ensure_apiserver_healthy

@@ -11,3 +11,9 @@ else
   echo "Waited for ${TIMEOUT}s, but Apiserver is still not healthy"
   exit 1
 fi
+
+export KUBECONFIG=/var/vcap/jobs/service-fabrik-apiserver/config/kubeconfig
+<% if spec.bootstrap == true %>
+echo "Applying CRDs after creating the apiserver process starts-up"
+/var/vcap/packages/kubectl/bin/kubectl apply -f /var/vcap/packages/interoperator/config/crd/bases
+<% end %>
