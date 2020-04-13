@@ -22,6 +22,7 @@ exec 2>> $LOG_DIR/$JOB_NAME.stderr.log
 case $1 in
   start)
     iptables -F #Flush all existing rules
+    <% if !p('enable_connection') then %>
     iptables -A INPUT -p udp  --sport 53 -j ACCEPT #Accept all DNS queries
     iptables -A INPUT -p tcp  --sport 53 -j ACCEPT
     iptables -A INPUT -p icmp --icmp-type 8 -s  "<%= p('allow_ips_list') %>" -j ACCEPT
@@ -31,6 +32,7 @@ case $1 in
     iptables -A INPUT -p icmp --icmp-type 8 -s "<%= block_ips_list %>" -j  DROP
     iptables -A INPUT -p udp -s "<%= block_ips_list %>" -j DROP
     iptables -A INPUT -p tcp -s  "<%= block_ips_list %>" -j DROP
+    <% end %>
     <% end %>
     echo 1 >> $PID_FILE
     ;;

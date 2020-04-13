@@ -5,6 +5,9 @@ templates:
   bin/iptables-manager_ctl.erb: bin/iptables-manager_ctl
  
 properties:
+  enable_connection:
+    description: "If set to true iptables rules will be dropped to enable connectivity across deployments"
+    default: false
   allow_ips_list:
     description: "Comma seperated list of ips from which requests are ACCEPTED"
     default: "127.0.0.1"
