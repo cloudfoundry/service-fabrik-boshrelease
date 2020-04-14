@@ -3,9 +3,9 @@
 set -e
 
 # Setup common env vars and folders
-source /var/vcap/packages/bosh-helpers/ctl_setup.sh 'service-fabrik-broker'
+source /var/vcap/packages/bosh-helpers/ctl_setup.sh 'service-fabrik-broker-ext'
 export PACKAGE_DIR=${HOME}/packages/service-fabrik-broker
-export PID_FILE=${RUN_DIR}/service-fabrik-broker.pid
+export PID_FILE=${RUN_DIR}/service-fabrik-broker-ext.pid
 
 case $1 in
 
@@ -16,7 +16,7 @@ case $1 in
     ulimit -c unlimited
     ulimit -v unlimited
 
-    # Start Service-Fabrik-Broker
+    # Start service-fabrik-broker-ext
     start-stop-daemon --start --quiet -m \
       --pidfile ${PID_FILE} \
       --startas ${NODE_CMD} \
@@ -24,13 +24,13 @@ case $1 in
       --background \
       --no-close \
       --chdir ${PACKAGE_DIR} \
-      -- ${PACKAGE_DIR}/applications/osb-broker/src/server.js \
+      -- ${PACKAGE_DIR}/applications/extensions/src/index.js \
       1>> ${LOG_DIR}/${OUTPUT_LABEL}.stdout.log \
       2>> ${LOG_DIR}/${OUTPUT_LABEL}.stderr.log
     ;;
 
   stop)
-    # Stop Service-Fabrik-Broker
+    # Stop service-fabrik-broker-ext
     start-stop-daemon --stop --quiet --retry=0/0/KILL/5 \
       --pidfile ${PID_FILE} \
       1>> ${LOG_DIR}/${OUTPUT_LABEL}.stdout.log \

@@ -1,0 +1,27 @@
+---
+name: service-fabrik-broker-ext
+
+packages:
+  - bosh-helpers
+  - node
+  - service-fabrik-broker
+  - jq
+  - yaml2json
+
+templates:
+  bin/service-fabrik-broker-ext_ctl.erb: bin/service-fabrik-broker-ext_ctl
+  bin/job_properties.sh.erb: bin/job_properties.sh
+  bin/health_check.erb: bin/health_check
+  config/settings.yml.erb: config/settings.yml
+  config/eventlog-config-external.yml.erb: config/eventlog-config-external.yml
+  config/circuit-breaker-config.yml.erb: config/circuit-breaker-config.yml
+
+consumes:
+- name: broker
+  type: broker
+- name: scheduler
+  type: scheduler
+- name: deployment_hooks
+  type: deployment_hooks
+- name: service-fabrik-apiserver
+  type: service-fabrik-apiserver
