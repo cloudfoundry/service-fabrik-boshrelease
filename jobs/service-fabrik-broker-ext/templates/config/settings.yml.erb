@@ -119,14 +119,6 @@ production:
     agent:
       provider:
         container: <%= link("broker").p('mongodb.agent.provider.container') %>
-  ######################
-  # APISERVER LOCK TTL #
-  ######################
-  lockttl:
-    lifecycle: <%= link("broker").p('lockttl.lifecycle') %>
-    backup: <%= link("broker").p('lockttl.backup') %>
-    restore: <%= link("broker").p('lockttl.restore') %>
-
 
   ######################
   # SCHEDULER SETTINGS #
