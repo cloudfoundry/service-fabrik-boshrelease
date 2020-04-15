@@ -1,3 +1,4 @@
 check process iptables-manager with pidfile /var/vcap/sys/run/iptables-manager/iptables-manager.pid
   start program "/var/vcap/jobs/iptables-manager/bin/iptables-manager_ctl start"
   stop program "/var/vcap/jobs/iptables-manager/bin/iptables-manager_ctl stop"
+  group vcap
