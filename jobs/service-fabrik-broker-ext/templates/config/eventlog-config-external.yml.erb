@@ -1,18 +1,18 @@
 ---
 defaults:
-  http_success_codes:<% p('event.defaults.http_success_codes').each do |code| %>
+  http_success_codes:<% link("broker").p('event.defaults.http_success_codes').each do |code| %>
   - <%= code %><% end %>
-  http_inprogress_codes:<% p('event.defaults.http_inprogress_codes').each do |code| %>
+  http_inprogress_codes:<% link("broker").p('event.defaults.http_inprogress_codes').each do |code| %>
   - <%= code %><% end %>
   # flag used to determine if async operations in-progress state is to be logged
-  log_inprogress_state: <%= p('event.defaults.log_inprogress_state') %>
+  log_inprogress_state: <%= link("broker").p('event.defaults.log_inprogress_state') %>
   # flag to indicate if a particular HTTP operation is to be treated as cf-lastoperation semantics additionally
-  cf_last_operation: <%= p('event.defaults.cf_last_operation') %>
+  cf_last_operation: <%= link("broker").p('event.defaults.cf_last_operation') %>
   # flag to indicate if service-fabrik operations are to be excluded. for ex. broker update (HTTP Patch)
   #  gets invoked via backup/restore etc, which are to be ignored when coming via HTTP Patch.
-  ignore_service_fabrik_operation: <%= p('event.defaults.ignore_service_fabrik_operation') %>
+  ignore_service_fabrik_operation: <%= link("broker").p('event.defaults.ignore_service_fabrik_operation') %>
   # wheter HTTP response body is to be logged or not
-  include_response_body: <%= p('event.defaults.include_response_body') %>
+  include_response_body: <%= link("broker").p('event.defaults.include_response_body') %>
 "/api/v1/info":
   GET:
     enabled: false
@@ -108,7 +108,7 @@ defaults:
     description: Delete a specific backup
     tags:
     - backup
-    http_success_codes:<% p('event.delete.http_success_codes').each do |code| %>
+    http_success_codes:<% link("broker").p('event.delete.http_success_codes').each do |code| %>
     - <%= code %><% end %>
 "/api/v1/service_instances/:instance_id/schedule_backup":
   GET:

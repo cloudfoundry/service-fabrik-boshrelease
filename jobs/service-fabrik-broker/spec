@@ -14,7 +14,6 @@ templates:
   bin/job_properties.sh.erb: bin/job_properties.sh
   bin/health_check.erb: bin/health_check
   config/settings.yml.erb: config/settings.yml
-  config/eventlog-config-external.yml.erb: config/eventlog-config-external.yml
   config/eventlog-config-internal.yml.erb: config/eventlog-config-internal.yml
   config/circuit-breaker-config.yml.erb: config/circuit-breaker-config.yml
 provides:

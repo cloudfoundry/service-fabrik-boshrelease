@@ -31,8 +31,8 @@ set -u
   # Precompile static files if needed
 
   # Remove unneeded files
-  rm -rf common/config/*
-  rm -rf deployment_hooks/config/*
+  rm -rf config/*
+  rm -rf applications/deployment_hooks/config/*
   rm -rf coverage
   rm -rf docs
   rm -rf logs/*

@@ -1,0 +1,6 @@
+
+check process service-fabrik-broker-ext with pidfile /var/vcap/sys/run/service-fabrik-broker-ext/service-fabrik-broker-ext.pid
+  group vcap
+  depends on service-fabrik-apiserver
+  start program "/var/vcap/packages/bosh-helpers/monit_debugger service-fabrik-broker-ext_ctl '/var/vcap/jobs/service-fabrik-broker-ext/bin/service-fabrik-broker-ext_ctl start'"
+  stop program "/var/vcap/packages/bosh-helpers/monit_debugger service-fabrik-broker-ext_ctl '/var/vcap/jobs/service-fabrik-broker-ext/bin/service-fabrik-broker-ext_ctl stop'"
