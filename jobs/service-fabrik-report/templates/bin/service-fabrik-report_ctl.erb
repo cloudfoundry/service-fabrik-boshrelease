@@ -24,7 +24,7 @@ case $1 in
       --background \
       --no-close \
       --chdir ${PACKAGE_DIR} \
-      -- ${PACKAGE_DIR}/applications/reports/index.js \
+      -- ${PACKAGE_DIR}/broker/applications/reports/index.js \
       1>> ${LOG_DIR}/${OUTPUT_LABEL}.stdout.log \
       2>> ${LOG_DIR}/${OUTPUT_LABEL}.stderr.log
     ;;
