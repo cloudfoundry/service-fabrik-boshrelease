@@ -2,4 +2,4 @@
 name: kubectl
 
 files:
-- kubernetes-1.15.4/kubectl
+- kubernetes-1.18.2/kubectl
