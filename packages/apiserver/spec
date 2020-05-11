@@ -2,4 +2,4 @@
 name: apiserver
 
 files:
-- kubernetes-1.15.4/kube-apiserver
+- kubernetes-1.18.2/kube-apiserver
