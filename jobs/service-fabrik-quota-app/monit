@@ -1,0 +1,5 @@
+
+check process service-fabrik-quota-app with pidfile /var/vcap/sys/run/service-fabrik-quota-app/service-fabrik-quota-app.pid
+  group vcap
+  start program "/var/vcap/packages/bosh-helpers/monit_debugger service-fabrik-quota-app_ctl '/var/vcap/jobs/service-fabrik-quota-app/bin/service-fabrik-quota-app_ctl start'"
+  stop program "/var/vcap/packages/bosh-helpers/monit_debugger service-fabrik-quota-app_ctl '/var/vcap/jobs/service-fabrik-quota-app/bin/service-fabrik-quota-app_ctl stop'"

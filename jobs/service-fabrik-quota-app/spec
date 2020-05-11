@@ -1,0 +1,24 @@
+---
+name: service-fabrik-quota-app
+
+packages:
+  - bosh-helpers
+  - node
+  - service-fabrik-broker
+  - jq
+  - yaml2json
+
+templates:
+  bin/service-fabrik-quota-app_ctl.erb: bin/service-fabrik-quota-app_ctl
+  bin/job_properties.sh.erb: bin/job_properties.sh
+  config/settings.yml.erb: config/settings.yml
+
+consumes:
+- name: broker
+  type: broker
+- name: scheduler
+  type: scheduler
+- name: deployment_hooks
+  type: deployment_hooks
+- name: service-fabrik-apiserver
+  type: service-fabrik-apiserver
