@@ -130,6 +130,8 @@ consumes:
   type: deployment_hooks
 - name: service-fabrik-apiserver
   type: service-fabrik-apiserver
+- name: quota_app
+  type: quota_app
 
 properties:
   name:

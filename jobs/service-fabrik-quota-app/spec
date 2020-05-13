@@ -13,12 +13,35 @@ templates:
   bin/job_properties.sh.erb: bin/job_properties.sh
   config/settings.yml.erb: config/settings.yml
 
+provides:
+- name: quota_app
+  type: quota_app
+  properties:
+  - host
+  - port
+  - username
+  - password
+  - endpoint
+
 consumes:
 - name: broker
   type: broker
-- name: scheduler
-  type: scheduler
-- name: deployment_hooks
-  type: deployment_hooks
 - name: service-fabrik-apiserver
   type: service-fabrik-apiserver
+
+properties:
+  host:
+    description: "IP address of host for quota app"
+    default: "127.0.0.1"
+  port:
+    description: "Port on which quota app should listen"
+    default: 9296
+  username:
+    description: "Username for basic authentication with quota application"
+    default: "quota"
+  password:
+    description: "Password for basic authentication with quota application"
+    default: "secret"
+  endpoint:
+    description: "Endpoint to check quota valid status"
+    default: "/v1/account"
