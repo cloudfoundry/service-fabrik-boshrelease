@@ -43,13 +43,11 @@ production:
   ##############################
   # QUOTA APP SETTINGS #
   ##############################
-  quotaApp:
+  quota_app:
     log_event: false
     port: <%= p('port') %>
     protocol: 'http'
     host: <%= "#{p('host')}:#{p('port')}" %>
-  
-  quota_app:
     username: <%= p('username') %>
     password: <%= p('password') %>
 
