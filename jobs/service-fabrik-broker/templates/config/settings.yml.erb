@@ -11,6 +11,7 @@
   default_ip = networks.values.find { |net| net.has_key?(:default) }[:ip]
   external = p('external')
   internal = p('internal')
+  quotaApp = link("quota_app")
 %>---
 production:
   ####################
@@ -81,6 +82,16 @@ production:
     <% end.else do %>
     protocol: 'http'
     <% end %>
+  
+  ##############################
+  # QUOTA APP SETTINGS #
+  ##############################
+  quota_app:
+    username: <%= quotaApp.p('username') %>
+    password: <%= quotaApp.p('password') %>
+    quota_app_url: <%= "http://#{quotaApp.p('host')}:#{quotaApp.p('port')}" %>
+    quota_endpoint: <%= quotaApp.p('endpoint') %>
+    
   ##############################
   # APISERVER SETTINGS #
   ##############################

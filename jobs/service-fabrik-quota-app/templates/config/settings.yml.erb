@@ -1,0 +1,102 @@
+<%
+  def ostruct_to_hash(os)
+    os.marshal_dump.map do |key, value|
+      { key => value.is_a?(OpenStruct) ? ostruct_to_hash(value) : value }
+    end.reduce(&:merge)
+  end
+
+  broker_name = link("broker").p('name')
+  log_path = "/var/vcap/sys/log/service-fabrik-quota-app/service-fabrik-quota-app.log"
+%>---
+production:
+  ####################
+  # GENERAL SETTINGS #
+  ####################
+  broker_name: '<%= broker_name %>'
+  deployment_name: '<%= spec.deployment %>'
+  release_name: '<%= spec.release.name %>'
+  release_version: '<%= spec.release.version %>'
+  username: '<%= link("broker").p('username') %>'
+  password: '<%= link("broker").p('password') %>'
+  enable_service_fabrik_v2: <%= link("broker").p('enable_service_fabrik_v2') %>
+  skip_ssl_validation: <%= link("broker").p('skip_ssl_validation') %>
+  session_store:
+    path: "/var/vcap/store/service-fabrik-quota-app/session"
+  log_path: <%= log_path %>
+  log_level: <%= link("broker").p('log_level') %>
+  sys_log_level: <%= link("broker").p('sys_log_level') %>
+  enable_bosh_rate_limit: <%= link("broker").p('enable_bosh_rate_limit') %>
+  enable_cross_organization_sharing: <%= link("broker").p('enable_cross_organization_sharing') %>
+  enable_circuit_breaker: <%= link("broker").p('enable_circuit_breaker') %>
+  enable_swarm_manager: <%= link("broker").p('enable_swarm_manager') %>
+  feature:
+    ServiceInstanceAutoUpdate: <%= link("broker").p('feature.ServiceInstanceAutoUpdate') %>
+    EnableSecurityGroupsOps: <%= link("broker").p('feature.EnableSecurityGroupsOps') %>
+    AllowInstanceSharing: <%= link("broker").p('feature.AllowInstanceSharing') %>
+  http_timeout: <%= link("broker").p('http_timeout') %>
+  deployment_action_timeout: <%= link("broker").p('deployment_action_timeout') %>
+  agent_operation_timeout: <%= link("broker").p('agent_operation_timeout') %>
+  multi_az_enabled: <%= link("broker").p('multi_az_enabled') %>
+  ha_enabled: <%= link("broker").p('ha_enabled') %>
+  broker_drain_message: <%= link("broker").p('broker_drain_message') %>
+
+  ##############################
+  # QUOTA APP SETTINGS #
+  ##############################
+  quota_app:
+    log_event: false
+    port: <%= p('port') %>
+    protocol: 'http'
+    host: <%= "#{p('host')}:#{p('port')}" %>
+    username: <%= p('username') %>
+    password: <%= p('password') %>
+
+  ##############################
+  # APISERVER SETTINGS #
+  ##############################
+  apiserver:
+    ip: <%= link("service-fabrik-apiserver").p('ip') %>
+    port: <%= link("service-fabrik-apiserver").p('port') %>
+    ca: <%= JSON.dump(link("service-fabrik-apiserver").p('tls.apiserver.ca')) %>
+    certificate: <%= JSON.dump(link("service-fabrik-apiserver").p('tls.apiserver.certificate')) %>
+    private_key: <%= JSON.dump(link("service-fabrik-apiserver").p('tls.apiserver.private_key')) %>
+    crds: <%= JSON.dump(link("service-fabrik-apiserver").p('crds')) %>
+
+  ###################
+  # QUOTA MANAGEMENT SETTINGS #
+  ###################
+  quota: <%= JSON.dump(link("broker").p('quota', nil)) %>
+
+  #########################
+  # CLOUDFOUNDRY SETTINGS #
+  #########################
+  cf:
+    url: <%= link("broker").p('cf.url') %>
+    username: <%= link("broker").p('cf.username') %>
+    password: <%= link("broker").p('cf.password') %>
+    <% link("broker").if_p('cf.identity_provider') do |identity_provider| %>
+    identity_provider: <%= identity_provider %>
+    <% end %>
+
+  ###################
+  # DOCKER SETTINGS #
+  ###################
+  docker:
+    url: <%= link("broker").p('docker.url') %>
+    allocate_docker_host_ports: <%= link("broker").p('docker.allocate_docker_host_ports') %>
+    volume_driver: <%= link("broker").p('docker.volume_driver') %>
+    ssl:
+      ca: <%= JSON.dump(link("broker").p('common.tls_cacert')) %>
+      cert: <%= JSON.dump(link("broker").p('common.tls_client_cert')) %>
+      key: <%= JSON.dump(link("broker").p('common.tls_client_key')) %>
+
+  service_addon_jobs: <%= link("broker").p('service_addon_jobs') %>
+
+  #####################
+  # DIRECTOR SETTINGS #
+  #####################
+  directors: <%= JSON.dump(link("broker").p('directors')) %>  
+  ####################
+  # SERVICES CATALOG #
+  ####################
+  services: <%= JSON.pretty_generate(link("broker").p('services')) %>
