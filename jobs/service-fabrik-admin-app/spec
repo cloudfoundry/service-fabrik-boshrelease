@@ -12,8 +12,15 @@ templates:
   bin/service-fabrik-admin-app_ctl.erb: bin/service-fabrik-admin-app_ctl
   bin/job_properties.sh.erb: bin/job_properties.sh
   config/settings.yml.erb: config/settings.yml
-  config/eventlog-config-internal.yml.erb: config/eventlog-config-internal.yml
+  config/eventlog-config-admin_app.yml.erb: config/eventlog-config-admin_app.yml
   config/circuit-breaker-config.yml.erb: config/circuit-breaker-config.yml
+
+provides:
+- name: admin_app
+  type: admin_app
+  properties:
+  - host
+  - port
 
 consumes:
 - name: broker
@@ -24,3 +31,11 @@ consumes:
   type: deployment_hooks
 - name: service-fabrik-apiserver
   type: service-fabrik-apiserver
+
+properties:
+  host:
+    description: "IP address of host for admin app"
+    default: "127.0.0.1"
+  port:
+    description: "Port on which admin app should listen"
+    default: 9297
