@@ -85,7 +85,7 @@ production:
     domain_socket:
       path: /tmp/var
       fwd_events: true
-    port: <<%= p('port') %>
+    port: <%= p('port') %>
     protocol: 'https'
     <% link("broker").if_p('internal.ssl') do |ssl| %>
     ssl: <%= JSON.dump(ssl) %>
