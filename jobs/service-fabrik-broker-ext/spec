@@ -24,3 +24,5 @@ consumes:
   type: deployment_hooks
 - name: service-fabrik-apiserver
   type: service-fabrik-apiserver
+- name: admin_app
+  type: admin_app

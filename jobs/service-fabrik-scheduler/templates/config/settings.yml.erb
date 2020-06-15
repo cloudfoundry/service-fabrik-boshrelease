@@ -70,7 +70,23 @@ production:
     <% end.else do %>
     protocol: 'http'
     <% end %>
-  
+
+  ##############################
+  # ADMIN APP SETTINGS #
+  ##############################
+  admin_app: 
+    log_event: true
+    event_type: SF.BROKER_EVENT
+    domain_socket:
+      path: /tmp/var
+      fwd_events: true
+    port: <%= link("admin_app").p('port') %>
+    protocol: 'https'
+    <% link("broker").if_p('internal.ssl') do |ssl| %>
+    ssl: <%= JSON.dump(ssl) %>
+    <% end %>
+    host: <%= "#{link("admin_app").p('ip')}:#{link("admin_app").p('port')}" %>    
+
   ##############################
   # APISERVER SETTINGS #
   ##############################

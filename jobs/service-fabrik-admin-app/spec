@@ -19,7 +19,7 @@ provides:
 - name: admin_app
   type: admin_app
   properties:
-  - host
+  - ip
   - port
 
 consumes:
@@ -33,7 +33,7 @@ consumes:
   type: service-fabrik-apiserver
 
 properties:
-  host:
+  ip:
     description: "IP address of host for admin app"
     default: "127.0.0.1"
   port:
