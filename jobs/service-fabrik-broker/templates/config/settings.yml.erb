@@ -91,7 +91,23 @@ production:
     password: <%= quotaApp.p('password') %>
     quota_app_url: <%= "http://#{quotaApp.p('host')}:#{quotaApp.p('port')}" %>
     quota_endpoint: <%= quotaApp.p('endpoint') %>
-    
+  
+  ##############################
+  # ADMIN APP SETTINGS #
+  ##############################
+  admin_app: 
+    log_event: true
+    event_type: SF.BROKER_EVENT
+    domain_socket:
+      path: /tmp/var
+      fwd_events: true
+    port: <%= link("admin_app").p('port') %>
+    protocol: 'https'
+    <% if_p('internal.ssl') do |ssl| %>
+    ssl: <%= JSON.dump(ssl) %>
+    <% end %>
+    host: <%= "#{link("admin_app").p('ip')}:#{link("admin_app").p('port')}" %>
+
   ##############################
   # APISERVER SETTINGS #
   ##############################

@@ -1,5 +1,5 @@
 ---
-name: service-fabrik-broker-ext
+name: service-fabrik-admin-app
 
 packages:
   - bosh-helpers
@@ -9,11 +9,18 @@ packages:
   - yaml2json
 
 templates:
-  bin/service-fabrik-broker-ext_ctl.erb: bin/service-fabrik-broker-ext_ctl
+  bin/service-fabrik-admin-app_ctl.erb: bin/service-fabrik-admin-app_ctl
   bin/job_properties.sh.erb: bin/job_properties.sh
   config/settings.yml.erb: config/settings.yml
-  config/eventlog-config-external.yml.erb: config/eventlog-config-external.yml
+  config/eventlog-config-admin_app.yml.erb: config/eventlog-config-admin_app.yml
   config/circuit-breaker-config.yml.erb: config/circuit-breaker-config.yml
+
+provides:
+- name: admin_app
+  type: admin_app
+  properties:
+  - ip
+  - port
 
 consumes:
 - name: broker
@@ -24,5 +31,11 @@ consumes:
   type: deployment_hooks
 - name: service-fabrik-apiserver
   type: service-fabrik-apiserver
-- name: admin_app
-  type: admin_app
+
+properties:
+  ip:
+    description: "IP address of host for admin app"
+    default: "127.0.0.1"
+  port:
+    description: "Port on which admin app should listen"
+    default: 9297

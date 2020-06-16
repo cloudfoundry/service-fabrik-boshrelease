@@ -6,7 +6,7 @@
   end
 
   broker_name = link("broker").p('name')
-  log_path = "/var/vcap/sys/log/service-fabrik-broker-ext/service-fabrik-broker-ext.log"
+  log_path = "/var/vcap/sys/log/service-fabrik-admin-app/service-fabrik-admin-app.log"
   external = link("broker").p('external')
   internal = link("broker").p('internal')
 %>---
@@ -23,7 +23,7 @@ production:
   enable_service_fabrik_v2: <%= link("broker").p('enable_service_fabrik_v2') %>
   skip_ssl_validation: <%= link("broker").p('skip_ssl_validation') %>
   session_store:
-    path: "/var/vcap/store/service-fabrik-broker-ext/session"
+    path: "/var/vcap/store/service-fabrik-admin-app/session"
   log_path: <%= log_path %>
   log_level: <%= link("broker").p('log_level') %>
   sys_log_level: <%= link("broker").p('sys_log_level') %>
@@ -85,12 +85,12 @@ production:
     domain_socket:
       path: /tmp/var
       fwd_events: true
-    port: <%= link("admin_app").p('port') %>
+    port: <%= p('port') %>
     protocol: 'https'
     <% link("broker").if_p('internal.ssl') do |ssl| %>
     ssl: <%= JSON.dump(ssl) %>
     <% end %>
-    host: <%= "#{link("admin_app").p('ip')}:#{link("admin_app").p('port')}" %>
+    host: <%= "#{p('ip')}:#{p('port')}" %>
 
   ##############################
   # APISERVER SETTINGS #

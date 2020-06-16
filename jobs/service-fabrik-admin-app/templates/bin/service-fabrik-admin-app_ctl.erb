@@ -1,0 +1,48 @@
+#!/bin/bash
+
+set -e
+
+# Setup common env vars and folders
+source /var/vcap/packages/bosh-helpers/ctl_setup.sh 'service-fabrik-admin-app'
+export PACKAGE_DIR=${HOME}/packages/service-fabrik-broker
+export PID_FILE=${RUN_DIR}/service-fabrik-admin-app.pid
+
+case $1 in
+
+  start)
+    pid_guard ${PID_FILE} ${JOB_NAME}
+
+    # Set limitations on system resources
+    ulimit -c unlimited
+    ulimit -v unlimited
+
+    # Start service-fabrik-admin-app
+    start-stop-daemon --start --quiet -m \
+      --pidfile ${PID_FILE} \
+      --startas ${NODE_CMD} \
+      --chuid vcap:vcap \
+      --background \
+      --no-close \
+      --chdir ${PACKAGE_DIR} \
+      -- ${PACKAGE_DIR}/broker/applications/admin/src/index.js \
+      1>> ${LOG_DIR}/${OUTPUT_LABEL}.stdout.log \
+      2>> ${LOG_DIR}/${OUTPUT_LABEL}.stderr.log
+    ;;
+
+  stop)
+    # Stop service-fabrik-admin-app
+    start-stop-daemon --stop --quiet --retry=0/0/KILL/5 \
+      --pidfile ${PID_FILE} \
+      1>> ${LOG_DIR}/${OUTPUT_LABEL}.stdout.log \
+      2>> ${LOG_DIR}/${OUTPUT_LABEL}.stderr.log
+
+    rm -f ${PID_FILE}
+    ;;
+
+  *)
+    echo "Usage: $0 {start|stop}"
+    exit 1
+    ;;
+
+esac
+exit 0

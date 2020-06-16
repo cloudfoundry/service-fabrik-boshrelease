@@ -1,0 +1,22 @@
+<% link("broker").if_p('circuit_breaker') do |config| %>
+<%= JSON.dump(config) %>
+<% end.else do %>
+# Circuit breaker configurations are done at Protocol level (only http for now)
+# If an API URL is not configured in the below, then all calls to that subsystem bypass the circuit breaker.
+# One circuit is created for each of the configured API URL (Base Circuit) & additional circuits are created if configuration are overridden.
+# Appropriate circuit is chosen from bottom-up i.e. if for a particular path in API if configuration is overridden, then corresponding circuit with overriden config is applied, else Base circuit is applied)
+http:
+  error_threshold_percentage: 49 #error percentange at which the circuit trips
+  service_timeout: 180000 #timeout time by which the request must be served
+  request_volume_threshold: 20 #Number of requests post which metrics checks are applied by circuit breaker
+  sleep_window_in_ms : 120000 #ms the circuit trips before it allows for a single request to go through in half-open circuit state
+  statistical_window_length: 120000 #ms the metrics are caclucated for, after this the metrics are reset.
+  statistical_window_number_of_buckets: 10 #statistical window length is sliced into this configured number of buckets
+  apis:
+    <% link("broker").p('directors').each do |director| %>
+    "<%= director['url'] %>":
+    name: "<%= director['name'] %>"
+    <% end %>
+    "<%= link("broker").p('cf.url') %>":
+      name: "Cloud Controller"
+<% end %>

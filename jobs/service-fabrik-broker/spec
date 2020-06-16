@@ -132,6 +132,9 @@ consumes:
   type: service-fabrik-apiserver
 - name: quota_app
   type: quota_app
+- name: admin_app
+  type: admin_app
+
 
 properties:
   name:
