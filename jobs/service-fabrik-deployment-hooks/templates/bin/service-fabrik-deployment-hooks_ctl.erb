@@ -6,7 +6,7 @@ source /var/vcap/packages/bosh-helpers/ctl_setup.sh 'service-fabrik-deployment-h
 
 export PID_FILE=${RUN_DIR}/service-fabrik-deployment-hooks.pid
 export PACKAGE_DIR=${HOME}/packages/service-fabrik-deployment-hooks
-export SECCOMP_CMD=${PACKAGE_DIR}/broker/applications/deployment_hooks/bin/seccomp/seccomp
+export SECCOMP_CMD=${PACKAGE_DIR}/broker/applications/deployment_hooks/src/bin/seccomp/seccomp
 
 # create the necessary links and cache
 pushd /etc/ld.so.conf.d/
@@ -38,7 +38,7 @@ case $1 in
       --background \
       --no-close \
       --chdir ${PACKAGE_DIR} \
-      -- ${PACKAGE_DIR}/broker/applications/deployment_hooks/HookServer.js \
+      -- ${PACKAGE_DIR}/broker/applications/deployment_hooks/src/HookServer.js \
       1>> ${LOG_DIR}/${OUTPUT_LABEL}.stdout.log \
       2>> ${LOG_DIR}/${OUTPUT_LABEL}.stderr.log
     ;;
