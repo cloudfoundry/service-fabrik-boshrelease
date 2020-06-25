@@ -231,6 +231,8 @@ properties:
     description: "Private key used for internal communication"
   internal.ssl.cert:
     description: "Signed certificate used for internal communication"
+  internal.ssl.ca:
+    description: "CA for internal app SSL certificate"
   internal.log_event:
     description: "Determines whether event logging must be enabled or not"
     default: true
