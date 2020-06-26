@@ -6,7 +6,7 @@ processes:
 - name: service-fabrik-serviceflow-manager
   executable: /var/vcap/packages/node/bin/node
   args:
-  - /var/vcap/packages/service-fabrik-broker/broker/applications/operators/serviceflow-operator/StartSerialServiceFlow.js
+  - /var/vcap/packages/service-fabrik-broker/broker/applications/operators/src/serviceflow-operator/StartSerialServiceFlow.js
   env:
     CONF_DIR: <%= CONFIG_PATH %>
     NODE_ENV: production
