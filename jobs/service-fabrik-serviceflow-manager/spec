@@ -9,6 +9,7 @@ packages:
 templates:
   config/bpm.yml.erb: config/bpm.yml
   config/settings.yml.erb: config/settings.yml
+  config/kubeconfig.yaml.erb: config/kubeconfig.yaml
 
 consumes:
 - name: broker

@@ -40,6 +40,8 @@ production:
     certificate: <%= JSON.dump(link("service-fabrik-apiserver").p('tls.apiserver.certificate')) %>
     private_key: <%= JSON.dump(link("service-fabrik-apiserver").p('tls.apiserver.private_key')) %>
     crds: <%= JSON.dump(link("service-fabrik-apiserver").p('crds')) %>
+    getConfigInCluster: false
+    pathToKubeConfig: "/var/vcap/jobs/service-fabrik-postgresqlmt-operator/config/kubeconfig.yaml"
       
   #########################
   # CLOUDFOUNDRY SETTINGS #
