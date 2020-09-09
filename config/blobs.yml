@@ -46,6 +46,10 @@ docker/docker-18.09.2.tgz:
   size: 48020699
   object_id: c9a25eb3-2d23-457f-714d-0c370916a687
   sha: sha256:183e10448f0c3a0dc82c9d504c5280c29527b89af0fc71cb27115d684b26c8bd
+docker/docker-19.03.3.tgz:
+  size: 63244685
+  object_id: 709b25a0-a988-48c5-4963-f831926d8030
+  sha: sha256:c3c8833e227b61fe6ce0bc5c17f97fa547035bef4ef17cf6601f30b0f20f4ce5
 golang/go1.14.3.linux-amd64.tar.gz:
   size: 123703837
   object_id: 280cac2d-6c92-47e6-76b8-e0a8a9716992
