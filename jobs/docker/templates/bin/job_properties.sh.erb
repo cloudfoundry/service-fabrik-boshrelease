@@ -181,7 +181,7 @@ export DOCKER_ULIMIT_NOFILE=<%= p('docker.ulimit.nofile') %>
 export DOCKER_VOLUME_MOUNTDIR=<%= p('docker.volume.mount_dir') %>
 
 # key file location argument passed to docker daemon
-export DOCKER_DAEMON_KEY_FILE_ARG="--deprecated-key-path=<%= p('docker.daemon.keyfile') %>"
+export DOCKER_DAEMON_KEY_FILE_ARG=<%= p('docker.daemon.keyfile') %>
 
 # Proxy configuration
 <% if_p('env.http_proxy') do |http_proxy| %>
