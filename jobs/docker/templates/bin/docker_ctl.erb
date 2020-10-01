@@ -68,6 +68,20 @@ case $1 in
         set -e
     fi                                                           
 
+    #create symlink from /etc/docker/key.json to /var/vcap/store/docker/key.json
+    if [[ ! -d /etc/docker ]] ; then
+      mkdir /etc/docker
+      ln -s "${DOCKER_DAEMON_KEY_FILE_ARG}" /etc/docker/key.json
+    elif [[ ! -f /etc/docker/key.json  ]] ; then
+      ln -s "${DOCKER_DAEMON_KEY_FILE_ARG}" /etc/docker/key.json
+    else
+      link_target=$(readlink -f /etc/docker/key.json)
+      if [[ "${link_target}" != "${DOCKER_DAEMON_KEY_FILE_ARG}" ]]; then
+        mv /etc/docker/key.json /etc/docker/key.json.backup
+        ln -s "${DOCKER_DAEMON_KEY_FILE_ARG}" /etc/docker/key.json
+      fi
+    fi
+    
     # Start Docker daemon
     exec dockerd \
         ${DOCKER_API_CORS_HEADER} \
@@ -85,7 +99,6 @@ case $1 in
         --group vcap \
         --data-root ${DOCKER_STORE_DIR}/docker \
         --host unix://${DOCKER_PID_DIR}/docker.sock \
-        ${DOCKER_DAEMON_KEY_FILE_ARG} \
         ${DOCKER_ICC} \
         ${DOCKER_INSECURE_REGISTRIES:-} \
         ${DOCKER_IP:-} \
