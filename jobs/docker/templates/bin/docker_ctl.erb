@@ -66,19 +66,27 @@ case $1 in
             sudo sh -c 'echo dockremap:500000:65536 >> /etc/subgid'          
         fi                                                                 
         set -e
-    fi                                                           
-
-    #create symlink from /etc/docker/key.json to /var/vcap/store/docker/key.json
+    fi     
+                                                          
+    # ensure /etc/docker exists
     if [[ ! -d /etc/docker ]] ; then
       mkdir /etc/docker
-      ln -s "${DOCKER_DAEMON_KEY_FILE_ARG}" /etc/docker/key.json
-    elif [[ ! -f /etc/docker/key.json  ]] ; then
-      ln -s "${DOCKER_DAEMON_KEY_FILE_ARG}" /etc/docker/key.json
-    else
-      link_target=$(readlink -f /etc/docker/key.json)
-      if [[ "${link_target}" != "${DOCKER_DAEMON_KEY_FILE_ARG}" ]]; then
-        mv /etc/docker/key.json /etc/docker/key.json.backup
+    fi
+    # create symlink from /etc/docker/key.json to /var/vcap/store/docker/key.json
+    if [[ -f "${DOCKER_DAEMON_KEY_FILE_ARG}" ]]; then 
+      # let docker start with key located at default /etc/docker/key.json
+      # if /var/vcap/store/docker/key.json doesn't exist. 
+      # Scratch install or new docker vm scenario
+      
+      # backup /etc/docker/key.json from previous run and symlink it to /var/vcap/store/docker/key.json
+      if [[ ! -f /etc/docker/key.json  ]] ; then
         ln -s "${DOCKER_DAEMON_KEY_FILE_ARG}" /etc/docker/key.json
+      else
+        link_target=$(readlink -f /etc/docker/key.json)
+        if [[ "${link_target}" != "${DOCKER_DAEMON_KEY_FILE_ARG}" ]]; then
+          mv /etc/docker/key.json /etc/docker/key.json.backup
+          ln -s "${DOCKER_DAEMON_KEY_FILE_ARG}" /etc/docker/key.json
+        fi
       fi
     fi
     
@@ -165,6 +173,12 @@ case $1 in
     # Unblock the port docker demon port by removing the rule
     iptables -D INPUT -p tcp --dport ${DOCKER_TCP_PORT} -j DROP
     set -e
+
+    # Ensure key file exists at /var/vcap/store/docker/key.json
+    if [[ ! -f "${DOCKER_DAEMON_KEY_FILE_ARG}" ]] && [[ -f /etc/docker/key.json ]] ; then 
+      touch "${DOCKER_DAEMON_KEY_FILE_ARG}"
+      cp /etc/docker/key.json "${DOCKER_DAEMON_KEY_FILE_ARG}"
+    fi
     ;;
 
   *)
