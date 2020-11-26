@@ -1,3 +1,23 @@
+apt/bionic/lvm2/dmeventd_1.02.145-4.1ubuntu3_amd64.deb:
+  size: 30416
+  object_id: dce5c468-7c98-4f71-730b-7674cf8335b9
+  sha: sha256:b0d0e23f145d1124f6be1657226a9349d4fbc6814a9184bab43461db59710cb5
+apt/bionic/lvm2/libdevmapper-event1.02.1_1.02.145-4.1ubuntu3_amd64.deb:
+  size: 10896
+  object_id: fc851e9c-619e-46e3-565d-04612aea289e
+  sha: sha256:9ac145d86613dd6645a213fbd6f49622dcb49d1960e2670fe59de5af658f10c2
+apt/bionic/lvm2/liblvm2app2.2_2.02.176-4.1ubuntu3_amd64.deb:
+  size: 433196
+  object_id: da5480da-2fe4-4695-5437-86479b7f5fa0
+  sha: sha256:c500fdfeb70e30253e82afcb3787b039a9d4db24a70c2401c2db5629960d44b3
+apt/bionic/lvm2/liblvm2cmd2.02_2.02.176-4.1ubuntu3_amd64.deb:
+  size: 585560
+  object_id: 533c0af7-02d0-4c13-64f1-29b5137971c2
+  sha: sha256:4cb3d032e27a860885ffefe6ef84f30220d59802e27e4ffe80c4b8b968409446
+apt/bionic/lvm2/lvm2_2.02.176-4.1ubuntu3_amd64.deb:
+  size: 928612
+  object_id: fb7474f6-3db8-4285-60d4-1115a218aab3
+  sha: sha256:e62e8b4eaab506eee39be32c7f2474a18ff507c5c9cf40ffea2d99dd7d6891ee
 apt/lvm2/libdevmapper-event1.02.1_2:1.02.77-6ubuntu2_amd64.deb:
   size: 10812
   object_id: 67e8628d-c7a4-4182-8fdd-4cddd60bcaa0
