@@ -94,14 +94,10 @@ libseccomp/libseccomp-2.3.3.tar.gz:
   size: 564546
   object_id: 4e749385-3bc6-45b5-7a08-906c3cf97573
   sha: 89b1f35447b1891a3051de979dc92ad9f7258b60
-node/node-v12.18.0-linux-x64.tar.xz:
-  size: 14782236
-  object_id: 31f38ac8-8cb2-4286-690c-988cea8664a0
-  sha: sha256:2febc2506c298048bfddf896056be6191c1f08716876d960a4990bd63a7fe05a
-node/node-v12.18.4-linux-x64.tar.xz:
-  size: 14696128
-  object_id: ec79f733-7620-48b2-4637-4ddad9f8b36f
-  sha: sha256:b6434590cf7013c8592f895595d71a169f57e59bbb7db639c62779950e12e20c
+node/node-v12.19.1-linux-x64.tar.xz:
+  size: 14788452
+  object_id: 28fa5e3b-724b-45db-5635-e0c5020ad2d2
+  sha: sha256:1436dbc34383abbe5e921e9744e527cd24c690e7b0362a39fb960795a23a7a03
 yaml2json/yaml2json:
   size: 2349240
   object_id: b3d57a81-3790-43a4-69eb-c2bcb02fcc54
