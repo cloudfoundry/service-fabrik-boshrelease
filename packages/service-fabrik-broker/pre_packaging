@@ -26,7 +26,9 @@ set -u
   cd ${BUILD_DIR}/github.com/cloudfoundry-incubator/service-fabrik-broker/broker
 
   # Install production dependencies
-  npm install --production
+  npm install -g yarn
+  yarn set version berry
+  yarn install --production
 
   # Precompile static files if needed
 
