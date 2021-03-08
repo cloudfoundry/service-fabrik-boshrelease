@@ -36,6 +36,8 @@ provides:
   - broker_drain_message
   - http_timeout
   - deployment_action_timeout
+  - allow_concurrent_operations
+  - allow_concurrent_binding_operations
   - agent_operation_timeout
   - internal.internal_url
   - internal.port
@@ -197,6 +199,12 @@ properties:
   broker_drain_message:
     description: "Drain message that is updated into broker maintenance state. If undefined, then during drain maintenance state is not updated"
     default: "BROKER_DRAIN_INITIATED"
+  allow_concurrent_operations:
+    description: "When set to true, it will disable the check for parallel create/update/delete operation during any OSB operation"
+    default: false
+  allow_concurrent_binding_operations:
+    description: "When set to true, it will disable the check for parallel binding/unbinding operation during any OSB operation"
+    default: false
   
   external.port:
     description: "Port used for external endpoints such as dashboards or the Service Fabrik API"
