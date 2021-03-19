@@ -200,7 +200,7 @@ properties:
     description: "Drain message that is updated into broker maintenance state. If undefined, then during drain maintenance state is not updated"
     default: "BROKER_DRAIN_INITIATED"
   allow_concurrent_operations:
-    description: "When set to true, it will disable the check for parallel create/update/delete operation during any OSB operation"
+    description: "When set to true, it will disable the check for parallel create/update/delete operation of the service instance"
     default: false
   allow_concurrent_binding_operations:
     description: "When set to true, it will disable the check for parallel binding/unbinding operation during any OSB operation"
