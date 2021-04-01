@@ -202,10 +202,10 @@ properties:
     default: "BROKER_DRAIN_INITIATED"
   allow_concurrent_operations:
     description: "When set to true, it will disable the check for parallel create/update/delete operation of the service instance"
-    default: false
+    default: true
   allow_concurrent_binding_operations:
     description: "When set to true, it will disable the check for parallel binding/unbinding operation during any OSB operation"
-    default: false
+    default: true
   send_binding_metadata:
     description: "When set to false, any metadata will be omitted from the create_binding response. To be used when metadata contains sensitive information"
     default: true
