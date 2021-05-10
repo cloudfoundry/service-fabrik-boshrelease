@@ -47,6 +47,7 @@ properties:
     description: "CRD list to be deployed on apiserver"
   ip:
     description: IP address used for apiserver
+    default: "127.0.0.1"
   port:
     description: Port used for apiserver
     default: 9443
