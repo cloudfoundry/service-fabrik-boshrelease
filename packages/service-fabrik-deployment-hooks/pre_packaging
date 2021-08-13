@@ -27,7 +27,7 @@ set -u
 
   # Install production dependencies
   npm install -g yarn
-  yarn set version berry
+  yarn set version 2.4.1
   yarn install
 
   # Precompile static files if needed
