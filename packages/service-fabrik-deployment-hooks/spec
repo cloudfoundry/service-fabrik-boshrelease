@@ -5,4 +5,4 @@ dependencies:
   - libseccomp
 files:
   - github.com/cloudfoundry-incubator/service-fabrik-broker/**/*
-  - node/node-v12.19.1-linux-x64.tar.xz
+  - node/node-v12.22.7-linux-x64.tar.xz
