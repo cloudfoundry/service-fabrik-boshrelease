@@ -6,4 +6,4 @@ dependencies:
 
 files:
   - github.com/cloudfoundry-incubator/service-fabrik-broker/webhooks/**/*
-  - golang/go1.14.7.linux-amd64.tar.gz
+  - golang/go1.17.5.linux-amd64.tar.gz

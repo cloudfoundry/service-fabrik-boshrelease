@@ -19,7 +19,7 @@ PACKAGE_NAME=github.com/docker/swarm
 mkdir -p ${BOSH_INSTALL_TARGET}/src/${PACKAGE_NAME}
 cp -a ${BOSH_COMPILE_TARGET}/${PACKAGE_NAME}/* ${BOSH_INSTALL_TARGET}/src/${PACKAGE_NAME}
 export GOPATH=${BOSH_INSTALL_TARGET}
-go install ${PACKAGE_NAME}
+go install ${PACKAGE_NAME}@master
 
 # Clean up src & pkg artifacts
 rm -rf ${BOSH_INSTALL_TARGET}/pkg ${BOSH_INSTALL_TARGET}/src

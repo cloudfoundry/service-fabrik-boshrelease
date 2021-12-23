@@ -78,6 +78,10 @@ golang/go1.14.7.linux-amd64.tar.gz:
   size: 123747311
   object_id: b92b7eff-f563-4982-7887-f357dbeb357e
   sha: sha256:4a7fa60f323ee1416a4b1425aefc37ea359e9d64df19c326a58953a97ad41ea5
+golang/go1.17.5.linux-amd64.tar.gz:
+  size: 134808667
+  object_id: 059ee0e7-7da7-4a8a-688c-b59802c0c19d
+  sha: sha256:bd78114b0d441b029c8fe0341f4910370925a4d270a6a590668840675b0c653e
 jq/jq:
   size: 497799
   object_id: 61d27ef5-32cc-439d-6842-97be75dae6fb
