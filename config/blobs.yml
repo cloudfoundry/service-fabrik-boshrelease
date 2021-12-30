@@ -70,6 +70,10 @@ docker/docker-19.03.3.tgz:
   size: 63244685
   object_id: 709b25a0-a988-48c5-4963-f831926d8030
   sha: sha256:c3c8833e227b61fe6ce0bc5c17f97fa547035bef4ef17cf6601f30b0f20f4ce5
+docker/swarm-1.2.9.zip:
+  size: 2151106
+  object_id: 64eda587-2fd4-43d8-6a2b-760c7986ebb9
+  sha: sha256:7e30ffe9f83f2d05d00e1a715ff0b558ca098dcff069a28aefb918fce961c884
 golang/go1.14.3.linux-amd64.tar.gz:
   size: 123703837
   object_id: 280cac2d-6c92-47e6-76b8-e0a8a9716992

@@ -17,9 +17,25 @@ export PATH=${GOROOT}/bin:${GOPATH}/bin:${PATH}
 echo "Building Docker Swarm..."
 PACKAGE_NAME=github.com/docker/swarm
 mkdir -p ${BOSH_INSTALL_TARGET}/src/${PACKAGE_NAME}
-cp -a ${BOSH_COMPILE_TARGET}/${PACKAGE_NAME}/* ${BOSH_INSTALL_TARGET}/src/${PACKAGE_NAME}
 export GOPATH=${BOSH_INSTALL_TARGET}
-go install ${PACKAGE_NAME}@master
+export GO111MODULE=off
+
+# Extract Docker Swarm package
+SWARM_VERSION=`ls -r docker/swarm* | sed 's/docker\/swarm-\(.*\)\.zip/\1/' | head -1`
+echo "Extracting Docker Swarm ${SWARM_VERSION}..."
+unzip docker/swarm-${SWARM_VERSION}.zip 
+if [[ $? != 0 ]] ; then
+  echo "Failed extracting Docker Swarm ${SWARM_VERSION}"
+  exit 1
+fi
+
+cp -a classicswarm-${SWARM_VERSION}/* ${BOSH_INSTALL_TARGET}/src/${PACKAGE_NAME}
+if [[ $? != 0 ]] ; then
+  echo "Failed copying Docker Swarm ${SWARM_VERSION}"
+  exit 1
+fi
+
+go install ${PACKAGE_NAME}
 
 # Clean up src & pkg artifacts
 rm -rf ${BOSH_INSTALL_TARGET}/pkg ${BOSH_INSTALL_TARGET}/src
