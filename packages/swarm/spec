@@ -3,4 +3,4 @@ name: swarm
 dependencies:
   - golang
 files:
-  - github.com/docker/swarm/**/*
+  - docker/swarm-1.2.9.zip
