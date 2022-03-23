@@ -31,11 +31,8 @@ set -u
   cp -R ${BUILD_DIR}/github.com ${GOPATH}/src
   cd ${GOPATH}/src/${PACKAGE_NAME}
 
-  #install dep
-  curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
-  ${GOPATH}/bin/dep ensure -v
-  cp -R ${GOPATH}/src/${PACKAGE_NAME}/vendor ${BUILD_DIR}/${PACKAGE_NAME}
-  rm -rf ${BUILD_DIR}/${PACKAGE_NAME}/{docs,logs}
+  GO111MODULE=on go mod vendor
+  rm -rf ${BUILD_DIR}/${PACKAGE_NAME}/{docs,logs, images}
 
   rm -rf ${TEMP_DIR}
 )

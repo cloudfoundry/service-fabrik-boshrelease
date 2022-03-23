@@ -12,7 +12,6 @@ fi
 export GOCACHE=/var/vcap/data/golang/cache
 export GOPATH="${PWD}"
 export PATH=${GOROOT}/bin:${GOPATH}/bin:${PATH}
-export GO111MODULE=off
 
 # Build API Server package
 echo "Building API Server..."
