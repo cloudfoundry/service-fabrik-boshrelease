@@ -13,11 +13,8 @@ export GOCACHE=/var/vcap/data/golang/cache
 export GOPATH="${PWD}"
 export PATH=${GOROOT}/bin:${GOPATH}/bin:${PATH}
 
-# Build API Server package
-echo "Building API Server..."
+# Build Webhooks package
+echo "Building Webhooks..."
 PACKAGE_NAME=github.com/cloudfoundry-incubator/service-fabrik-broker/webhooks
-mkdir -p ${BOSH_INSTALL_TARGET}/src/${PACKAGE_NAME}
-cp -a ${BOSH_COMPILE_TARGET}/${PACKAGE_NAME}/* ${BOSH_INSTALL_TARGET}/src/${PACKAGE_NAME}
-export GOPATH=${BOSH_INSTALL_TARGET}
-cd ${BOSH_INSTALL_TARGET}
-go build -o bin/manager-webhooks ${PACKAGE_NAME}/pkg/webhooks/manager
+cd ${BOSH_COMPILE_TARGET}/${PACKAGE_NAME}
+CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -mod vendor -o ${BOSH_INSTALL_TARGET}/bin/manager-webhooks ./pkg/webhooks/manager
