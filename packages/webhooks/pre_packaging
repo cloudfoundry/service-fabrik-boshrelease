@@ -22,20 +22,12 @@ set -u
   export GOCACHE=${TEMP_DIR}/go/cache
   export PATH=${GOROOT}/bin:${PATH}
 
-  cd ..
-  export GOPATH=$(pwd)
-  mkdir -p ${GOPATH}/bin
-  mkdir -p ${GOPATH}/src
-  PACKAGE_NAME=github.com/cloudfoundry-incubator/service-fabrik-broker/webhooks
-  rm -rf ${GOPATH}/src/${PACKAGE_NAME}
-  cp -R ${BUILD_DIR}/github.com ${GOPATH}/src
-  cd ${GOPATH}/src/${PACKAGE_NAME}
+  cd ${BUILD_DIR}/github.com/cloudfoundry-incubator/service-fabrik-broker/webhooks
+  GO111MODULE=on go mod vendor
 
-  #install dep
-  curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
-  ${GOPATH}/bin/dep ensure -v
-  cp -R ${GOPATH}/src/${PACKAGE_NAME}/vendor ${BUILD_DIR}/${PACKAGE_NAME}
-  rm -rf ${BUILD_DIR}/${PACKAGE_NAME}/{docs,logs}
-
+  # Remove unneeded files
+  rm -rf docs
+  rm -rf logs/*
+  rm -rf images
   rm -rf ${TEMP_DIR}
 )
