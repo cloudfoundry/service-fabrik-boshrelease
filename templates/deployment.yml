@@ -55,6 +55,10 @@ instance_groups:
     release: service-fabrik
   - name: service-fabrik-broker
     release: service-fabrik
+    consumes:
+      nats-tls:
+        from: nats-tls
+        deployment: cf
     properties:
       name: service-fabrik-broker
       username: default
@@ -190,9 +194,11 @@ instance_groups:
         retention_period_in_days: 14
       nats:
         machines: default
-        password: default
         port: default
-        user: default
+        tls:
+          enabled: true
+          client_cert: "(( .context.imports.cf.internal.nats.tls.client_cert ))"
+          client_key: "(( .context.imports.cf.internal.nats.tls.client_key))"
       route_registrar:
         routes:
         - health_check:
