@@ -248,6 +248,10 @@ instance_groups:
         tls_cacert: ((common.tls_cacert))
   - name: route_registrar
     release: routing
+    consumes:
+      nats-tls:
+        from: nats-tls
+        deployment: cf
     properties:
       route_registrar:
         routes:
@@ -264,10 +268,12 @@ instance_groups:
           uris:
           - service-fabrik-broker.bosh-lite.com
       nats:
-        machines: default
-        password: default
+        machines: default	          
         port: default
-        user: default
+        tls:
+          enabled: true
+          client_cert: "(( .context.imports.cf.internal.nats.tls.client_cert ))"
+          client_key: "(( .context.imports.cf.internal.nats.tls.client_key))"
 - name: docker
   instances: 1
   networks:
