@@ -62,11 +62,3 @@
 - type: replace
   path: /instance_groups/name=broker/jobs/name=route_registrar/properties/nats/port
   value: 4222
-
-- type: replace
-  path: /instance_groups/name=broker/jobs/name=route_registrar/properties/nats/user
-  value: nats
-
-- type: replace
-  path: /instance_groups/name=broker/jobs/name=route_registrar/properties/nats/password
-  value: nats
