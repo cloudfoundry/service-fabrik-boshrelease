@@ -86,6 +86,10 @@ golang/go1.17.5.linux-amd64.tar.gz:
   size: 134808667
   object_id: 059ee0e7-7da7-4a8a-688c-b59802c0c19d
   sha: sha256:bd78114b0d441b029c8fe0341f4910370925a4d270a6a590668840675b0c653e
+gperf/gperf-3.1.tar.gz:
+  size: 1215925
+  object_id: ef1220e8-7728-4dc0-7d0a-66ca4479fcd6
+  sha: sha256:588546b945bba4b70b6a3a616e80b4ab466e3f33024a352fc2198112cdbb3ae2
 jq/jq:
   size: 497799
   object_id: 61d27ef5-32cc-439d-6842-97be75dae6fb
@@ -102,6 +106,10 @@ libseccomp/libseccomp-2.3.3.tar.gz:
   size: 564546
   object_id: 4e749385-3bc6-45b5-7a08-906c3cf97573
   sha: 89b1f35447b1891a3051de979dc92ad9f7258b60
+libseccomp/libseccomp-2.5.4.tar.gz:
+  size: 637228
+  object_id: 2718ca1d-3eb3-43a2-5cf9-f29b4dcc74f2
+  sha: sha256:d82902400405cf0068574ef3dc1fe5f5926207543ba1ae6f8e7a1576351dcbdb
 node/node-v12.22.7-linux-x64.tar.xz:
   size: 14603460
   object_id: 22ae6c5a-9282-4119-7f37-47e5336b89b2

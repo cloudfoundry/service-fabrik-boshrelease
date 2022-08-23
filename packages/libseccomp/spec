@@ -1,5 +1,5 @@
 ---
 name: libseccomp
-dependencies: []
 files:
-- libseccomp/libseccomp-2.3.3.tar.gz
+- libseccomp/libseccomp-2.5.4.tar.gz
+- gperf/gperf-3.1.tar.gz

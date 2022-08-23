@@ -1,7 +1,29 @@
 #!/bin/bash
 set -e
 
-LIBSECCOMP_VERSION="2.3.3"
+GPERF_VERSION="3.1"
+GPERF_PREFIX="${BOSH_INSTALL_TARGET}/gperf_installation"
+# Extract gperf package
+echo "Extracting gperf ${GPERF_VERSION}..."
+tar xpvf ${BOSH_COMPILE_TARGET}/gperf/gperf-${GPERF_VERSION}.tar.gz
+if [[ $? != 0 ]] ; then
+  echo "Failed extracting gperf ${GPERF_VERSION}"
+  exit 1
+fi
+
+# Copy gperf package
+echo "Copying gperf ${GPERF_VERSION}..."
+cp -a ${BOSH_COMPILE_TARGET}/gperf-${GPERF_VERSION}/* ${BOSH_INSTALL_TARGET}/
+
+echo "Installing gperf..."
+pushd ${BOSH_INSTALL_TARGET}
+./configure --prefix="${GPERF_PREFIX}"
+make
+make install
+popd
+
+LIBSECCOMP_VERSION="2.5.4"
+export PATH="${GPERF_PREFIX}/bin:$PATH"
 # Extract libseccomp package
 echo "Extracting libseccomp ${LIBSECCOMP_VERSION}..."
 tar xpvf ${BOSH_COMPILE_TARGET}/libseccomp/libseccomp-${LIBSECCOMP_VERSION}.tar.gz
