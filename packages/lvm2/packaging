@@ -30,4 +30,11 @@ elif [[ `lsb_release -cs` == "trusty" ]]; then
    echo "Installing $(basename $DEB)"
    cp -a $DEB ${BOSH_INSTALL_TARGET}/
   done
+
+elif [[ `lsb_release -cs` == "jammy" ]]; then
+
+  for DEB in $(ls -1 apt/jammy/*.deb); do
+   echo "Installing $(basename $DEB)"
+   cp -a $DEB ${BOSH_INSTALL_TARGET}/
+  done
 fi

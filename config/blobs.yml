@@ -18,6 +18,26 @@ apt/bionic/lvm2/lvm2_2.02.176-4.1ubuntu3_amd64.deb:
   size: 928612
   object_id: fb7474f6-3db8-4285-60d4-1115a218aab3
   sha: sha256:e62e8b4eaab506eee39be32c7f2474a18ff507c5c9cf40ffea2d99dd7d6891ee
+apt/jammy/dmeventd_1.02.185-2_amd64.deb:
+  size: 59188
+  object_id: eca21720-00e2-4446-73f1-09bea872ddf5
+  sha: sha256:c5742689058b765217ffb6a88cffa4a65633da41ec7d2d9bbce5de28bebbe13d
+apt/jammy/libdevmapper-event1.02.1_1.02.145-4.1ubuntu3_amd64.deb:
+  size: 10896
+  object_id: 8863da0d-c6d1-4691-57a3-8de3579170e9
+  sha: sha256:9ac145d86613dd6645a213fbd6f49622dcb49d1960e2670fe59de5af658f10c2
+apt/jammy/liblvm2cmd2.03_2.03.11-2.1_amd64.deb:
+  size: 711052
+  object_id: b0949e21-d9b2-4887-7c5b-1abb66f5f5b4
+  sha: sha256:2f9d50c9c965e77f942bfadc47f6949b6095543d0fbad86023983b69ace34ca5
+apt/jammy/lvm2_2.02.176-4.1ubuntu3_amd64.deb:
+  size: 928612
+  object_id: ea379f41-919d-42af-4a59-1466a24717cd
+  sha: sha256:e62e8b4eaab506eee39be32c7f2474a18ff507c5c9cf40ffea2d99dd7d6891ee
+apt/jammy/thin-provisioning-tools_0.9.0-2ubuntu1_amd64.deb:
+  size: 426228
+  object_id: f8e9f4a9-cc53-4621-7ca2-1c834770d2d6
+  sha: sha256:32508138098821fa7eb7635fa8877db60ae028706e6b8716361fcbea3a4184b8
 apt/lvm2/libdevmapper-event1.02.1_2:1.02.77-6ubuntu2_amd64.deb:
   size: 10812
   object_id: 67e8628d-c7a4-4182-8fdd-4cddd60bcaa0
