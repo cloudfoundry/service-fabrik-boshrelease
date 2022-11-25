@@ -30,10 +30,10 @@ apt/jammy/liblvm2cmd2.03_2.03.11-2.1_amd64.deb:
   size: 711052
   object_id: b0949e21-d9b2-4887-7c5b-1abb66f5f5b4
   sha: sha256:2f9d50c9c965e77f942bfadc47f6949b6095543d0fbad86023983b69ace34ca5
-apt/jammy/lvm2_2.02.176-4.1ubuntu3_amd64.deb:
-  size: 928612
-  object_id: ea379f41-919d-42af-4a59-1466a24717cd
-  sha: sha256:e62e8b4eaab506eee39be32c7f2474a18ff507c5c9cf40ffea2d99dd7d6891ee
+apt/jammy/lvm2_2.03.11-2.1ubuntu4_amd64.deb:
+  size: 1154112
+  object_id: ea512fe1-4528-40b3-666a-903698ae3325
+  sha: sha256:4cd12a47ca9d05b3c93aaa78e51cb880e9b0f67e67c9dd29fba63ac2cee5b9cf
 apt/jammy/thin-provisioning-tools_0.9.0-2ubuntu1_amd64.deb:
   size: 426228
   object_id: f8e9f4a9-cc53-4621-7ca2-1c834770d2d6

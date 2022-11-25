@@ -204,7 +204,8 @@ case $1 in
                 set +e
               fi
            done
-           elif [[ `lsb_release -cs` == "jammy" ]]; then
+           
+      elif [[ `lsb_release -cs` == "jammy" ]]; then
 
            echo "$(date) Installing jammy packages for lvm2"
        
