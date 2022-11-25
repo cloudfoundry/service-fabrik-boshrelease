@@ -204,7 +204,7 @@ case $1 in
                 set +e
               fi
            done
-           
+
       elif [[ `lsb_release -cs` == "jammy" ]]; then
 
            echo "$(date) Installing jammy packages for lvm2"
@@ -243,7 +243,7 @@ case $1 in
            if ! dpkg -s lvm2 > /dev/null 2>&1 ; then
                echo "$(date) Installing debian package lvm2"
            set -e
-               dpkg -i $LVM2_PACKAGE_PATH/lvm2_2.02.176-4.1ubuntu3_amd64.deb
+               dpkg -i $LVM2_PACKAGE_PATH/lvm2_2.03.11-2.1ubuntu4_amd64.deb
            set +e
        
            fi
