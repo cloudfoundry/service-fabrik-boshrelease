@@ -230,7 +230,7 @@ case $1 in
            set -e
                dpkg --unpack $LVM2_PACKAGE_PATH/dmeventd_1.02.185-2_amd64.deb
                # Now configure both liblvm2cmd2.02 and dmeventd which have cyclic dependency
-               dpkg --configure liblvm2cmd2.02 dmeventd
+               dpkg --configure liblvm2cmd2.03 dmeventd
            set +e
            fi
        
