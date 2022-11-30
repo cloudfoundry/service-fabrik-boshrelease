@@ -26,10 +26,10 @@ apt/jammy/libdevmapper-event1.02.1_1.02.145-4.1ubuntu3_amd64.deb:
   size: 10896
   object_id: 8863da0d-c6d1-4691-57a3-8de3579170e9
   sha: sha256:9ac145d86613dd6645a213fbd6f49622dcb49d1960e2670fe59de5af658f10c2
-apt/jammy/liblvm2cmd2.03_2.03.11-2.1ubuntu4_amd64.deb:
-  size: 756486
-  object_id: 4cea503b-53a3-4eee-45e4-e026df2d1f46
-  sha: sha256:f7c7fe9e51d2a76d56b14e1c3155870d30ca28b487f6113e938f9e456a8000c2
+apt/jammy/liblvm2cmd2.03_2.03.16-2_amd64.deb:
+  size: 742016
+  object_id: d6e8159d-7d7b-4ad9-62f5-96af475dd4dd
+  sha: sha256:a7534db8ff9ae7d68ce417970349f5db1d0377dce75998f20a8e0d4f115e1a86
 apt/jammy/lvm2_2.03.11-2.1ubuntu4_amd64.deb:
   size: 1154112
   object_id: ea512fe1-4528-40b3-666a-903698ae3325
