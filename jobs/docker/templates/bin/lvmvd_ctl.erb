@@ -216,10 +216,10 @@ case $1 in
            set +e
            fi
        
-           # the  package liblvm2cmd2.02 and dmeventd (package in below if) have cyclic dependency
+           # the  package liblvm2cmd2.03 and dmeventd (package in below if) have cyclic dependency
            # just unpack the packages  and configure them after unpacking both packages
            if ! dpkg -s liblvm2cmd2.03 > /dev/null 2>&1 ; then
-               echo "$(date) Installing debian package liblvm2cmd2.02"
+               echo "$(date) Installing debian package liblvm2cmd2.03"
            set -e
                dpkg --unpack $LVM2_PACKAGE_PATH/liblvm2cmd2.03_2.03.11-2.1ubuntu4_amd64.deb
            set +e
@@ -229,7 +229,7 @@ case $1 in
                echo "$(date) Installing debian package dmeventd"
            set -e
                dpkg --unpack $LVM2_PACKAGE_PATH/dmeventd_1.02.185-2_amd64.deb
-               # Now configure both liblvm2cmd2.02 and dmeventd which have cyclic dependency
+               # Now configure both liblvm2cmd2.03 and dmeventd which have cyclic dependency
                dpkg --configure liblvm2cmd2.03 dmeventd
            set +e
            fi
