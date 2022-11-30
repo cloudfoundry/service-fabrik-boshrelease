@@ -18,18 +18,18 @@ apt/bionic/lvm2/lvm2_2.02.176-4.1ubuntu3_amd64.deb:
   size: 928612
   object_id: fb7474f6-3db8-4285-60d4-1115a218aab3
   sha: sha256:e62e8b4eaab506eee39be32c7f2474a18ff507c5c9cf40ffea2d99dd7d6891ee
-apt/jammy/dmeventd_1.02.185-2_amd64.deb:
-  size: 59188
-  object_id: eca21720-00e2-4446-73f1-09bea872ddf5
-  sha: sha256:c5742689058b765217ffb6a88cffa4a65633da41ec7d2d9bbce5de28bebbe13d
+apt/jammy/dmeventd_1.02.175-2.1ubuntu4_amd64.deb:
+  size: 38362
+  object_id: fb9ba548-a622-4de1-4b0d-9e0f12fb7dd7
+  sha: sha256:d63e56757791e9f32e6a3f6b1bfd6b654a039fced0f7c8c1532705872f6ee1c1
 apt/jammy/libdevmapper-event1.02.1_1.02.145-4.1ubuntu3_amd64.deb:
   size: 10896
   object_id: 8863da0d-c6d1-4691-57a3-8de3579170e9
   sha: sha256:9ac145d86613dd6645a213fbd6f49622dcb49d1960e2670fe59de5af658f10c2
-apt/jammy/liblvm2cmd2.03_2.03.16-2_amd64.deb:
-  size: 742016
-  object_id: d6e8159d-7d7b-4ad9-62f5-96af475dd4dd
-  sha: sha256:a7534db8ff9ae7d68ce417970349f5db1d0377dce75998f20a8e0d4f115e1a86
+apt/jammy/liblvm2cmd2.03_2.03.11-2.1ubuntu4_amd64.deb:
+  size: 756486
+  object_id: 4cea503b-53a3-4eee-45e4-e026df2d1f46
+  sha: sha256:f7c7fe9e51d2a76d56b14e1c3155870d30ca28b487f6113e938f9e456a8000c2
 apt/jammy/lvm2_2.03.11-2.1ubuntu4_amd64.deb:
   size: 1154112
   object_id: ea512fe1-4528-40b3-666a-903698ae3325
