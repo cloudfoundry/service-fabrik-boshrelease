@@ -204,6 +204,55 @@ case $1 in
                 set +e
               fi
            done
+
+      elif [[ `lsb_release -cs` == "jammy" ]]; then
+
+           echo "$(date) Installing jammy packages for lvm2"
+
+           if ! dpkg -s libdevmapper-event1.02.1 > /dev/null 2>&1 ; then
+               echo "$(date) Installing debian package libdevmapper-event1.02.1"
+           set -e
+               dpkg -i $LVM2_PACKAGE_PATH/libdevmapper-event1.02.1_1.02.175-2.1ubuntu4_amd64.deb
+           set +e
+           fi
+       
+           # the  package liblvm2cmd2.03 and dmeventd (package in below if) have cyclic dependency
+           # just unpack the packages  and configure them after unpacking both packages
+           if ! dpkg -s dmeventd > /dev/null 2>&1 ; then
+               echo "$(date) Installing debian package dmeventd"
+           set -e
+               dpkg --unpack $LVM2_PACKAGE_PATH/dmeventd_1.02.175-2.1ubuntu4_amd64.deb
+           set +e
+           fi
+
+           if ! dpkg -s liblvm2cmd2.03 > /dev/null 2>&1 ; then
+               echo "$(date) Installing debian package liblvm2cmd2.03"
+            set -e
+               dpkg --unpack $LVM2_PACKAGE_PATH/liblvm2cmd2.03_2.03.11-2.1ubuntu4_amd64.deb
+               # Now configure both liblvm2cmd2.03 and dmeventd which have cyclic dependency
+               dpkg --configure dmeventd liblvm2cmd2.03
+            set +e
+            fi
+       
+           if ! dpkg -s thin-provisioning-tools > /dev/null 2>&1 ; then
+               echo "$(date) Installing debian package thin-provisioning-tools"
+           set -e
+               dpkg -i $LVM2_PACKAGE_PATH/thin-provisioning-tools_0.9.0-2ubuntu1_amd64.deb
+           fi
+       
+           if ! dpkg -s lvm2 > /dev/null 2>&1 ; then
+               echo "$(date) Installing debian package lvm2"
+           set -e
+               dpkg -i $LVM2_PACKAGE_PATH/lvm2_2.03.11-2.1ubuntu4_amd64.deb
+           set +e
+       
+           fi
+       
+           #lvmetad is new caching mechanism in lvm2, observed few problems with it hence disabling 
+          #  /etc/init.d/lvm2 stop
+          #  sed -i 's/use_lvmetad = 1/use_lvmetad = 0/g' /etc/lvm/lvm.conf
+          #  /etc/init.d/lvm2 start
+           
      else
         echo "$(date) Unsupported ubuntu release"
         exit 1

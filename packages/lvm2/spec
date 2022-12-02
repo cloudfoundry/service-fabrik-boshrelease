@@ -5,3 +5,4 @@ files:
 - apt/xenial/lvm2/*.deb
 - apt/bionic/lvm2/*.deb
 - apt/lvm2/*.deb
+- apt/jammy/*.deb
