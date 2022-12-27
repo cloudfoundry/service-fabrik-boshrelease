@@ -94,10 +94,10 @@ docker/swarm-1.2.9.zip:
   size: 2151106
   object_id: 64eda587-2fd4-43d8-6a2b-760c7986ebb9
   sha: sha256:7e30ffe9f83f2d05d00e1a715ff0b558ca098dcff069a28aefb918fce961c884
-golang/go1.19.1.linux-amd64.tar.gz:
-  size: 148820241
-  object_id: def6b6f4-c709-44ce-5a86-b29bd5743cdf
-  sha: sha256:acc512fbab4f716a8f97a8b3fbaa9ddd39606a28be6c2515ef7c6c6311acffde
+golang/go1.19.3.linux-amd64.tar.gz:
+  size: 148907134
+  object_id: 7c08dab3-ac30-480f-4953-eac687ae41aa
+  sha: sha256:74b9640724fd4e6bb0ed2a1bc44ae813a03f1e72a4c76253e2d5c015494430ba
 gperf/gperf-3.1.tar.gz:
   size: 1215925
   object_id: ef1220e8-7728-4dc0-7d0a-66ca4479fcd6
@@ -122,10 +122,10 @@ libseccomp/libseccomp-2.5.4.tar.gz:
   size: 637228
   object_id: 2718ca1d-3eb3-43a2-5cf9-f29b4dcc74f2
   sha: sha256:d82902400405cf0068574ef3dc1fe5f5926207543ba1ae6f8e7a1576351dcbdb
-node/node-v12.22.7-linux-x64.tar.xz:
-  size: 14603460
-  object_id: 22ae6c5a-9282-4119-7f37-47e5336b89b2
-  sha: sha256:2768bc01d2f97ab8135b8c03b275b9689573964b426b5dd9082334fd70dcc583
+node/node-v12.22.12-linux-x64.tar.xz:
+  size: 14584388
+  object_id: 2c64f1ff-03a7-4d37-436c-b22031445fe7
+  sha: sha256:e6d052364bfa2c17da92cf31794100cfd709ba147415ddaeed2222eec9ca1469
 yaml2json/yaml2json:
   size: 2349240
   object_id: b3d57a81-3790-43a4-69eb-c2bcb02fcc54
