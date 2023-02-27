@@ -94,10 +94,10 @@ docker/swarm-1.2.9.zip:
   size: 2151106
   object_id: 64eda587-2fd4-43d8-6a2b-760c7986ebb9
   sha: sha256:7e30ffe9f83f2d05d00e1a715ff0b558ca098dcff069a28aefb918fce961c884
-golang/go1.19.3.linux-amd64.tar.gz:
-  size: 148907134
-  object_id: 7c08dab3-ac30-480f-4953-eac687ae41aa
-  sha: sha256:74b9640724fd4e6bb0ed2a1bc44ae813a03f1e72a4c76253e2d5c015494430ba
+golang/go1.19.6.linux-amd64.tar.gz:
+  size: 149006448
+  object_id: aa10e6ad-c259-47df-4320-5dbbc4a04486
+  sha: sha256:e3410c676ced327aec928303fef11385702a5562fd19d9a1750d5a2979763c3d
 gperf/gperf-3.1.tar.gz:
   size: 1215925
   object_id: ef1220e8-7728-4dc0-7d0a-66ca4479fcd6
