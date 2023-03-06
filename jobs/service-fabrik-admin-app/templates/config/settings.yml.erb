@@ -124,7 +124,6 @@ production:
     <% link("broker").if_p('mongodb.provision.plan_id') do |mongodb_plan_id| %>
     provision:
       plan_id: <%= mongodb_plan_id %>
-      previous_plan_id: <%= link("broker").p('mongodb.provision.previous_plan_id') %>
       network_index: <%= link("broker").p('mongodb.provision.network_index') %>
     <% end %>
     # Choice of integrating mongodb is either via an already provisioned mongo instance by specifying the URL OR
