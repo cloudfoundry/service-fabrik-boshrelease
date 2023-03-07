@@ -56,7 +56,6 @@ provides:
   - external.session_expiry
   - mongodb.url
   - mongodb.provision.plan_id
-  - mongodb.provision.previous_plan_id
   - mongodb.provision.network_index
   - mongodb.deployment_name
   - mongodb.retry_connect.max_attempt
