@@ -9,7 +9,7 @@ CPUS=`grep -c ^processor /proc/cpuinfo`
 # We grab the latest versions that are in the directory
 AUFS_TOOLS_VERSION=`ls -r docker/aufs-tools_*.deb | sed 's/docker\/aufs-tools_\(.*\).deb/\1/' | head -1`
 AUTOCONF_VERSION=`ls -r docker/autoconf-*.tar.gz | sed 's/docker\/autoconf-\(.*\)\.tar\.gz/\1/' | head -1`
-DOCKER_VERSION=`ls -r docker/docker-*.tgz | sed 's/docker\/docker-\(.*\)\.tgz/\1/' | head -1`
+DOCKER_VERSION=`ls -r docker/moby-*.tar.gz | sed 's/docker\/moby-\(.*\)\.tar\.gz/\1/' | head -1`
 
 # Extract Autoconf package
 echo "Extracting Autoconf ${AUTOCONF_VERSION}..."
@@ -28,7 +28,7 @@ make install
 
 # Extract docker package
 echo "Extracting docker ${DOCKER_VERSION}..."
-tar xzvf ${BOSH_COMPILE_TARGET}/docker/docker-${DOCKER_VERSION}.tgz
+tar xzvf ${BOSH_COMPILE_TARGET}/docker/moby-${DOCKER_VERSION}.tar.gz
 if [[ $? != 0 ]] ; then
   echo "Failed extracting docker ${DOCKER_VERSION}"
   exit 1
@@ -37,7 +37,7 @@ fi
 # Copy docker binaries
 echo "Copying docker ${DOCKER_VERSION} binaries..."
 mkdir -p ${BOSH_INSTALL_TARGET}/bin
-cp docker/* ${BOSH_INSTALL_TARGET}/bin
+cp binary-daemon/* ${BOSH_INSTALL_TARGET}/bin
 chmod +x ${BOSH_INSTALL_TARGET}/bin/*
 
 # Install aufs-tool deb package
