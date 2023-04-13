@@ -4,4 +4,4 @@ dependencies: []
 files:
   - docker/aufs-tools_20120411-3_amd64.deb
   - docker/autoconf-2.69.tar.gz
-  - docker/moby-20.10.23.tar.gz
+  - docker/docker-19.03.3.tgz
