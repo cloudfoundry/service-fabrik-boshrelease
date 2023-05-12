@@ -6,4 +6,4 @@ dependencies:
 
 files:
   - github.com/cloudfoundry-incubator/service-fabrik-broker/interoperator/**/*
-  - golang/go1.19.6.linux-amd64.tar.gz
+  - golang/.go1.20.3.linux-amd64.tar.gz
