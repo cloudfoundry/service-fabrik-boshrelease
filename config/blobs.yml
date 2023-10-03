@@ -106,14 +106,14 @@ jq/jq:
   size: 497799
   object_id: 61d27ef5-32cc-439d-6842-97be75dae6fb
   sha: e820e9e91c9cce6154f52949a3b2a451c4de8af4
-kubernetes-1.18.2/kube-apiserver:
-  size: 120664064
-  object_id: 9f562a14-9e0d-4044-4ed2-ce9c63e5c662
-  sha: sha256:dd3cac4251812952db82a197c34b0390376583b1f7b04bf561b71c5c28bcdc47
-kubernetes-1.18.2/kubectl:
-  size: 44032000
-  object_id: 340be2a6-a632-4a08-47de-13f813683f39
-  sha: sha256:6ea8261b503c6c63d616878837dc70b758d4a3aeb9996ade8e83b51aedac9698
+kubernetes-1.25.6/kube-apiserver:
+  size: 123887616
+  object_id: 56ce9dd9-f4b9-47fc-6611-fb041554fdfa
+  sha: sha256:5dd5fb7c0828d3c0dc937e43d6ee7d83fa20bc848613e3b26bd473203b982e76
+kubernetes-1.25.6/kubectl:
+  size: 45031424
+  object_id: 4736d386-0720-47e8-5dfb-d2048d155b35
+  sha: sha256:ba876aef0e9d7e2e8fedac036ec194de5ec9b6d2953e30ff82a2758c6ba32174
 libseccomp/libseccomp-2.3.3.tar.gz:
   size: 564546
   object_id: 4e749385-3bc6-45b5-7a08-906c3cf97573
