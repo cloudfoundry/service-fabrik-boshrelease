@@ -91,10 +91,10 @@ provides:
   - backup.restore_history_days
   - backup.reschedule_backup_delay_after_restore
   - backup.transaction_logs_delete_buffer_time
-  - docker.url
-  - docker.skip_ssl_validation
-  - docker.allocate_docker_host_ports
-  - docker.volume_driver
+  # - docker.url
+  # - docker.skip_ssl_validation
+  # - docker.allocate_docker_host_ports
+  # - docker.volume_driver
   - common.tls_cacert
   - common.tls_client_cert
   - common.tls_client_key
@@ -335,21 +335,21 @@ properties:
   cf.identity_provider:
     description: "Identity provider for the Cloud Foundry cloud controller"
 
-  docker.job:
-    description: "Name of the swarm/docker job"
-    default: "swarm_manager"
-  docker.url:
-    description: "Docker URL (HTTP address or Unix socket)"
-    default: "https://10.11.252.10:2376"
-  docker.allocate_docker_host_ports:
-    description: "Allocate Docker host ports when creating a container"
-    default: true
-  docker.volume_driver:
-    description: "Volume driver used for Docker containers (only local or lvm-volume-driver are currently supported)"
-    default: "local"
-  docker.skip_ssl_validation:
-    description: "Determines whether the broker should verify SSL certificates when communicating with the Swarm Manager"
-    default: true
+  # docker.job:
+  #   description: "Name of the swarm/docker job"
+  #   default: "swarm_manager"
+  # docker.url:
+  #   description: "Docker URL (HTTP address or Unix socket)"
+  #   default: "https://10.11.252.10:2376"
+  # docker.allocate_docker_host_ports:
+  #   description: "Allocate Docker host ports when creating a container"
+  #   default: true
+  # docker.volume_driver:
+  #   description: "Volume driver used for Docker containers (only local or lvm-volume-driver are currently supported)"
+  #   default: "local"
+  # docker.skip_ssl_validation:
+  #   description: "Determines whether the broker should verify SSL certificates when communicating with the Swarm Manager"
+  #   default: true
   common.tls_cacert:
     description: "Trust only remotes providing a certificate signed by the CA given here"
   common.tls_client_cert:

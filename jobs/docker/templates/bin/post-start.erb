@@ -1,8 +1,0 @@
-#!/bin/bash 
-set -e
-
-DOCKER_DAEMON_KEY_FILE_ARG=<%= p('docker.daemon.keyfile') %>
-if [[ ! -f "${DOCKER_DAEMON_KEY_FILE_ARG}"  ]] && [[ -f /etc/docker/key.json ]] ; then
-  touch "${DOCKER_DAEMON_KEY_FILE_ARG}"
-  cp /etc/docker/key.json "${DOCKER_DAEMON_KEY_FILE_ARG}"
-fi
