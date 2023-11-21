@@ -1,9 +1,0 @@
-/var/vcap/store/docker/docker/containers/*/*.log {
-  rotate <%= p('docker.logrotate.count') %><% if_p('docker.logrotate.interval') do |interval| %>
-  <%= interval %><% end %>
-  compress
-  size=<%= p('docker.logrotate.size') %>
-  missingok
-  delaycompress
-  copytruncate
-}

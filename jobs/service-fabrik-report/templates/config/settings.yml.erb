@@ -193,17 +193,6 @@ production:
     identity_provider: <%= identity_provider %>
     <% end %>
 
-  ###################
-  # DOCKER SETTINGS #
-  ###################
-  docker:
-    url: <%= link("broker").p('docker.url') %>
-    allocate_docker_host_ports: <%= link("broker").p('docker.allocate_docker_host_ports') %>
-    volume_driver: <%= link("broker").p('docker.volume_driver') %>
-    ssl:
-      ca: <%= JSON.dump(link("broker").p('common.tls_cacert')) %>
-      cert: <%= JSON.dump(link("broker").p('common.tls_client_cert')) %>
-      key: <%= JSON.dump(link("broker").p('common.tls_client_key')) %>
   #####################
   # DIRECTOR SETTINGS #
   #####################

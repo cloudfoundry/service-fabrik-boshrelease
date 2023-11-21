@@ -1,9 +1,3 @@
 [submodule "src/service-fabrik-broker"]
 	path = src/github.com/cloudfoundry-incubator/service-fabrik-broker
 	url = https://github.com/sap/service-fabrik-broker.git
-[submodule "src/github.com/docker/swarm"]
-	path = src/github.com/docker/swarm
-	url = https://github.com/docker/swarm.git
-[submodule "src/lvm-volume-driver"]
-	path = src/lvm-volume-driver
-	url = https://github.com/sap/service-fabrik-lvm-volume-driver

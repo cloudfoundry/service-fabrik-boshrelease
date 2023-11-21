@@ -1,6 +1,0 @@
----
-name: lvmvd
-dependencies:
-  - golang
-files:
-  - lvm-volume-driver/**/*

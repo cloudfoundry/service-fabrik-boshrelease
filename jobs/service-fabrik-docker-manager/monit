@@ -1,5 +1,0 @@
-check process service-fabrik-docker-manager with pidfile /var/vcap/sys/run/service-fabrik-docker-manager/service-fabrik-docker-manager.pid
-  group vcap
-  depends on service-fabrik-apiserver
-  start program "/var/vcap/packages/bosh-helpers/monit_debugger service-fabrik-docker-manager_ctl '/var/vcap/jobs/service-fabrik-docker-manager/bin/service-fabrik-docker-manager_ctl start'"
-  stop program "/var/vcap/packages/bosh-helpers/monit_debugger service-fabrik-docker-manager_ctl '/var/vcap/jobs/service-fabrik-docker-manager/bin/service-fabrik-docker-manager_ctl stop'"

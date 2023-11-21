@@ -1,6 +1,0 @@
----
-name: swarm
-dependencies:
-  - golang
-files:
-  - docker/swarm-1.2.9.zip
