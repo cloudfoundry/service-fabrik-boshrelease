@@ -1,7 +1,7 @@
-golang/go1.21.4.linux-amd64.tar.gz:
-  size: 66615271
-  object_id: ec42dea1-3f00-47fe-4753-21638ba6c935
-  sha: sha256:73cac0215254d0c7d1241fa40837851f3b9a8a742d0b54714cbdfb3feaf8f0af
+golang/go1.21.7.linux-amd64.tar.gz:
+  size: 66650107
+  object_id: 26a336b5-4d06-4eae-4042-9e45927d8b01
+  sha: sha256:13b76a9b2a26823e53062fa841b07087d48ae2ef2936445dc34c4ae03293702c
 gperf/gperf-3.1.tar.gz:
   size: 1215925
   object_id: ef1220e8-7728-4dc0-7d0a-66ca4479fcd6
