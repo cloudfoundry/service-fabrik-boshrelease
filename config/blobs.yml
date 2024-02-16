@@ -26,6 +26,10 @@ node/node-v12.22.7-linux-x64.tar.xz:
   size: 14603460
   object_id: 22ae6c5a-9282-4119-7f37-47e5336b89b2
   sha: sha256:2768bc01d2f97ab8135b8c03b275b9689573964b426b5dd9082334fd70dcc583
+node/node-v18.19.1-linux-x64.tar.xz:
+  size: 24104584
+  object_id: dc737fbf-9dfc-473a-4dc0-98d784dd7c87
+  sha: sha256:f35f24edd4415cd609a2ebc03be03ed2cfe211d7333d55c752d831754fb849f0
 yaml2json/yaml2json:
   size: 2349240
   object_id: b3d57a81-3790-43a4-69eb-c2bcb02fcc54
